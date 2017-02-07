@@ -45,4 +45,9 @@ macro_rules! implement_gpio_side {
 }
 
 //implement_gpio_side!(b, 0x4800_)
+implement_gpio_side!(a, 0x4800_0000, 16);
+implement_gpio_side!(b, 0x4800_0400, 16);
+implement_gpio_side!(c, 0x4800_0800, 16);
+implement_gpio_side!(d, 0x4800_0C00, 16);
 implement_gpio_side!(e, 0x4800_1000, 16);
+implement_gpio_side!(f, 0x4800_1400, 16);
