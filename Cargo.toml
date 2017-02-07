@@ -1,0 +1,14 @@
+[package]
+name = "rust_stm32"
+version = "0.1.0"
+authors = ["victor.koenders <victor.koenders@gmail.com>"]
+
+[dependencies.f3]
+default-features = false
+version = "0.3.0"
+
+[dependencies]
+# peripheral = { path = "libs/peripheral"}
+
+[profile.release]
+lto = true

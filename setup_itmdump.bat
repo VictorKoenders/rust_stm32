@@ -1,0 +1,2 @@
+cd /
+itmdump itm.txt
