@@ -8,6 +8,7 @@ default-features = false
 version = "0.3.0"
 
 [dependencies]
+stm32f30x-memory-map = "0.1.0"
 # peripheral = { path = "libs/peripheral"}
 
 [profile.release]
