@@ -1,10 +1,12 @@
 use f3::peripheral;
 use peripheral::usart::Usart;
 
+#[allow(dead_code)]
 pub struct USB {
     usart: &'static mut Usart,
 }
 
+#[allow(dead_code)]
 impl USB {
     pub fn new() -> USB {
         USB {

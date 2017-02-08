@@ -5,6 +5,7 @@ macro_rules! implement_gpio_side {
             use address;
 
             const ADDRESS: u32 = $address;
+            const ODR_OFFSET: u32 = 0x14;
             const BSRR_OFFSET: u32 = 0x18;
             const INIT_OFFSET: u32 = 0;
             const MAX_PIN: u8 = $max_pin;
@@ -17,6 +18,13 @@ macro_rules! implement_gpio_side {
             pub fn clear(pin: u8) {
                 debug_assert!(pin < MAX_PIN);
                 address::write_u32(ADDRESS + BSRR_OFFSET, 1 << (pin + MAX_PIN));
+            }
+
+            pub fn is_high(pin: u8) -> bool {
+                debug_assert!(pin < MAX_PIN);
+                let value = address::read_u16(ADDRESS + ODR_OFFSET);
+                unsafe { bkpt!(); } 
+                value & (1 << pin) != 0
             }
 
             pub fn configure_pin_as_output(pin: u8){

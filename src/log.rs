@@ -49,6 +49,10 @@ pub fn init(){
             .te(true)
             .pce(false)
             .over8(false)
+            .rtoie(true)
+            .txeie(true)
+            .tcie(true)
+            .idleie(true)
     });
 }
 

@@ -1,5 +1,6 @@
 @echo off
 set PATH=%PATH%;C:\Program Files (x86)\GNU Tools ARM Embedded\5.4 2016q3\bin
+set CARGO_FEATURE_INTERRUPTS=1
 set HOME=%USERPROFILE%
 if "%1" == "release" (
     echo xargo build --target thumbv7em-none-eabihf --release

@@ -18,34 +18,28 @@ mod gpio;
 mod rcc;
 mod usb;
 
+enum Direction {
+    Clockwise,
+    CounterClockwise
+}
+
+impl core::ops::Not for Direction {
+    type Output = Direction;
+    fn not(self) -> Self::Output {
+        match self {
+            Direction::Clockwise => Direction::CounterClockwise,
+            Direction::CounterClockwise => Direction::Clockwise
+        }
+    }
+}
+
 #[inline(never)]
 #[no_mangle]
 pub fn main() -> ! {
-    const BUFFER_SIZE: usize = 128;
-    let mut buffer = [0u8;BUFFER_SIZE];
-    let mut buffer_index = 0;
-    let mut usb = usb::USB::new();
-
-    usb.write(b"Ready!\r\n");
-    loop {
-        let byte = usb.read_byte();
-
-        buffer[buffer_index] = byte;
-        buffer_index += 1;
-        if byte == b'\r' {
-            usb.write(&buffer[0..buffer_index]);
-            usb.write(b"\n");
-            
-            buffer_index = 0;
-        } else if buffer_index == BUFFER_SIZE {
-            usb.write(b"Buffer overflow!\r\n");
-            buffer_index = 0;
-        }
-    }
-
-    /*
     let mut current_led_index = 9;
     let mut previous_led_index = 8;
+    let mut was_high = false;
+    let mut direction = Direction::Clockwise;
 
     let interval = 100;
     loop {
@@ -55,11 +49,24 @@ pub fn main() -> ! {
         delay::ms(interval);
 
         previous_led_index = current_led_index;
-        current_led_index += 1;
+        match direction {
+            Direction::Clockwise => current_led_index += 1,
+            Direction::CounterClockwise => current_led_index -= 1,
+        };
+
+        let is_high = gpio::b::is_high(1);
+        if is_high && !was_high{
+            direction = !direction;
+        }
+        was_high = is_high;
+
         if current_led_index == 16 {
             current_led_index = 8;
         }
-    }*/
+        if current_led_index == 7 {
+            current_led_index = 15;
+        }
+    }
 }
 
 
@@ -71,12 +78,13 @@ pub unsafe fn init() {
 
     let mut sides = rcc::Side::read();
     sides.e = true;
+    sides.b = true;
     sides.write();
 
     for i in 8..16 {
         gpio::e::configure_pin_as_output(i);
     }
-
+    gpio::b::configure_pin_as_output(1);
 }
 
 #[doc(hidden)]
