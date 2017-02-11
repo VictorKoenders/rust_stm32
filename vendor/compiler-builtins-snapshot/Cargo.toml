@@ -1,0 +1,15 @@
+[package]
+authors = ["Jorge Aparicio <japaricious@gmail.com>"]
+description = "Snapshot of the compiler-builtins crate"
+keywords = ["snapshot", "compiler", "builtins", "intrinsics"]
+license = "MIT OR Apache-2.0"
+name = "compiler-builtins-snapshot"
+repository = "https://github.com/japaric/rustc-builtins"
+version = "0.0.20161008+c56faf22abb39724008148d58f12bcd43b6d236b"
+
+[dependencies.rlibc]
+optional = true
+version = "1.0.0"
+
+[features]
+memcpy = ["rlibc"]
