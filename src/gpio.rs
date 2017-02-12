@@ -1,61 +1,78 @@
-macro_rules! implement_gpio_side {
-    ($name:ident, $address:expr, $max_pin:expr) => {
-        #[allow(dead_code)]
-        pub mod $name {
-            use address;
+pub trait Addressable {
+    fn to_int(&self, offset: u32) -> u32;
+    fn from_int(value: u32, offset: u32) -> self;
+}
 
-            const ADDRESS: u32 = $address;
-            const ODR_OFFSET: u32 = 0x14;
-            const BSRR_OFFSET: u32 = 0x18;
-            const INIT_OFFSET: u32 = 0;
-            const MAX_PIN: u8 = $max_pin;
+impl Addressable for bool {
+    fn to_int(&self, offset: u32) -> u32 { 1 << offset }
+    fn from_int(value: u32, address: u32) -> self { value & address > 0 }
+}
 
-            pub fn set(pin: u8) {
-                debug_assert!(pin < MAX_PIN);
-                address::write_u32(ADDRESS + BSRR_OFFSET, 1 << pin);
+pub enum ModerMode {
+    InputMode = 0b00,
+    OutputMode = 0b01,
+    AlternateMode = 0b10,
+    AnalogMode = 0b11,
+}
+
+impl Addressable for ModerMode {
+    fn to_int(&self, offset: u32) -> u32 {
+        (self as u32) << offset
+    }
+    fn from_int(value: u32, address: u32) -> self {
+        (value & (0b11 << address)) as ModerMode
+    }
+}
+
+
+macro_rules! implement_cached_bools {
+    ($name:ident, $address:expr, $type:ident, $($field:ident = $offset:expr), *) => {
+        pub struct $name {
+            $(
+                $field: $type,
+            )*,
+            __saved: bool
+        }
+
+        impl $name {
+            pub fn get() -> $name {
+                let value = unsafe { ptr::volatile_read($address) };
+                $name {
+                    $(
+                        $field: $type::from_int(value, $offset),
+                    )*,
+                    __saved: false
+                }
             }
 
-            pub fn clear(pin: u8) {
-                debug_assert!(pin < MAX_PIN);
-                address::write_u32(ADDRESS + BSRR_OFFSET, 1 << (pin + MAX_PIN));
+            pub fn save(self) {
+                self.__saved = true;
+                let value = 0 $(
+                    | self.$field.to_int($offset)
+                )*;
+                unsafe { ptr::volatile_write($address, value) };
             }
+        } 
 
-            pub fn is_high(pin: u8) -> bool {
-                debug_assert!(pin < MAX_PIN);
-                let value = address::read_u16(ADDRESS + ODR_OFFSET);
-                unsafe { bkpt!(); } 
-                value & (1 << pin) != 0
-            }
-
-            pub fn configure_pin_as_output(pin: u8){
-                debug_assert!(pin < MAX_PIN);
-                let mut bits = address::read_u32(ADDRESS + INIT_OFFSET);
-                
-                let offset: u8 = pin * 2;
-                bits &= !(2 << offset);
-                bits |= 1 << offset; 
-
-                address::write_u32(ADDRESS + INIT_OFFSET, bits);
-            }
-
-            pub fn configure_pin_as_input(pin: u8){
-                debug_assert!(pin < MAX_PIN);
-                let mut bits = address::read_u32(ADDRESS + INIT_OFFSET);
-                
-                let offset: u8 = pin * 2;
-                bits &= !(1 << offset);
-                bits |= 2 << offset; 
-
-                address::write_u32(ADDRESS + INIT_OFFSET, bits);
+        impl ::core::ops::Drop for $name {
+            fn drop(self) {
+                if !self.__saved {
+                    panic!("{} is not saved!", stringify!($name));
+                }
             }
         }
     }
 }
 
-//implement_gpio_side!(b, 0x4800_)
-implement_gpio_side!(a, 0x4800_0000, 16);
-implement_gpio_side!(b, 0x4800_0400, 16);
-implement_gpio_side!(c, 0x4800_0800, 16);
-implement_gpio_side!(d, 0x4800_0C00, 16);
-implement_gpio_side!(e, 0x4800_1000, 16);
-implement_gpio_side!(f, 0x4800_1400, 16);
+macro_rules! implement_gpio {
+    ($side:ident, $offset:expr) => {
+        pub mod $side {
+            const ADDRESS: u32 = $offset;
+            implement_cached_bools!(Moder, ADDRESS + 0x00, ModerMode, 
+                moder15 = 30,
+            );
+        }
+    }
+}
+
+implement_gpio!(a, 0x48000000);

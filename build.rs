@@ -18,7 +18,7 @@ MEMORY
   RAM : ORIGIN = 0x20000000, LENGTH = 40K
 }
 
-ENTRY(_reset)
+ENTRY(_main)
 
 SECTIONS
 {
@@ -26,7 +26,7 @@ SECTIONS
   {
     /* Vector table */
     LONG(ORIGIN(RAM) + LENGTH(RAM));
-    LONG(_reset + 1);
+    LONG(_main + 1);
     KEEP(*(.rodata._EXCEPTIONS));
     _eexceptions = .;");
 
@@ -38,8 +38,8 @@ SECTIONS
 
     ld.push_str("
     /* Entry point: reset handler */
-    _reset = .;
-    *(.text._reset);
+    _main = .;
+    *(.text._main);
 
     *(.text.*);
     *(.rodata.*);

@@ -4,13 +4,14 @@ version = "0.1.0"
 authors = ["victor.koenders <victor.koenders@gmail.com>"]
 build = "build.rs"
 
+[dependencies]
+peripheral = { path = "libs/peripheral"}
+#cortex-m = "*"
+
 [dependencies.f3]
 default-features = false
-version = "0.3.0"
-
-[dependencies]
-stm32f30x-memory-map = "0.1.0"
-# peripheral = { path = "libs/peripheral"}
+features = [] #"default-init", "default-panic-fmt", "examples", "interrupts", "static-ram"]
+version = "*"
 
 [profile.release]
 lto = true

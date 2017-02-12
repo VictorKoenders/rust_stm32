@@ -4,19 +4,88 @@
 #![no_main]
 #![no_std]
 
+extern crate peripheral;
+#[macro_use] extern crate f3;
+//extern crate cortex_m;
+mod gpio;
+
+macro_rules! bkpt {
+    () => {
+        unsafe { asm!("bkpt" :::: "volatile") }
+    };
+    ($imm:expr) => {
+        unsafe { asm!(concat!("bkpt #", stringify!($imm)) :::: "volatile") }
+    };
+}
+
+#[repr(C)]
+pub struct StackFrame {
+    /// (General purpose) Register 0
+    pub r0: u32,
+    /// (General purpose) Register 1
+    pub r1: u32,
+    /// (General purpose) Register 2
+    pub r2: u32,
+    /// (General purpose) Register 3
+    pub r3: u32,
+    /// (General purpose) Register 12
+    pub r12: u32,
+    /// Linker Register
+    pub lr: u32,
+    /// Program Counter
+    pub pc: u32,
+    /// Program Status Register
+    pub xpsr: u32,
+}
+
+#[doc(hidden)]
+#[export_name = "_default_exception_handler"]
+pub extern "C" fn default_handler(sf: &StackFrame) -> ! {
+    let exception = f3::exception::Exception::current();
+    iprintln!("EXCEPTION {:?} @ PC=0x{:08x}", exception, sf.pc);
+
+    bkpt!();
+
+    loop {}
+}
+#[doc(hidden)]
+pub fn default_handler_no_stack() {
+    //let exception = f3::exception::Exception::current();
+    //iprintln!("EXCEPTION {:?} @ PC=0x{:08x}", exception, sf.pc);
+
+    bkpt!();
+
+    loop {}
+}
+
 #[inline(never)]
 #[no_mangle]
+#[export_name = "_main"]
 pub fn main() -> ! {
-    loop {}
-}
+    unsafe { f3::itm::init(); }
+    iprintln!("Hello!");
+    
+    //peripheral::rcc::ahbenr::set_iopeen(1);
+    //peripheral::gpio::gpioe::moder::set_moder8(1);
+    unsafe { 
+        let gpioe = f3::peripheral::gpioe_mut();
+        let rcc = f3::peripheral::rcc_mut();
 
-#[export_name = "_init"]
-pub unsafe fn init() {
-}
+        // RCC: Enable GPIOE
+        //rcc.ahbenr.modify(|_, w| w.iopeen(true));
+        peripheral::rcc::ahbenr::set_iopeen(1);
+        peripheral::gpio::gpioe::moder::set_moder8(1);
 
-#[export_name = "_default_exception_handler"]
-pub unsafe extern "C" fn exception_handler() {
-    loop {}
+        // GPIOE: Configure pins 8-15 as outputs
+        gpioe.moder.modify(|_, w| {
+            let result = w.moder8(0b01);
+            bkpt!();
+            result
+        });
+    }
+    peripheral::gpio::gpioe::bsrr::set_bs8(1);
+    loop {
+    }
 }
 
 #[lang = "panic_fmt"]
@@ -29,30 +98,33 @@ pub extern fn rust_begin_panic(
     loop {}
 }
 
-pub type Handler = fn();
 
+pub type Handler = fn();
+/*
 #[export_name = "_EXCEPTIONS"]
 pub static EXCEPTIONS: [Option<Handler>; 14] = [
-    None, // Some(_nmi),
-    None, // Some(_hard_fault),
-    None, // Some(_memmanage_fault),
-    None, // Some(_bus_fault),
-    None, // Some(_usage_fault),
+    Some(default_handler_no_stack), // Some(_nmi),
+    Some(default_handler_no_stack), // Some(_hard_fault),
+    Some(default_handler_no_stack), // Some(_memmanage_fault),
+    Some(default_handler_no_stack), // Some(_bus_fault),
+    Some(default_handler_no_stack), // Some(_usage_fault),
     None,
     None,
     None,
     None,
-    None, // Some(_svcall),
+    Some(default_handler_no_stack), // Some(_svcall),
     None,
     None,
-    None, // Some(_pendsv),
-    None, // Some(_systick)
+    Some(default_handler_no_stack), // Some(_pendsv),
+    Some(default_handler_no_stack), // Some(_systick)
 ];
+
 
 // For more info, see f3/src/interrupts.rs
 // TODO: Find documentation on interrupts
 // TODO: Add information on the interrupts
 // TODO: Figure out how to enable interrupts
+
 #[doc(hidden)]
 #[export_name = "_INTERRUPTS"]
 pub static INTERRUPTS: [Option<Handler>; 85] = [
@@ -142,129 +214,4 @@ pub static INTERRUPTS: [Option<Handler>; 85] = [
     None,
     None // Some(_spi4)
 ];
-
-/*#![feature(asm)]
-#![feature(lang_items)]
-
-//#![deny(unsafe_code)]
-#![no_main]
-#![no_std]
-
-#[macro_use(bkpt)] extern crate f3;
-pub extern crate stm32f30x_memory_map as peripheral;
-
-pub use core::iter;
-
-//mod peripheral;
-#[macro_use] mod log;
-mod address;
-mod delay;
-mod gpio;
-mod rcc;
-mod usb;
-
-enum Direction {
-    Clockwise,
-    CounterClockwise
-}
-
-impl core::ops::Not for Direction {
-    type Output = Direction;
-    fn not(self) -> Self::Output {
-        match self {
-            Direction::Clockwise => Direction::CounterClockwise,
-            Direction::CounterClockwise => Direction::Clockwise
-        }
-    }
-}
-
-#[inline(never)]
-#[no_mangle]
-pub fn main() -> ! {
-    let mut current_led_index = 9;
-    let mut previous_led_index = 8;
-    let mut was_high = false;
-    let mut direction = Direction::Clockwise;
-
-    let interval = 100;
-    loop {
-        gpio::e::set(current_led_index);
-        gpio::e::clear(previous_led_index);
-
-        delay::ms(interval);
-
-        previous_led_index = current_led_index;
-        match direction {
-            Direction::Clockwise => current_led_index += 1,
-            Direction::CounterClockwise => current_led_index -= 1,
-        };
-
-        let is_high = gpio::b::is_high(1);
-        if is_high && !was_high{
-            direction = !direction;
-        }
-        was_high = is_high;
-
-        if current_led_index == 16 {
-            current_led_index = 8;
-        }
-        if current_led_index == 7 {
-            current_led_index = 15;
-        }
-    }
-}
-
-
-#[doc(hidden)]
-#[export_name = "_init"]
-pub unsafe fn init() {
-    delay::init();
-    log::init();
-
-    let mut sides = rcc::Side::read();
-    sides.e = true;
-    sides.b = true;
-    sides.write();
-
-    for i in 8..16 {
-        gpio::e::configure_pin_as_output(i);
-    }
-    gpio::b::configure_pin_as_output(1);
-}
-
-#[doc(hidden)]
-#[export_name = "_default_exception_handler"]
-pub unsafe extern "C" fn exception_handler() {
-    bkpt!();
-
-    loop {}
-}
-
-#[lang = "panic_fmt"]
-#[no_mangle]
-pub extern fn rust_begin_panic(msg: core::fmt::Arguments,
-                               file: &'static str,
-                               line: u32) -> ! {
-    iprintln!("Panic at {} line {}: ", file, line);
-    log::write_itm_arguments(msg);
-    log::write_itm_string("\n");
-    loop { unsafe { bkpt!(); } } // PANIC! Check itm output
-}
-
-
-// These functions are used by the compiler, but not
-// for a bare-bones hello world. These are normally
-// provided by libstd.
-#[lang = "eh_personality"]
-#[no_mangle]
-pub extern fn rust_eh_personality() {
-}
-
-// This function may be needed based on the compilation target.
-#[lang = "eh_unwind_resume"]
-#[no_mangle]
-pub extern fn rust_eh_unwind_resume() {
-}
-
-
 */

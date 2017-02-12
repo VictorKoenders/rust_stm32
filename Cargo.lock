@@ -3,7 +3,7 @@ name = "rust_stm32"
 version = "0.1.0"
 dependencies = [
  "f3 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "stm32f30x-memory-map 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "peripheral 0.1.0",
 ]
 
 [[package]]
@@ -31,6 +31,13 @@ dependencies = [
  "cortex-m 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "ref_slice 1.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "stm32f30x-memory-map 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "peripheral"
+version = "0.1.0"
+dependencies = [
+ "f3 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
