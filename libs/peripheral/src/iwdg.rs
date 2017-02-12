@@ -1,191 +1,273 @@
-/// MOD IWDG
-/// Independent watchdog
-const BASE_ADDRESS: u32 = 0x40003000;
 /// Key register
-/// Size: 0x20 bits
 pub mod kr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x0;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const KEY_BIT_OFFSET: u8 = 0;
-	const KEY_BIT_WIDTH: u8 = 16;
-	/// Key value (Width: 16, Offset: 0)
-	pub fn set_key(value: u16) { ::write(REGISTER_ADDRESS, KEY_BIT_OFFSET, KEY_BIT_WIDTH, value as u32); }
+    /// Key value
+    /// Access: write-only, Width: 16, Offset: 0
+    /// Set Key value
+    pub fn key(value: u16) {
+        let value = value as u32;
+        unsafe { ::core::ptr::write_volatile((0x40003000u32 + 0x0u32) as *mut u32, value) };
+    }
 }
 /// Prescaler register
-/// Size: 0x20 bits
 pub mod pr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x4;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const PR_BIT_OFFSET: u8 = 0;
-	const PR_BIT_WIDTH: u8 = 3;
-	/// Prescaler divider (Width: 3, Offset: 0)
-	pub fn get_pr() -> u8 { ::read(REGISTER_ADDRESS, PR_BIT_OFFSET, PR_BIT_WIDTH) as u8 }
-	/// Prescaler divider (Width: 3, Offset: 0)
-	pub fn set_pr(value: u8) { ::write(REGISTER_ADDRESS, PR_BIT_OFFSET, PR_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Prescaler divider
+        pub pr: u8,
+    }
+    pub struct Cache {
+        /// Prescaler divider
+        pub pr: u8,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40003000u32 + 0x4u32) as *mut u32) };
+        ReadonlyCache {
+            pr: ((value >> 0) & 0b111) as u8,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40003000u32 + 0x4u32) as *mut u32) };
+        Cache {
+            pr: ((value >> 0) & 0b111) as u8,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.pr as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40003000u32 + 0x4u32) as *mut u32, value) };
+        }
+    }
 }
 /// Reload register
-/// Size: 0x20 bits
 pub mod rlr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x8;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const RL_BIT_OFFSET: u8 = 0;
-	const RL_BIT_WIDTH: u8 = 12;
-	/// Watchdog counter reload value (Width: 12, Offset: 0)
-	pub fn get_rl() -> u16 { ::read(REGISTER_ADDRESS, RL_BIT_OFFSET, RL_BIT_WIDTH) as u16 }
-	/// Watchdog counter reload value (Width: 12, Offset: 0)
-	pub fn set_rl(value: u16) { ::write(REGISTER_ADDRESS, RL_BIT_OFFSET, RL_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Watchdog counter reload value
+        pub rl: u16,
+    }
+    pub struct Cache {
+        /// Watchdog counter reload value
+        pub rl: u16,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40003000u32 + 0x8u32) as *mut u32) };
+        ReadonlyCache {
+            rl: ((value >> 0) & 0b111111111111) as u16,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40003000u32 + 0x8u32) as *mut u32) };
+        Cache {
+            rl: ((value >> 0) & 0b111111111111) as u16,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.rl as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40003000u32 + 0x8u32) as *mut u32, value) };
+        }
+    }
 }
 /// Status register
-/// Size: 0x20 bits
 pub mod sr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0xC;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const PVU_BIT_OFFSET: u8 = 0;
-	const PVU_BIT_WIDTH: u8 = 1;
-	/// Watchdog prescaler value update (Width: 1, Offset: 0)
-	pub fn get_pvu() -> u8 { ::read(REGISTER_ADDRESS, PVU_BIT_OFFSET, PVU_BIT_WIDTH) as u8 }
-
-	const RVU_BIT_OFFSET: u8 = 1;
-	const RVU_BIT_WIDTH: u8 = 1;
-	/// Watchdog counter reload value update (Width: 1, Offset: 1)
-	pub fn get_rvu() -> u8 { ::read(REGISTER_ADDRESS, RVU_BIT_OFFSET, RVU_BIT_WIDTH) as u8 }
-
-	const WVU_BIT_OFFSET: u8 = 2;
-	const WVU_BIT_WIDTH: u8 = 1;
-	/// Watchdog counter window value update (Width: 1, Offset: 2)
-	pub fn get_wvu() -> u8 { ::read(REGISTER_ADDRESS, WVU_BIT_OFFSET, WVU_BIT_WIDTH) as u8 }
+    /// Watchdog prescaler value update
+    /// Access: read-only, Width: 1, Offset: 0
+    /// Get Watchdog prescaler value update
+    pub fn pvu() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40003000u32 + 0xCu32) as *mut u32) };
+        let value = value & (0b1 << 0);
+        value > 0
+    }
+    /// Watchdog counter reload value update
+    /// Access: read-only, Width: 1, Offset: 1
+    /// Get Watchdog counter reload value update
+    pub fn rvu() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40003000u32 + 0xCu32) as *mut u32) };
+        let value = value & (0b1 << 1);
+        value > 0
+    }
+    /// Watchdog counter window value update
+    /// Access: read-only, Width: 1, Offset: 2
+    /// Get Watchdog counter window value update
+    pub fn wvu() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40003000u32 + 0xCu32) as *mut u32) };
+        let value = value & (0b1 << 2);
+        value > 0
+    }
 }
 /// Window register
-/// Size: 0x20 bits
 pub mod winr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x10;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const WIN_BIT_OFFSET: u8 = 0;
-	const WIN_BIT_WIDTH: u8 = 12;
-	/// Watchdog counter window value (Width: 12, Offset: 0)
-	pub fn get_win() -> u16 { ::read(REGISTER_ADDRESS, WIN_BIT_OFFSET, WIN_BIT_WIDTH) as u16 }
-	/// Watchdog counter window value (Width: 12, Offset: 0)
-	pub fn set_win(value: u16) { ::write(REGISTER_ADDRESS, WIN_BIT_OFFSET, WIN_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Watchdog counter window value
+        pub win: u16,
+    }
+    pub struct Cache {
+        /// Watchdog counter window value
+        pub win: u16,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40003000u32 + 0x10u32) as *mut u32) };
+        ReadonlyCache {
+            win: ((value >> 0) & 0b111111111111) as u16,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40003000u32 + 0x10u32) as *mut u32) };
+        Cache {
+            win: ((value >> 0) & 0b111111111111) as u16,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.win as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40003000u32 + 0x10u32) as *mut u32, value) };
+        }
+    }
 }
 /*
 <?xml version="1.0"?>
 <peripheral xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <name>IWDG</name>
-  <description>Independent watchdog</description>
-  <groupName>IWDG</groupName>
-  <baseAddress>0x40003000</baseAddress>
   <addressBlock>
     <offset>0x0</offset>
     <size>0x400</size>
     <usage>registers</usage>
   </addressBlock>
+  <baseAddress>0x40003000</baseAddress>
+  <description>Independent watchdog</description>
+  <groupName>IWDG</groupName>
+  <name>IWDG</name>
   <registers>
     <register>
-      <name>KR</name>
-      <displayName>KR</displayName>
-      <description>Key register</description>
-      <addressOffset>0x0</addressOffset>
-      <size>0x20</size>
       <access>write-only</access>
-      <resetValue>0x00000000</resetValue>
+      <addressOffset>0x0</addressOffset>
+      <description>Key register</description>
+      <displayName>KR</displayName>
       <fields>
         <field>
-          <name>KEY</name>
-          <description>Key value</description>
           <bitOffset>0</bitOffset>
           <bitWidth>16</bitWidth>
+          <description>Key value</description>
+          <name>KEY</name>
         </field>
       </fields>
+      <name>KR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
     </register>
     <register>
-      <name>PR</name>
-      <displayName>PR</displayName>
-      <description>Prescaler register</description>
-      <addressOffset>0x4</addressOffset>
-      <size>0x20</size>
       <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
+      <addressOffset>0x4</addressOffset>
+      <description>Prescaler register</description>
+      <displayName>PR</displayName>
       <fields>
         <field>
-          <name>PR</name>
-          <description>Prescaler divider</description>
           <bitOffset>0</bitOffset>
           <bitWidth>3</bitWidth>
+          <description>Prescaler divider</description>
+          <name>PR</name>
         </field>
       </fields>
+      <name>PR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
     </register>
     <register>
-      <name>RLR</name>
-      <displayName>RLR</displayName>
-      <description>Reload register</description>
-      <addressOffset>0x8</addressOffset>
-      <size>0x20</size>
       <access>read-write</access>
-      <resetValue>0x00000FFF</resetValue>
+      <addressOffset>0x8</addressOffset>
+      <description>Reload register</description>
+      <displayName>RLR</displayName>
       <fields>
         <field>
-          <name>RL</name>
-          <description>Watchdog counter reload
-              value</description>
           <bitOffset>0</bitOffset>
           <bitWidth>12</bitWidth>
+          <description>
+                                Watchdog counter reload
+                                value
+                            </description>
+          <name>RL</name>
         </field>
       </fields>
+      <name>RLR</name>
+      <resetValue>0x00000FFF</resetValue>
+      <size>0x20</size>
     </register>
     <register>
-      <name>SR</name>
-      <displayName>SR</displayName>
-      <description>Status register</description>
-      <addressOffset>0xC</addressOffset>
-      <size>0x20</size>
       <access>read-only</access>
-      <resetValue>0x00000000</resetValue>
+      <addressOffset>0xC</addressOffset>
+      <description>Status register</description>
+      <displayName>SR</displayName>
       <fields>
         <field>
-          <name>PVU</name>
-          <description>Watchdog prescaler value
-              update</description>
           <bitOffset>0</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                Watchdog prescaler value
+                                update
+                            </description>
+          <name>PVU</name>
         </field>
         <field>
-          <name>RVU</name>
-          <description>Watchdog counter reload value
-              update</description>
           <bitOffset>1</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                Watchdog counter reload value
+                                update
+                            </description>
+          <name>RVU</name>
         </field>
         <field>
-          <name>WVU</name>
-          <description>Watchdog counter window value
-              update</description>
           <bitOffset>2</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                Watchdog counter window value
+                                update
+                            </description>
+          <name>WVU</name>
         </field>
       </fields>
+      <name>SR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
     </register>
     <register>
-      <name>WINR</name>
-      <displayName>WINR</displayName>
-      <description>Window register</description>
-      <addressOffset>0x10</addressOffset>
-      <size>0x20</size>
       <access>read-write</access>
-      <resetValue>0x00000FFF</resetValue>
+      <addressOffset>0x10</addressOffset>
+      <description>Window register</description>
+      <displayName>WINR</displayName>
       <fields>
         <field>
-          <name>WIN</name>
-          <description>Watchdog counter window
-              value</description>
           <bitOffset>0</bitOffset>
           <bitWidth>12</bitWidth>
+          <description>
+                                Watchdog counter window
+                                value
+                            </description>
+          <name>WIN</name>
         </field>
       </fields>
+      <name>WINR</name>
+      <resetValue>0x00000FFF</resetValue>
+      <size>0x20</size>
     </register>
   </registers>
-</peripheral>*/
+</peripheral>
+*/

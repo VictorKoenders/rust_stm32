@@ -1,2586 +1,2840 @@
-/// MOD TSC
-/// Touch sensing controller
-const BASE_ADDRESS: u32 = 0x40024000;
 /// control register
-/// Size: 0x20 bits
 pub mod cr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x0;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CTPH_BIT_OFFSET: u8 = 28;
-	const CTPH_BIT_WIDTH: u8 = 4;
-	/// Charge transfer pulse high (Width: 4, Offset: 28)
-	pub fn get_ctph() -> u8 { ::read(REGISTER_ADDRESS, CTPH_BIT_OFFSET, CTPH_BIT_WIDTH) as u8 }
-	/// Charge transfer pulse high (Width: 4, Offset: 28)
-	pub fn set_ctph(value: u8) { ::write(REGISTER_ADDRESS, CTPH_BIT_OFFSET, CTPH_BIT_WIDTH, value as u32); }
-
-	const CTPL_BIT_OFFSET: u8 = 24;
-	const CTPL_BIT_WIDTH: u8 = 4;
-	/// Charge transfer pulse low (Width: 4, Offset: 24)
-	pub fn get_ctpl() -> u8 { ::read(REGISTER_ADDRESS, CTPL_BIT_OFFSET, CTPL_BIT_WIDTH) as u8 }
-	/// Charge transfer pulse low (Width: 4, Offset: 24)
-	pub fn set_ctpl(value: u8) { ::write(REGISTER_ADDRESS, CTPL_BIT_OFFSET, CTPL_BIT_WIDTH, value as u32); }
-
-	const SSD_BIT_OFFSET: u8 = 17;
-	const SSD_BIT_WIDTH: u8 = 7;
-	/// Spread spectrum deviation (Width: 7, Offset: 17)
-	pub fn get_ssd() -> u8 { ::read(REGISTER_ADDRESS, SSD_BIT_OFFSET, SSD_BIT_WIDTH) as u8 }
-	/// Spread spectrum deviation (Width: 7, Offset: 17)
-	pub fn set_ssd(value: u8) { ::write(REGISTER_ADDRESS, SSD_BIT_OFFSET, SSD_BIT_WIDTH, value as u32); }
-
-	const SSE_BIT_OFFSET: u8 = 16;
-	const SSE_BIT_WIDTH: u8 = 1;
-	/// Spread spectrum enable (Width: 1, Offset: 16)
-	pub fn get_sse() -> u8 { ::read(REGISTER_ADDRESS, SSE_BIT_OFFSET, SSE_BIT_WIDTH) as u8 }
-	/// Spread spectrum enable (Width: 1, Offset: 16)
-	pub fn set_sse(value: u8) { ::write(REGISTER_ADDRESS, SSE_BIT_OFFSET, SSE_BIT_WIDTH, value as u32); }
-
-	const SSPSC_BIT_OFFSET: u8 = 15;
-	const SSPSC_BIT_WIDTH: u8 = 1;
-	/// Spread spectrum prescaler (Width: 1, Offset: 15)
-	pub fn get_sspsc() -> u8 { ::read(REGISTER_ADDRESS, SSPSC_BIT_OFFSET, SSPSC_BIT_WIDTH) as u8 }
-	/// Spread spectrum prescaler (Width: 1, Offset: 15)
-	pub fn set_sspsc(value: u8) { ::write(REGISTER_ADDRESS, SSPSC_BIT_OFFSET, SSPSC_BIT_WIDTH, value as u32); }
-
-	const PGPSC_BIT_OFFSET: u8 = 12;
-	const PGPSC_BIT_WIDTH: u8 = 3;
-	/// pulse generator prescaler (Width: 3, Offset: 12)
-	pub fn get_pgpsc() -> u8 { ::read(REGISTER_ADDRESS, PGPSC_BIT_OFFSET, PGPSC_BIT_WIDTH) as u8 }
-	/// pulse generator prescaler (Width: 3, Offset: 12)
-	pub fn set_pgpsc(value: u8) { ::write(REGISTER_ADDRESS, PGPSC_BIT_OFFSET, PGPSC_BIT_WIDTH, value as u32); }
-
-	const MCV_BIT_OFFSET: u8 = 5;
-	const MCV_BIT_WIDTH: u8 = 3;
-	/// Max count value (Width: 3, Offset: 5)
-	pub fn get_mcv() -> u8 { ::read(REGISTER_ADDRESS, MCV_BIT_OFFSET, MCV_BIT_WIDTH) as u8 }
-	/// Max count value (Width: 3, Offset: 5)
-	pub fn set_mcv(value: u8) { ::write(REGISTER_ADDRESS, MCV_BIT_OFFSET, MCV_BIT_WIDTH, value as u32); }
-
-	const IODEF_BIT_OFFSET: u8 = 4;
-	const IODEF_BIT_WIDTH: u8 = 1;
-	/// I/O Default mode (Width: 1, Offset: 4)
-	pub fn get_iodef() -> u8 { ::read(REGISTER_ADDRESS, IODEF_BIT_OFFSET, IODEF_BIT_WIDTH) as u8 }
-	/// I/O Default mode (Width: 1, Offset: 4)
-	pub fn set_iodef(value: u8) { ::write(REGISTER_ADDRESS, IODEF_BIT_OFFSET, IODEF_BIT_WIDTH, value as u32); }
-
-	const SYNCPOL_BIT_OFFSET: u8 = 3;
-	const SYNCPOL_BIT_WIDTH: u8 = 1;
-	/// Synchronization pin polarity (Width: 1, Offset: 3)
-	pub fn get_syncpol() -> u8 { ::read(REGISTER_ADDRESS, SYNCPOL_BIT_OFFSET, SYNCPOL_BIT_WIDTH) as u8 }
-	/// Synchronization pin polarity (Width: 1, Offset: 3)
-	pub fn set_syncpol(value: u8) { ::write(REGISTER_ADDRESS, SYNCPOL_BIT_OFFSET, SYNCPOL_BIT_WIDTH, value as u32); }
-
-	const AM_BIT_OFFSET: u8 = 2;
-	const AM_BIT_WIDTH: u8 = 1;
-	/// Acquisition mode (Width: 1, Offset: 2)
-	pub fn get_am() -> u8 { ::read(REGISTER_ADDRESS, AM_BIT_OFFSET, AM_BIT_WIDTH) as u8 }
-	/// Acquisition mode (Width: 1, Offset: 2)
-	pub fn set_am(value: u8) { ::write(REGISTER_ADDRESS, AM_BIT_OFFSET, AM_BIT_WIDTH, value as u32); }
-
-	const START_BIT_OFFSET: u8 = 1;
-	const START_BIT_WIDTH: u8 = 1;
-	/// Start a new acquisition (Width: 1, Offset: 1)
-	pub fn get_start() -> u8 { ::read(REGISTER_ADDRESS, START_BIT_OFFSET, START_BIT_WIDTH) as u8 }
-	/// Start a new acquisition (Width: 1, Offset: 1)
-	pub fn set_start(value: u8) { ::write(REGISTER_ADDRESS, START_BIT_OFFSET, START_BIT_WIDTH, value as u32); }
-
-	const TSCE_BIT_OFFSET: u8 = 0;
-	const TSCE_BIT_WIDTH: u8 = 1;
-	/// Touch sensing controller enable (Width: 1, Offset: 0)
-	pub fn get_tsce() -> u8 { ::read(REGISTER_ADDRESS, TSCE_BIT_OFFSET, TSCE_BIT_WIDTH) as u8 }
-	/// Touch sensing controller enable (Width: 1, Offset: 0)
-	pub fn set_tsce(value: u8) { ::write(REGISTER_ADDRESS, TSCE_BIT_OFFSET, TSCE_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Charge transfer pulse high
+        pub ctph: u8,
+        /// Charge transfer pulse low
+        pub ctpl: u8,
+        /// Spread spectrum deviation
+        pub ssd: u8,
+        /// Spread spectrum enable
+        pub sse: u8,
+        /// Spread spectrum prescaler
+        pub sspsc: u8,
+        /// pulse generator prescaler
+        pub pgpsc: u8,
+        /// Max count value
+        pub mcv: u8,
+        /// I/O Default mode
+        pub iodef: u8,
+        /// Synchronization pin polarity
+        pub syncpol: u8,
+        /// Acquisition mode
+        pub am: u8,
+        /// Start a new acquisition
+        pub start: u8,
+        /// Touch sensing controller enable
+        pub tsce: u8,
+    }
+    pub struct Cache {
+        /// Charge transfer pulse high
+        pub ctph: u8,
+        /// Charge transfer pulse low
+        pub ctpl: u8,
+        /// Spread spectrum deviation
+        pub ssd: u8,
+        /// Spread spectrum enable
+        pub sse: u8,
+        /// Spread spectrum prescaler
+        pub sspsc: u8,
+        /// pulse generator prescaler
+        pub pgpsc: u8,
+        /// Max count value
+        pub mcv: u8,
+        /// I/O Default mode
+        pub iodef: u8,
+        /// Synchronization pin polarity
+        pub syncpol: u8,
+        /// Acquisition mode
+        pub am: u8,
+        /// Start a new acquisition
+        pub start: u8,
+        /// Touch sensing controller enable
+        pub tsce: u8,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x0u32) as *mut u32) };
+        ReadonlyCache {
+            ctph: ((value >> 28) & 0b1111) as u8,
+            ctpl: ((value >> 24) & 0b1111) as u8,
+            ssd: ((value >> 17) & 0b1111) as u8,
+            sse: ((value >> 16) & 0b1111) as u8,
+            sspsc: ((value >> 15) & 0b1111) as u8,
+            pgpsc: ((value >> 12) & 0b1111) as u8,
+            mcv: ((value >> 5) & 0b1111) as u8,
+            iodef: ((value >> 4) & 0b1111) as u8,
+            syncpol: ((value >> 3) & 0b1111) as u8,
+            am: ((value >> 2) & 0b1111) as u8,
+            start: ((value >> 1) & 0b1111) as u8,
+            tsce: ((value >> 0) & 0b1111) as u8,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x0u32) as *mut u32) };
+        Cache {
+            ctph: ((value >> 28) & 0b1111) as u8,
+            ctpl: ((value >> 24) & 0b1111) as u8,
+            ssd: ((value >> 17) & 0b1111) as u8,
+            sse: ((value >> 16) & 0b1111) as u8,
+            sspsc: ((value >> 15) & 0b1111) as u8,
+            pgpsc: ((value >> 12) & 0b1111) as u8,
+            mcv: ((value >> 5) & 0b1111) as u8,
+            iodef: ((value >> 4) & 0b1111) as u8,
+            syncpol: ((value >> 3) & 0b1111) as u8,
+            am: ((value >> 2) & 0b1111) as u8,
+            start: ((value >> 1) & 0b1111) as u8,
+            tsce: ((value >> 0) & 0b1111) as u8,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.ctph as u32) << 28)
+                | ((self.ctpl as u32) << 24)
+                | ((self.ssd as u32) << 17)
+                | ((self.sse as u32) << 16)
+                | ((self.sspsc as u32) << 15)
+                | ((self.pgpsc as u32) << 12)
+                | ((self.mcv as u32) << 5)
+                | ((self.iodef as u32) << 4)
+                | ((self.syncpol as u32) << 3)
+                | ((self.am as u32) << 2)
+                | ((self.start as u32) << 1)
+                | ((self.tsce as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40024000u32 + 0x0u32) as *mut u32, value) };
+        }
+    }
 }
 /// interrupt enable register
-/// Size: 0x20 bits
 pub mod ier {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x4;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const MCEIE_BIT_OFFSET: u8 = 1;
-	const MCEIE_BIT_WIDTH: u8 = 1;
-	/// Max count error interrupt enable (Width: 1, Offset: 1)
-	pub fn get_mceie() -> u8 { ::read(REGISTER_ADDRESS, MCEIE_BIT_OFFSET, MCEIE_BIT_WIDTH) as u8 }
-	/// Max count error interrupt enable (Width: 1, Offset: 1)
-	pub fn set_mceie(value: u8) { ::write(REGISTER_ADDRESS, MCEIE_BIT_OFFSET, MCEIE_BIT_WIDTH, value as u32); }
-
-	const EOAIE_BIT_OFFSET: u8 = 0;
-	const EOAIE_BIT_WIDTH: u8 = 1;
-	/// End of acquisition interrupt enable (Width: 1, Offset: 0)
-	pub fn get_eoaie() -> u8 { ::read(REGISTER_ADDRESS, EOAIE_BIT_OFFSET, EOAIE_BIT_WIDTH) as u8 }
-	/// End of acquisition interrupt enable (Width: 1, Offset: 0)
-	pub fn set_eoaie(value: u8) { ::write(REGISTER_ADDRESS, EOAIE_BIT_OFFSET, EOAIE_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Max count error interrupt enable
+        pub mceie: bool,
+        /// End of acquisition interrupt enable
+        pub eoaie: bool,
+    }
+    pub struct Cache {
+        /// Max count error interrupt enable
+        pub mceie: bool,
+        /// End of acquisition interrupt enable
+        pub eoaie: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x4u32) as *mut u32) };
+        ReadonlyCache {
+            mceie: ((value >> 1) & 0b1) > 0,
+            eoaie: ((value >> 0) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x4u32) as *mut u32) };
+        Cache {
+            mceie: ((value >> 1) & 0b1) > 0,
+            eoaie: ((value >> 0) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.mceie as u32) << 1)
+                | ((self.eoaie as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40024000u32 + 0x4u32) as *mut u32, value) };
+        }
+    }
 }
 /// interrupt clear register
-/// Size: 0x20 bits
 pub mod icr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x8;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const MCEIC_BIT_OFFSET: u8 = 1;
-	const MCEIC_BIT_WIDTH: u8 = 1;
-	/// Max count error interrupt clear (Width: 1, Offset: 1)
-	pub fn get_mceic() -> u8 { ::read(REGISTER_ADDRESS, MCEIC_BIT_OFFSET, MCEIC_BIT_WIDTH) as u8 }
-	/// Max count error interrupt clear (Width: 1, Offset: 1)
-	pub fn set_mceic(value: u8) { ::write(REGISTER_ADDRESS, MCEIC_BIT_OFFSET, MCEIC_BIT_WIDTH, value as u32); }
-
-	const EOAIC_BIT_OFFSET: u8 = 0;
-	const EOAIC_BIT_WIDTH: u8 = 1;
-	/// End of acquisition interrupt clear (Width: 1, Offset: 0)
-	pub fn get_eoaic() -> u8 { ::read(REGISTER_ADDRESS, EOAIC_BIT_OFFSET, EOAIC_BIT_WIDTH) as u8 }
-	/// End of acquisition interrupt clear (Width: 1, Offset: 0)
-	pub fn set_eoaic(value: u8) { ::write(REGISTER_ADDRESS, EOAIC_BIT_OFFSET, EOAIC_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Max count error interrupt clear
+        pub mceic: bool,
+        /// End of acquisition interrupt clear
+        pub eoaic: bool,
+    }
+    pub struct Cache {
+        /// Max count error interrupt clear
+        pub mceic: bool,
+        /// End of acquisition interrupt clear
+        pub eoaic: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x8u32) as *mut u32) };
+        ReadonlyCache {
+            mceic: ((value >> 1) & 0b1) > 0,
+            eoaic: ((value >> 0) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x8u32) as *mut u32) };
+        Cache {
+            mceic: ((value >> 1) & 0b1) > 0,
+            eoaic: ((value >> 0) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.mceic as u32) << 1)
+                | ((self.eoaic as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40024000u32 + 0x8u32) as *mut u32, value) };
+        }
+    }
 }
 /// interrupt status register
-/// Size: 0x20 bits
 pub mod isr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0xC;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const MCEF_BIT_OFFSET: u8 = 1;
-	const MCEF_BIT_WIDTH: u8 = 1;
-	/// Max count error flag (Width: 1, Offset: 1)
-	pub fn get_mcef() -> u8 { ::read(REGISTER_ADDRESS, MCEF_BIT_OFFSET, MCEF_BIT_WIDTH) as u8 }
-	/// Max count error flag (Width: 1, Offset: 1)
-	pub fn set_mcef(value: u8) { ::write(REGISTER_ADDRESS, MCEF_BIT_OFFSET, MCEF_BIT_WIDTH, value as u32); }
-
-	const EOAF_BIT_OFFSET: u8 = 0;
-	const EOAF_BIT_WIDTH: u8 = 1;
-	/// End of acquisition flag (Width: 1, Offset: 0)
-	pub fn get_eoaf() -> u8 { ::read(REGISTER_ADDRESS, EOAF_BIT_OFFSET, EOAF_BIT_WIDTH) as u8 }
-	/// End of acquisition flag (Width: 1, Offset: 0)
-	pub fn set_eoaf(value: u8) { ::write(REGISTER_ADDRESS, EOAF_BIT_OFFSET, EOAF_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Max count error flag
+        pub mcef: bool,
+        /// End of acquisition flag
+        pub eoaf: bool,
+    }
+    pub struct Cache {
+        /// Max count error flag
+        pub mcef: bool,
+        /// End of acquisition flag
+        pub eoaf: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0xCu32) as *mut u32) };
+        ReadonlyCache {
+            mcef: ((value >> 1) & 0b1) > 0,
+            eoaf: ((value >> 0) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0xCu32) as *mut u32) };
+        Cache {
+            mcef: ((value >> 1) & 0b1) > 0,
+            eoaf: ((value >> 0) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.mcef as u32) << 1)
+                | ((self.eoaf as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40024000u32 + 0xCu32) as *mut u32, value) };
+        }
+    }
 }
 /// I/O hysteresis control register
-/// Size: 0x20 bits
 pub mod iohcr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x10;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const G1_IO1_BIT_OFFSET: u8 = 0;
-	const G1_IO1_BIT_WIDTH: u8 = 1;
-	/// G1_IO1 Schmitt trigger hysteresis mode (Width: 1, Offset: 0)
-	pub fn get_g1_io1() -> u8 { ::read(REGISTER_ADDRESS, G1_IO1_BIT_OFFSET, G1_IO1_BIT_WIDTH) as u8 }
-	/// G1_IO1 Schmitt trigger hysteresis mode (Width: 1, Offset: 0)
-	pub fn set_g1_io1(value: u8) { ::write(REGISTER_ADDRESS, G1_IO1_BIT_OFFSET, G1_IO1_BIT_WIDTH, value as u32); }
-
-	const G1_IO2_BIT_OFFSET: u8 = 1;
-	const G1_IO2_BIT_WIDTH: u8 = 1;
-	/// G1_IO2 Schmitt trigger hysteresis mode (Width: 1, Offset: 1)
-	pub fn get_g1_io2() -> u8 { ::read(REGISTER_ADDRESS, G1_IO2_BIT_OFFSET, G1_IO2_BIT_WIDTH) as u8 }
-	/// G1_IO2 Schmitt trigger hysteresis mode (Width: 1, Offset: 1)
-	pub fn set_g1_io2(value: u8) { ::write(REGISTER_ADDRESS, G1_IO2_BIT_OFFSET, G1_IO2_BIT_WIDTH, value as u32); }
-
-	const G1_IO3_BIT_OFFSET: u8 = 2;
-	const G1_IO3_BIT_WIDTH: u8 = 1;
-	/// G1_IO3 Schmitt trigger hysteresis mode (Width: 1, Offset: 2)
-	pub fn get_g1_io3() -> u8 { ::read(REGISTER_ADDRESS, G1_IO3_BIT_OFFSET, G1_IO3_BIT_WIDTH) as u8 }
-	/// G1_IO3 Schmitt trigger hysteresis mode (Width: 1, Offset: 2)
-	pub fn set_g1_io3(value: u8) { ::write(REGISTER_ADDRESS, G1_IO3_BIT_OFFSET, G1_IO3_BIT_WIDTH, value as u32); }
-
-	const G1_IO4_BIT_OFFSET: u8 = 3;
-	const G1_IO4_BIT_WIDTH: u8 = 1;
-	/// G1_IO4 Schmitt trigger hysteresis mode (Width: 1, Offset: 3)
-	pub fn get_g1_io4() -> u8 { ::read(REGISTER_ADDRESS, G1_IO4_BIT_OFFSET, G1_IO4_BIT_WIDTH) as u8 }
-	/// G1_IO4 Schmitt trigger hysteresis mode (Width: 1, Offset: 3)
-	pub fn set_g1_io4(value: u8) { ::write(REGISTER_ADDRESS, G1_IO4_BIT_OFFSET, G1_IO4_BIT_WIDTH, value as u32); }
-
-	const G2_IO1_BIT_OFFSET: u8 = 4;
-	const G2_IO1_BIT_WIDTH: u8 = 1;
-	/// G2_IO1 Schmitt trigger hysteresis mode (Width: 1, Offset: 4)
-	pub fn get_g2_io1() -> u8 { ::read(REGISTER_ADDRESS, G2_IO1_BIT_OFFSET, G2_IO1_BIT_WIDTH) as u8 }
-	/// G2_IO1 Schmitt trigger hysteresis mode (Width: 1, Offset: 4)
-	pub fn set_g2_io1(value: u8) { ::write(REGISTER_ADDRESS, G2_IO1_BIT_OFFSET, G2_IO1_BIT_WIDTH, value as u32); }
-
-	const G2_IO2_BIT_OFFSET: u8 = 5;
-	const G2_IO2_BIT_WIDTH: u8 = 1;
-	/// G2_IO2 Schmitt trigger hysteresis mode (Width: 1, Offset: 5)
-	pub fn get_g2_io2() -> u8 { ::read(REGISTER_ADDRESS, G2_IO2_BIT_OFFSET, G2_IO2_BIT_WIDTH) as u8 }
-	/// G2_IO2 Schmitt trigger hysteresis mode (Width: 1, Offset: 5)
-	pub fn set_g2_io2(value: u8) { ::write(REGISTER_ADDRESS, G2_IO2_BIT_OFFSET, G2_IO2_BIT_WIDTH, value as u32); }
-
-	const G2_IO3_BIT_OFFSET: u8 = 6;
-	const G2_IO3_BIT_WIDTH: u8 = 1;
-	/// G2_IO3 Schmitt trigger hysteresis mode (Width: 1, Offset: 6)
-	pub fn get_g2_io3() -> u8 { ::read(REGISTER_ADDRESS, G2_IO3_BIT_OFFSET, G2_IO3_BIT_WIDTH) as u8 }
-	/// G2_IO3 Schmitt trigger hysteresis mode (Width: 1, Offset: 6)
-	pub fn set_g2_io3(value: u8) { ::write(REGISTER_ADDRESS, G2_IO3_BIT_OFFSET, G2_IO3_BIT_WIDTH, value as u32); }
-
-	const G2_IO4_BIT_OFFSET: u8 = 7;
-	const G2_IO4_BIT_WIDTH: u8 = 1;
-	/// G2_IO4 Schmitt trigger hysteresis mode (Width: 1, Offset: 7)
-	pub fn get_g2_io4() -> u8 { ::read(REGISTER_ADDRESS, G2_IO4_BIT_OFFSET, G2_IO4_BIT_WIDTH) as u8 }
-	/// G2_IO4 Schmitt trigger hysteresis mode (Width: 1, Offset: 7)
-	pub fn set_g2_io4(value: u8) { ::write(REGISTER_ADDRESS, G2_IO4_BIT_OFFSET, G2_IO4_BIT_WIDTH, value as u32); }
-
-	const G3_IO1_BIT_OFFSET: u8 = 8;
-	const G3_IO1_BIT_WIDTH: u8 = 1;
-	/// G3_IO1 Schmitt trigger hysteresis mode (Width: 1, Offset: 8)
-	pub fn get_g3_io1() -> u8 { ::read(REGISTER_ADDRESS, G3_IO1_BIT_OFFSET, G3_IO1_BIT_WIDTH) as u8 }
-	/// G3_IO1 Schmitt trigger hysteresis mode (Width: 1, Offset: 8)
-	pub fn set_g3_io1(value: u8) { ::write(REGISTER_ADDRESS, G3_IO1_BIT_OFFSET, G3_IO1_BIT_WIDTH, value as u32); }
-
-	const G3_IO2_BIT_OFFSET: u8 = 9;
-	const G3_IO2_BIT_WIDTH: u8 = 1;
-	/// G3_IO2 Schmitt trigger hysteresis mode (Width: 1, Offset: 9)
-	pub fn get_g3_io2() -> u8 { ::read(REGISTER_ADDRESS, G3_IO2_BIT_OFFSET, G3_IO2_BIT_WIDTH) as u8 }
-	/// G3_IO2 Schmitt trigger hysteresis mode (Width: 1, Offset: 9)
-	pub fn set_g3_io2(value: u8) { ::write(REGISTER_ADDRESS, G3_IO2_BIT_OFFSET, G3_IO2_BIT_WIDTH, value as u32); }
-
-	const G3_IO3_BIT_OFFSET: u8 = 10;
-	const G3_IO3_BIT_WIDTH: u8 = 1;
-	/// G3_IO3 Schmitt trigger hysteresis mode (Width: 1, Offset: 10)
-	pub fn get_g3_io3() -> u8 { ::read(REGISTER_ADDRESS, G3_IO3_BIT_OFFSET, G3_IO3_BIT_WIDTH) as u8 }
-	/// G3_IO3 Schmitt trigger hysteresis mode (Width: 1, Offset: 10)
-	pub fn set_g3_io3(value: u8) { ::write(REGISTER_ADDRESS, G3_IO3_BIT_OFFSET, G3_IO3_BIT_WIDTH, value as u32); }
-
-	const G3_IO4_BIT_OFFSET: u8 = 11;
-	const G3_IO4_BIT_WIDTH: u8 = 1;
-	/// G3_IO4 Schmitt trigger hysteresis mode (Width: 1, Offset: 11)
-	pub fn get_g3_io4() -> u8 { ::read(REGISTER_ADDRESS, G3_IO4_BIT_OFFSET, G3_IO4_BIT_WIDTH) as u8 }
-	/// G3_IO4 Schmitt trigger hysteresis mode (Width: 1, Offset: 11)
-	pub fn set_g3_io4(value: u8) { ::write(REGISTER_ADDRESS, G3_IO4_BIT_OFFSET, G3_IO4_BIT_WIDTH, value as u32); }
-
-	const G4_IO1_BIT_OFFSET: u8 = 12;
-	const G4_IO1_BIT_WIDTH: u8 = 1;
-	/// G4_IO1 Schmitt trigger hysteresis mode (Width: 1, Offset: 12)
-	pub fn get_g4_io1() -> u8 { ::read(REGISTER_ADDRESS, G4_IO1_BIT_OFFSET, G4_IO1_BIT_WIDTH) as u8 }
-	/// G4_IO1 Schmitt trigger hysteresis mode (Width: 1, Offset: 12)
-	pub fn set_g4_io1(value: u8) { ::write(REGISTER_ADDRESS, G4_IO1_BIT_OFFSET, G4_IO1_BIT_WIDTH, value as u32); }
-
-	const G4_IO2_BIT_OFFSET: u8 = 13;
-	const G4_IO2_BIT_WIDTH: u8 = 1;
-	/// G4_IO2 Schmitt trigger hysteresis mode (Width: 1, Offset: 13)
-	pub fn get_g4_io2() -> u8 { ::read(REGISTER_ADDRESS, G4_IO2_BIT_OFFSET, G4_IO2_BIT_WIDTH) as u8 }
-	/// G4_IO2 Schmitt trigger hysteresis mode (Width: 1, Offset: 13)
-	pub fn set_g4_io2(value: u8) { ::write(REGISTER_ADDRESS, G4_IO2_BIT_OFFSET, G4_IO2_BIT_WIDTH, value as u32); }
-
-	const G4_IO3_BIT_OFFSET: u8 = 14;
-	const G4_IO3_BIT_WIDTH: u8 = 1;
-	/// G4_IO3 Schmitt trigger hysteresis mode (Width: 1, Offset: 14)
-	pub fn get_g4_io3() -> u8 { ::read(REGISTER_ADDRESS, G4_IO3_BIT_OFFSET, G4_IO3_BIT_WIDTH) as u8 }
-	/// G4_IO3 Schmitt trigger hysteresis mode (Width: 1, Offset: 14)
-	pub fn set_g4_io3(value: u8) { ::write(REGISTER_ADDRESS, G4_IO3_BIT_OFFSET, G4_IO3_BIT_WIDTH, value as u32); }
-
-	const G4_IO4_BIT_OFFSET: u8 = 15;
-	const G4_IO4_BIT_WIDTH: u8 = 1;
-	/// G4_IO4 Schmitt trigger hysteresis mode (Width: 1, Offset: 15)
-	pub fn get_g4_io4() -> u8 { ::read(REGISTER_ADDRESS, G4_IO4_BIT_OFFSET, G4_IO4_BIT_WIDTH) as u8 }
-	/// G4_IO4 Schmitt trigger hysteresis mode (Width: 1, Offset: 15)
-	pub fn set_g4_io4(value: u8) { ::write(REGISTER_ADDRESS, G4_IO4_BIT_OFFSET, G4_IO4_BIT_WIDTH, value as u32); }
-
-	const G5_IO1_BIT_OFFSET: u8 = 16;
-	const G5_IO1_BIT_WIDTH: u8 = 1;
-	/// G5_IO1 Schmitt trigger hysteresis mode (Width: 1, Offset: 16)
-	pub fn get_g5_io1() -> u8 { ::read(REGISTER_ADDRESS, G5_IO1_BIT_OFFSET, G5_IO1_BIT_WIDTH) as u8 }
-	/// G5_IO1 Schmitt trigger hysteresis mode (Width: 1, Offset: 16)
-	pub fn set_g5_io1(value: u8) { ::write(REGISTER_ADDRESS, G5_IO1_BIT_OFFSET, G5_IO1_BIT_WIDTH, value as u32); }
-
-	const G5_IO2_BIT_OFFSET: u8 = 17;
-	const G5_IO2_BIT_WIDTH: u8 = 1;
-	/// G5_IO2 Schmitt trigger hysteresis mode (Width: 1, Offset: 17)
-	pub fn get_g5_io2() -> u8 { ::read(REGISTER_ADDRESS, G5_IO2_BIT_OFFSET, G5_IO2_BIT_WIDTH) as u8 }
-	/// G5_IO2 Schmitt trigger hysteresis mode (Width: 1, Offset: 17)
-	pub fn set_g5_io2(value: u8) { ::write(REGISTER_ADDRESS, G5_IO2_BIT_OFFSET, G5_IO2_BIT_WIDTH, value as u32); }
-
-	const G5_IO3_BIT_OFFSET: u8 = 18;
-	const G5_IO3_BIT_WIDTH: u8 = 1;
-	/// G5_IO3 Schmitt trigger hysteresis mode (Width: 1, Offset: 18)
-	pub fn get_g5_io3() -> u8 { ::read(REGISTER_ADDRESS, G5_IO3_BIT_OFFSET, G5_IO3_BIT_WIDTH) as u8 }
-	/// G5_IO3 Schmitt trigger hysteresis mode (Width: 1, Offset: 18)
-	pub fn set_g5_io3(value: u8) { ::write(REGISTER_ADDRESS, G5_IO3_BIT_OFFSET, G5_IO3_BIT_WIDTH, value as u32); }
-
-	const G5_IO4_BIT_OFFSET: u8 = 19;
-	const G5_IO4_BIT_WIDTH: u8 = 1;
-	/// G5_IO4 Schmitt trigger hysteresis mode (Width: 1, Offset: 19)
-	pub fn get_g5_io4() -> u8 { ::read(REGISTER_ADDRESS, G5_IO4_BIT_OFFSET, G5_IO4_BIT_WIDTH) as u8 }
-	/// G5_IO4 Schmitt trigger hysteresis mode (Width: 1, Offset: 19)
-	pub fn set_g5_io4(value: u8) { ::write(REGISTER_ADDRESS, G5_IO4_BIT_OFFSET, G5_IO4_BIT_WIDTH, value as u32); }
-
-	const G6_IO1_BIT_OFFSET: u8 = 20;
-	const G6_IO1_BIT_WIDTH: u8 = 1;
-	/// G6_IO1 Schmitt trigger hysteresis mode (Width: 1, Offset: 20)
-	pub fn get_g6_io1() -> u8 { ::read(REGISTER_ADDRESS, G6_IO1_BIT_OFFSET, G6_IO1_BIT_WIDTH) as u8 }
-	/// G6_IO1 Schmitt trigger hysteresis mode (Width: 1, Offset: 20)
-	pub fn set_g6_io1(value: u8) { ::write(REGISTER_ADDRESS, G6_IO1_BIT_OFFSET, G6_IO1_BIT_WIDTH, value as u32); }
-
-	const G6_IO2_BIT_OFFSET: u8 = 21;
-	const G6_IO2_BIT_WIDTH: u8 = 1;
-	/// G6_IO2 Schmitt trigger hysteresis mode (Width: 1, Offset: 21)
-	pub fn get_g6_io2() -> u8 { ::read(REGISTER_ADDRESS, G6_IO2_BIT_OFFSET, G6_IO2_BIT_WIDTH) as u8 }
-	/// G6_IO2 Schmitt trigger hysteresis mode (Width: 1, Offset: 21)
-	pub fn set_g6_io2(value: u8) { ::write(REGISTER_ADDRESS, G6_IO2_BIT_OFFSET, G6_IO2_BIT_WIDTH, value as u32); }
-
-	const G6_IO3_BIT_OFFSET: u8 = 22;
-	const G6_IO3_BIT_WIDTH: u8 = 1;
-	/// G6_IO3 Schmitt trigger hysteresis mode (Width: 1, Offset: 22)
-	pub fn get_g6_io3() -> u8 { ::read(REGISTER_ADDRESS, G6_IO3_BIT_OFFSET, G6_IO3_BIT_WIDTH) as u8 }
-	/// G6_IO3 Schmitt trigger hysteresis mode (Width: 1, Offset: 22)
-	pub fn set_g6_io3(value: u8) { ::write(REGISTER_ADDRESS, G6_IO3_BIT_OFFSET, G6_IO3_BIT_WIDTH, value as u32); }
-
-	const G6_IO4_BIT_OFFSET: u8 = 23;
-	const G6_IO4_BIT_WIDTH: u8 = 1;
-	/// G6_IO4 Schmitt trigger hysteresis mode (Width: 1, Offset: 23)
-	pub fn get_g6_io4() -> u8 { ::read(REGISTER_ADDRESS, G6_IO4_BIT_OFFSET, G6_IO4_BIT_WIDTH) as u8 }
-	/// G6_IO4 Schmitt trigger hysteresis mode (Width: 1, Offset: 23)
-	pub fn set_g6_io4(value: u8) { ::write(REGISTER_ADDRESS, G6_IO4_BIT_OFFSET, G6_IO4_BIT_WIDTH, value as u32); }
-
-	const G7_IO1_BIT_OFFSET: u8 = 24;
-	const G7_IO1_BIT_WIDTH: u8 = 1;
-	/// G7_IO1 Schmitt trigger hysteresis mode (Width: 1, Offset: 24)
-	pub fn get_g7_io1() -> u8 { ::read(REGISTER_ADDRESS, G7_IO1_BIT_OFFSET, G7_IO1_BIT_WIDTH) as u8 }
-	/// G7_IO1 Schmitt trigger hysteresis mode (Width: 1, Offset: 24)
-	pub fn set_g7_io1(value: u8) { ::write(REGISTER_ADDRESS, G7_IO1_BIT_OFFSET, G7_IO1_BIT_WIDTH, value as u32); }
-
-	const G7_IO2_BIT_OFFSET: u8 = 25;
-	const G7_IO2_BIT_WIDTH: u8 = 1;
-	/// G7_IO2 Schmitt trigger hysteresis mode (Width: 1, Offset: 25)
-	pub fn get_g7_io2() -> u8 { ::read(REGISTER_ADDRESS, G7_IO2_BIT_OFFSET, G7_IO2_BIT_WIDTH) as u8 }
-	/// G7_IO2 Schmitt trigger hysteresis mode (Width: 1, Offset: 25)
-	pub fn set_g7_io2(value: u8) { ::write(REGISTER_ADDRESS, G7_IO2_BIT_OFFSET, G7_IO2_BIT_WIDTH, value as u32); }
-
-	const G7_IO3_BIT_OFFSET: u8 = 26;
-	const G7_IO3_BIT_WIDTH: u8 = 1;
-	/// G7_IO3 Schmitt trigger hysteresis mode (Width: 1, Offset: 26)
-	pub fn get_g7_io3() -> u8 { ::read(REGISTER_ADDRESS, G7_IO3_BIT_OFFSET, G7_IO3_BIT_WIDTH) as u8 }
-	/// G7_IO3 Schmitt trigger hysteresis mode (Width: 1, Offset: 26)
-	pub fn set_g7_io3(value: u8) { ::write(REGISTER_ADDRESS, G7_IO3_BIT_OFFSET, G7_IO3_BIT_WIDTH, value as u32); }
-
-	const G7_IO4_BIT_OFFSET: u8 = 27;
-	const G7_IO4_BIT_WIDTH: u8 = 1;
-	/// G7_IO4 Schmitt trigger hysteresis mode (Width: 1, Offset: 27)
-	pub fn get_g7_io4() -> u8 { ::read(REGISTER_ADDRESS, G7_IO4_BIT_OFFSET, G7_IO4_BIT_WIDTH) as u8 }
-	/// G7_IO4 Schmitt trigger hysteresis mode (Width: 1, Offset: 27)
-	pub fn set_g7_io4(value: u8) { ::write(REGISTER_ADDRESS, G7_IO4_BIT_OFFSET, G7_IO4_BIT_WIDTH, value as u32); }
-
-	const G8_IO1_BIT_OFFSET: u8 = 28;
-	const G8_IO1_BIT_WIDTH: u8 = 1;
-	/// G8_IO1 Schmitt trigger hysteresis mode (Width: 1, Offset: 28)
-	pub fn get_g8_io1() -> u8 { ::read(REGISTER_ADDRESS, G8_IO1_BIT_OFFSET, G8_IO1_BIT_WIDTH) as u8 }
-	/// G8_IO1 Schmitt trigger hysteresis mode (Width: 1, Offset: 28)
-	pub fn set_g8_io1(value: u8) { ::write(REGISTER_ADDRESS, G8_IO1_BIT_OFFSET, G8_IO1_BIT_WIDTH, value as u32); }
-
-	const G8_IO2_BIT_OFFSET: u8 = 29;
-	const G8_IO2_BIT_WIDTH: u8 = 1;
-	/// G8_IO2 Schmitt trigger hysteresis mode (Width: 1, Offset: 29)
-	pub fn get_g8_io2() -> u8 { ::read(REGISTER_ADDRESS, G8_IO2_BIT_OFFSET, G8_IO2_BIT_WIDTH) as u8 }
-	/// G8_IO2 Schmitt trigger hysteresis mode (Width: 1, Offset: 29)
-	pub fn set_g8_io2(value: u8) { ::write(REGISTER_ADDRESS, G8_IO2_BIT_OFFSET, G8_IO2_BIT_WIDTH, value as u32); }
-
-	const G8_IO3_BIT_OFFSET: u8 = 30;
-	const G8_IO3_BIT_WIDTH: u8 = 1;
-	/// G8_IO3 Schmitt trigger hysteresis mode (Width: 1, Offset: 30)
-	pub fn get_g8_io3() -> u8 { ::read(REGISTER_ADDRESS, G8_IO3_BIT_OFFSET, G8_IO3_BIT_WIDTH) as u8 }
-	/// G8_IO3 Schmitt trigger hysteresis mode (Width: 1, Offset: 30)
-	pub fn set_g8_io3(value: u8) { ::write(REGISTER_ADDRESS, G8_IO3_BIT_OFFSET, G8_IO3_BIT_WIDTH, value as u32); }
-
-	const G8_IO4_BIT_OFFSET: u8 = 31;
-	const G8_IO4_BIT_WIDTH: u8 = 1;
-	/// G8_IO4 Schmitt trigger hysteresis mode (Width: 1, Offset: 31)
-	pub fn get_g8_io4() -> u8 { ::read(REGISTER_ADDRESS, G8_IO4_BIT_OFFSET, G8_IO4_BIT_WIDTH) as u8 }
-	/// G8_IO4 Schmitt trigger hysteresis mode (Width: 1, Offset: 31)
-	pub fn set_g8_io4(value: u8) { ::write(REGISTER_ADDRESS, G8_IO4_BIT_OFFSET, G8_IO4_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// G1_IO1 Schmitt trigger hysteresis mode
+        pub g1_io1: bool,
+        /// G1_IO2 Schmitt trigger hysteresis mode
+        pub g1_io2: bool,
+        /// G1_IO3 Schmitt trigger hysteresis mode
+        pub g1_io3: bool,
+        /// G1_IO4 Schmitt trigger hysteresis mode
+        pub g1_io4: bool,
+        /// G2_IO1 Schmitt trigger hysteresis mode
+        pub g2_io1: bool,
+        /// G2_IO2 Schmitt trigger hysteresis mode
+        pub g2_io2: bool,
+        /// G2_IO3 Schmitt trigger hysteresis mode
+        pub g2_io3: bool,
+        /// G2_IO4 Schmitt trigger hysteresis mode
+        pub g2_io4: bool,
+        /// G3_IO1 Schmitt trigger hysteresis mode
+        pub g3_io1: bool,
+        /// G3_IO2 Schmitt trigger hysteresis mode
+        pub g3_io2: bool,
+        /// G3_IO3 Schmitt trigger hysteresis mode
+        pub g3_io3: bool,
+        /// G3_IO4 Schmitt trigger hysteresis mode
+        pub g3_io4: bool,
+        /// G4_IO1 Schmitt trigger hysteresis mode
+        pub g4_io1: bool,
+        /// G4_IO2 Schmitt trigger hysteresis mode
+        pub g4_io2: bool,
+        /// G4_IO3 Schmitt trigger hysteresis mode
+        pub g4_io3: bool,
+        /// G4_IO4 Schmitt trigger hysteresis mode
+        pub g4_io4: bool,
+        /// G5_IO1 Schmitt trigger hysteresis mode
+        pub g5_io1: bool,
+        /// G5_IO2 Schmitt trigger hysteresis mode
+        pub g5_io2: bool,
+        /// G5_IO3 Schmitt trigger hysteresis mode
+        pub g5_io3: bool,
+        /// G5_IO4 Schmitt trigger hysteresis mode
+        pub g5_io4: bool,
+        /// G6_IO1 Schmitt trigger hysteresis mode
+        pub g6_io1: bool,
+        /// G6_IO2 Schmitt trigger hysteresis mode
+        pub g6_io2: bool,
+        /// G6_IO3 Schmitt trigger hysteresis mode
+        pub g6_io3: bool,
+        /// G6_IO4 Schmitt trigger hysteresis mode
+        pub g6_io4: bool,
+        /// G7_IO1 Schmitt trigger hysteresis mode
+        pub g7_io1: bool,
+        /// G7_IO2 Schmitt trigger hysteresis mode
+        pub g7_io2: bool,
+        /// G7_IO3 Schmitt trigger hysteresis mode
+        pub g7_io3: bool,
+        /// G7_IO4 Schmitt trigger hysteresis mode
+        pub g7_io4: bool,
+        /// G8_IO1 Schmitt trigger hysteresis mode
+        pub g8_io1: bool,
+        /// G8_IO2 Schmitt trigger hysteresis mode
+        pub g8_io2: bool,
+        /// G8_IO3 Schmitt trigger hysteresis mode
+        pub g8_io3: bool,
+        /// G8_IO4 Schmitt trigger hysteresis mode
+        pub g8_io4: bool,
+    }
+    pub struct Cache {
+        /// G1_IO1 Schmitt trigger hysteresis mode
+        pub g1_io1: bool,
+        /// G1_IO2 Schmitt trigger hysteresis mode
+        pub g1_io2: bool,
+        /// G1_IO3 Schmitt trigger hysteresis mode
+        pub g1_io3: bool,
+        /// G1_IO4 Schmitt trigger hysteresis mode
+        pub g1_io4: bool,
+        /// G2_IO1 Schmitt trigger hysteresis mode
+        pub g2_io1: bool,
+        /// G2_IO2 Schmitt trigger hysteresis mode
+        pub g2_io2: bool,
+        /// G2_IO3 Schmitt trigger hysteresis mode
+        pub g2_io3: bool,
+        /// G2_IO4 Schmitt trigger hysteresis mode
+        pub g2_io4: bool,
+        /// G3_IO1 Schmitt trigger hysteresis mode
+        pub g3_io1: bool,
+        /// G3_IO2 Schmitt trigger hysteresis mode
+        pub g3_io2: bool,
+        /// G3_IO3 Schmitt trigger hysteresis mode
+        pub g3_io3: bool,
+        /// G3_IO4 Schmitt trigger hysteresis mode
+        pub g3_io4: bool,
+        /// G4_IO1 Schmitt trigger hysteresis mode
+        pub g4_io1: bool,
+        /// G4_IO2 Schmitt trigger hysteresis mode
+        pub g4_io2: bool,
+        /// G4_IO3 Schmitt trigger hysteresis mode
+        pub g4_io3: bool,
+        /// G4_IO4 Schmitt trigger hysteresis mode
+        pub g4_io4: bool,
+        /// G5_IO1 Schmitt trigger hysteresis mode
+        pub g5_io1: bool,
+        /// G5_IO2 Schmitt trigger hysteresis mode
+        pub g5_io2: bool,
+        /// G5_IO3 Schmitt trigger hysteresis mode
+        pub g5_io3: bool,
+        /// G5_IO4 Schmitt trigger hysteresis mode
+        pub g5_io4: bool,
+        /// G6_IO1 Schmitt trigger hysteresis mode
+        pub g6_io1: bool,
+        /// G6_IO2 Schmitt trigger hysteresis mode
+        pub g6_io2: bool,
+        /// G6_IO3 Schmitt trigger hysteresis mode
+        pub g6_io3: bool,
+        /// G6_IO4 Schmitt trigger hysteresis mode
+        pub g6_io4: bool,
+        /// G7_IO1 Schmitt trigger hysteresis mode
+        pub g7_io1: bool,
+        /// G7_IO2 Schmitt trigger hysteresis mode
+        pub g7_io2: bool,
+        /// G7_IO3 Schmitt trigger hysteresis mode
+        pub g7_io3: bool,
+        /// G7_IO4 Schmitt trigger hysteresis mode
+        pub g7_io4: bool,
+        /// G8_IO1 Schmitt trigger hysteresis mode
+        pub g8_io1: bool,
+        /// G8_IO2 Schmitt trigger hysteresis mode
+        pub g8_io2: bool,
+        /// G8_IO3 Schmitt trigger hysteresis mode
+        pub g8_io3: bool,
+        /// G8_IO4 Schmitt trigger hysteresis mode
+        pub g8_io4: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x10u32) as *mut u32) };
+        ReadonlyCache {
+            g1_io1: ((value >> 0) & 0b1) > 0,
+            g1_io2: ((value >> 1) & 0b1) > 0,
+            g1_io3: ((value >> 2) & 0b1) > 0,
+            g1_io4: ((value >> 3) & 0b1) > 0,
+            g2_io1: ((value >> 4) & 0b1) > 0,
+            g2_io2: ((value >> 5) & 0b1) > 0,
+            g2_io3: ((value >> 6) & 0b1) > 0,
+            g2_io4: ((value >> 7) & 0b1) > 0,
+            g3_io1: ((value >> 8) & 0b1) > 0,
+            g3_io2: ((value >> 9) & 0b1) > 0,
+            g3_io3: ((value >> 10) & 0b1) > 0,
+            g3_io4: ((value >> 11) & 0b1) > 0,
+            g4_io1: ((value >> 12) & 0b1) > 0,
+            g4_io2: ((value >> 13) & 0b1) > 0,
+            g4_io3: ((value >> 14) & 0b1) > 0,
+            g4_io4: ((value >> 15) & 0b1) > 0,
+            g5_io1: ((value >> 16) & 0b1) > 0,
+            g5_io2: ((value >> 17) & 0b1) > 0,
+            g5_io3: ((value >> 18) & 0b1) > 0,
+            g5_io4: ((value >> 19) & 0b1) > 0,
+            g6_io1: ((value >> 20) & 0b1) > 0,
+            g6_io2: ((value >> 21) & 0b1) > 0,
+            g6_io3: ((value >> 22) & 0b1) > 0,
+            g6_io4: ((value >> 23) & 0b1) > 0,
+            g7_io1: ((value >> 24) & 0b1) > 0,
+            g7_io2: ((value >> 25) & 0b1) > 0,
+            g7_io3: ((value >> 26) & 0b1) > 0,
+            g7_io4: ((value >> 27) & 0b1) > 0,
+            g8_io1: ((value >> 28) & 0b1) > 0,
+            g8_io2: ((value >> 29) & 0b1) > 0,
+            g8_io3: ((value >> 30) & 0b1) > 0,
+            g8_io4: ((value >> 31) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x10u32) as *mut u32) };
+        Cache {
+            g1_io1: ((value >> 0) & 0b1) > 0,
+            g1_io2: ((value >> 1) & 0b1) > 0,
+            g1_io3: ((value >> 2) & 0b1) > 0,
+            g1_io4: ((value >> 3) & 0b1) > 0,
+            g2_io1: ((value >> 4) & 0b1) > 0,
+            g2_io2: ((value >> 5) & 0b1) > 0,
+            g2_io3: ((value >> 6) & 0b1) > 0,
+            g2_io4: ((value >> 7) & 0b1) > 0,
+            g3_io1: ((value >> 8) & 0b1) > 0,
+            g3_io2: ((value >> 9) & 0b1) > 0,
+            g3_io3: ((value >> 10) & 0b1) > 0,
+            g3_io4: ((value >> 11) & 0b1) > 0,
+            g4_io1: ((value >> 12) & 0b1) > 0,
+            g4_io2: ((value >> 13) & 0b1) > 0,
+            g4_io3: ((value >> 14) & 0b1) > 0,
+            g4_io4: ((value >> 15) & 0b1) > 0,
+            g5_io1: ((value >> 16) & 0b1) > 0,
+            g5_io2: ((value >> 17) & 0b1) > 0,
+            g5_io3: ((value >> 18) & 0b1) > 0,
+            g5_io4: ((value >> 19) & 0b1) > 0,
+            g6_io1: ((value >> 20) & 0b1) > 0,
+            g6_io2: ((value >> 21) & 0b1) > 0,
+            g6_io3: ((value >> 22) & 0b1) > 0,
+            g6_io4: ((value >> 23) & 0b1) > 0,
+            g7_io1: ((value >> 24) & 0b1) > 0,
+            g7_io2: ((value >> 25) & 0b1) > 0,
+            g7_io3: ((value >> 26) & 0b1) > 0,
+            g7_io4: ((value >> 27) & 0b1) > 0,
+            g8_io1: ((value >> 28) & 0b1) > 0,
+            g8_io2: ((value >> 29) & 0b1) > 0,
+            g8_io3: ((value >> 30) & 0b1) > 0,
+            g8_io4: ((value >> 31) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.g1_io1 as u32) << 0)
+                | ((self.g1_io2 as u32) << 1)
+                | ((self.g1_io3 as u32) << 2)
+                | ((self.g1_io4 as u32) << 3)
+                | ((self.g2_io1 as u32) << 4)
+                | ((self.g2_io2 as u32) << 5)
+                | ((self.g2_io3 as u32) << 6)
+                | ((self.g2_io4 as u32) << 7)
+                | ((self.g3_io1 as u32) << 8)
+                | ((self.g3_io2 as u32) << 9)
+                | ((self.g3_io3 as u32) << 10)
+                | ((self.g3_io4 as u32) << 11)
+                | ((self.g4_io1 as u32) << 12)
+                | ((self.g4_io2 as u32) << 13)
+                | ((self.g4_io3 as u32) << 14)
+                | ((self.g4_io4 as u32) << 15)
+                | ((self.g5_io1 as u32) << 16)
+                | ((self.g5_io2 as u32) << 17)
+                | ((self.g5_io3 as u32) << 18)
+                | ((self.g5_io4 as u32) << 19)
+                | ((self.g6_io1 as u32) << 20)
+                | ((self.g6_io2 as u32) << 21)
+                | ((self.g6_io3 as u32) << 22)
+                | ((self.g6_io4 as u32) << 23)
+                | ((self.g7_io1 as u32) << 24)
+                | ((self.g7_io2 as u32) << 25)
+                | ((self.g7_io3 as u32) << 26)
+                | ((self.g7_io4 as u32) << 27)
+                | ((self.g8_io1 as u32) << 28)
+                | ((self.g8_io2 as u32) << 29)
+                | ((self.g8_io3 as u32) << 30)
+                | ((self.g8_io4 as u32) << 31)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40024000u32 + 0x10u32) as *mut u32, value) };
+        }
+    }
 }
 /// I/O analog switch control register
-/// Size: 0x20 bits
 pub mod ioascr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x18;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const G1_IO1_BIT_OFFSET: u8 = 0;
-	const G1_IO1_BIT_WIDTH: u8 = 1;
-	/// G1_IO1 analog switch enable (Width: 1, Offset: 0)
-	pub fn get_g1_io1() -> u8 { ::read(REGISTER_ADDRESS, G1_IO1_BIT_OFFSET, G1_IO1_BIT_WIDTH) as u8 }
-	/// G1_IO1 analog switch enable (Width: 1, Offset: 0)
-	pub fn set_g1_io1(value: u8) { ::write(REGISTER_ADDRESS, G1_IO1_BIT_OFFSET, G1_IO1_BIT_WIDTH, value as u32); }
-
-	const G1_IO2_BIT_OFFSET: u8 = 1;
-	const G1_IO2_BIT_WIDTH: u8 = 1;
-	/// G1_IO2 analog switch enable (Width: 1, Offset: 1)
-	pub fn get_g1_io2() -> u8 { ::read(REGISTER_ADDRESS, G1_IO2_BIT_OFFSET, G1_IO2_BIT_WIDTH) as u8 }
-	/// G1_IO2 analog switch enable (Width: 1, Offset: 1)
-	pub fn set_g1_io2(value: u8) { ::write(REGISTER_ADDRESS, G1_IO2_BIT_OFFSET, G1_IO2_BIT_WIDTH, value as u32); }
-
-	const G1_IO3_BIT_OFFSET: u8 = 2;
-	const G1_IO3_BIT_WIDTH: u8 = 1;
-	/// G1_IO3 analog switch enable (Width: 1, Offset: 2)
-	pub fn get_g1_io3() -> u8 { ::read(REGISTER_ADDRESS, G1_IO3_BIT_OFFSET, G1_IO3_BIT_WIDTH) as u8 }
-	/// G1_IO3 analog switch enable (Width: 1, Offset: 2)
-	pub fn set_g1_io3(value: u8) { ::write(REGISTER_ADDRESS, G1_IO3_BIT_OFFSET, G1_IO3_BIT_WIDTH, value as u32); }
-
-	const G1_IO4_BIT_OFFSET: u8 = 3;
-	const G1_IO4_BIT_WIDTH: u8 = 1;
-	/// G1_IO4 analog switch enable (Width: 1, Offset: 3)
-	pub fn get_g1_io4() -> u8 { ::read(REGISTER_ADDRESS, G1_IO4_BIT_OFFSET, G1_IO4_BIT_WIDTH) as u8 }
-	/// G1_IO4 analog switch enable (Width: 1, Offset: 3)
-	pub fn set_g1_io4(value: u8) { ::write(REGISTER_ADDRESS, G1_IO4_BIT_OFFSET, G1_IO4_BIT_WIDTH, value as u32); }
-
-	const G2_IO1_BIT_OFFSET: u8 = 4;
-	const G2_IO1_BIT_WIDTH: u8 = 1;
-	/// G2_IO1 analog switch enable (Width: 1, Offset: 4)
-	pub fn get_g2_io1() -> u8 { ::read(REGISTER_ADDRESS, G2_IO1_BIT_OFFSET, G2_IO1_BIT_WIDTH) as u8 }
-	/// G2_IO1 analog switch enable (Width: 1, Offset: 4)
-	pub fn set_g2_io1(value: u8) { ::write(REGISTER_ADDRESS, G2_IO1_BIT_OFFSET, G2_IO1_BIT_WIDTH, value as u32); }
-
-	const G2_IO2_BIT_OFFSET: u8 = 5;
-	const G2_IO2_BIT_WIDTH: u8 = 1;
-	/// G2_IO2 analog switch enable (Width: 1, Offset: 5)
-	pub fn get_g2_io2() -> u8 { ::read(REGISTER_ADDRESS, G2_IO2_BIT_OFFSET, G2_IO2_BIT_WIDTH) as u8 }
-	/// G2_IO2 analog switch enable (Width: 1, Offset: 5)
-	pub fn set_g2_io2(value: u8) { ::write(REGISTER_ADDRESS, G2_IO2_BIT_OFFSET, G2_IO2_BIT_WIDTH, value as u32); }
-
-	const G2_IO3_BIT_OFFSET: u8 = 6;
-	const G2_IO3_BIT_WIDTH: u8 = 1;
-	/// G2_IO3 analog switch enable (Width: 1, Offset: 6)
-	pub fn get_g2_io3() -> u8 { ::read(REGISTER_ADDRESS, G2_IO3_BIT_OFFSET, G2_IO3_BIT_WIDTH) as u8 }
-	/// G2_IO3 analog switch enable (Width: 1, Offset: 6)
-	pub fn set_g2_io3(value: u8) { ::write(REGISTER_ADDRESS, G2_IO3_BIT_OFFSET, G2_IO3_BIT_WIDTH, value as u32); }
-
-	const G2_IO4_BIT_OFFSET: u8 = 7;
-	const G2_IO4_BIT_WIDTH: u8 = 1;
-	/// G2_IO4 analog switch enable (Width: 1, Offset: 7)
-	pub fn get_g2_io4() -> u8 { ::read(REGISTER_ADDRESS, G2_IO4_BIT_OFFSET, G2_IO4_BIT_WIDTH) as u8 }
-	/// G2_IO4 analog switch enable (Width: 1, Offset: 7)
-	pub fn set_g2_io4(value: u8) { ::write(REGISTER_ADDRESS, G2_IO4_BIT_OFFSET, G2_IO4_BIT_WIDTH, value as u32); }
-
-	const G3_IO1_BIT_OFFSET: u8 = 8;
-	const G3_IO1_BIT_WIDTH: u8 = 1;
-	/// G3_IO1 analog switch enable (Width: 1, Offset: 8)
-	pub fn get_g3_io1() -> u8 { ::read(REGISTER_ADDRESS, G3_IO1_BIT_OFFSET, G3_IO1_BIT_WIDTH) as u8 }
-	/// G3_IO1 analog switch enable (Width: 1, Offset: 8)
-	pub fn set_g3_io1(value: u8) { ::write(REGISTER_ADDRESS, G3_IO1_BIT_OFFSET, G3_IO1_BIT_WIDTH, value as u32); }
-
-	const G3_IO2_BIT_OFFSET: u8 = 9;
-	const G3_IO2_BIT_WIDTH: u8 = 1;
-	/// G3_IO2 analog switch enable (Width: 1, Offset: 9)
-	pub fn get_g3_io2() -> u8 { ::read(REGISTER_ADDRESS, G3_IO2_BIT_OFFSET, G3_IO2_BIT_WIDTH) as u8 }
-	/// G3_IO2 analog switch enable (Width: 1, Offset: 9)
-	pub fn set_g3_io2(value: u8) { ::write(REGISTER_ADDRESS, G3_IO2_BIT_OFFSET, G3_IO2_BIT_WIDTH, value as u32); }
-
-	const G3_IO3_BIT_OFFSET: u8 = 10;
-	const G3_IO3_BIT_WIDTH: u8 = 1;
-	/// G3_IO3 analog switch enable (Width: 1, Offset: 10)
-	pub fn get_g3_io3() -> u8 { ::read(REGISTER_ADDRESS, G3_IO3_BIT_OFFSET, G3_IO3_BIT_WIDTH) as u8 }
-	/// G3_IO3 analog switch enable (Width: 1, Offset: 10)
-	pub fn set_g3_io3(value: u8) { ::write(REGISTER_ADDRESS, G3_IO3_BIT_OFFSET, G3_IO3_BIT_WIDTH, value as u32); }
-
-	const G3_IO4_BIT_OFFSET: u8 = 11;
-	const G3_IO4_BIT_WIDTH: u8 = 1;
-	/// G3_IO4 analog switch enable (Width: 1, Offset: 11)
-	pub fn get_g3_io4() -> u8 { ::read(REGISTER_ADDRESS, G3_IO4_BIT_OFFSET, G3_IO4_BIT_WIDTH) as u8 }
-	/// G3_IO4 analog switch enable (Width: 1, Offset: 11)
-	pub fn set_g3_io4(value: u8) { ::write(REGISTER_ADDRESS, G3_IO4_BIT_OFFSET, G3_IO4_BIT_WIDTH, value as u32); }
-
-	const G4_IO1_BIT_OFFSET: u8 = 12;
-	const G4_IO1_BIT_WIDTH: u8 = 1;
-	/// G4_IO1 analog switch enable (Width: 1, Offset: 12)
-	pub fn get_g4_io1() -> u8 { ::read(REGISTER_ADDRESS, G4_IO1_BIT_OFFSET, G4_IO1_BIT_WIDTH) as u8 }
-	/// G4_IO1 analog switch enable (Width: 1, Offset: 12)
-	pub fn set_g4_io1(value: u8) { ::write(REGISTER_ADDRESS, G4_IO1_BIT_OFFSET, G4_IO1_BIT_WIDTH, value as u32); }
-
-	const G4_IO2_BIT_OFFSET: u8 = 13;
-	const G4_IO2_BIT_WIDTH: u8 = 1;
-	/// G4_IO2 analog switch enable (Width: 1, Offset: 13)
-	pub fn get_g4_io2() -> u8 { ::read(REGISTER_ADDRESS, G4_IO2_BIT_OFFSET, G4_IO2_BIT_WIDTH) as u8 }
-	/// G4_IO2 analog switch enable (Width: 1, Offset: 13)
-	pub fn set_g4_io2(value: u8) { ::write(REGISTER_ADDRESS, G4_IO2_BIT_OFFSET, G4_IO2_BIT_WIDTH, value as u32); }
-
-	const G4_IO3_BIT_OFFSET: u8 = 14;
-	const G4_IO3_BIT_WIDTH: u8 = 1;
-	/// G4_IO3 analog switch enable (Width: 1, Offset: 14)
-	pub fn get_g4_io3() -> u8 { ::read(REGISTER_ADDRESS, G4_IO3_BIT_OFFSET, G4_IO3_BIT_WIDTH) as u8 }
-	/// G4_IO3 analog switch enable (Width: 1, Offset: 14)
-	pub fn set_g4_io3(value: u8) { ::write(REGISTER_ADDRESS, G4_IO3_BIT_OFFSET, G4_IO3_BIT_WIDTH, value as u32); }
-
-	const G4_IO4_BIT_OFFSET: u8 = 15;
-	const G4_IO4_BIT_WIDTH: u8 = 1;
-	/// G4_IO4 analog switch enable (Width: 1, Offset: 15)
-	pub fn get_g4_io4() -> u8 { ::read(REGISTER_ADDRESS, G4_IO4_BIT_OFFSET, G4_IO4_BIT_WIDTH) as u8 }
-	/// G4_IO4 analog switch enable (Width: 1, Offset: 15)
-	pub fn set_g4_io4(value: u8) { ::write(REGISTER_ADDRESS, G4_IO4_BIT_OFFSET, G4_IO4_BIT_WIDTH, value as u32); }
-
-	const G5_IO1_BIT_OFFSET: u8 = 16;
-	const G5_IO1_BIT_WIDTH: u8 = 1;
-	/// G5_IO1 analog switch enable (Width: 1, Offset: 16)
-	pub fn get_g5_io1() -> u8 { ::read(REGISTER_ADDRESS, G5_IO1_BIT_OFFSET, G5_IO1_BIT_WIDTH) as u8 }
-	/// G5_IO1 analog switch enable (Width: 1, Offset: 16)
-	pub fn set_g5_io1(value: u8) { ::write(REGISTER_ADDRESS, G5_IO1_BIT_OFFSET, G5_IO1_BIT_WIDTH, value as u32); }
-
-	const G5_IO2_BIT_OFFSET: u8 = 17;
-	const G5_IO2_BIT_WIDTH: u8 = 1;
-	/// G5_IO2 analog switch enable (Width: 1, Offset: 17)
-	pub fn get_g5_io2() -> u8 { ::read(REGISTER_ADDRESS, G5_IO2_BIT_OFFSET, G5_IO2_BIT_WIDTH) as u8 }
-	/// G5_IO2 analog switch enable (Width: 1, Offset: 17)
-	pub fn set_g5_io2(value: u8) { ::write(REGISTER_ADDRESS, G5_IO2_BIT_OFFSET, G5_IO2_BIT_WIDTH, value as u32); }
-
-	const G5_IO3_BIT_OFFSET: u8 = 18;
-	const G5_IO3_BIT_WIDTH: u8 = 1;
-	/// G5_IO3 analog switch enable (Width: 1, Offset: 18)
-	pub fn get_g5_io3() -> u8 { ::read(REGISTER_ADDRESS, G5_IO3_BIT_OFFSET, G5_IO3_BIT_WIDTH) as u8 }
-	/// G5_IO3 analog switch enable (Width: 1, Offset: 18)
-	pub fn set_g5_io3(value: u8) { ::write(REGISTER_ADDRESS, G5_IO3_BIT_OFFSET, G5_IO3_BIT_WIDTH, value as u32); }
-
-	const G5_IO4_BIT_OFFSET: u8 = 19;
-	const G5_IO4_BIT_WIDTH: u8 = 1;
-	/// G5_IO4 analog switch enable (Width: 1, Offset: 19)
-	pub fn get_g5_io4() -> u8 { ::read(REGISTER_ADDRESS, G5_IO4_BIT_OFFSET, G5_IO4_BIT_WIDTH) as u8 }
-	/// G5_IO4 analog switch enable (Width: 1, Offset: 19)
-	pub fn set_g5_io4(value: u8) { ::write(REGISTER_ADDRESS, G5_IO4_BIT_OFFSET, G5_IO4_BIT_WIDTH, value as u32); }
-
-	const G6_IO1_BIT_OFFSET: u8 = 20;
-	const G6_IO1_BIT_WIDTH: u8 = 1;
-	/// G6_IO1 analog switch enable (Width: 1, Offset: 20)
-	pub fn get_g6_io1() -> u8 { ::read(REGISTER_ADDRESS, G6_IO1_BIT_OFFSET, G6_IO1_BIT_WIDTH) as u8 }
-	/// G6_IO1 analog switch enable (Width: 1, Offset: 20)
-	pub fn set_g6_io1(value: u8) { ::write(REGISTER_ADDRESS, G6_IO1_BIT_OFFSET, G6_IO1_BIT_WIDTH, value as u32); }
-
-	const G6_IO2_BIT_OFFSET: u8 = 21;
-	const G6_IO2_BIT_WIDTH: u8 = 1;
-	/// G6_IO2 analog switch enable (Width: 1, Offset: 21)
-	pub fn get_g6_io2() -> u8 { ::read(REGISTER_ADDRESS, G6_IO2_BIT_OFFSET, G6_IO2_BIT_WIDTH) as u8 }
-	/// G6_IO2 analog switch enable (Width: 1, Offset: 21)
-	pub fn set_g6_io2(value: u8) { ::write(REGISTER_ADDRESS, G6_IO2_BIT_OFFSET, G6_IO2_BIT_WIDTH, value as u32); }
-
-	const G6_IO3_BIT_OFFSET: u8 = 22;
-	const G6_IO3_BIT_WIDTH: u8 = 1;
-	/// G6_IO3 analog switch enable (Width: 1, Offset: 22)
-	pub fn get_g6_io3() -> u8 { ::read(REGISTER_ADDRESS, G6_IO3_BIT_OFFSET, G6_IO3_BIT_WIDTH) as u8 }
-	/// G6_IO3 analog switch enable (Width: 1, Offset: 22)
-	pub fn set_g6_io3(value: u8) { ::write(REGISTER_ADDRESS, G6_IO3_BIT_OFFSET, G6_IO3_BIT_WIDTH, value as u32); }
-
-	const G6_IO4_BIT_OFFSET: u8 = 23;
-	const G6_IO4_BIT_WIDTH: u8 = 1;
-	/// G6_IO4 analog switch enable (Width: 1, Offset: 23)
-	pub fn get_g6_io4() -> u8 { ::read(REGISTER_ADDRESS, G6_IO4_BIT_OFFSET, G6_IO4_BIT_WIDTH) as u8 }
-	/// G6_IO4 analog switch enable (Width: 1, Offset: 23)
-	pub fn set_g6_io4(value: u8) { ::write(REGISTER_ADDRESS, G6_IO4_BIT_OFFSET, G6_IO4_BIT_WIDTH, value as u32); }
-
-	const G7_IO1_BIT_OFFSET: u8 = 24;
-	const G7_IO1_BIT_WIDTH: u8 = 1;
-	/// G7_IO1 analog switch enable (Width: 1, Offset: 24)
-	pub fn get_g7_io1() -> u8 { ::read(REGISTER_ADDRESS, G7_IO1_BIT_OFFSET, G7_IO1_BIT_WIDTH) as u8 }
-	/// G7_IO1 analog switch enable (Width: 1, Offset: 24)
-	pub fn set_g7_io1(value: u8) { ::write(REGISTER_ADDRESS, G7_IO1_BIT_OFFSET, G7_IO1_BIT_WIDTH, value as u32); }
-
-	const G7_IO2_BIT_OFFSET: u8 = 25;
-	const G7_IO2_BIT_WIDTH: u8 = 1;
-	/// G7_IO2 analog switch enable (Width: 1, Offset: 25)
-	pub fn get_g7_io2() -> u8 { ::read(REGISTER_ADDRESS, G7_IO2_BIT_OFFSET, G7_IO2_BIT_WIDTH) as u8 }
-	/// G7_IO2 analog switch enable (Width: 1, Offset: 25)
-	pub fn set_g7_io2(value: u8) { ::write(REGISTER_ADDRESS, G7_IO2_BIT_OFFSET, G7_IO2_BIT_WIDTH, value as u32); }
-
-	const G7_IO3_BIT_OFFSET: u8 = 26;
-	const G7_IO3_BIT_WIDTH: u8 = 1;
-	/// G7_IO3 analog switch enable (Width: 1, Offset: 26)
-	pub fn get_g7_io3() -> u8 { ::read(REGISTER_ADDRESS, G7_IO3_BIT_OFFSET, G7_IO3_BIT_WIDTH) as u8 }
-	/// G7_IO3 analog switch enable (Width: 1, Offset: 26)
-	pub fn set_g7_io3(value: u8) { ::write(REGISTER_ADDRESS, G7_IO3_BIT_OFFSET, G7_IO3_BIT_WIDTH, value as u32); }
-
-	const G7_IO4_BIT_OFFSET: u8 = 27;
-	const G7_IO4_BIT_WIDTH: u8 = 1;
-	/// G7_IO4 analog switch enable (Width: 1, Offset: 27)
-	pub fn get_g7_io4() -> u8 { ::read(REGISTER_ADDRESS, G7_IO4_BIT_OFFSET, G7_IO4_BIT_WIDTH) as u8 }
-	/// G7_IO4 analog switch enable (Width: 1, Offset: 27)
-	pub fn set_g7_io4(value: u8) { ::write(REGISTER_ADDRESS, G7_IO4_BIT_OFFSET, G7_IO4_BIT_WIDTH, value as u32); }
-
-	const G8_IO1_BIT_OFFSET: u8 = 28;
-	const G8_IO1_BIT_WIDTH: u8 = 1;
-	/// G8_IO1 analog switch enable (Width: 1, Offset: 28)
-	pub fn get_g8_io1() -> u8 { ::read(REGISTER_ADDRESS, G8_IO1_BIT_OFFSET, G8_IO1_BIT_WIDTH) as u8 }
-	/// G8_IO1 analog switch enable (Width: 1, Offset: 28)
-	pub fn set_g8_io1(value: u8) { ::write(REGISTER_ADDRESS, G8_IO1_BIT_OFFSET, G8_IO1_BIT_WIDTH, value as u32); }
-
-	const G8_IO2_BIT_OFFSET: u8 = 29;
-	const G8_IO2_BIT_WIDTH: u8 = 1;
-	/// G8_IO2 analog switch enable (Width: 1, Offset: 29)
-	pub fn get_g8_io2() -> u8 { ::read(REGISTER_ADDRESS, G8_IO2_BIT_OFFSET, G8_IO2_BIT_WIDTH) as u8 }
-	/// G8_IO2 analog switch enable (Width: 1, Offset: 29)
-	pub fn set_g8_io2(value: u8) { ::write(REGISTER_ADDRESS, G8_IO2_BIT_OFFSET, G8_IO2_BIT_WIDTH, value as u32); }
-
-	const G8_IO3_BIT_OFFSET: u8 = 30;
-	const G8_IO3_BIT_WIDTH: u8 = 1;
-	/// G8_IO3 analog switch enable (Width: 1, Offset: 30)
-	pub fn get_g8_io3() -> u8 { ::read(REGISTER_ADDRESS, G8_IO3_BIT_OFFSET, G8_IO3_BIT_WIDTH) as u8 }
-	/// G8_IO3 analog switch enable (Width: 1, Offset: 30)
-	pub fn set_g8_io3(value: u8) { ::write(REGISTER_ADDRESS, G8_IO3_BIT_OFFSET, G8_IO3_BIT_WIDTH, value as u32); }
-
-	const G8_IO4_BIT_OFFSET: u8 = 31;
-	const G8_IO4_BIT_WIDTH: u8 = 1;
-	/// G8_IO4 analog switch enable (Width: 1, Offset: 31)
-	pub fn get_g8_io4() -> u8 { ::read(REGISTER_ADDRESS, G8_IO4_BIT_OFFSET, G8_IO4_BIT_WIDTH) as u8 }
-	/// G8_IO4 analog switch enable (Width: 1, Offset: 31)
-	pub fn set_g8_io4(value: u8) { ::write(REGISTER_ADDRESS, G8_IO4_BIT_OFFSET, G8_IO4_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// G1_IO1 analog switch enable
+        pub g1_io1: bool,
+        /// G1_IO2 analog switch enable
+        pub g1_io2: bool,
+        /// G1_IO3 analog switch enable
+        pub g1_io3: bool,
+        /// G1_IO4 analog switch enable
+        pub g1_io4: bool,
+        /// G2_IO1 analog switch enable
+        pub g2_io1: bool,
+        /// G2_IO2 analog switch enable
+        pub g2_io2: bool,
+        /// G2_IO3 analog switch enable
+        pub g2_io3: bool,
+        /// G2_IO4 analog switch enable
+        pub g2_io4: bool,
+        /// G3_IO1 analog switch enable
+        pub g3_io1: bool,
+        /// G3_IO2 analog switch enable
+        pub g3_io2: bool,
+        /// G3_IO3 analog switch enable
+        pub g3_io3: bool,
+        /// G3_IO4 analog switch enable
+        pub g3_io4: bool,
+        /// G4_IO1 analog switch enable
+        pub g4_io1: bool,
+        /// G4_IO2 analog switch enable
+        pub g4_io2: bool,
+        /// G4_IO3 analog switch enable
+        pub g4_io3: bool,
+        /// G4_IO4 analog switch enable
+        pub g4_io4: bool,
+        /// G5_IO1 analog switch enable
+        pub g5_io1: bool,
+        /// G5_IO2 analog switch enable
+        pub g5_io2: bool,
+        /// G5_IO3 analog switch enable
+        pub g5_io3: bool,
+        /// G5_IO4 analog switch enable
+        pub g5_io4: bool,
+        /// G6_IO1 analog switch enable
+        pub g6_io1: bool,
+        /// G6_IO2 analog switch enable
+        pub g6_io2: bool,
+        /// G6_IO3 analog switch enable
+        pub g6_io3: bool,
+        /// G6_IO4 analog switch enable
+        pub g6_io4: bool,
+        /// G7_IO1 analog switch enable
+        pub g7_io1: bool,
+        /// G7_IO2 analog switch enable
+        pub g7_io2: bool,
+        /// G7_IO3 analog switch enable
+        pub g7_io3: bool,
+        /// G7_IO4 analog switch enable
+        pub g7_io4: bool,
+        /// G8_IO1 analog switch enable
+        pub g8_io1: bool,
+        /// G8_IO2 analog switch enable
+        pub g8_io2: bool,
+        /// G8_IO3 analog switch enable
+        pub g8_io3: bool,
+        /// G8_IO4 analog switch enable
+        pub g8_io4: bool,
+    }
+    pub struct Cache {
+        /// G1_IO1 analog switch enable
+        pub g1_io1: bool,
+        /// G1_IO2 analog switch enable
+        pub g1_io2: bool,
+        /// G1_IO3 analog switch enable
+        pub g1_io3: bool,
+        /// G1_IO4 analog switch enable
+        pub g1_io4: bool,
+        /// G2_IO1 analog switch enable
+        pub g2_io1: bool,
+        /// G2_IO2 analog switch enable
+        pub g2_io2: bool,
+        /// G2_IO3 analog switch enable
+        pub g2_io3: bool,
+        /// G2_IO4 analog switch enable
+        pub g2_io4: bool,
+        /// G3_IO1 analog switch enable
+        pub g3_io1: bool,
+        /// G3_IO2 analog switch enable
+        pub g3_io2: bool,
+        /// G3_IO3 analog switch enable
+        pub g3_io3: bool,
+        /// G3_IO4 analog switch enable
+        pub g3_io4: bool,
+        /// G4_IO1 analog switch enable
+        pub g4_io1: bool,
+        /// G4_IO2 analog switch enable
+        pub g4_io2: bool,
+        /// G4_IO3 analog switch enable
+        pub g4_io3: bool,
+        /// G4_IO4 analog switch enable
+        pub g4_io4: bool,
+        /// G5_IO1 analog switch enable
+        pub g5_io1: bool,
+        /// G5_IO2 analog switch enable
+        pub g5_io2: bool,
+        /// G5_IO3 analog switch enable
+        pub g5_io3: bool,
+        /// G5_IO4 analog switch enable
+        pub g5_io4: bool,
+        /// G6_IO1 analog switch enable
+        pub g6_io1: bool,
+        /// G6_IO2 analog switch enable
+        pub g6_io2: bool,
+        /// G6_IO3 analog switch enable
+        pub g6_io3: bool,
+        /// G6_IO4 analog switch enable
+        pub g6_io4: bool,
+        /// G7_IO1 analog switch enable
+        pub g7_io1: bool,
+        /// G7_IO2 analog switch enable
+        pub g7_io2: bool,
+        /// G7_IO3 analog switch enable
+        pub g7_io3: bool,
+        /// G7_IO4 analog switch enable
+        pub g7_io4: bool,
+        /// G8_IO1 analog switch enable
+        pub g8_io1: bool,
+        /// G8_IO2 analog switch enable
+        pub g8_io2: bool,
+        /// G8_IO3 analog switch enable
+        pub g8_io3: bool,
+        /// G8_IO4 analog switch enable
+        pub g8_io4: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x18u32) as *mut u32) };
+        ReadonlyCache {
+            g1_io1: ((value >> 0) & 0b1) > 0,
+            g1_io2: ((value >> 1) & 0b1) > 0,
+            g1_io3: ((value >> 2) & 0b1) > 0,
+            g1_io4: ((value >> 3) & 0b1) > 0,
+            g2_io1: ((value >> 4) & 0b1) > 0,
+            g2_io2: ((value >> 5) & 0b1) > 0,
+            g2_io3: ((value >> 6) & 0b1) > 0,
+            g2_io4: ((value >> 7) & 0b1) > 0,
+            g3_io1: ((value >> 8) & 0b1) > 0,
+            g3_io2: ((value >> 9) & 0b1) > 0,
+            g3_io3: ((value >> 10) & 0b1) > 0,
+            g3_io4: ((value >> 11) & 0b1) > 0,
+            g4_io1: ((value >> 12) & 0b1) > 0,
+            g4_io2: ((value >> 13) & 0b1) > 0,
+            g4_io3: ((value >> 14) & 0b1) > 0,
+            g4_io4: ((value >> 15) & 0b1) > 0,
+            g5_io1: ((value >> 16) & 0b1) > 0,
+            g5_io2: ((value >> 17) & 0b1) > 0,
+            g5_io3: ((value >> 18) & 0b1) > 0,
+            g5_io4: ((value >> 19) & 0b1) > 0,
+            g6_io1: ((value >> 20) & 0b1) > 0,
+            g6_io2: ((value >> 21) & 0b1) > 0,
+            g6_io3: ((value >> 22) & 0b1) > 0,
+            g6_io4: ((value >> 23) & 0b1) > 0,
+            g7_io1: ((value >> 24) & 0b1) > 0,
+            g7_io2: ((value >> 25) & 0b1) > 0,
+            g7_io3: ((value >> 26) & 0b1) > 0,
+            g7_io4: ((value >> 27) & 0b1) > 0,
+            g8_io1: ((value >> 28) & 0b1) > 0,
+            g8_io2: ((value >> 29) & 0b1) > 0,
+            g8_io3: ((value >> 30) & 0b1) > 0,
+            g8_io4: ((value >> 31) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x18u32) as *mut u32) };
+        Cache {
+            g1_io1: ((value >> 0) & 0b1) > 0,
+            g1_io2: ((value >> 1) & 0b1) > 0,
+            g1_io3: ((value >> 2) & 0b1) > 0,
+            g1_io4: ((value >> 3) & 0b1) > 0,
+            g2_io1: ((value >> 4) & 0b1) > 0,
+            g2_io2: ((value >> 5) & 0b1) > 0,
+            g2_io3: ((value >> 6) & 0b1) > 0,
+            g2_io4: ((value >> 7) & 0b1) > 0,
+            g3_io1: ((value >> 8) & 0b1) > 0,
+            g3_io2: ((value >> 9) & 0b1) > 0,
+            g3_io3: ((value >> 10) & 0b1) > 0,
+            g3_io4: ((value >> 11) & 0b1) > 0,
+            g4_io1: ((value >> 12) & 0b1) > 0,
+            g4_io2: ((value >> 13) & 0b1) > 0,
+            g4_io3: ((value >> 14) & 0b1) > 0,
+            g4_io4: ((value >> 15) & 0b1) > 0,
+            g5_io1: ((value >> 16) & 0b1) > 0,
+            g5_io2: ((value >> 17) & 0b1) > 0,
+            g5_io3: ((value >> 18) & 0b1) > 0,
+            g5_io4: ((value >> 19) & 0b1) > 0,
+            g6_io1: ((value >> 20) & 0b1) > 0,
+            g6_io2: ((value >> 21) & 0b1) > 0,
+            g6_io3: ((value >> 22) & 0b1) > 0,
+            g6_io4: ((value >> 23) & 0b1) > 0,
+            g7_io1: ((value >> 24) & 0b1) > 0,
+            g7_io2: ((value >> 25) & 0b1) > 0,
+            g7_io3: ((value >> 26) & 0b1) > 0,
+            g7_io4: ((value >> 27) & 0b1) > 0,
+            g8_io1: ((value >> 28) & 0b1) > 0,
+            g8_io2: ((value >> 29) & 0b1) > 0,
+            g8_io3: ((value >> 30) & 0b1) > 0,
+            g8_io4: ((value >> 31) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.g1_io1 as u32) << 0)
+                | ((self.g1_io2 as u32) << 1)
+                | ((self.g1_io3 as u32) << 2)
+                | ((self.g1_io4 as u32) << 3)
+                | ((self.g2_io1 as u32) << 4)
+                | ((self.g2_io2 as u32) << 5)
+                | ((self.g2_io3 as u32) << 6)
+                | ((self.g2_io4 as u32) << 7)
+                | ((self.g3_io1 as u32) << 8)
+                | ((self.g3_io2 as u32) << 9)
+                | ((self.g3_io3 as u32) << 10)
+                | ((self.g3_io4 as u32) << 11)
+                | ((self.g4_io1 as u32) << 12)
+                | ((self.g4_io2 as u32) << 13)
+                | ((self.g4_io3 as u32) << 14)
+                | ((self.g4_io4 as u32) << 15)
+                | ((self.g5_io1 as u32) << 16)
+                | ((self.g5_io2 as u32) << 17)
+                | ((self.g5_io3 as u32) << 18)
+                | ((self.g5_io4 as u32) << 19)
+                | ((self.g6_io1 as u32) << 20)
+                | ((self.g6_io2 as u32) << 21)
+                | ((self.g6_io3 as u32) << 22)
+                | ((self.g6_io4 as u32) << 23)
+                | ((self.g7_io1 as u32) << 24)
+                | ((self.g7_io2 as u32) << 25)
+                | ((self.g7_io3 as u32) << 26)
+                | ((self.g7_io4 as u32) << 27)
+                | ((self.g8_io1 as u32) << 28)
+                | ((self.g8_io2 as u32) << 29)
+                | ((self.g8_io3 as u32) << 30)
+                | ((self.g8_io4 as u32) << 31)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40024000u32 + 0x18u32) as *mut u32, value) };
+        }
+    }
 }
 /// I/O sampling control register
-/// Size: 0x20 bits
 pub mod ioscr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x20;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const G1_IO1_BIT_OFFSET: u8 = 0;
-	const G1_IO1_BIT_WIDTH: u8 = 1;
-	/// G1_IO1 sampling mode (Width: 1, Offset: 0)
-	pub fn get_g1_io1() -> u8 { ::read(REGISTER_ADDRESS, G1_IO1_BIT_OFFSET, G1_IO1_BIT_WIDTH) as u8 }
-	/// G1_IO1 sampling mode (Width: 1, Offset: 0)
-	pub fn set_g1_io1(value: u8) { ::write(REGISTER_ADDRESS, G1_IO1_BIT_OFFSET, G1_IO1_BIT_WIDTH, value as u32); }
-
-	const G1_IO2_BIT_OFFSET: u8 = 1;
-	const G1_IO2_BIT_WIDTH: u8 = 1;
-	/// G1_IO2 sampling mode (Width: 1, Offset: 1)
-	pub fn get_g1_io2() -> u8 { ::read(REGISTER_ADDRESS, G1_IO2_BIT_OFFSET, G1_IO2_BIT_WIDTH) as u8 }
-	/// G1_IO2 sampling mode (Width: 1, Offset: 1)
-	pub fn set_g1_io2(value: u8) { ::write(REGISTER_ADDRESS, G1_IO2_BIT_OFFSET, G1_IO2_BIT_WIDTH, value as u32); }
-
-	const G1_IO3_BIT_OFFSET: u8 = 2;
-	const G1_IO3_BIT_WIDTH: u8 = 1;
-	/// G1_IO3 sampling mode (Width: 1, Offset: 2)
-	pub fn get_g1_io3() -> u8 { ::read(REGISTER_ADDRESS, G1_IO3_BIT_OFFSET, G1_IO3_BIT_WIDTH) as u8 }
-	/// G1_IO3 sampling mode (Width: 1, Offset: 2)
-	pub fn set_g1_io3(value: u8) { ::write(REGISTER_ADDRESS, G1_IO3_BIT_OFFSET, G1_IO3_BIT_WIDTH, value as u32); }
-
-	const G1_IO4_BIT_OFFSET: u8 = 3;
-	const G1_IO4_BIT_WIDTH: u8 = 1;
-	/// G1_IO4 sampling mode (Width: 1, Offset: 3)
-	pub fn get_g1_io4() -> u8 { ::read(REGISTER_ADDRESS, G1_IO4_BIT_OFFSET, G1_IO4_BIT_WIDTH) as u8 }
-	/// G1_IO4 sampling mode (Width: 1, Offset: 3)
-	pub fn set_g1_io4(value: u8) { ::write(REGISTER_ADDRESS, G1_IO4_BIT_OFFSET, G1_IO4_BIT_WIDTH, value as u32); }
-
-	const G2_IO1_BIT_OFFSET: u8 = 4;
-	const G2_IO1_BIT_WIDTH: u8 = 1;
-	/// G2_IO1 sampling mode (Width: 1, Offset: 4)
-	pub fn get_g2_io1() -> u8 { ::read(REGISTER_ADDRESS, G2_IO1_BIT_OFFSET, G2_IO1_BIT_WIDTH) as u8 }
-	/// G2_IO1 sampling mode (Width: 1, Offset: 4)
-	pub fn set_g2_io1(value: u8) { ::write(REGISTER_ADDRESS, G2_IO1_BIT_OFFSET, G2_IO1_BIT_WIDTH, value as u32); }
-
-	const G2_IO2_BIT_OFFSET: u8 = 5;
-	const G2_IO2_BIT_WIDTH: u8 = 1;
-	/// G2_IO2 sampling mode (Width: 1, Offset: 5)
-	pub fn get_g2_io2() -> u8 { ::read(REGISTER_ADDRESS, G2_IO2_BIT_OFFSET, G2_IO2_BIT_WIDTH) as u8 }
-	/// G2_IO2 sampling mode (Width: 1, Offset: 5)
-	pub fn set_g2_io2(value: u8) { ::write(REGISTER_ADDRESS, G2_IO2_BIT_OFFSET, G2_IO2_BIT_WIDTH, value as u32); }
-
-	const G2_IO3_BIT_OFFSET: u8 = 6;
-	const G2_IO3_BIT_WIDTH: u8 = 1;
-	/// G2_IO3 sampling mode (Width: 1, Offset: 6)
-	pub fn get_g2_io3() -> u8 { ::read(REGISTER_ADDRESS, G2_IO3_BIT_OFFSET, G2_IO3_BIT_WIDTH) as u8 }
-	/// G2_IO3 sampling mode (Width: 1, Offset: 6)
-	pub fn set_g2_io3(value: u8) { ::write(REGISTER_ADDRESS, G2_IO3_BIT_OFFSET, G2_IO3_BIT_WIDTH, value as u32); }
-
-	const G2_IO4_BIT_OFFSET: u8 = 7;
-	const G2_IO4_BIT_WIDTH: u8 = 1;
-	/// G2_IO4 sampling mode (Width: 1, Offset: 7)
-	pub fn get_g2_io4() -> u8 { ::read(REGISTER_ADDRESS, G2_IO4_BIT_OFFSET, G2_IO4_BIT_WIDTH) as u8 }
-	/// G2_IO4 sampling mode (Width: 1, Offset: 7)
-	pub fn set_g2_io4(value: u8) { ::write(REGISTER_ADDRESS, G2_IO4_BIT_OFFSET, G2_IO4_BIT_WIDTH, value as u32); }
-
-	const G3_IO1_BIT_OFFSET: u8 = 8;
-	const G3_IO1_BIT_WIDTH: u8 = 1;
-	/// G3_IO1 sampling mode (Width: 1, Offset: 8)
-	pub fn get_g3_io1() -> u8 { ::read(REGISTER_ADDRESS, G3_IO1_BIT_OFFSET, G3_IO1_BIT_WIDTH) as u8 }
-	/// G3_IO1 sampling mode (Width: 1, Offset: 8)
-	pub fn set_g3_io1(value: u8) { ::write(REGISTER_ADDRESS, G3_IO1_BIT_OFFSET, G3_IO1_BIT_WIDTH, value as u32); }
-
-	const G3_IO2_BIT_OFFSET: u8 = 9;
-	const G3_IO2_BIT_WIDTH: u8 = 1;
-	/// G3_IO2 sampling mode (Width: 1, Offset: 9)
-	pub fn get_g3_io2() -> u8 { ::read(REGISTER_ADDRESS, G3_IO2_BIT_OFFSET, G3_IO2_BIT_WIDTH) as u8 }
-	/// G3_IO2 sampling mode (Width: 1, Offset: 9)
-	pub fn set_g3_io2(value: u8) { ::write(REGISTER_ADDRESS, G3_IO2_BIT_OFFSET, G3_IO2_BIT_WIDTH, value as u32); }
-
-	const G3_IO3_BIT_OFFSET: u8 = 10;
-	const G3_IO3_BIT_WIDTH: u8 = 1;
-	/// G3_IO3 sampling mode (Width: 1, Offset: 10)
-	pub fn get_g3_io3() -> u8 { ::read(REGISTER_ADDRESS, G3_IO3_BIT_OFFSET, G3_IO3_BIT_WIDTH) as u8 }
-	/// G3_IO3 sampling mode (Width: 1, Offset: 10)
-	pub fn set_g3_io3(value: u8) { ::write(REGISTER_ADDRESS, G3_IO3_BIT_OFFSET, G3_IO3_BIT_WIDTH, value as u32); }
-
-	const G3_IO4_BIT_OFFSET: u8 = 11;
-	const G3_IO4_BIT_WIDTH: u8 = 1;
-	/// G3_IO4 sampling mode (Width: 1, Offset: 11)
-	pub fn get_g3_io4() -> u8 { ::read(REGISTER_ADDRESS, G3_IO4_BIT_OFFSET, G3_IO4_BIT_WIDTH) as u8 }
-	/// G3_IO4 sampling mode (Width: 1, Offset: 11)
-	pub fn set_g3_io4(value: u8) { ::write(REGISTER_ADDRESS, G3_IO4_BIT_OFFSET, G3_IO4_BIT_WIDTH, value as u32); }
-
-	const G4_IO1_BIT_OFFSET: u8 = 12;
-	const G4_IO1_BIT_WIDTH: u8 = 1;
-	/// G4_IO1 sampling mode (Width: 1, Offset: 12)
-	pub fn get_g4_io1() -> u8 { ::read(REGISTER_ADDRESS, G4_IO1_BIT_OFFSET, G4_IO1_BIT_WIDTH) as u8 }
-	/// G4_IO1 sampling mode (Width: 1, Offset: 12)
-	pub fn set_g4_io1(value: u8) { ::write(REGISTER_ADDRESS, G4_IO1_BIT_OFFSET, G4_IO1_BIT_WIDTH, value as u32); }
-
-	const G4_IO2_BIT_OFFSET: u8 = 13;
-	const G4_IO2_BIT_WIDTH: u8 = 1;
-	/// G4_IO2 sampling mode (Width: 1, Offset: 13)
-	pub fn get_g4_io2() -> u8 { ::read(REGISTER_ADDRESS, G4_IO2_BIT_OFFSET, G4_IO2_BIT_WIDTH) as u8 }
-	/// G4_IO2 sampling mode (Width: 1, Offset: 13)
-	pub fn set_g4_io2(value: u8) { ::write(REGISTER_ADDRESS, G4_IO2_BIT_OFFSET, G4_IO2_BIT_WIDTH, value as u32); }
-
-	const G4_IO3_BIT_OFFSET: u8 = 14;
-	const G4_IO3_BIT_WIDTH: u8 = 1;
-	/// G4_IO3 sampling mode (Width: 1, Offset: 14)
-	pub fn get_g4_io3() -> u8 { ::read(REGISTER_ADDRESS, G4_IO3_BIT_OFFSET, G4_IO3_BIT_WIDTH) as u8 }
-	/// G4_IO3 sampling mode (Width: 1, Offset: 14)
-	pub fn set_g4_io3(value: u8) { ::write(REGISTER_ADDRESS, G4_IO3_BIT_OFFSET, G4_IO3_BIT_WIDTH, value as u32); }
-
-	const G4_IO4_BIT_OFFSET: u8 = 15;
-	const G4_IO4_BIT_WIDTH: u8 = 1;
-	/// G4_IO4 sampling mode (Width: 1, Offset: 15)
-	pub fn get_g4_io4() -> u8 { ::read(REGISTER_ADDRESS, G4_IO4_BIT_OFFSET, G4_IO4_BIT_WIDTH) as u8 }
-	/// G4_IO4 sampling mode (Width: 1, Offset: 15)
-	pub fn set_g4_io4(value: u8) { ::write(REGISTER_ADDRESS, G4_IO4_BIT_OFFSET, G4_IO4_BIT_WIDTH, value as u32); }
-
-	const G5_IO1_BIT_OFFSET: u8 = 16;
-	const G5_IO1_BIT_WIDTH: u8 = 1;
-	/// G5_IO1 sampling mode (Width: 1, Offset: 16)
-	pub fn get_g5_io1() -> u8 { ::read(REGISTER_ADDRESS, G5_IO1_BIT_OFFSET, G5_IO1_BIT_WIDTH) as u8 }
-	/// G5_IO1 sampling mode (Width: 1, Offset: 16)
-	pub fn set_g5_io1(value: u8) { ::write(REGISTER_ADDRESS, G5_IO1_BIT_OFFSET, G5_IO1_BIT_WIDTH, value as u32); }
-
-	const G5_IO2_BIT_OFFSET: u8 = 17;
-	const G5_IO2_BIT_WIDTH: u8 = 1;
-	/// G5_IO2 sampling mode (Width: 1, Offset: 17)
-	pub fn get_g5_io2() -> u8 { ::read(REGISTER_ADDRESS, G5_IO2_BIT_OFFSET, G5_IO2_BIT_WIDTH) as u8 }
-	/// G5_IO2 sampling mode (Width: 1, Offset: 17)
-	pub fn set_g5_io2(value: u8) { ::write(REGISTER_ADDRESS, G5_IO2_BIT_OFFSET, G5_IO2_BIT_WIDTH, value as u32); }
-
-	const G5_IO3_BIT_OFFSET: u8 = 18;
-	const G5_IO3_BIT_WIDTH: u8 = 1;
-	/// G5_IO3 sampling mode (Width: 1, Offset: 18)
-	pub fn get_g5_io3() -> u8 { ::read(REGISTER_ADDRESS, G5_IO3_BIT_OFFSET, G5_IO3_BIT_WIDTH) as u8 }
-	/// G5_IO3 sampling mode (Width: 1, Offset: 18)
-	pub fn set_g5_io3(value: u8) { ::write(REGISTER_ADDRESS, G5_IO3_BIT_OFFSET, G5_IO3_BIT_WIDTH, value as u32); }
-
-	const G5_IO4_BIT_OFFSET: u8 = 19;
-	const G5_IO4_BIT_WIDTH: u8 = 1;
-	/// G5_IO4 sampling mode (Width: 1, Offset: 19)
-	pub fn get_g5_io4() -> u8 { ::read(REGISTER_ADDRESS, G5_IO4_BIT_OFFSET, G5_IO4_BIT_WIDTH) as u8 }
-	/// G5_IO4 sampling mode (Width: 1, Offset: 19)
-	pub fn set_g5_io4(value: u8) { ::write(REGISTER_ADDRESS, G5_IO4_BIT_OFFSET, G5_IO4_BIT_WIDTH, value as u32); }
-
-	const G6_IO1_BIT_OFFSET: u8 = 20;
-	const G6_IO1_BIT_WIDTH: u8 = 1;
-	/// G6_IO1 sampling mode (Width: 1, Offset: 20)
-	pub fn get_g6_io1() -> u8 { ::read(REGISTER_ADDRESS, G6_IO1_BIT_OFFSET, G6_IO1_BIT_WIDTH) as u8 }
-	/// G6_IO1 sampling mode (Width: 1, Offset: 20)
-	pub fn set_g6_io1(value: u8) { ::write(REGISTER_ADDRESS, G6_IO1_BIT_OFFSET, G6_IO1_BIT_WIDTH, value as u32); }
-
-	const G6_IO2_BIT_OFFSET: u8 = 21;
-	const G6_IO2_BIT_WIDTH: u8 = 1;
-	/// G6_IO2 sampling mode (Width: 1, Offset: 21)
-	pub fn get_g6_io2() -> u8 { ::read(REGISTER_ADDRESS, G6_IO2_BIT_OFFSET, G6_IO2_BIT_WIDTH) as u8 }
-	/// G6_IO2 sampling mode (Width: 1, Offset: 21)
-	pub fn set_g6_io2(value: u8) { ::write(REGISTER_ADDRESS, G6_IO2_BIT_OFFSET, G6_IO2_BIT_WIDTH, value as u32); }
-
-	const G6_IO3_BIT_OFFSET: u8 = 22;
-	const G6_IO3_BIT_WIDTH: u8 = 1;
-	/// G6_IO3 sampling mode (Width: 1, Offset: 22)
-	pub fn get_g6_io3() -> u8 { ::read(REGISTER_ADDRESS, G6_IO3_BIT_OFFSET, G6_IO3_BIT_WIDTH) as u8 }
-	/// G6_IO3 sampling mode (Width: 1, Offset: 22)
-	pub fn set_g6_io3(value: u8) { ::write(REGISTER_ADDRESS, G6_IO3_BIT_OFFSET, G6_IO3_BIT_WIDTH, value as u32); }
-
-	const G6_IO4_BIT_OFFSET: u8 = 23;
-	const G6_IO4_BIT_WIDTH: u8 = 1;
-	/// G6_IO4 sampling mode (Width: 1, Offset: 23)
-	pub fn get_g6_io4() -> u8 { ::read(REGISTER_ADDRESS, G6_IO4_BIT_OFFSET, G6_IO4_BIT_WIDTH) as u8 }
-	/// G6_IO4 sampling mode (Width: 1, Offset: 23)
-	pub fn set_g6_io4(value: u8) { ::write(REGISTER_ADDRESS, G6_IO4_BIT_OFFSET, G6_IO4_BIT_WIDTH, value as u32); }
-
-	const G7_IO1_BIT_OFFSET: u8 = 24;
-	const G7_IO1_BIT_WIDTH: u8 = 1;
-	/// G7_IO1 sampling mode (Width: 1, Offset: 24)
-	pub fn get_g7_io1() -> u8 { ::read(REGISTER_ADDRESS, G7_IO1_BIT_OFFSET, G7_IO1_BIT_WIDTH) as u8 }
-	/// G7_IO1 sampling mode (Width: 1, Offset: 24)
-	pub fn set_g7_io1(value: u8) { ::write(REGISTER_ADDRESS, G7_IO1_BIT_OFFSET, G7_IO1_BIT_WIDTH, value as u32); }
-
-	const G7_IO2_BIT_OFFSET: u8 = 25;
-	const G7_IO2_BIT_WIDTH: u8 = 1;
-	/// G7_IO2 sampling mode (Width: 1, Offset: 25)
-	pub fn get_g7_io2() -> u8 { ::read(REGISTER_ADDRESS, G7_IO2_BIT_OFFSET, G7_IO2_BIT_WIDTH) as u8 }
-	/// G7_IO2 sampling mode (Width: 1, Offset: 25)
-	pub fn set_g7_io2(value: u8) { ::write(REGISTER_ADDRESS, G7_IO2_BIT_OFFSET, G7_IO2_BIT_WIDTH, value as u32); }
-
-	const G7_IO3_BIT_OFFSET: u8 = 26;
-	const G7_IO3_BIT_WIDTH: u8 = 1;
-	/// G7_IO3 sampling mode (Width: 1, Offset: 26)
-	pub fn get_g7_io3() -> u8 { ::read(REGISTER_ADDRESS, G7_IO3_BIT_OFFSET, G7_IO3_BIT_WIDTH) as u8 }
-	/// G7_IO3 sampling mode (Width: 1, Offset: 26)
-	pub fn set_g7_io3(value: u8) { ::write(REGISTER_ADDRESS, G7_IO3_BIT_OFFSET, G7_IO3_BIT_WIDTH, value as u32); }
-
-	const G7_IO4_BIT_OFFSET: u8 = 27;
-	const G7_IO4_BIT_WIDTH: u8 = 1;
-	/// G7_IO4 sampling mode (Width: 1, Offset: 27)
-	pub fn get_g7_io4() -> u8 { ::read(REGISTER_ADDRESS, G7_IO4_BIT_OFFSET, G7_IO4_BIT_WIDTH) as u8 }
-	/// G7_IO4 sampling mode (Width: 1, Offset: 27)
-	pub fn set_g7_io4(value: u8) { ::write(REGISTER_ADDRESS, G7_IO4_BIT_OFFSET, G7_IO4_BIT_WIDTH, value as u32); }
-
-	const G8_IO1_BIT_OFFSET: u8 = 28;
-	const G8_IO1_BIT_WIDTH: u8 = 1;
-	/// G8_IO1 sampling mode (Width: 1, Offset: 28)
-	pub fn get_g8_io1() -> u8 { ::read(REGISTER_ADDRESS, G8_IO1_BIT_OFFSET, G8_IO1_BIT_WIDTH) as u8 }
-	/// G8_IO1 sampling mode (Width: 1, Offset: 28)
-	pub fn set_g8_io1(value: u8) { ::write(REGISTER_ADDRESS, G8_IO1_BIT_OFFSET, G8_IO1_BIT_WIDTH, value as u32); }
-
-	const G8_IO2_BIT_OFFSET: u8 = 29;
-	const G8_IO2_BIT_WIDTH: u8 = 1;
-	/// G8_IO2 sampling mode (Width: 1, Offset: 29)
-	pub fn get_g8_io2() -> u8 { ::read(REGISTER_ADDRESS, G8_IO2_BIT_OFFSET, G8_IO2_BIT_WIDTH) as u8 }
-	/// G8_IO2 sampling mode (Width: 1, Offset: 29)
-	pub fn set_g8_io2(value: u8) { ::write(REGISTER_ADDRESS, G8_IO2_BIT_OFFSET, G8_IO2_BIT_WIDTH, value as u32); }
-
-	const G8_IO3_BIT_OFFSET: u8 = 30;
-	const G8_IO3_BIT_WIDTH: u8 = 1;
-	/// G8_IO3 sampling mode (Width: 1, Offset: 30)
-	pub fn get_g8_io3() -> u8 { ::read(REGISTER_ADDRESS, G8_IO3_BIT_OFFSET, G8_IO3_BIT_WIDTH) as u8 }
-	/// G8_IO3 sampling mode (Width: 1, Offset: 30)
-	pub fn set_g8_io3(value: u8) { ::write(REGISTER_ADDRESS, G8_IO3_BIT_OFFSET, G8_IO3_BIT_WIDTH, value as u32); }
-
-	const G8_IO4_BIT_OFFSET: u8 = 31;
-	const G8_IO4_BIT_WIDTH: u8 = 1;
-	/// G8_IO4 sampling mode (Width: 1, Offset: 31)
-	pub fn get_g8_io4() -> u8 { ::read(REGISTER_ADDRESS, G8_IO4_BIT_OFFSET, G8_IO4_BIT_WIDTH) as u8 }
-	/// G8_IO4 sampling mode (Width: 1, Offset: 31)
-	pub fn set_g8_io4(value: u8) { ::write(REGISTER_ADDRESS, G8_IO4_BIT_OFFSET, G8_IO4_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// G1_IO1 sampling mode
+        pub g1_io1: bool,
+        /// G1_IO2 sampling mode
+        pub g1_io2: bool,
+        /// G1_IO3 sampling mode
+        pub g1_io3: bool,
+        /// G1_IO4 sampling mode
+        pub g1_io4: bool,
+        /// G2_IO1 sampling mode
+        pub g2_io1: bool,
+        /// G2_IO2 sampling mode
+        pub g2_io2: bool,
+        /// G2_IO3 sampling mode
+        pub g2_io3: bool,
+        /// G2_IO4 sampling mode
+        pub g2_io4: bool,
+        /// G3_IO1 sampling mode
+        pub g3_io1: bool,
+        /// G3_IO2 sampling mode
+        pub g3_io2: bool,
+        /// G3_IO3 sampling mode
+        pub g3_io3: bool,
+        /// G3_IO4 sampling mode
+        pub g3_io4: bool,
+        /// G4_IO1 sampling mode
+        pub g4_io1: bool,
+        /// G4_IO2 sampling mode
+        pub g4_io2: bool,
+        /// G4_IO3 sampling mode
+        pub g4_io3: bool,
+        /// G4_IO4 sampling mode
+        pub g4_io4: bool,
+        /// G5_IO1 sampling mode
+        pub g5_io1: bool,
+        /// G5_IO2 sampling mode
+        pub g5_io2: bool,
+        /// G5_IO3 sampling mode
+        pub g5_io3: bool,
+        /// G5_IO4 sampling mode
+        pub g5_io4: bool,
+        /// G6_IO1 sampling mode
+        pub g6_io1: bool,
+        /// G6_IO2 sampling mode
+        pub g6_io2: bool,
+        /// G6_IO3 sampling mode
+        pub g6_io3: bool,
+        /// G6_IO4 sampling mode
+        pub g6_io4: bool,
+        /// G7_IO1 sampling mode
+        pub g7_io1: bool,
+        /// G7_IO2 sampling mode
+        pub g7_io2: bool,
+        /// G7_IO3 sampling mode
+        pub g7_io3: bool,
+        /// G7_IO4 sampling mode
+        pub g7_io4: bool,
+        /// G8_IO1 sampling mode
+        pub g8_io1: bool,
+        /// G8_IO2 sampling mode
+        pub g8_io2: bool,
+        /// G8_IO3 sampling mode
+        pub g8_io3: bool,
+        /// G8_IO4 sampling mode
+        pub g8_io4: bool,
+    }
+    pub struct Cache {
+        /// G1_IO1 sampling mode
+        pub g1_io1: bool,
+        /// G1_IO2 sampling mode
+        pub g1_io2: bool,
+        /// G1_IO3 sampling mode
+        pub g1_io3: bool,
+        /// G1_IO4 sampling mode
+        pub g1_io4: bool,
+        /// G2_IO1 sampling mode
+        pub g2_io1: bool,
+        /// G2_IO2 sampling mode
+        pub g2_io2: bool,
+        /// G2_IO3 sampling mode
+        pub g2_io3: bool,
+        /// G2_IO4 sampling mode
+        pub g2_io4: bool,
+        /// G3_IO1 sampling mode
+        pub g3_io1: bool,
+        /// G3_IO2 sampling mode
+        pub g3_io2: bool,
+        /// G3_IO3 sampling mode
+        pub g3_io3: bool,
+        /// G3_IO4 sampling mode
+        pub g3_io4: bool,
+        /// G4_IO1 sampling mode
+        pub g4_io1: bool,
+        /// G4_IO2 sampling mode
+        pub g4_io2: bool,
+        /// G4_IO3 sampling mode
+        pub g4_io3: bool,
+        /// G4_IO4 sampling mode
+        pub g4_io4: bool,
+        /// G5_IO1 sampling mode
+        pub g5_io1: bool,
+        /// G5_IO2 sampling mode
+        pub g5_io2: bool,
+        /// G5_IO3 sampling mode
+        pub g5_io3: bool,
+        /// G5_IO4 sampling mode
+        pub g5_io4: bool,
+        /// G6_IO1 sampling mode
+        pub g6_io1: bool,
+        /// G6_IO2 sampling mode
+        pub g6_io2: bool,
+        /// G6_IO3 sampling mode
+        pub g6_io3: bool,
+        /// G6_IO4 sampling mode
+        pub g6_io4: bool,
+        /// G7_IO1 sampling mode
+        pub g7_io1: bool,
+        /// G7_IO2 sampling mode
+        pub g7_io2: bool,
+        /// G7_IO3 sampling mode
+        pub g7_io3: bool,
+        /// G7_IO4 sampling mode
+        pub g7_io4: bool,
+        /// G8_IO1 sampling mode
+        pub g8_io1: bool,
+        /// G8_IO2 sampling mode
+        pub g8_io2: bool,
+        /// G8_IO3 sampling mode
+        pub g8_io3: bool,
+        /// G8_IO4 sampling mode
+        pub g8_io4: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x20u32) as *mut u32) };
+        ReadonlyCache {
+            g1_io1: ((value >> 0) & 0b1) > 0,
+            g1_io2: ((value >> 1) & 0b1) > 0,
+            g1_io3: ((value >> 2) & 0b1) > 0,
+            g1_io4: ((value >> 3) & 0b1) > 0,
+            g2_io1: ((value >> 4) & 0b1) > 0,
+            g2_io2: ((value >> 5) & 0b1) > 0,
+            g2_io3: ((value >> 6) & 0b1) > 0,
+            g2_io4: ((value >> 7) & 0b1) > 0,
+            g3_io1: ((value >> 8) & 0b1) > 0,
+            g3_io2: ((value >> 9) & 0b1) > 0,
+            g3_io3: ((value >> 10) & 0b1) > 0,
+            g3_io4: ((value >> 11) & 0b1) > 0,
+            g4_io1: ((value >> 12) & 0b1) > 0,
+            g4_io2: ((value >> 13) & 0b1) > 0,
+            g4_io3: ((value >> 14) & 0b1) > 0,
+            g4_io4: ((value >> 15) & 0b1) > 0,
+            g5_io1: ((value >> 16) & 0b1) > 0,
+            g5_io2: ((value >> 17) & 0b1) > 0,
+            g5_io3: ((value >> 18) & 0b1) > 0,
+            g5_io4: ((value >> 19) & 0b1) > 0,
+            g6_io1: ((value >> 20) & 0b1) > 0,
+            g6_io2: ((value >> 21) & 0b1) > 0,
+            g6_io3: ((value >> 22) & 0b1) > 0,
+            g6_io4: ((value >> 23) & 0b1) > 0,
+            g7_io1: ((value >> 24) & 0b1) > 0,
+            g7_io2: ((value >> 25) & 0b1) > 0,
+            g7_io3: ((value >> 26) & 0b1) > 0,
+            g7_io4: ((value >> 27) & 0b1) > 0,
+            g8_io1: ((value >> 28) & 0b1) > 0,
+            g8_io2: ((value >> 29) & 0b1) > 0,
+            g8_io3: ((value >> 30) & 0b1) > 0,
+            g8_io4: ((value >> 31) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x20u32) as *mut u32) };
+        Cache {
+            g1_io1: ((value >> 0) & 0b1) > 0,
+            g1_io2: ((value >> 1) & 0b1) > 0,
+            g1_io3: ((value >> 2) & 0b1) > 0,
+            g1_io4: ((value >> 3) & 0b1) > 0,
+            g2_io1: ((value >> 4) & 0b1) > 0,
+            g2_io2: ((value >> 5) & 0b1) > 0,
+            g2_io3: ((value >> 6) & 0b1) > 0,
+            g2_io4: ((value >> 7) & 0b1) > 0,
+            g3_io1: ((value >> 8) & 0b1) > 0,
+            g3_io2: ((value >> 9) & 0b1) > 0,
+            g3_io3: ((value >> 10) & 0b1) > 0,
+            g3_io4: ((value >> 11) & 0b1) > 0,
+            g4_io1: ((value >> 12) & 0b1) > 0,
+            g4_io2: ((value >> 13) & 0b1) > 0,
+            g4_io3: ((value >> 14) & 0b1) > 0,
+            g4_io4: ((value >> 15) & 0b1) > 0,
+            g5_io1: ((value >> 16) & 0b1) > 0,
+            g5_io2: ((value >> 17) & 0b1) > 0,
+            g5_io3: ((value >> 18) & 0b1) > 0,
+            g5_io4: ((value >> 19) & 0b1) > 0,
+            g6_io1: ((value >> 20) & 0b1) > 0,
+            g6_io2: ((value >> 21) & 0b1) > 0,
+            g6_io3: ((value >> 22) & 0b1) > 0,
+            g6_io4: ((value >> 23) & 0b1) > 0,
+            g7_io1: ((value >> 24) & 0b1) > 0,
+            g7_io2: ((value >> 25) & 0b1) > 0,
+            g7_io3: ((value >> 26) & 0b1) > 0,
+            g7_io4: ((value >> 27) & 0b1) > 0,
+            g8_io1: ((value >> 28) & 0b1) > 0,
+            g8_io2: ((value >> 29) & 0b1) > 0,
+            g8_io3: ((value >> 30) & 0b1) > 0,
+            g8_io4: ((value >> 31) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.g1_io1 as u32) << 0)
+                | ((self.g1_io2 as u32) << 1)
+                | ((self.g1_io3 as u32) << 2)
+                | ((self.g1_io4 as u32) << 3)
+                | ((self.g2_io1 as u32) << 4)
+                | ((self.g2_io2 as u32) << 5)
+                | ((self.g2_io3 as u32) << 6)
+                | ((self.g2_io4 as u32) << 7)
+                | ((self.g3_io1 as u32) << 8)
+                | ((self.g3_io2 as u32) << 9)
+                | ((self.g3_io3 as u32) << 10)
+                | ((self.g3_io4 as u32) << 11)
+                | ((self.g4_io1 as u32) << 12)
+                | ((self.g4_io2 as u32) << 13)
+                | ((self.g4_io3 as u32) << 14)
+                | ((self.g4_io4 as u32) << 15)
+                | ((self.g5_io1 as u32) << 16)
+                | ((self.g5_io2 as u32) << 17)
+                | ((self.g5_io3 as u32) << 18)
+                | ((self.g5_io4 as u32) << 19)
+                | ((self.g6_io1 as u32) << 20)
+                | ((self.g6_io2 as u32) << 21)
+                | ((self.g6_io3 as u32) << 22)
+                | ((self.g6_io4 as u32) << 23)
+                | ((self.g7_io1 as u32) << 24)
+                | ((self.g7_io2 as u32) << 25)
+                | ((self.g7_io3 as u32) << 26)
+                | ((self.g7_io4 as u32) << 27)
+                | ((self.g8_io1 as u32) << 28)
+                | ((self.g8_io2 as u32) << 29)
+                | ((self.g8_io3 as u32) << 30)
+                | ((self.g8_io4 as u32) << 31)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40024000u32 + 0x20u32) as *mut u32, value) };
+        }
+    }
 }
 /// I/O channel control register
-/// Size: 0x20 bits
 pub mod ioccr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x28;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const G1_IO1_BIT_OFFSET: u8 = 0;
-	const G1_IO1_BIT_WIDTH: u8 = 1;
-	/// G1_IO1 channel mode (Width: 1, Offset: 0)
-	pub fn get_g1_io1() -> u8 { ::read(REGISTER_ADDRESS, G1_IO1_BIT_OFFSET, G1_IO1_BIT_WIDTH) as u8 }
-	/// G1_IO1 channel mode (Width: 1, Offset: 0)
-	pub fn set_g1_io1(value: u8) { ::write(REGISTER_ADDRESS, G1_IO1_BIT_OFFSET, G1_IO1_BIT_WIDTH, value as u32); }
-
-	const G1_IO2_BIT_OFFSET: u8 = 1;
-	const G1_IO2_BIT_WIDTH: u8 = 1;
-	/// G1_IO2 channel mode (Width: 1, Offset: 1)
-	pub fn get_g1_io2() -> u8 { ::read(REGISTER_ADDRESS, G1_IO2_BIT_OFFSET, G1_IO2_BIT_WIDTH) as u8 }
-	/// G1_IO2 channel mode (Width: 1, Offset: 1)
-	pub fn set_g1_io2(value: u8) { ::write(REGISTER_ADDRESS, G1_IO2_BIT_OFFSET, G1_IO2_BIT_WIDTH, value as u32); }
-
-	const G1_IO3_BIT_OFFSET: u8 = 2;
-	const G1_IO3_BIT_WIDTH: u8 = 1;
-	/// G1_IO3 channel mode (Width: 1, Offset: 2)
-	pub fn get_g1_io3() -> u8 { ::read(REGISTER_ADDRESS, G1_IO3_BIT_OFFSET, G1_IO3_BIT_WIDTH) as u8 }
-	/// G1_IO3 channel mode (Width: 1, Offset: 2)
-	pub fn set_g1_io3(value: u8) { ::write(REGISTER_ADDRESS, G1_IO3_BIT_OFFSET, G1_IO3_BIT_WIDTH, value as u32); }
-
-	const G1_IO4_BIT_OFFSET: u8 = 3;
-	const G1_IO4_BIT_WIDTH: u8 = 1;
-	/// G1_IO4 channel mode (Width: 1, Offset: 3)
-	pub fn get_g1_io4() -> u8 { ::read(REGISTER_ADDRESS, G1_IO4_BIT_OFFSET, G1_IO4_BIT_WIDTH) as u8 }
-	/// G1_IO4 channel mode (Width: 1, Offset: 3)
-	pub fn set_g1_io4(value: u8) { ::write(REGISTER_ADDRESS, G1_IO4_BIT_OFFSET, G1_IO4_BIT_WIDTH, value as u32); }
-
-	const G2_IO1_BIT_OFFSET: u8 = 4;
-	const G2_IO1_BIT_WIDTH: u8 = 1;
-	/// G2_IO1 channel mode (Width: 1, Offset: 4)
-	pub fn get_g2_io1() -> u8 { ::read(REGISTER_ADDRESS, G2_IO1_BIT_OFFSET, G2_IO1_BIT_WIDTH) as u8 }
-	/// G2_IO1 channel mode (Width: 1, Offset: 4)
-	pub fn set_g2_io1(value: u8) { ::write(REGISTER_ADDRESS, G2_IO1_BIT_OFFSET, G2_IO1_BIT_WIDTH, value as u32); }
-
-	const G2_IO2_BIT_OFFSET: u8 = 5;
-	const G2_IO2_BIT_WIDTH: u8 = 1;
-	/// G2_IO2 channel mode (Width: 1, Offset: 5)
-	pub fn get_g2_io2() -> u8 { ::read(REGISTER_ADDRESS, G2_IO2_BIT_OFFSET, G2_IO2_BIT_WIDTH) as u8 }
-	/// G2_IO2 channel mode (Width: 1, Offset: 5)
-	pub fn set_g2_io2(value: u8) { ::write(REGISTER_ADDRESS, G2_IO2_BIT_OFFSET, G2_IO2_BIT_WIDTH, value as u32); }
-
-	const G2_IO3_BIT_OFFSET: u8 = 6;
-	const G2_IO3_BIT_WIDTH: u8 = 1;
-	/// G2_IO3 channel mode (Width: 1, Offset: 6)
-	pub fn get_g2_io3() -> u8 { ::read(REGISTER_ADDRESS, G2_IO3_BIT_OFFSET, G2_IO3_BIT_WIDTH) as u8 }
-	/// G2_IO3 channel mode (Width: 1, Offset: 6)
-	pub fn set_g2_io3(value: u8) { ::write(REGISTER_ADDRESS, G2_IO3_BIT_OFFSET, G2_IO3_BIT_WIDTH, value as u32); }
-
-	const G2_IO4_BIT_OFFSET: u8 = 7;
-	const G2_IO4_BIT_WIDTH: u8 = 1;
-	/// G2_IO4 channel mode (Width: 1, Offset: 7)
-	pub fn get_g2_io4() -> u8 { ::read(REGISTER_ADDRESS, G2_IO4_BIT_OFFSET, G2_IO4_BIT_WIDTH) as u8 }
-	/// G2_IO4 channel mode (Width: 1, Offset: 7)
-	pub fn set_g2_io4(value: u8) { ::write(REGISTER_ADDRESS, G2_IO4_BIT_OFFSET, G2_IO4_BIT_WIDTH, value as u32); }
-
-	const G3_IO1_BIT_OFFSET: u8 = 8;
-	const G3_IO1_BIT_WIDTH: u8 = 1;
-	/// G3_IO1 channel mode (Width: 1, Offset: 8)
-	pub fn get_g3_io1() -> u8 { ::read(REGISTER_ADDRESS, G3_IO1_BIT_OFFSET, G3_IO1_BIT_WIDTH) as u8 }
-	/// G3_IO1 channel mode (Width: 1, Offset: 8)
-	pub fn set_g3_io1(value: u8) { ::write(REGISTER_ADDRESS, G3_IO1_BIT_OFFSET, G3_IO1_BIT_WIDTH, value as u32); }
-
-	const G3_IO2_BIT_OFFSET: u8 = 9;
-	const G3_IO2_BIT_WIDTH: u8 = 1;
-	/// G3_IO2 channel mode (Width: 1, Offset: 9)
-	pub fn get_g3_io2() -> u8 { ::read(REGISTER_ADDRESS, G3_IO2_BIT_OFFSET, G3_IO2_BIT_WIDTH) as u8 }
-	/// G3_IO2 channel mode (Width: 1, Offset: 9)
-	pub fn set_g3_io2(value: u8) { ::write(REGISTER_ADDRESS, G3_IO2_BIT_OFFSET, G3_IO2_BIT_WIDTH, value as u32); }
-
-	const G3_IO3_BIT_OFFSET: u8 = 10;
-	const G3_IO3_BIT_WIDTH: u8 = 1;
-	/// G3_IO3 channel mode (Width: 1, Offset: 10)
-	pub fn get_g3_io3() -> u8 { ::read(REGISTER_ADDRESS, G3_IO3_BIT_OFFSET, G3_IO3_BIT_WIDTH) as u8 }
-	/// G3_IO3 channel mode (Width: 1, Offset: 10)
-	pub fn set_g3_io3(value: u8) { ::write(REGISTER_ADDRESS, G3_IO3_BIT_OFFSET, G3_IO3_BIT_WIDTH, value as u32); }
-
-	const G3_IO4_BIT_OFFSET: u8 = 11;
-	const G3_IO4_BIT_WIDTH: u8 = 1;
-	/// G3_IO4 channel mode (Width: 1, Offset: 11)
-	pub fn get_g3_io4() -> u8 { ::read(REGISTER_ADDRESS, G3_IO4_BIT_OFFSET, G3_IO4_BIT_WIDTH) as u8 }
-	/// G3_IO4 channel mode (Width: 1, Offset: 11)
-	pub fn set_g3_io4(value: u8) { ::write(REGISTER_ADDRESS, G3_IO4_BIT_OFFSET, G3_IO4_BIT_WIDTH, value as u32); }
-
-	const G4_IO1_BIT_OFFSET: u8 = 12;
-	const G4_IO1_BIT_WIDTH: u8 = 1;
-	/// G4_IO1 channel mode (Width: 1, Offset: 12)
-	pub fn get_g4_io1() -> u8 { ::read(REGISTER_ADDRESS, G4_IO1_BIT_OFFSET, G4_IO1_BIT_WIDTH) as u8 }
-	/// G4_IO1 channel mode (Width: 1, Offset: 12)
-	pub fn set_g4_io1(value: u8) { ::write(REGISTER_ADDRESS, G4_IO1_BIT_OFFSET, G4_IO1_BIT_WIDTH, value as u32); }
-
-	const G4_IO2_BIT_OFFSET: u8 = 13;
-	const G4_IO2_BIT_WIDTH: u8 = 1;
-	/// G4_IO2 channel mode (Width: 1, Offset: 13)
-	pub fn get_g4_io2() -> u8 { ::read(REGISTER_ADDRESS, G4_IO2_BIT_OFFSET, G4_IO2_BIT_WIDTH) as u8 }
-	/// G4_IO2 channel mode (Width: 1, Offset: 13)
-	pub fn set_g4_io2(value: u8) { ::write(REGISTER_ADDRESS, G4_IO2_BIT_OFFSET, G4_IO2_BIT_WIDTH, value as u32); }
-
-	const G4_IO3_BIT_OFFSET: u8 = 14;
-	const G4_IO3_BIT_WIDTH: u8 = 1;
-	/// G4_IO3 channel mode (Width: 1, Offset: 14)
-	pub fn get_g4_io3() -> u8 { ::read(REGISTER_ADDRESS, G4_IO3_BIT_OFFSET, G4_IO3_BIT_WIDTH) as u8 }
-	/// G4_IO3 channel mode (Width: 1, Offset: 14)
-	pub fn set_g4_io3(value: u8) { ::write(REGISTER_ADDRESS, G4_IO3_BIT_OFFSET, G4_IO3_BIT_WIDTH, value as u32); }
-
-	const G4_IO4_BIT_OFFSET: u8 = 15;
-	const G4_IO4_BIT_WIDTH: u8 = 1;
-	/// G4_IO4 channel mode (Width: 1, Offset: 15)
-	pub fn get_g4_io4() -> u8 { ::read(REGISTER_ADDRESS, G4_IO4_BIT_OFFSET, G4_IO4_BIT_WIDTH) as u8 }
-	/// G4_IO4 channel mode (Width: 1, Offset: 15)
-	pub fn set_g4_io4(value: u8) { ::write(REGISTER_ADDRESS, G4_IO4_BIT_OFFSET, G4_IO4_BIT_WIDTH, value as u32); }
-
-	const G5_IO1_BIT_OFFSET: u8 = 16;
-	const G5_IO1_BIT_WIDTH: u8 = 1;
-	/// G5_IO1 channel mode (Width: 1, Offset: 16)
-	pub fn get_g5_io1() -> u8 { ::read(REGISTER_ADDRESS, G5_IO1_BIT_OFFSET, G5_IO1_BIT_WIDTH) as u8 }
-	/// G5_IO1 channel mode (Width: 1, Offset: 16)
-	pub fn set_g5_io1(value: u8) { ::write(REGISTER_ADDRESS, G5_IO1_BIT_OFFSET, G5_IO1_BIT_WIDTH, value as u32); }
-
-	const G5_IO2_BIT_OFFSET: u8 = 17;
-	const G5_IO2_BIT_WIDTH: u8 = 1;
-	/// G5_IO2 channel mode (Width: 1, Offset: 17)
-	pub fn get_g5_io2() -> u8 { ::read(REGISTER_ADDRESS, G5_IO2_BIT_OFFSET, G5_IO2_BIT_WIDTH) as u8 }
-	/// G5_IO2 channel mode (Width: 1, Offset: 17)
-	pub fn set_g5_io2(value: u8) { ::write(REGISTER_ADDRESS, G5_IO2_BIT_OFFSET, G5_IO2_BIT_WIDTH, value as u32); }
-
-	const G5_IO3_BIT_OFFSET: u8 = 18;
-	const G5_IO3_BIT_WIDTH: u8 = 1;
-	/// G5_IO3 channel mode (Width: 1, Offset: 18)
-	pub fn get_g5_io3() -> u8 { ::read(REGISTER_ADDRESS, G5_IO3_BIT_OFFSET, G5_IO3_BIT_WIDTH) as u8 }
-	/// G5_IO3 channel mode (Width: 1, Offset: 18)
-	pub fn set_g5_io3(value: u8) { ::write(REGISTER_ADDRESS, G5_IO3_BIT_OFFSET, G5_IO3_BIT_WIDTH, value as u32); }
-
-	const G5_IO4_BIT_OFFSET: u8 = 19;
-	const G5_IO4_BIT_WIDTH: u8 = 1;
-	/// G5_IO4 channel mode (Width: 1, Offset: 19)
-	pub fn get_g5_io4() -> u8 { ::read(REGISTER_ADDRESS, G5_IO4_BIT_OFFSET, G5_IO4_BIT_WIDTH) as u8 }
-	/// G5_IO4 channel mode (Width: 1, Offset: 19)
-	pub fn set_g5_io4(value: u8) { ::write(REGISTER_ADDRESS, G5_IO4_BIT_OFFSET, G5_IO4_BIT_WIDTH, value as u32); }
-
-	const G6_IO1_BIT_OFFSET: u8 = 20;
-	const G6_IO1_BIT_WIDTH: u8 = 1;
-	/// G6_IO1 channel mode (Width: 1, Offset: 20)
-	pub fn get_g6_io1() -> u8 { ::read(REGISTER_ADDRESS, G6_IO1_BIT_OFFSET, G6_IO1_BIT_WIDTH) as u8 }
-	/// G6_IO1 channel mode (Width: 1, Offset: 20)
-	pub fn set_g6_io1(value: u8) { ::write(REGISTER_ADDRESS, G6_IO1_BIT_OFFSET, G6_IO1_BIT_WIDTH, value as u32); }
-
-	const G6_IO2_BIT_OFFSET: u8 = 21;
-	const G6_IO2_BIT_WIDTH: u8 = 1;
-	/// G6_IO2 channel mode (Width: 1, Offset: 21)
-	pub fn get_g6_io2() -> u8 { ::read(REGISTER_ADDRESS, G6_IO2_BIT_OFFSET, G6_IO2_BIT_WIDTH) as u8 }
-	/// G6_IO2 channel mode (Width: 1, Offset: 21)
-	pub fn set_g6_io2(value: u8) { ::write(REGISTER_ADDRESS, G6_IO2_BIT_OFFSET, G6_IO2_BIT_WIDTH, value as u32); }
-
-	const G6_IO3_BIT_OFFSET: u8 = 22;
-	const G6_IO3_BIT_WIDTH: u8 = 1;
-	/// G6_IO3 channel mode (Width: 1, Offset: 22)
-	pub fn get_g6_io3() -> u8 { ::read(REGISTER_ADDRESS, G6_IO3_BIT_OFFSET, G6_IO3_BIT_WIDTH) as u8 }
-	/// G6_IO3 channel mode (Width: 1, Offset: 22)
-	pub fn set_g6_io3(value: u8) { ::write(REGISTER_ADDRESS, G6_IO3_BIT_OFFSET, G6_IO3_BIT_WIDTH, value as u32); }
-
-	const G6_IO4_BIT_OFFSET: u8 = 23;
-	const G6_IO4_BIT_WIDTH: u8 = 1;
-	/// G6_IO4 channel mode (Width: 1, Offset: 23)
-	pub fn get_g6_io4() -> u8 { ::read(REGISTER_ADDRESS, G6_IO4_BIT_OFFSET, G6_IO4_BIT_WIDTH) as u8 }
-	/// G6_IO4 channel mode (Width: 1, Offset: 23)
-	pub fn set_g6_io4(value: u8) { ::write(REGISTER_ADDRESS, G6_IO4_BIT_OFFSET, G6_IO4_BIT_WIDTH, value as u32); }
-
-	const G7_IO1_BIT_OFFSET: u8 = 24;
-	const G7_IO1_BIT_WIDTH: u8 = 1;
-	/// G7_IO1 channel mode (Width: 1, Offset: 24)
-	pub fn get_g7_io1() -> u8 { ::read(REGISTER_ADDRESS, G7_IO1_BIT_OFFSET, G7_IO1_BIT_WIDTH) as u8 }
-	/// G7_IO1 channel mode (Width: 1, Offset: 24)
-	pub fn set_g7_io1(value: u8) { ::write(REGISTER_ADDRESS, G7_IO1_BIT_OFFSET, G7_IO1_BIT_WIDTH, value as u32); }
-
-	const G7_IO2_BIT_OFFSET: u8 = 25;
-	const G7_IO2_BIT_WIDTH: u8 = 1;
-	/// G7_IO2 channel mode (Width: 1, Offset: 25)
-	pub fn get_g7_io2() -> u8 { ::read(REGISTER_ADDRESS, G7_IO2_BIT_OFFSET, G7_IO2_BIT_WIDTH) as u8 }
-	/// G7_IO2 channel mode (Width: 1, Offset: 25)
-	pub fn set_g7_io2(value: u8) { ::write(REGISTER_ADDRESS, G7_IO2_BIT_OFFSET, G7_IO2_BIT_WIDTH, value as u32); }
-
-	const G7_IO3_BIT_OFFSET: u8 = 26;
-	const G7_IO3_BIT_WIDTH: u8 = 1;
-	/// G7_IO3 channel mode (Width: 1, Offset: 26)
-	pub fn get_g7_io3() -> u8 { ::read(REGISTER_ADDRESS, G7_IO3_BIT_OFFSET, G7_IO3_BIT_WIDTH) as u8 }
-	/// G7_IO3 channel mode (Width: 1, Offset: 26)
-	pub fn set_g7_io3(value: u8) { ::write(REGISTER_ADDRESS, G7_IO3_BIT_OFFSET, G7_IO3_BIT_WIDTH, value as u32); }
-
-	const G7_IO4_BIT_OFFSET: u8 = 27;
-	const G7_IO4_BIT_WIDTH: u8 = 1;
-	/// G7_IO4 channel mode (Width: 1, Offset: 27)
-	pub fn get_g7_io4() -> u8 { ::read(REGISTER_ADDRESS, G7_IO4_BIT_OFFSET, G7_IO4_BIT_WIDTH) as u8 }
-	/// G7_IO4 channel mode (Width: 1, Offset: 27)
-	pub fn set_g7_io4(value: u8) { ::write(REGISTER_ADDRESS, G7_IO4_BIT_OFFSET, G7_IO4_BIT_WIDTH, value as u32); }
-
-	const G8_IO1_BIT_OFFSET: u8 = 28;
-	const G8_IO1_BIT_WIDTH: u8 = 1;
-	/// G8_IO1 channel mode (Width: 1, Offset: 28)
-	pub fn get_g8_io1() -> u8 { ::read(REGISTER_ADDRESS, G8_IO1_BIT_OFFSET, G8_IO1_BIT_WIDTH) as u8 }
-	/// G8_IO1 channel mode (Width: 1, Offset: 28)
-	pub fn set_g8_io1(value: u8) { ::write(REGISTER_ADDRESS, G8_IO1_BIT_OFFSET, G8_IO1_BIT_WIDTH, value as u32); }
-
-	const G8_IO2_BIT_OFFSET: u8 = 29;
-	const G8_IO2_BIT_WIDTH: u8 = 1;
-	/// G8_IO2 channel mode (Width: 1, Offset: 29)
-	pub fn get_g8_io2() -> u8 { ::read(REGISTER_ADDRESS, G8_IO2_BIT_OFFSET, G8_IO2_BIT_WIDTH) as u8 }
-	/// G8_IO2 channel mode (Width: 1, Offset: 29)
-	pub fn set_g8_io2(value: u8) { ::write(REGISTER_ADDRESS, G8_IO2_BIT_OFFSET, G8_IO2_BIT_WIDTH, value as u32); }
-
-	const G8_IO3_BIT_OFFSET: u8 = 30;
-	const G8_IO3_BIT_WIDTH: u8 = 1;
-	/// G8_IO3 channel mode (Width: 1, Offset: 30)
-	pub fn get_g8_io3() -> u8 { ::read(REGISTER_ADDRESS, G8_IO3_BIT_OFFSET, G8_IO3_BIT_WIDTH) as u8 }
-	/// G8_IO3 channel mode (Width: 1, Offset: 30)
-	pub fn set_g8_io3(value: u8) { ::write(REGISTER_ADDRESS, G8_IO3_BIT_OFFSET, G8_IO3_BIT_WIDTH, value as u32); }
-
-	const G8_IO4_BIT_OFFSET: u8 = 31;
-	const G8_IO4_BIT_WIDTH: u8 = 1;
-	/// G8_IO4 channel mode (Width: 1, Offset: 31)
-	pub fn get_g8_io4() -> u8 { ::read(REGISTER_ADDRESS, G8_IO4_BIT_OFFSET, G8_IO4_BIT_WIDTH) as u8 }
-	/// G8_IO4 channel mode (Width: 1, Offset: 31)
-	pub fn set_g8_io4(value: u8) { ::write(REGISTER_ADDRESS, G8_IO4_BIT_OFFSET, G8_IO4_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// G1_IO1 channel mode
+        pub g1_io1: bool,
+        /// G1_IO2 channel mode
+        pub g1_io2: bool,
+        /// G1_IO3 channel mode
+        pub g1_io3: bool,
+        /// G1_IO4 channel mode
+        pub g1_io4: bool,
+        /// G2_IO1 channel mode
+        pub g2_io1: bool,
+        /// G2_IO2 channel mode
+        pub g2_io2: bool,
+        /// G2_IO3 channel mode
+        pub g2_io3: bool,
+        /// G2_IO4 channel mode
+        pub g2_io4: bool,
+        /// G3_IO1 channel mode
+        pub g3_io1: bool,
+        /// G3_IO2 channel mode
+        pub g3_io2: bool,
+        /// G3_IO3 channel mode
+        pub g3_io3: bool,
+        /// G3_IO4 channel mode
+        pub g3_io4: bool,
+        /// G4_IO1 channel mode
+        pub g4_io1: bool,
+        /// G4_IO2 channel mode
+        pub g4_io2: bool,
+        /// G4_IO3 channel mode
+        pub g4_io3: bool,
+        /// G4_IO4 channel mode
+        pub g4_io4: bool,
+        /// G5_IO1 channel mode
+        pub g5_io1: bool,
+        /// G5_IO2 channel mode
+        pub g5_io2: bool,
+        /// G5_IO3 channel mode
+        pub g5_io3: bool,
+        /// G5_IO4 channel mode
+        pub g5_io4: bool,
+        /// G6_IO1 channel mode
+        pub g6_io1: bool,
+        /// G6_IO2 channel mode
+        pub g6_io2: bool,
+        /// G6_IO3 channel mode
+        pub g6_io3: bool,
+        /// G6_IO4 channel mode
+        pub g6_io4: bool,
+        /// G7_IO1 channel mode
+        pub g7_io1: bool,
+        /// G7_IO2 channel mode
+        pub g7_io2: bool,
+        /// G7_IO3 channel mode
+        pub g7_io3: bool,
+        /// G7_IO4 channel mode
+        pub g7_io4: bool,
+        /// G8_IO1 channel mode
+        pub g8_io1: bool,
+        /// G8_IO2 channel mode
+        pub g8_io2: bool,
+        /// G8_IO3 channel mode
+        pub g8_io3: bool,
+        /// G8_IO4 channel mode
+        pub g8_io4: bool,
+    }
+    pub struct Cache {
+        /// G1_IO1 channel mode
+        pub g1_io1: bool,
+        /// G1_IO2 channel mode
+        pub g1_io2: bool,
+        /// G1_IO3 channel mode
+        pub g1_io3: bool,
+        /// G1_IO4 channel mode
+        pub g1_io4: bool,
+        /// G2_IO1 channel mode
+        pub g2_io1: bool,
+        /// G2_IO2 channel mode
+        pub g2_io2: bool,
+        /// G2_IO3 channel mode
+        pub g2_io3: bool,
+        /// G2_IO4 channel mode
+        pub g2_io4: bool,
+        /// G3_IO1 channel mode
+        pub g3_io1: bool,
+        /// G3_IO2 channel mode
+        pub g3_io2: bool,
+        /// G3_IO3 channel mode
+        pub g3_io3: bool,
+        /// G3_IO4 channel mode
+        pub g3_io4: bool,
+        /// G4_IO1 channel mode
+        pub g4_io1: bool,
+        /// G4_IO2 channel mode
+        pub g4_io2: bool,
+        /// G4_IO3 channel mode
+        pub g4_io3: bool,
+        /// G4_IO4 channel mode
+        pub g4_io4: bool,
+        /// G5_IO1 channel mode
+        pub g5_io1: bool,
+        /// G5_IO2 channel mode
+        pub g5_io2: bool,
+        /// G5_IO3 channel mode
+        pub g5_io3: bool,
+        /// G5_IO4 channel mode
+        pub g5_io4: bool,
+        /// G6_IO1 channel mode
+        pub g6_io1: bool,
+        /// G6_IO2 channel mode
+        pub g6_io2: bool,
+        /// G6_IO3 channel mode
+        pub g6_io3: bool,
+        /// G6_IO4 channel mode
+        pub g6_io4: bool,
+        /// G7_IO1 channel mode
+        pub g7_io1: bool,
+        /// G7_IO2 channel mode
+        pub g7_io2: bool,
+        /// G7_IO3 channel mode
+        pub g7_io3: bool,
+        /// G7_IO4 channel mode
+        pub g7_io4: bool,
+        /// G8_IO1 channel mode
+        pub g8_io1: bool,
+        /// G8_IO2 channel mode
+        pub g8_io2: bool,
+        /// G8_IO3 channel mode
+        pub g8_io3: bool,
+        /// G8_IO4 channel mode
+        pub g8_io4: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x28u32) as *mut u32) };
+        ReadonlyCache {
+            g1_io1: ((value >> 0) & 0b1) > 0,
+            g1_io2: ((value >> 1) & 0b1) > 0,
+            g1_io3: ((value >> 2) & 0b1) > 0,
+            g1_io4: ((value >> 3) & 0b1) > 0,
+            g2_io1: ((value >> 4) & 0b1) > 0,
+            g2_io2: ((value >> 5) & 0b1) > 0,
+            g2_io3: ((value >> 6) & 0b1) > 0,
+            g2_io4: ((value >> 7) & 0b1) > 0,
+            g3_io1: ((value >> 8) & 0b1) > 0,
+            g3_io2: ((value >> 9) & 0b1) > 0,
+            g3_io3: ((value >> 10) & 0b1) > 0,
+            g3_io4: ((value >> 11) & 0b1) > 0,
+            g4_io1: ((value >> 12) & 0b1) > 0,
+            g4_io2: ((value >> 13) & 0b1) > 0,
+            g4_io3: ((value >> 14) & 0b1) > 0,
+            g4_io4: ((value >> 15) & 0b1) > 0,
+            g5_io1: ((value >> 16) & 0b1) > 0,
+            g5_io2: ((value >> 17) & 0b1) > 0,
+            g5_io3: ((value >> 18) & 0b1) > 0,
+            g5_io4: ((value >> 19) & 0b1) > 0,
+            g6_io1: ((value >> 20) & 0b1) > 0,
+            g6_io2: ((value >> 21) & 0b1) > 0,
+            g6_io3: ((value >> 22) & 0b1) > 0,
+            g6_io4: ((value >> 23) & 0b1) > 0,
+            g7_io1: ((value >> 24) & 0b1) > 0,
+            g7_io2: ((value >> 25) & 0b1) > 0,
+            g7_io3: ((value >> 26) & 0b1) > 0,
+            g7_io4: ((value >> 27) & 0b1) > 0,
+            g8_io1: ((value >> 28) & 0b1) > 0,
+            g8_io2: ((value >> 29) & 0b1) > 0,
+            g8_io3: ((value >> 30) & 0b1) > 0,
+            g8_io4: ((value >> 31) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x28u32) as *mut u32) };
+        Cache {
+            g1_io1: ((value >> 0) & 0b1) > 0,
+            g1_io2: ((value >> 1) & 0b1) > 0,
+            g1_io3: ((value >> 2) & 0b1) > 0,
+            g1_io4: ((value >> 3) & 0b1) > 0,
+            g2_io1: ((value >> 4) & 0b1) > 0,
+            g2_io2: ((value >> 5) & 0b1) > 0,
+            g2_io3: ((value >> 6) & 0b1) > 0,
+            g2_io4: ((value >> 7) & 0b1) > 0,
+            g3_io1: ((value >> 8) & 0b1) > 0,
+            g3_io2: ((value >> 9) & 0b1) > 0,
+            g3_io3: ((value >> 10) & 0b1) > 0,
+            g3_io4: ((value >> 11) & 0b1) > 0,
+            g4_io1: ((value >> 12) & 0b1) > 0,
+            g4_io2: ((value >> 13) & 0b1) > 0,
+            g4_io3: ((value >> 14) & 0b1) > 0,
+            g4_io4: ((value >> 15) & 0b1) > 0,
+            g5_io1: ((value >> 16) & 0b1) > 0,
+            g5_io2: ((value >> 17) & 0b1) > 0,
+            g5_io3: ((value >> 18) & 0b1) > 0,
+            g5_io4: ((value >> 19) & 0b1) > 0,
+            g6_io1: ((value >> 20) & 0b1) > 0,
+            g6_io2: ((value >> 21) & 0b1) > 0,
+            g6_io3: ((value >> 22) & 0b1) > 0,
+            g6_io4: ((value >> 23) & 0b1) > 0,
+            g7_io1: ((value >> 24) & 0b1) > 0,
+            g7_io2: ((value >> 25) & 0b1) > 0,
+            g7_io3: ((value >> 26) & 0b1) > 0,
+            g7_io4: ((value >> 27) & 0b1) > 0,
+            g8_io1: ((value >> 28) & 0b1) > 0,
+            g8_io2: ((value >> 29) & 0b1) > 0,
+            g8_io3: ((value >> 30) & 0b1) > 0,
+            g8_io4: ((value >> 31) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.g1_io1 as u32) << 0)
+                | ((self.g1_io2 as u32) << 1)
+                | ((self.g1_io3 as u32) << 2)
+                | ((self.g1_io4 as u32) << 3)
+                | ((self.g2_io1 as u32) << 4)
+                | ((self.g2_io2 as u32) << 5)
+                | ((self.g2_io3 as u32) << 6)
+                | ((self.g2_io4 as u32) << 7)
+                | ((self.g3_io1 as u32) << 8)
+                | ((self.g3_io2 as u32) << 9)
+                | ((self.g3_io3 as u32) << 10)
+                | ((self.g3_io4 as u32) << 11)
+                | ((self.g4_io1 as u32) << 12)
+                | ((self.g4_io2 as u32) << 13)
+                | ((self.g4_io3 as u32) << 14)
+                | ((self.g4_io4 as u32) << 15)
+                | ((self.g5_io1 as u32) << 16)
+                | ((self.g5_io2 as u32) << 17)
+                | ((self.g5_io3 as u32) << 18)
+                | ((self.g5_io4 as u32) << 19)
+                | ((self.g6_io1 as u32) << 20)
+                | ((self.g6_io2 as u32) << 21)
+                | ((self.g6_io3 as u32) << 22)
+                | ((self.g6_io4 as u32) << 23)
+                | ((self.g7_io1 as u32) << 24)
+                | ((self.g7_io2 as u32) << 25)
+                | ((self.g7_io3 as u32) << 26)
+                | ((self.g7_io4 as u32) << 27)
+                | ((self.g8_io1 as u32) << 28)
+                | ((self.g8_io2 as u32) << 29)
+                | ((self.g8_io3 as u32) << 30)
+                | ((self.g8_io4 as u32) << 31)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40024000u32 + 0x28u32) as *mut u32, value) };
+        }
+    }
 }
 /// I/O group control status register
-/// Size: 0x20 bits
 pub mod iogcsr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x30;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const G8S_BIT_OFFSET: u8 = 23;
-	const G8S_BIT_WIDTH: u8 = 1;
-	/// Analog I/O group x status (Width: 1, Offset: 23)
-	pub fn get_g8s() -> u8 { ::read(REGISTER_ADDRESS, G8S_BIT_OFFSET, G8S_BIT_WIDTH) as u8 }
-	/// Analog I/O group x status (Width: 1, Offset: 23)
-	pub fn set_g8s(value: u8) { ::write(REGISTER_ADDRESS, G8S_BIT_OFFSET, G8S_BIT_WIDTH, value as u32); }
-
-	const G7S_BIT_OFFSET: u8 = 22;
-	const G7S_BIT_WIDTH: u8 = 1;
-	/// Analog I/O group x status (Width: 1, Offset: 22)
-	pub fn get_g7s() -> u8 { ::read(REGISTER_ADDRESS, G7S_BIT_OFFSET, G7S_BIT_WIDTH) as u8 }
-	/// Analog I/O group x status (Width: 1, Offset: 22)
-	pub fn set_g7s(value: u8) { ::write(REGISTER_ADDRESS, G7S_BIT_OFFSET, G7S_BIT_WIDTH, value as u32); }
-
-	const G6S_BIT_OFFSET: u8 = 21;
-	const G6S_BIT_WIDTH: u8 = 1;
-	/// Analog I/O group x status (Width: 1, Offset: 21)
-	pub fn get_g6s() -> u8 { ::read(REGISTER_ADDRESS, G6S_BIT_OFFSET, G6S_BIT_WIDTH) as u8 }
-
-	const G5S_BIT_OFFSET: u8 = 20;
-	const G5S_BIT_WIDTH: u8 = 1;
-	/// Analog I/O group x status (Width: 1, Offset: 20)
-	pub fn get_g5s() -> u8 { ::read(REGISTER_ADDRESS, G5S_BIT_OFFSET, G5S_BIT_WIDTH) as u8 }
-
-	const G4S_BIT_OFFSET: u8 = 19;
-	const G4S_BIT_WIDTH: u8 = 1;
-	/// Analog I/O group x status (Width: 1, Offset: 19)
-	pub fn get_g4s() -> u8 { ::read(REGISTER_ADDRESS, G4S_BIT_OFFSET, G4S_BIT_WIDTH) as u8 }
-
-	const G3S_BIT_OFFSET: u8 = 18;
-	const G3S_BIT_WIDTH: u8 = 1;
-	/// Analog I/O group x status (Width: 1, Offset: 18)
-	pub fn get_g3s() -> u8 { ::read(REGISTER_ADDRESS, G3S_BIT_OFFSET, G3S_BIT_WIDTH) as u8 }
-
-	const G2S_BIT_OFFSET: u8 = 17;
-	const G2S_BIT_WIDTH: u8 = 1;
-	/// Analog I/O group x status (Width: 1, Offset: 17)
-	pub fn get_g2s() -> u8 { ::read(REGISTER_ADDRESS, G2S_BIT_OFFSET, G2S_BIT_WIDTH) as u8 }
-
-	const G1S_BIT_OFFSET: u8 = 16;
-	const G1S_BIT_WIDTH: u8 = 1;
-	/// Analog I/O group x status (Width: 1, Offset: 16)
-	pub fn get_g1s() -> u8 { ::read(REGISTER_ADDRESS, G1S_BIT_OFFSET, G1S_BIT_WIDTH) as u8 }
-
-	const G8E_BIT_OFFSET: u8 = 7;
-	const G8E_BIT_WIDTH: u8 = 1;
-	/// Analog I/O group x enable (Width: 1, Offset: 7)
-	pub fn get_g8e() -> u8 { ::read(REGISTER_ADDRESS, G8E_BIT_OFFSET, G8E_BIT_WIDTH) as u8 }
-	/// Analog I/O group x enable (Width: 1, Offset: 7)
-	pub fn set_g8e(value: u8) { ::write(REGISTER_ADDRESS, G8E_BIT_OFFSET, G8E_BIT_WIDTH, value as u32); }
-
-	const G7E_BIT_OFFSET: u8 = 6;
-	const G7E_BIT_WIDTH: u8 = 1;
-	/// Analog I/O group x enable (Width: 1, Offset: 6)
-	pub fn get_g7e() -> u8 { ::read(REGISTER_ADDRESS, G7E_BIT_OFFSET, G7E_BIT_WIDTH) as u8 }
-	/// Analog I/O group x enable (Width: 1, Offset: 6)
-	pub fn set_g7e(value: u8) { ::write(REGISTER_ADDRESS, G7E_BIT_OFFSET, G7E_BIT_WIDTH, value as u32); }
-
-	const G6E_BIT_OFFSET: u8 = 5;
-	const G6E_BIT_WIDTH: u8 = 1;
-	/// Analog I/O group x enable (Width: 1, Offset: 5)
-	pub fn get_g6e() -> u8 { ::read(REGISTER_ADDRESS, G6E_BIT_OFFSET, G6E_BIT_WIDTH) as u8 }
-	/// Analog I/O group x enable (Width: 1, Offset: 5)
-	pub fn set_g6e(value: u8) { ::write(REGISTER_ADDRESS, G6E_BIT_OFFSET, G6E_BIT_WIDTH, value as u32); }
-
-	const G5E_BIT_OFFSET: u8 = 4;
-	const G5E_BIT_WIDTH: u8 = 1;
-	/// Analog I/O group x enable (Width: 1, Offset: 4)
-	pub fn get_g5e() -> u8 { ::read(REGISTER_ADDRESS, G5E_BIT_OFFSET, G5E_BIT_WIDTH) as u8 }
-	/// Analog I/O group x enable (Width: 1, Offset: 4)
-	pub fn set_g5e(value: u8) { ::write(REGISTER_ADDRESS, G5E_BIT_OFFSET, G5E_BIT_WIDTH, value as u32); }
-
-	const G4E_BIT_OFFSET: u8 = 3;
-	const G4E_BIT_WIDTH: u8 = 1;
-	/// Analog I/O group x enable (Width: 1, Offset: 3)
-	pub fn get_g4e() -> u8 { ::read(REGISTER_ADDRESS, G4E_BIT_OFFSET, G4E_BIT_WIDTH) as u8 }
-	/// Analog I/O group x enable (Width: 1, Offset: 3)
-	pub fn set_g4e(value: u8) { ::write(REGISTER_ADDRESS, G4E_BIT_OFFSET, G4E_BIT_WIDTH, value as u32); }
-
-	const G3E_BIT_OFFSET: u8 = 2;
-	const G3E_BIT_WIDTH: u8 = 1;
-	/// Analog I/O group x enable (Width: 1, Offset: 2)
-	pub fn get_g3e() -> u8 { ::read(REGISTER_ADDRESS, G3E_BIT_OFFSET, G3E_BIT_WIDTH) as u8 }
-	/// Analog I/O group x enable (Width: 1, Offset: 2)
-	pub fn set_g3e(value: u8) { ::write(REGISTER_ADDRESS, G3E_BIT_OFFSET, G3E_BIT_WIDTH, value as u32); }
-
-	const G2E_BIT_OFFSET: u8 = 1;
-	const G2E_BIT_WIDTH: u8 = 1;
-	/// Analog I/O group x enable (Width: 1, Offset: 1)
-	pub fn get_g2e() -> u8 { ::read(REGISTER_ADDRESS, G2E_BIT_OFFSET, G2E_BIT_WIDTH) as u8 }
-	/// Analog I/O group x enable (Width: 1, Offset: 1)
-	pub fn set_g2e(value: u8) { ::write(REGISTER_ADDRESS, G2E_BIT_OFFSET, G2E_BIT_WIDTH, value as u32); }
-
-	const G1E_BIT_OFFSET: u8 = 0;
-	const G1E_BIT_WIDTH: u8 = 1;
-	/// Analog I/O group x enable (Width: 1, Offset: 0)
-	pub fn get_g1e() -> u8 { ::read(REGISTER_ADDRESS, G1E_BIT_OFFSET, G1E_BIT_WIDTH) as u8 }
-	/// Analog I/O group x enable (Width: 1, Offset: 0)
-	pub fn set_g1e(value: u8) { ::write(REGISTER_ADDRESS, G1E_BIT_OFFSET, G1E_BIT_WIDTH, value as u32); }
+    /// Set Analog I/O group x status
+    pub fn set_gs(index: u8, value: bool) {
+        debug_assert!(index < 8, "set_gs out of range");
+        let value = value as u32;
+        let value = value << (16 + index * 1);
+        unsafe { ::core::ptr::write_volatile((0x40024000u32 + 0x30u32) as *mut u32, value) };
+    }
+    /// Get Analog I/O group x status
+    pub fn get_gs(index: u8) -> bool {
+        debug_assert!(index < 8, "get_gs out of range");
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x30u32) as *mut u32) };
+        let value = value & (0b1 << (16 + index * 1));
+        value > 0
+    }
+    /// Set Analog I/O group x enable
+    pub fn set_ge(index: u8, value: bool) {
+        debug_assert!(index < 8, "set_ge out of range");
+        let value = value as u32;
+        let value = value << (0 + index * 1);
+        unsafe { ::core::ptr::write_volatile((0x40024000u32 + 0x30u32) as *mut u32, value) };
+    }
+    /// Get Analog I/O group x enable
+    pub fn get_ge(index: u8) -> bool {
+        debug_assert!(index < 8, "get_ge out of range");
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x30u32) as *mut u32) };
+        let value = value & (0b1 << (0 + index * 1));
+        value > 0
+    }
 }
 /// I/O group x counter register
-/// Size: 0x20 bits
 pub mod iog1cr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x34;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CNT_BIT_OFFSET: u8 = 0;
-	const CNT_BIT_WIDTH: u8 = 14;
-	/// Counter value (Width: 14, Offset: 0)
-	pub fn get_cnt() -> u16 { ::read(REGISTER_ADDRESS, CNT_BIT_OFFSET, CNT_BIT_WIDTH) as u16 }
+    /// Counter value
+    /// Access: read-only, Width: 14, Offset: 0
+    /// Get Counter value
+    pub fn cnt() -> u16 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x34u32) as *mut u32) };
+        let value = value & (0b11111111111111 << 0);
+        value as u16
+    }
 }
 /// I/O group x counter register
-/// Size: 0x20 bits
 pub mod iog2cr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x38;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CNT_BIT_OFFSET: u8 = 0;
-	const CNT_BIT_WIDTH: u8 = 14;
-	/// Counter value (Width: 14, Offset: 0)
-	pub fn get_cnt() -> u16 { ::read(REGISTER_ADDRESS, CNT_BIT_OFFSET, CNT_BIT_WIDTH) as u16 }
+    /// Counter value
+    /// Access: read-only, Width: 14, Offset: 0
+    /// Get Counter value
+    pub fn cnt() -> u16 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x38u32) as *mut u32) };
+        let value = value & (0b11111111111111 << 0);
+        value as u16
+    }
 }
 /// I/O group x counter register
-/// Size: 0x20 bits
 pub mod iog3cr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x3C;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CNT_BIT_OFFSET: u8 = 0;
-	const CNT_BIT_WIDTH: u8 = 14;
-	/// Counter value (Width: 14, Offset: 0)
-	pub fn get_cnt() -> u16 { ::read(REGISTER_ADDRESS, CNT_BIT_OFFSET, CNT_BIT_WIDTH) as u16 }
+    /// Counter value
+    /// Access: read-only, Width: 14, Offset: 0
+    /// Get Counter value
+    pub fn cnt() -> u16 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x3Cu32) as *mut u32) };
+        let value = value & (0b11111111111111 << 0);
+        value as u16
+    }
 }
 /// I/O group x counter register
-/// Size: 0x20 bits
 pub mod iog4cr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x40;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CNT_BIT_OFFSET: u8 = 0;
-	const CNT_BIT_WIDTH: u8 = 14;
-	/// Counter value (Width: 14, Offset: 0)
-	pub fn get_cnt() -> u16 { ::read(REGISTER_ADDRESS, CNT_BIT_OFFSET, CNT_BIT_WIDTH) as u16 }
+    /// Counter value
+    /// Access: read-only, Width: 14, Offset: 0
+    /// Get Counter value
+    pub fn cnt() -> u16 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x40u32) as *mut u32) };
+        let value = value & (0b11111111111111 << 0);
+        value as u16
+    }
 }
 /// I/O group x counter register
-/// Size: 0x20 bits
 pub mod iog5cr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x44;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CNT_BIT_OFFSET: u8 = 0;
-	const CNT_BIT_WIDTH: u8 = 14;
-	/// Counter value (Width: 14, Offset: 0)
-	pub fn get_cnt() -> u16 { ::read(REGISTER_ADDRESS, CNT_BIT_OFFSET, CNT_BIT_WIDTH) as u16 }
+    /// Counter value
+    /// Access: read-only, Width: 14, Offset: 0
+    /// Get Counter value
+    pub fn cnt() -> u16 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x44u32) as *mut u32) };
+        let value = value & (0b11111111111111 << 0);
+        value as u16
+    }
 }
 /// I/O group x counter register
-/// Size: 0x20 bits
 pub mod iog6cr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x48;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CNT_BIT_OFFSET: u8 = 0;
-	const CNT_BIT_WIDTH: u8 = 14;
-	/// Counter value (Width: 14, Offset: 0)
-	pub fn get_cnt() -> u16 { ::read(REGISTER_ADDRESS, CNT_BIT_OFFSET, CNT_BIT_WIDTH) as u16 }
+    /// Counter value
+    /// Access: read-only, Width: 14, Offset: 0
+    /// Get Counter value
+    pub fn cnt() -> u16 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x48u32) as *mut u32) };
+        let value = value & (0b11111111111111 << 0);
+        value as u16
+    }
 }
 /// I/O group x counter register
-/// Size: 0x20 bits
 pub mod iog7cr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x4C;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CNT_BIT_OFFSET: u8 = 0;
-	const CNT_BIT_WIDTH: u8 = 14;
-	/// Counter value (Width: 14, Offset: 0)
-	pub fn get_cnt() -> u16 { ::read(REGISTER_ADDRESS, CNT_BIT_OFFSET, CNT_BIT_WIDTH) as u16 }
+    /// Counter value
+    /// Access: read-only, Width: 14, Offset: 0
+    /// Get Counter value
+    pub fn cnt() -> u16 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x4Cu32) as *mut u32) };
+        let value = value & (0b11111111111111 << 0);
+        value as u16
+    }
 }
 /// I/O group x counter register
-/// Size: 0x20 bits
 pub mod iog8cr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x50;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CNT_BIT_OFFSET: u8 = 0;
-	const CNT_BIT_WIDTH: u8 = 14;
-	/// Counter value (Width: 14, Offset: 0)
-	pub fn get_cnt() -> u16 { ::read(REGISTER_ADDRESS, CNT_BIT_OFFSET, CNT_BIT_WIDTH) as u16 }
+    /// Counter value
+    /// Access: read-only, Width: 14, Offset: 0
+    /// Get Counter value
+    pub fn cnt() -> u16 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40024000u32 + 0x50u32) as *mut u32) };
+        let value = value & (0b11111111111111 << 0);
+        value as u16
+    }
 }
 /// EXTI Line2 and Touch sensing interrupts
 pub const INTERRUPT_EXTI2_TSC: u32 = 8;
-
 /*
 <?xml version="1.0"?>
 <peripheral xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <name>TSC</name>
-  <description>Touch sensing controller</description>
-  <groupName>TSC</groupName>
-  <baseAddress>0x40024000</baseAddress>
   <addressBlock>
     <offset>0x0</offset>
     <size>0x400</size>
     <usage>registers</usage>
   </addressBlock>
-  <registers>
-    <register>
-      <name>CR</name>
-      <displayName>CR</displayName>
-      <description>control register</description>
-      <addressOffset>0x0</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>CTPH</name>
-          <description>Charge transfer pulse high</description>
-          <bitOffset>28</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>CTPL</name>
-          <description>Charge transfer pulse low</description>
-          <bitOffset>24</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>SSD</name>
-          <description>Spread spectrum deviation</description>
-          <bitOffset>17</bitOffset>
-          <bitWidth>7</bitWidth>
-        </field>
-        <field>
-          <name>SSE</name>
-          <description>Spread spectrum enable</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>SSPSC</name>
-          <description>Spread spectrum prescaler</description>
-          <bitOffset>15</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>PGPSC</name>
-          <description>pulse generator prescaler</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>3</bitWidth>
-        </field>
-        <field>
-          <name>MCV</name>
-          <description>Max count value</description>
-          <bitOffset>5</bitOffset>
-          <bitWidth>3</bitWidth>
-        </field>
-        <field>
-          <name>IODEF</name>
-          <description>I/O Default mode</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>SYNCPOL</name>
-          <description>Synchronization pin
-              polarity</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>AM</name>
-          <description>Acquisition mode</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>START</name>
-          <description>Start a new acquisition</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TSCE</name>
-          <description>Touch sensing controller
-              enable</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>IER</name>
-      <displayName>IER</displayName>
-      <description>interrupt enable register</description>
-      <addressOffset>0x4</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>MCEIE</name>
-          <description>Max count error interrupt
-              enable</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>EOAIE</name>
-          <description>End of acquisition interrupt
-              enable</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>ICR</name>
-      <displayName>ICR</displayName>
-      <description>interrupt clear register</description>
-      <addressOffset>0x8</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>MCEIC</name>
-          <description>Max count error interrupt
-              clear</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>EOAIC</name>
-          <description>End of acquisition interrupt
-              clear</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>ISR</name>
-      <displayName>ISR</displayName>
-      <description>interrupt status register</description>
-      <addressOffset>0xC</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>MCEF</name>
-          <description>Max count error flag</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>EOAF</name>
-          <description>End of acquisition flag</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>IOHCR</name>
-      <displayName>IOHCR</displayName>
-      <description>I/O hysteresis control
-          register</description>
-      <addressOffset>0x10</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0xFFFFFFFF</resetValue>
-      <fields>
-        <field>
-          <name>G1_IO1</name>
-          <description>G1_IO1 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G1_IO2</name>
-          <description>G1_IO2 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G1_IO3</name>
-          <description>G1_IO3 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G1_IO4</name>
-          <description>G1_IO4 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G2_IO1</name>
-          <description>G2_IO1 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G2_IO2</name>
-          <description>G2_IO2 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>5</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G2_IO3</name>
-          <description>G2_IO3 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>6</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G2_IO4</name>
-          <description>G2_IO4 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>7</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G3_IO1</name>
-          <description>G3_IO1 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G3_IO2</name>
-          <description>G3_IO2 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>9</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G3_IO3</name>
-          <description>G3_IO3 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>10</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G3_IO4</name>
-          <description>G3_IO4 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G4_IO1</name>
-          <description>G4_IO1 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G4_IO2</name>
-          <description>G4_IO2 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>13</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G4_IO3</name>
-          <description>G4_IO3 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>14</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G4_IO4</name>
-          <description>G4_IO4 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>15</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G5_IO1</name>
-          <description>G5_IO1 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G5_IO2</name>
-          <description>G5_IO2 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>17</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G5_IO3</name>
-          <description>G5_IO3 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>18</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G5_IO4</name>
-          <description>G5_IO4 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>19</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G6_IO1</name>
-          <description>G6_IO1 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>20</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G6_IO2</name>
-          <description>G6_IO2 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>21</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G6_IO3</name>
-          <description>G6_IO3 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>22</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G6_IO4</name>
-          <description>G6_IO4 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>23</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G7_IO1</name>
-          <description>G7_IO1 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>24</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G7_IO2</name>
-          <description>G7_IO2 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>25</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G7_IO3</name>
-          <description>G7_IO3 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>26</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G7_IO4</name>
-          <description>G7_IO4 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>27</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G8_IO1</name>
-          <description>G8_IO1 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>28</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G8_IO2</name>
-          <description>G8_IO2 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>29</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G8_IO3</name>
-          <description>G8_IO3 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>30</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G8_IO4</name>
-          <description>G8_IO4 Schmitt trigger hysteresis
-              mode</description>
-          <bitOffset>31</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>IOASCR</name>
-      <displayName>IOASCR</displayName>
-      <description>I/O analog switch control
-          register</description>
-      <addressOffset>0x18</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>G1_IO1</name>
-          <description>G1_IO1 analog switch
-              enable</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G1_IO2</name>
-          <description>G1_IO2 analog switch
-              enable</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G1_IO3</name>
-          <description>G1_IO3 analog switch
-              enable</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G1_IO4</name>
-          <description>G1_IO4 analog switch
-              enable</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G2_IO1</name>
-          <description>G2_IO1 analog switch
-              enable</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G2_IO2</name>
-          <description>G2_IO2 analog switch
-              enable</description>
-          <bitOffset>5</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G2_IO3</name>
-          <description>G2_IO3 analog switch
-              enable</description>
-          <bitOffset>6</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G2_IO4</name>
-          <description>G2_IO4 analog switch
-              enable</description>
-          <bitOffset>7</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G3_IO1</name>
-          <description>G3_IO1 analog switch
-              enable</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G3_IO2</name>
-          <description>G3_IO2 analog switch
-              enable</description>
-          <bitOffset>9</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G3_IO3</name>
-          <description>G3_IO3 analog switch
-              enable</description>
-          <bitOffset>10</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G3_IO4</name>
-          <description>G3_IO4 analog switch
-              enable</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G4_IO1</name>
-          <description>G4_IO1 analog switch
-              enable</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G4_IO2</name>
-          <description>G4_IO2 analog switch
-              enable</description>
-          <bitOffset>13</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G4_IO3</name>
-          <description>G4_IO3 analog switch
-              enable</description>
-          <bitOffset>14</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G4_IO4</name>
-          <description>G4_IO4 analog switch
-              enable</description>
-          <bitOffset>15</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G5_IO1</name>
-          <description>G5_IO1 analog switch
-              enable</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G5_IO2</name>
-          <description>G5_IO2 analog switch
-              enable</description>
-          <bitOffset>17</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G5_IO3</name>
-          <description>G5_IO3 analog switch
-              enable</description>
-          <bitOffset>18</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G5_IO4</name>
-          <description>G5_IO4 analog switch
-              enable</description>
-          <bitOffset>19</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G6_IO1</name>
-          <description>G6_IO1 analog switch
-              enable</description>
-          <bitOffset>20</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G6_IO2</name>
-          <description>G6_IO2 analog switch
-              enable</description>
-          <bitOffset>21</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G6_IO3</name>
-          <description>G6_IO3 analog switch
-              enable</description>
-          <bitOffset>22</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G6_IO4</name>
-          <description>G6_IO4 analog switch
-              enable</description>
-          <bitOffset>23</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G7_IO1</name>
-          <description>G7_IO1 analog switch
-              enable</description>
-          <bitOffset>24</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G7_IO2</name>
-          <description>G7_IO2 analog switch
-              enable</description>
-          <bitOffset>25</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G7_IO3</name>
-          <description>G7_IO3 analog switch
-              enable</description>
-          <bitOffset>26</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G7_IO4</name>
-          <description>G7_IO4 analog switch
-              enable</description>
-          <bitOffset>27</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G8_IO1</name>
-          <description>G8_IO1 analog switch
-              enable</description>
-          <bitOffset>28</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G8_IO2</name>
-          <description>G8_IO2 analog switch
-              enable</description>
-          <bitOffset>29</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G8_IO3</name>
-          <description>G8_IO3 analog switch
-              enable</description>
-          <bitOffset>30</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G8_IO4</name>
-          <description>G8_IO4 analog switch
-              enable</description>
-          <bitOffset>31</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>IOSCR</name>
-      <displayName>IOSCR</displayName>
-      <description>I/O sampling control register</description>
-      <addressOffset>0x20</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>G1_IO1</name>
-          <description>G1_IO1 sampling mode</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G1_IO2</name>
-          <description>G1_IO2 sampling mode</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G1_IO3</name>
-          <description>G1_IO3 sampling mode</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G1_IO4</name>
-          <description>G1_IO4 sampling mode</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G2_IO1</name>
-          <description>G2_IO1 sampling mode</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G2_IO2</name>
-          <description>G2_IO2 sampling mode</description>
-          <bitOffset>5</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G2_IO3</name>
-          <description>G2_IO3 sampling mode</description>
-          <bitOffset>6</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G2_IO4</name>
-          <description>G2_IO4 sampling mode</description>
-          <bitOffset>7</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G3_IO1</name>
-          <description>G3_IO1 sampling mode</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G3_IO2</name>
-          <description>G3_IO2 sampling mode</description>
-          <bitOffset>9</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G3_IO3</name>
-          <description>G3_IO3 sampling mode</description>
-          <bitOffset>10</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G3_IO4</name>
-          <description>G3_IO4 sampling mode</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G4_IO1</name>
-          <description>G4_IO1 sampling mode</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G4_IO2</name>
-          <description>G4_IO2 sampling mode</description>
-          <bitOffset>13</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G4_IO3</name>
-          <description>G4_IO3 sampling mode</description>
-          <bitOffset>14</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G4_IO4</name>
-          <description>G4_IO4 sampling mode</description>
-          <bitOffset>15</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G5_IO1</name>
-          <description>G5_IO1 sampling mode</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G5_IO2</name>
-          <description>G5_IO2 sampling mode</description>
-          <bitOffset>17</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G5_IO3</name>
-          <description>G5_IO3 sampling mode</description>
-          <bitOffset>18</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G5_IO4</name>
-          <description>G5_IO4 sampling mode</description>
-          <bitOffset>19</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G6_IO1</name>
-          <description>G6_IO1 sampling mode</description>
-          <bitOffset>20</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G6_IO2</name>
-          <description>G6_IO2 sampling mode</description>
-          <bitOffset>21</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G6_IO3</name>
-          <description>G6_IO3 sampling mode</description>
-          <bitOffset>22</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G6_IO4</name>
-          <description>G6_IO4 sampling mode</description>
-          <bitOffset>23</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G7_IO1</name>
-          <description>G7_IO1 sampling mode</description>
-          <bitOffset>24</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G7_IO2</name>
-          <description>G7_IO2 sampling mode</description>
-          <bitOffset>25</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G7_IO3</name>
-          <description>G7_IO3 sampling mode</description>
-          <bitOffset>26</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G7_IO4</name>
-          <description>G7_IO4 sampling mode</description>
-          <bitOffset>27</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G8_IO1</name>
-          <description>G8_IO1 sampling mode</description>
-          <bitOffset>28</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G8_IO2</name>
-          <description>G8_IO2 sampling mode</description>
-          <bitOffset>29</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G8_IO3</name>
-          <description>G8_IO3 sampling mode</description>
-          <bitOffset>30</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G8_IO4</name>
-          <description>G8_IO4 sampling mode</description>
-          <bitOffset>31</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>IOCCR</name>
-      <displayName>IOCCR</displayName>
-      <description>I/O channel control register</description>
-      <addressOffset>0x28</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>G1_IO1</name>
-          <description>G1_IO1 channel mode</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G1_IO2</name>
-          <description>G1_IO2 channel mode</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G1_IO3</name>
-          <description>G1_IO3 channel mode</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G1_IO4</name>
-          <description>G1_IO4 channel mode</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G2_IO1</name>
-          <description>G2_IO1 channel mode</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G2_IO2</name>
-          <description>G2_IO2 channel mode</description>
-          <bitOffset>5</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G2_IO3</name>
-          <description>G2_IO3 channel mode</description>
-          <bitOffset>6</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G2_IO4</name>
-          <description>G2_IO4 channel mode</description>
-          <bitOffset>7</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G3_IO1</name>
-          <description>G3_IO1 channel mode</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G3_IO2</name>
-          <description>G3_IO2 channel mode</description>
-          <bitOffset>9</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G3_IO3</name>
-          <description>G3_IO3 channel mode</description>
-          <bitOffset>10</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G3_IO4</name>
-          <description>G3_IO4 channel mode</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G4_IO1</name>
-          <description>G4_IO1 channel mode</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G4_IO2</name>
-          <description>G4_IO2 channel mode</description>
-          <bitOffset>13</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G4_IO3</name>
-          <description>G4_IO3 channel mode</description>
-          <bitOffset>14</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G4_IO4</name>
-          <description>G4_IO4 channel mode</description>
-          <bitOffset>15</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G5_IO1</name>
-          <description>G5_IO1 channel mode</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G5_IO2</name>
-          <description>G5_IO2 channel mode</description>
-          <bitOffset>17</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G5_IO3</name>
-          <description>G5_IO3 channel mode</description>
-          <bitOffset>18</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G5_IO4</name>
-          <description>G5_IO4 channel mode</description>
-          <bitOffset>19</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G6_IO1</name>
-          <description>G6_IO1 channel mode</description>
-          <bitOffset>20</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G6_IO2</name>
-          <description>G6_IO2 channel mode</description>
-          <bitOffset>21</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G6_IO3</name>
-          <description>G6_IO3 channel mode</description>
-          <bitOffset>22</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G6_IO4</name>
-          <description>G6_IO4 channel mode</description>
-          <bitOffset>23</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G7_IO1</name>
-          <description>G7_IO1 channel mode</description>
-          <bitOffset>24</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G7_IO2</name>
-          <description>G7_IO2 channel mode</description>
-          <bitOffset>25</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G7_IO3</name>
-          <description>G7_IO3 channel mode</description>
-          <bitOffset>26</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G7_IO4</name>
-          <description>G7_IO4 channel mode</description>
-          <bitOffset>27</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G8_IO1</name>
-          <description>G8_IO1 channel mode</description>
-          <bitOffset>28</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G8_IO2</name>
-          <description>G8_IO2 channel mode</description>
-          <bitOffset>29</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G8_IO3</name>
-          <description>G8_IO3 channel mode</description>
-          <bitOffset>30</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>G8_IO4</name>
-          <description>G8_IO4 channel mode</description>
-          <bitOffset>31</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>IOGCSR</name>
-      <displayName>IOGCSR</displayName>
-      <description>I/O group control status
-          register</description>
-      <addressOffset>0x30</addressOffset>
-      <size>0x20</size>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>G8S</name>
-          <description>Analog I/O group x status</description>
-          <bitOffset>23</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>G7S</name>
-          <description>Analog I/O group x status</description>
-          <bitOffset>22</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>G6S</name>
-          <description>Analog I/O group x status</description>
-          <bitOffset>21</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>G5S</name>
-          <description>Analog I/O group x status</description>
-          <bitOffset>20</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>G4S</name>
-          <description>Analog I/O group x status</description>
-          <bitOffset>19</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>G3S</name>
-          <description>Analog I/O group x status</description>
-          <bitOffset>18</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>G2S</name>
-          <description>Analog I/O group x status</description>
-          <bitOffset>17</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>G1S</name>
-          <description>Analog I/O group x status</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>G8E</name>
-          <description>Analog I/O group x enable</description>
-          <bitOffset>7</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>G7E</name>
-          <description>Analog I/O group x enable</description>
-          <bitOffset>6</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>G6E</name>
-          <description>Analog I/O group x enable</description>
-          <bitOffset>5</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>G5E</name>
-          <description>Analog I/O group x enable</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>G4E</name>
-          <description>Analog I/O group x enable</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>G3E</name>
-          <description>Analog I/O group x enable</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>G2E</name>
-          <description>Analog I/O group x enable</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>G1E</name>
-          <description>Analog I/O group x enable</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>IOG1CR</name>
-      <displayName>IOG1CR</displayName>
-      <description>I/O group x counter register</description>
-      <addressOffset>0x34</addressOffset>
-      <size>0x20</size>
-      <access>read-only</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>CNT</name>
-          <description>Counter value</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>14</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>IOG2CR</name>
-      <displayName>IOG2CR</displayName>
-      <description>I/O group x counter register</description>
-      <addressOffset>0x38</addressOffset>
-      <size>0x20</size>
-      <access>read-only</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>CNT</name>
-          <description>Counter value</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>14</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>IOG3CR</name>
-      <displayName>IOG3CR</displayName>
-      <description>I/O group x counter register</description>
-      <addressOffset>0x3C</addressOffset>
-      <size>0x20</size>
-      <access>read-only</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>CNT</name>
-          <description>Counter value</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>14</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>IOG4CR</name>
-      <displayName>IOG4CR</displayName>
-      <description>I/O group x counter register</description>
-      <addressOffset>0x40</addressOffset>
-      <size>0x20</size>
-      <access>read-only</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>CNT</name>
-          <description>Counter value</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>14</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>IOG5CR</name>
-      <displayName>IOG5CR</displayName>
-      <description>I/O group x counter register</description>
-      <addressOffset>0x44</addressOffset>
-      <size>0x20</size>
-      <access>read-only</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>CNT</name>
-          <description>Counter value</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>14</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>IOG6CR</name>
-      <displayName>IOG6CR</displayName>
-      <description>I/O group x counter register</description>
-      <addressOffset>0x48</addressOffset>
-      <size>0x20</size>
-      <access>read-only</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>CNT</name>
-          <description>Counter value</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>14</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>IOG7CR</name>
-      <displayName>IOG7CR</displayName>
-      <description>I/O group x counter register</description>
-      <addressOffset>0x4C</addressOffset>
-      <size>0x20</size>
-      <access>read-only</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>CNT</name>
-          <description>Counter value</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>14</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>IOG8CR</name>
-      <displayName>IOG8CR</displayName>
-      <description>I/O group x counter register</description>
-      <addressOffset>0x50</addressOffset>
-      <size>0x20</size>
-      <access>read-only</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>CNT</name>
-          <description>Counter value</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>14</bitWidth>
-        </field>
-      </fields>
-    </register>
-  </registers>
+  <baseAddress>0x40024000</baseAddress>
+  <description>Touch sensing controller</description>
+  <groupName>TSC</groupName>
   <interrupt>
+    <description>
+                    EXTI Line2 and Touch sensing
+                    interrupts
+                </description>
     <name>EXTI2_TSC</name>
-    <description>EXTI Line2 and Touch sensing
-        interrupts</description>
     <value>8</value>
   </interrupt>
-</peripheral>*/
+  <name>TSC</name>
+  <registers>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x0</addressOffset>
+      <description>control register</description>
+      <displayName>CR</displayName>
+      <fields>
+        <field>
+          <bitOffset>28</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>Charge transfer pulse high</description>
+          <name>CTPH</name>
+        </field>
+        <field>
+          <bitOffset>24</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>Charge transfer pulse low</description>
+          <name>CTPL</name>
+        </field>
+        <field>
+          <bitOffset>17</bitOffset>
+          <bitWidth>7</bitWidth>
+          <description>Spread spectrum deviation</description>
+          <name>SSD</name>
+        </field>
+        <field>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Spread spectrum enable</description>
+          <name>SSE</name>
+        </field>
+        <field>
+          <bitOffset>15</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Spread spectrum prescaler</description>
+          <name>SSPSC</name>
+        </field>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>3</bitWidth>
+          <description>pulse generator prescaler</description>
+          <name>PGPSC</name>
+        </field>
+        <field>
+          <bitOffset>5</bitOffset>
+          <bitWidth>3</bitWidth>
+          <description>Max count value</description>
+          <name>MCV</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>I/O Default mode</description>
+          <name>IODEF</name>
+        </field>
+        <field>
+          <bitOffset>3</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Synchronization pin
+                                polarity
+                            </description>
+          <name>SYNCPOL</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Acquisition mode</description>
+          <name>AM</name>
+        </field>
+        <field>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Start a new acquisition</description>
+          <name>START</name>
+        </field>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Touch sensing controller
+                                enable
+                            </description>
+          <name>TSCE</name>
+        </field>
+      </fields>
+      <name>CR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x4</addressOffset>
+      <description>interrupt enable register</description>
+      <displayName>IER</displayName>
+      <fields>
+        <field>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Max count error interrupt
+                                enable
+                            </description>
+          <name>MCEIE</name>
+        </field>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                End of acquisition interrupt
+                                enable
+                            </description>
+          <name>EOAIE</name>
+        </field>
+      </fields>
+      <name>IER</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x8</addressOffset>
+      <description>interrupt clear register</description>
+      <displayName>ICR</displayName>
+      <fields>
+        <field>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Max count error interrupt
+                                clear
+                            </description>
+          <name>MCEIC</name>
+        </field>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                End of acquisition interrupt
+                                clear
+                            </description>
+          <name>EOAIC</name>
+        </field>
+      </fields>
+      <name>ICR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0xC</addressOffset>
+      <description>interrupt status register</description>
+      <displayName>ISR</displayName>
+      <fields>
+        <field>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Max count error flag</description>
+          <name>MCEF</name>
+        </field>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>End of acquisition flag</description>
+          <name>EOAF</name>
+        </field>
+      </fields>
+      <name>ISR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x10</addressOffset>
+      <description>
+                        I/O hysteresis control
+                        register
+                    </description>
+      <displayName>IOHCR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G1_IO1 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G1_IO1</name>
+        </field>
+        <field>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G1_IO2 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G1_IO2</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G1_IO3 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G1_IO3</name>
+        </field>
+        <field>
+          <bitOffset>3</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G1_IO4 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G1_IO4</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G2_IO1 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G2_IO1</name>
+        </field>
+        <field>
+          <bitOffset>5</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G2_IO2 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G2_IO2</name>
+        </field>
+        <field>
+          <bitOffset>6</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G2_IO3 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G2_IO3</name>
+        </field>
+        <field>
+          <bitOffset>7</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G2_IO4 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G2_IO4</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G3_IO1 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G3_IO1</name>
+        </field>
+        <field>
+          <bitOffset>9</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G3_IO2 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G3_IO2</name>
+        </field>
+        <field>
+          <bitOffset>10</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G3_IO3 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G3_IO3</name>
+        </field>
+        <field>
+          <bitOffset>11</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G3_IO4 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G3_IO4</name>
+        </field>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G4_IO1 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G4_IO1</name>
+        </field>
+        <field>
+          <bitOffset>13</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G4_IO2 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G4_IO2</name>
+        </field>
+        <field>
+          <bitOffset>14</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G4_IO3 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G4_IO3</name>
+        </field>
+        <field>
+          <bitOffset>15</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G4_IO4 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G4_IO4</name>
+        </field>
+        <field>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G5_IO1 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G5_IO1</name>
+        </field>
+        <field>
+          <bitOffset>17</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G5_IO2 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G5_IO2</name>
+        </field>
+        <field>
+          <bitOffset>18</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G5_IO3 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G5_IO3</name>
+        </field>
+        <field>
+          <bitOffset>19</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G5_IO4 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G5_IO4</name>
+        </field>
+        <field>
+          <bitOffset>20</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G6_IO1 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G6_IO1</name>
+        </field>
+        <field>
+          <bitOffset>21</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G6_IO2 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G6_IO2</name>
+        </field>
+        <field>
+          <bitOffset>22</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G6_IO3 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G6_IO3</name>
+        </field>
+        <field>
+          <bitOffset>23</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G6_IO4 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G6_IO4</name>
+        </field>
+        <field>
+          <bitOffset>24</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G7_IO1 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G7_IO1</name>
+        </field>
+        <field>
+          <bitOffset>25</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G7_IO2 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G7_IO2</name>
+        </field>
+        <field>
+          <bitOffset>26</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G7_IO3 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G7_IO3</name>
+        </field>
+        <field>
+          <bitOffset>27</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G7_IO4 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G7_IO4</name>
+        </field>
+        <field>
+          <bitOffset>28</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G8_IO1 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G8_IO1</name>
+        </field>
+        <field>
+          <bitOffset>29</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G8_IO2 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G8_IO2</name>
+        </field>
+        <field>
+          <bitOffset>30</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G8_IO3 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G8_IO3</name>
+        </field>
+        <field>
+          <bitOffset>31</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G8_IO4 Schmitt trigger hysteresis
+                                mode
+                            </description>
+          <name>G8_IO4</name>
+        </field>
+      </fields>
+      <name>IOHCR</name>
+      <resetValue>0xFFFFFFFF</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x18</addressOffset>
+      <description>
+                        I/O analog switch control
+                        register
+                    </description>
+      <displayName>IOASCR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G1_IO1 analog switch
+                                enable
+                            </description>
+          <name>G1_IO1</name>
+        </field>
+        <field>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G1_IO2 analog switch
+                                enable
+                            </description>
+          <name>G1_IO2</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G1_IO3 analog switch
+                                enable
+                            </description>
+          <name>G1_IO3</name>
+        </field>
+        <field>
+          <bitOffset>3</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G1_IO4 analog switch
+                                enable
+                            </description>
+          <name>G1_IO4</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G2_IO1 analog switch
+                                enable
+                            </description>
+          <name>G2_IO1</name>
+        </field>
+        <field>
+          <bitOffset>5</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G2_IO2 analog switch
+                                enable
+                            </description>
+          <name>G2_IO2</name>
+        </field>
+        <field>
+          <bitOffset>6</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G2_IO3 analog switch
+                                enable
+                            </description>
+          <name>G2_IO3</name>
+        </field>
+        <field>
+          <bitOffset>7</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G2_IO4 analog switch
+                                enable
+                            </description>
+          <name>G2_IO4</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G3_IO1 analog switch
+                                enable
+                            </description>
+          <name>G3_IO1</name>
+        </field>
+        <field>
+          <bitOffset>9</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G3_IO2 analog switch
+                                enable
+                            </description>
+          <name>G3_IO2</name>
+        </field>
+        <field>
+          <bitOffset>10</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G3_IO3 analog switch
+                                enable
+                            </description>
+          <name>G3_IO3</name>
+        </field>
+        <field>
+          <bitOffset>11</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G3_IO4 analog switch
+                                enable
+                            </description>
+          <name>G3_IO4</name>
+        </field>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G4_IO1 analog switch
+                                enable
+                            </description>
+          <name>G4_IO1</name>
+        </field>
+        <field>
+          <bitOffset>13</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G4_IO2 analog switch
+                                enable
+                            </description>
+          <name>G4_IO2</name>
+        </field>
+        <field>
+          <bitOffset>14</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G4_IO3 analog switch
+                                enable
+                            </description>
+          <name>G4_IO3</name>
+        </field>
+        <field>
+          <bitOffset>15</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G4_IO4 analog switch
+                                enable
+                            </description>
+          <name>G4_IO4</name>
+        </field>
+        <field>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G5_IO1 analog switch
+                                enable
+                            </description>
+          <name>G5_IO1</name>
+        </field>
+        <field>
+          <bitOffset>17</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G5_IO2 analog switch
+                                enable
+                            </description>
+          <name>G5_IO2</name>
+        </field>
+        <field>
+          <bitOffset>18</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G5_IO3 analog switch
+                                enable
+                            </description>
+          <name>G5_IO3</name>
+        </field>
+        <field>
+          <bitOffset>19</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G5_IO4 analog switch
+                                enable
+                            </description>
+          <name>G5_IO4</name>
+        </field>
+        <field>
+          <bitOffset>20</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G6_IO1 analog switch
+                                enable
+                            </description>
+          <name>G6_IO1</name>
+        </field>
+        <field>
+          <bitOffset>21</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G6_IO2 analog switch
+                                enable
+                            </description>
+          <name>G6_IO2</name>
+        </field>
+        <field>
+          <bitOffset>22</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G6_IO3 analog switch
+                                enable
+                            </description>
+          <name>G6_IO3</name>
+        </field>
+        <field>
+          <bitOffset>23</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G6_IO4 analog switch
+                                enable
+                            </description>
+          <name>G6_IO4</name>
+        </field>
+        <field>
+          <bitOffset>24</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G7_IO1 analog switch
+                                enable
+                            </description>
+          <name>G7_IO1</name>
+        </field>
+        <field>
+          <bitOffset>25</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G7_IO2 analog switch
+                                enable
+                            </description>
+          <name>G7_IO2</name>
+        </field>
+        <field>
+          <bitOffset>26</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G7_IO3 analog switch
+                                enable
+                            </description>
+          <name>G7_IO3</name>
+        </field>
+        <field>
+          <bitOffset>27</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G7_IO4 analog switch
+                                enable
+                            </description>
+          <name>G7_IO4</name>
+        </field>
+        <field>
+          <bitOffset>28</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G8_IO1 analog switch
+                                enable
+                            </description>
+          <name>G8_IO1</name>
+        </field>
+        <field>
+          <bitOffset>29</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G8_IO2 analog switch
+                                enable
+                            </description>
+          <name>G8_IO2</name>
+        </field>
+        <field>
+          <bitOffset>30</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G8_IO3 analog switch
+                                enable
+                            </description>
+          <name>G8_IO3</name>
+        </field>
+        <field>
+          <bitOffset>31</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                G8_IO4 analog switch
+                                enable
+                            </description>
+          <name>G8_IO4</name>
+        </field>
+      </fields>
+      <name>IOASCR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x20</addressOffset>
+      <description>I/O sampling control register</description>
+      <displayName>IOSCR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G1_IO1 sampling mode</description>
+          <name>G1_IO1</name>
+        </field>
+        <field>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G1_IO2 sampling mode</description>
+          <name>G1_IO2</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G1_IO3 sampling mode</description>
+          <name>G1_IO3</name>
+        </field>
+        <field>
+          <bitOffset>3</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G1_IO4 sampling mode</description>
+          <name>G1_IO4</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G2_IO1 sampling mode</description>
+          <name>G2_IO1</name>
+        </field>
+        <field>
+          <bitOffset>5</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G2_IO2 sampling mode</description>
+          <name>G2_IO2</name>
+        </field>
+        <field>
+          <bitOffset>6</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G2_IO3 sampling mode</description>
+          <name>G2_IO3</name>
+        </field>
+        <field>
+          <bitOffset>7</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G2_IO4 sampling mode</description>
+          <name>G2_IO4</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G3_IO1 sampling mode</description>
+          <name>G3_IO1</name>
+        </field>
+        <field>
+          <bitOffset>9</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G3_IO2 sampling mode</description>
+          <name>G3_IO2</name>
+        </field>
+        <field>
+          <bitOffset>10</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G3_IO3 sampling mode</description>
+          <name>G3_IO3</name>
+        </field>
+        <field>
+          <bitOffset>11</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G3_IO4 sampling mode</description>
+          <name>G3_IO4</name>
+        </field>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G4_IO1 sampling mode</description>
+          <name>G4_IO1</name>
+        </field>
+        <field>
+          <bitOffset>13</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G4_IO2 sampling mode</description>
+          <name>G4_IO2</name>
+        </field>
+        <field>
+          <bitOffset>14</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G4_IO3 sampling mode</description>
+          <name>G4_IO3</name>
+        </field>
+        <field>
+          <bitOffset>15</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G4_IO4 sampling mode</description>
+          <name>G4_IO4</name>
+        </field>
+        <field>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G5_IO1 sampling mode</description>
+          <name>G5_IO1</name>
+        </field>
+        <field>
+          <bitOffset>17</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G5_IO2 sampling mode</description>
+          <name>G5_IO2</name>
+        </field>
+        <field>
+          <bitOffset>18</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G5_IO3 sampling mode</description>
+          <name>G5_IO3</name>
+        </field>
+        <field>
+          <bitOffset>19</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G5_IO4 sampling mode</description>
+          <name>G5_IO4</name>
+        </field>
+        <field>
+          <bitOffset>20</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G6_IO1 sampling mode</description>
+          <name>G6_IO1</name>
+        </field>
+        <field>
+          <bitOffset>21</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G6_IO2 sampling mode</description>
+          <name>G6_IO2</name>
+        </field>
+        <field>
+          <bitOffset>22</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G6_IO3 sampling mode</description>
+          <name>G6_IO3</name>
+        </field>
+        <field>
+          <bitOffset>23</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G6_IO4 sampling mode</description>
+          <name>G6_IO4</name>
+        </field>
+        <field>
+          <bitOffset>24</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G7_IO1 sampling mode</description>
+          <name>G7_IO1</name>
+        </field>
+        <field>
+          <bitOffset>25</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G7_IO2 sampling mode</description>
+          <name>G7_IO2</name>
+        </field>
+        <field>
+          <bitOffset>26</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G7_IO3 sampling mode</description>
+          <name>G7_IO3</name>
+        </field>
+        <field>
+          <bitOffset>27</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G7_IO4 sampling mode</description>
+          <name>G7_IO4</name>
+        </field>
+        <field>
+          <bitOffset>28</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G8_IO1 sampling mode</description>
+          <name>G8_IO1</name>
+        </field>
+        <field>
+          <bitOffset>29</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G8_IO2 sampling mode</description>
+          <name>G8_IO2</name>
+        </field>
+        <field>
+          <bitOffset>30</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G8_IO3 sampling mode</description>
+          <name>G8_IO3</name>
+        </field>
+        <field>
+          <bitOffset>31</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G8_IO4 sampling mode</description>
+          <name>G8_IO4</name>
+        </field>
+      </fields>
+      <name>IOSCR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x28</addressOffset>
+      <description>I/O channel control register</description>
+      <displayName>IOCCR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G1_IO1 channel mode</description>
+          <name>G1_IO1</name>
+        </field>
+        <field>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G1_IO2 channel mode</description>
+          <name>G1_IO2</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G1_IO3 channel mode</description>
+          <name>G1_IO3</name>
+        </field>
+        <field>
+          <bitOffset>3</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G1_IO4 channel mode</description>
+          <name>G1_IO4</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G2_IO1 channel mode</description>
+          <name>G2_IO1</name>
+        </field>
+        <field>
+          <bitOffset>5</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G2_IO2 channel mode</description>
+          <name>G2_IO2</name>
+        </field>
+        <field>
+          <bitOffset>6</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G2_IO3 channel mode</description>
+          <name>G2_IO3</name>
+        </field>
+        <field>
+          <bitOffset>7</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G2_IO4 channel mode</description>
+          <name>G2_IO4</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G3_IO1 channel mode</description>
+          <name>G3_IO1</name>
+        </field>
+        <field>
+          <bitOffset>9</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G3_IO2 channel mode</description>
+          <name>G3_IO2</name>
+        </field>
+        <field>
+          <bitOffset>10</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G3_IO3 channel mode</description>
+          <name>G3_IO3</name>
+        </field>
+        <field>
+          <bitOffset>11</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G3_IO4 channel mode</description>
+          <name>G3_IO4</name>
+        </field>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G4_IO1 channel mode</description>
+          <name>G4_IO1</name>
+        </field>
+        <field>
+          <bitOffset>13</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G4_IO2 channel mode</description>
+          <name>G4_IO2</name>
+        </field>
+        <field>
+          <bitOffset>14</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G4_IO3 channel mode</description>
+          <name>G4_IO3</name>
+        </field>
+        <field>
+          <bitOffset>15</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G4_IO4 channel mode</description>
+          <name>G4_IO4</name>
+        </field>
+        <field>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G5_IO1 channel mode</description>
+          <name>G5_IO1</name>
+        </field>
+        <field>
+          <bitOffset>17</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G5_IO2 channel mode</description>
+          <name>G5_IO2</name>
+        </field>
+        <field>
+          <bitOffset>18</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G5_IO3 channel mode</description>
+          <name>G5_IO3</name>
+        </field>
+        <field>
+          <bitOffset>19</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G5_IO4 channel mode</description>
+          <name>G5_IO4</name>
+        </field>
+        <field>
+          <bitOffset>20</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G6_IO1 channel mode</description>
+          <name>G6_IO1</name>
+        </field>
+        <field>
+          <bitOffset>21</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G6_IO2 channel mode</description>
+          <name>G6_IO2</name>
+        </field>
+        <field>
+          <bitOffset>22</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G6_IO3 channel mode</description>
+          <name>G6_IO3</name>
+        </field>
+        <field>
+          <bitOffset>23</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G6_IO4 channel mode</description>
+          <name>G6_IO4</name>
+        </field>
+        <field>
+          <bitOffset>24</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G7_IO1 channel mode</description>
+          <name>G7_IO1</name>
+        </field>
+        <field>
+          <bitOffset>25</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G7_IO2 channel mode</description>
+          <name>G7_IO2</name>
+        </field>
+        <field>
+          <bitOffset>26</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G7_IO3 channel mode</description>
+          <name>G7_IO3</name>
+        </field>
+        <field>
+          <bitOffset>27</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G7_IO4 channel mode</description>
+          <name>G7_IO4</name>
+        </field>
+        <field>
+          <bitOffset>28</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G8_IO1 channel mode</description>
+          <name>G8_IO1</name>
+        </field>
+        <field>
+          <bitOffset>29</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G8_IO2 channel mode</description>
+          <name>G8_IO2</name>
+        </field>
+        <field>
+          <bitOffset>30</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G8_IO3 channel mode</description>
+          <name>G8_IO3</name>
+        </field>
+        <field>
+          <bitOffset>31</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>G8_IO4 channel mode</description>
+          <name>G8_IO4</name>
+        </field>
+      </fields>
+      <name>IOCCR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <addressOffset>0x30</addressOffset>
+      <description>
+                        I/O group control status
+                        register
+                    </description>
+      <displayName>IOGCSR</displayName>
+      <fields>
+        <field>
+          <access>read-write</access>
+          <bitOffset>23</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Analog I/O group x status</description>
+          <name>G8S</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>22</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Analog I/O group x status</description>
+          <name>G7S</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>21</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Analog I/O group x status</description>
+          <name>G6S</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>20</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Analog I/O group x status</description>
+          <name>G5S</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>19</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Analog I/O group x status</description>
+          <name>G4S</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>18</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Analog I/O group x status</description>
+          <name>G3S</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>17</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Analog I/O group x status</description>
+          <name>G2S</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Analog I/O group x status</description>
+          <name>G1S</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>7</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Analog I/O group x enable</description>
+          <name>G8E</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>6</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Analog I/O group x enable</description>
+          <name>G7E</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>5</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Analog I/O group x enable</description>
+          <name>G6E</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>4</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Analog I/O group x enable</description>
+          <name>G5E</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>3</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Analog I/O group x enable</description>
+          <name>G4E</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Analog I/O group x enable</description>
+          <name>G3E</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Analog I/O group x enable</description>
+          <name>G2E</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Analog I/O group x enable</description>
+          <name>G1E</name>
+        </field>
+      </fields>
+      <name>IOGCSR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-only</access>
+      <addressOffset>0x34</addressOffset>
+      <description>I/O group x counter register</description>
+      <displayName>IOG1CR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>14</bitWidth>
+          <description>Counter value</description>
+          <name>CNT</name>
+        </field>
+      </fields>
+      <name>IOG1CR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-only</access>
+      <addressOffset>0x38</addressOffset>
+      <description>I/O group x counter register</description>
+      <displayName>IOG2CR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>14</bitWidth>
+          <description>Counter value</description>
+          <name>CNT</name>
+        </field>
+      </fields>
+      <name>IOG2CR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-only</access>
+      <addressOffset>0x3C</addressOffset>
+      <description>I/O group x counter register</description>
+      <displayName>IOG3CR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>14</bitWidth>
+          <description>Counter value</description>
+          <name>CNT</name>
+        </field>
+      </fields>
+      <name>IOG3CR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-only</access>
+      <addressOffset>0x40</addressOffset>
+      <description>I/O group x counter register</description>
+      <displayName>IOG4CR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>14</bitWidth>
+          <description>Counter value</description>
+          <name>CNT</name>
+        </field>
+      </fields>
+      <name>IOG4CR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-only</access>
+      <addressOffset>0x44</addressOffset>
+      <description>I/O group x counter register</description>
+      <displayName>IOG5CR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>14</bitWidth>
+          <description>Counter value</description>
+          <name>CNT</name>
+        </field>
+      </fields>
+      <name>IOG5CR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-only</access>
+      <addressOffset>0x48</addressOffset>
+      <description>I/O group x counter register</description>
+      <displayName>IOG6CR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>14</bitWidth>
+          <description>Counter value</description>
+          <name>CNT</name>
+        </field>
+      </fields>
+      <name>IOG6CR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-only</access>
+      <addressOffset>0x4C</addressOffset>
+      <description>I/O group x counter register</description>
+      <displayName>IOG7CR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>14</bitWidth>
+          <description>Counter value</description>
+          <name>CNT</name>
+        </field>
+      </fields>
+      <name>IOG7CR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-only</access>
+      <addressOffset>0x50</addressOffset>
+      <description>I/O group x counter register</description>
+      <displayName>IOG8CR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>14</bitWidth>
+          <description>Counter value</description>
+          <name>CNT</name>
+        </field>
+      </fields>
+      <name>IOG8CR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+  </registers>
+</peripheral>
+*/

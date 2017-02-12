@@ -1,10 +1,7 @@
 ﻿[package]
-authors = [""]
-description = ""
 name = "peripheral"
 version = "0.1.0"
+authors = [""]
 
-[dependencies.f3]
-default-features = false
-features = []
-version = "*"
+[profile.release]
+lto = true

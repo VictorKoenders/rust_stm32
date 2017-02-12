@@ -1,760 +1,969 @@
-/// MOD SYSCFG
-/// System configuration controller
-const BASE_ADDRESS: u32 = 0x40010000;
 /// configuration register 1
-/// Size: 0x20 bits
 pub mod cfgr1 {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x0;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const MEM_MODE_BIT_OFFSET: u8 = 0;
-	const MEM_MODE_BIT_WIDTH: u8 = 2;
-	/// Memory mapping selection bits (Width: 2, Offset: 0)
-	pub fn get_mem_mode() -> u8 { ::read(REGISTER_ADDRESS, MEM_MODE_BIT_OFFSET, MEM_MODE_BIT_WIDTH) as u8 }
-	/// Memory mapping selection bits (Width: 2, Offset: 0)
-	pub fn set_mem_mode(value: u8) { ::write(REGISTER_ADDRESS, MEM_MODE_BIT_OFFSET, MEM_MODE_BIT_WIDTH, value as u32); }
-
-	const USB_IT_RMP_BIT_OFFSET: u8 = 5;
-	const USB_IT_RMP_BIT_WIDTH: u8 = 1;
-	/// USB interrupt remap (Width: 1, Offset: 5)
-	pub fn get_usb_it_rmp() -> u8 { ::read(REGISTER_ADDRESS, USB_IT_RMP_BIT_OFFSET, USB_IT_RMP_BIT_WIDTH) as u8 }
-	/// USB interrupt remap (Width: 1, Offset: 5)
-	pub fn set_usb_it_rmp(value: u8) { ::write(REGISTER_ADDRESS, USB_IT_RMP_BIT_OFFSET, USB_IT_RMP_BIT_WIDTH, value as u32); }
-
-	const TIM1_ITR_RMP_BIT_OFFSET: u8 = 6;
-	const TIM1_ITR_RMP_BIT_WIDTH: u8 = 1;
-	/// Timer 1 ITR3 selection (Width: 1, Offset: 6)
-	pub fn get_tim1_itr_rmp() -> u8 { ::read(REGISTER_ADDRESS, TIM1_ITR_RMP_BIT_OFFSET, TIM1_ITR_RMP_BIT_WIDTH) as u8 }
-	/// Timer 1 ITR3 selection (Width: 1, Offset: 6)
-	pub fn set_tim1_itr_rmp(value: u8) { ::write(REGISTER_ADDRESS, TIM1_ITR_RMP_BIT_OFFSET, TIM1_ITR_RMP_BIT_WIDTH, value as u32); }
-
-	const DAC_TRIG_RMP_BIT_OFFSET: u8 = 7;
-	const DAC_TRIG_RMP_BIT_WIDTH: u8 = 1;
-	/// DAC trigger remap (when TSEL = 001) (Width: 1, Offset: 7)
-	pub fn get_dac_trig_rmp() -> u8 { ::read(REGISTER_ADDRESS, DAC_TRIG_RMP_BIT_OFFSET, DAC_TRIG_RMP_BIT_WIDTH) as u8 }
-	/// DAC trigger remap (when TSEL = 001) (Width: 1, Offset: 7)
-	pub fn set_dac_trig_rmp(value: u8) { ::write(REGISTER_ADDRESS, DAC_TRIG_RMP_BIT_OFFSET, DAC_TRIG_RMP_BIT_WIDTH, value as u32); }
-
-	const ADC24_DMA_RMP_BIT_OFFSET: u8 = 8;
-	const ADC24_DMA_RMP_BIT_WIDTH: u8 = 1;
-	/// ADC24 DMA remapping bit (Width: 1, Offset: 8)
-	pub fn get_adc24_dma_rmp() -> u8 { ::read(REGISTER_ADDRESS, ADC24_DMA_RMP_BIT_OFFSET, ADC24_DMA_RMP_BIT_WIDTH) as u8 }
-	/// ADC24 DMA remapping bit (Width: 1, Offset: 8)
-	pub fn set_adc24_dma_rmp(value: u8) { ::write(REGISTER_ADDRESS, ADC24_DMA_RMP_BIT_OFFSET, ADC24_DMA_RMP_BIT_WIDTH, value as u32); }
-
-	const TIM16_DMA_RMP_BIT_OFFSET: u8 = 11;
-	const TIM16_DMA_RMP_BIT_WIDTH: u8 = 1;
-	/// TIM16 DMA request remapping bit (Width: 1, Offset: 11)
-	pub fn get_tim16_dma_rmp() -> u8 { ::read(REGISTER_ADDRESS, TIM16_DMA_RMP_BIT_OFFSET, TIM16_DMA_RMP_BIT_WIDTH) as u8 }
-	/// TIM16 DMA request remapping bit (Width: 1, Offset: 11)
-	pub fn set_tim16_dma_rmp(value: u8) { ::write(REGISTER_ADDRESS, TIM16_DMA_RMP_BIT_OFFSET, TIM16_DMA_RMP_BIT_WIDTH, value as u32); }
-
-	const TIM17_DMA_RMP_BIT_OFFSET: u8 = 12;
-	const TIM17_DMA_RMP_BIT_WIDTH: u8 = 1;
-	/// TIM17 DMA request remapping bit (Width: 1, Offset: 12)
-	pub fn get_tim17_dma_rmp() -> u8 { ::read(REGISTER_ADDRESS, TIM17_DMA_RMP_BIT_OFFSET, TIM17_DMA_RMP_BIT_WIDTH) as u8 }
-	/// TIM17 DMA request remapping bit (Width: 1, Offset: 12)
-	pub fn set_tim17_dma_rmp(value: u8) { ::write(REGISTER_ADDRESS, TIM17_DMA_RMP_BIT_OFFSET, TIM17_DMA_RMP_BIT_WIDTH, value as u32); }
-
-	const TIM6_DAC1_DMA_RMP_BIT_OFFSET: u8 = 13;
-	const TIM6_DAC1_DMA_RMP_BIT_WIDTH: u8 = 1;
-	/// TIM6 and DAC1 DMA request remapping bit (Width: 1, Offset: 13)
-	pub fn get_tim6_dac1_dma_rmp() -> u8 { ::read(REGISTER_ADDRESS, TIM6_DAC1_DMA_RMP_BIT_OFFSET, TIM6_DAC1_DMA_RMP_BIT_WIDTH) as u8 }
-	/// TIM6 and DAC1 DMA request remapping bit (Width: 1, Offset: 13)
-	pub fn set_tim6_dac1_dma_rmp(value: u8) { ::write(REGISTER_ADDRESS, TIM6_DAC1_DMA_RMP_BIT_OFFSET, TIM6_DAC1_DMA_RMP_BIT_WIDTH, value as u32); }
-
-	const TIM7_DAC2_DMA_RMP_BIT_OFFSET: u8 = 14;
-	const TIM7_DAC2_DMA_RMP_BIT_WIDTH: u8 = 1;
-	/// TIM7 and DAC2 DMA request remapping bit (Width: 1, Offset: 14)
-	pub fn get_tim7_dac2_dma_rmp() -> u8 { ::read(REGISTER_ADDRESS, TIM7_DAC2_DMA_RMP_BIT_OFFSET, TIM7_DAC2_DMA_RMP_BIT_WIDTH) as u8 }
-	/// TIM7 and DAC2 DMA request remapping bit (Width: 1, Offset: 14)
-	pub fn set_tim7_dac2_dma_rmp(value: u8) { ::write(REGISTER_ADDRESS, TIM7_DAC2_DMA_RMP_BIT_OFFSET, TIM7_DAC2_DMA_RMP_BIT_WIDTH, value as u32); }
-
-	const I2C_PB6_FM_BIT_OFFSET: u8 = 16;
-	const I2C_PB6_FM_BIT_WIDTH: u8 = 1;
-	/// Fast Mode Plus (FM+) driving capability activation bits. (Width: 1, Offset: 16)
-	pub fn get_i2c_pb6_fm() -> u8 { ::read(REGISTER_ADDRESS, I2C_PB6_FM_BIT_OFFSET, I2C_PB6_FM_BIT_WIDTH) as u8 }
-	/// Fast Mode Plus (FM+) driving capability activation bits. (Width: 1, Offset: 16)
-	pub fn set_i2c_pb6_fm(value: u8) { ::write(REGISTER_ADDRESS, I2C_PB6_FM_BIT_OFFSET, I2C_PB6_FM_BIT_WIDTH, value as u32); }
-
-	const I2C_PB7_FM_BIT_OFFSET: u8 = 17;
-	const I2C_PB7_FM_BIT_WIDTH: u8 = 1;
-	/// Fast Mode Plus (FM+) driving capability activation bits. (Width: 1, Offset: 17)
-	pub fn get_i2c_pb7_fm() -> u8 { ::read(REGISTER_ADDRESS, I2C_PB7_FM_BIT_OFFSET, I2C_PB7_FM_BIT_WIDTH) as u8 }
-	/// Fast Mode Plus (FM+) driving capability activation bits. (Width: 1, Offset: 17)
-	pub fn set_i2c_pb7_fm(value: u8) { ::write(REGISTER_ADDRESS, I2C_PB7_FM_BIT_OFFSET, I2C_PB7_FM_BIT_WIDTH, value as u32); }
-
-	const I2C_PB8_FM_BIT_OFFSET: u8 = 18;
-	const I2C_PB8_FM_BIT_WIDTH: u8 = 1;
-	/// Fast Mode Plus (FM+) driving capability activation bits. (Width: 1, Offset: 18)
-	pub fn get_i2c_pb8_fm() -> u8 { ::read(REGISTER_ADDRESS, I2C_PB8_FM_BIT_OFFSET, I2C_PB8_FM_BIT_WIDTH) as u8 }
-	/// Fast Mode Plus (FM+) driving capability activation bits. (Width: 1, Offset: 18)
-	pub fn set_i2c_pb8_fm(value: u8) { ::write(REGISTER_ADDRESS, I2C_PB8_FM_BIT_OFFSET, I2C_PB8_FM_BIT_WIDTH, value as u32); }
-
-	const I2C_PB9_FM_BIT_OFFSET: u8 = 19;
-	const I2C_PB9_FM_BIT_WIDTH: u8 = 1;
-	/// Fast Mode Plus (FM+) driving capability activation bits. (Width: 1, Offset: 19)
-	pub fn get_i2c_pb9_fm() -> u8 { ::read(REGISTER_ADDRESS, I2C_PB9_FM_BIT_OFFSET, I2C_PB9_FM_BIT_WIDTH) as u8 }
-	/// Fast Mode Plus (FM+) driving capability activation bits. (Width: 1, Offset: 19)
-	pub fn set_i2c_pb9_fm(value: u8) { ::write(REGISTER_ADDRESS, I2C_PB9_FM_BIT_OFFSET, I2C_PB9_FM_BIT_WIDTH, value as u32); }
-
-	const I2C1_FM_BIT_OFFSET: u8 = 20;
-	const I2C1_FM_BIT_WIDTH: u8 = 1;
-	/// I2C1 Fast Mode Plus (Width: 1, Offset: 20)
-	pub fn get_i2c1_fm() -> u8 { ::read(REGISTER_ADDRESS, I2C1_FM_BIT_OFFSET, I2C1_FM_BIT_WIDTH) as u8 }
-	/// I2C1 Fast Mode Plus (Width: 1, Offset: 20)
-	pub fn set_i2c1_fm(value: u8) { ::write(REGISTER_ADDRESS, I2C1_FM_BIT_OFFSET, I2C1_FM_BIT_WIDTH, value as u32); }
-
-	const I2C2_FM_BIT_OFFSET: u8 = 21;
-	const I2C2_FM_BIT_WIDTH: u8 = 1;
-	/// I2C2 Fast Mode Plus (Width: 1, Offset: 21)
-	pub fn get_i2c2_fm() -> u8 { ::read(REGISTER_ADDRESS, I2C2_FM_BIT_OFFSET, I2C2_FM_BIT_WIDTH) as u8 }
-	/// I2C2 Fast Mode Plus (Width: 1, Offset: 21)
-	pub fn set_i2c2_fm(value: u8) { ::write(REGISTER_ADDRESS, I2C2_FM_BIT_OFFSET, I2C2_FM_BIT_WIDTH, value as u32); }
-
-	const ENCODER_MODE_BIT_OFFSET: u8 = 22;
-	const ENCODER_MODE_BIT_WIDTH: u8 = 2;
-	/// Encoder mode (Width: 2, Offset: 22)
-	pub fn get_encoder_mode() -> u8 { ::read(REGISTER_ADDRESS, ENCODER_MODE_BIT_OFFSET, ENCODER_MODE_BIT_WIDTH) as u8 }
-	/// Encoder mode (Width: 2, Offset: 22)
-	pub fn set_encoder_mode(value: u8) { ::write(REGISTER_ADDRESS, ENCODER_MODE_BIT_OFFSET, ENCODER_MODE_BIT_WIDTH, value as u32); }
-
-	const FPU_IT_BIT_OFFSET: u8 = 26;
-	const FPU_IT_BIT_WIDTH: u8 = 6;
-	/// Interrupt enable bits from FPU (Width: 6, Offset: 26)
-	pub fn get_fpu_it() -> u8 { ::read(REGISTER_ADDRESS, FPU_IT_BIT_OFFSET, FPU_IT_BIT_WIDTH) as u8 }
-	/// Interrupt enable bits from FPU (Width: 6, Offset: 26)
-	pub fn set_fpu_it(value: u8) { ::write(REGISTER_ADDRESS, FPU_IT_BIT_OFFSET, FPU_IT_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Memory mapping selection bits
+        pub mem_mode: u8,
+        /// USB interrupt remap
+        pub usb_it_rmp: u8,
+        /// Timer 1 ITR3 selection
+        pub tim1_itr_rmp: u8,
+        /// DAC trigger remap (when TSEL = 001)
+        pub dac_trig_rmp: u8,
+        /// ADC24 DMA remapping bit
+        pub adc24_dma_rmp: u8,
+        /// TIM16 DMA request remapping bit
+        pub tim16_dma_rmp: u8,
+        /// TIM17 DMA request remapping bit
+        pub tim17_dma_rmp: u8,
+        /// TIM6 and DAC1 DMA request remapping bit
+        pub tim6_dac1_dma_rmp: u8,
+        /// TIM7 and DAC2 DMA request remapping bit
+        pub tim7_dac2_dma_rmp: u8,
+        /// Fast Mode Plus (FM+) driving capability activation bits.
+        pub i2c_pb6_fm: u8,
+        /// Fast Mode Plus (FM+) driving capability activation bits.
+        pub i2c_pb7_fm: u8,
+        /// Fast Mode Plus (FM+) driving capability activation bits.
+        pub i2c_pb8_fm: u8,
+        /// Fast Mode Plus (FM+) driving capability activation bits.
+        pub i2c_pb9_fm: u8,
+        /// I2C1 Fast Mode Plus
+        pub i2c1_fm: u8,
+        /// I2C2 Fast Mode Plus
+        pub i2c2_fm: u8,
+        /// Encoder mode
+        pub encoder_mode: u8,
+        /// Interrupt enable bits from FPU
+        pub fpu_it: u8,
+    }
+    pub struct Cache {
+        /// Memory mapping selection bits
+        pub mem_mode: u8,
+        /// USB interrupt remap
+        pub usb_it_rmp: u8,
+        /// Timer 1 ITR3 selection
+        pub tim1_itr_rmp: u8,
+        /// DAC trigger remap (when TSEL = 001)
+        pub dac_trig_rmp: u8,
+        /// ADC24 DMA remapping bit
+        pub adc24_dma_rmp: u8,
+        /// TIM16 DMA request remapping bit
+        pub tim16_dma_rmp: u8,
+        /// TIM17 DMA request remapping bit
+        pub tim17_dma_rmp: u8,
+        /// TIM6 and DAC1 DMA request remapping bit
+        pub tim6_dac1_dma_rmp: u8,
+        /// TIM7 and DAC2 DMA request remapping bit
+        pub tim7_dac2_dma_rmp: u8,
+        /// Fast Mode Plus (FM+) driving capability activation bits.
+        pub i2c_pb6_fm: u8,
+        /// Fast Mode Plus (FM+) driving capability activation bits.
+        pub i2c_pb7_fm: u8,
+        /// Fast Mode Plus (FM+) driving capability activation bits.
+        pub i2c_pb8_fm: u8,
+        /// Fast Mode Plus (FM+) driving capability activation bits.
+        pub i2c_pb9_fm: u8,
+        /// I2C1 Fast Mode Plus
+        pub i2c1_fm: u8,
+        /// I2C2 Fast Mode Plus
+        pub i2c2_fm: u8,
+        /// Encoder mode
+        pub encoder_mode: u8,
+        /// Interrupt enable bits from FPU
+        pub fpu_it: u8,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40010000u32 + 0x0u32) as *mut u32) };
+        ReadonlyCache {
+            mem_mode: ((value >> 0) & 0b11) as u8,
+            usb_it_rmp: ((value >> 5) & 0b11) as u8,
+            tim1_itr_rmp: ((value >> 6) & 0b11) as u8,
+            dac_trig_rmp: ((value >> 7) & 0b11) as u8,
+            adc24_dma_rmp: ((value >> 8) & 0b11) as u8,
+            tim16_dma_rmp: ((value >> 11) & 0b11) as u8,
+            tim17_dma_rmp: ((value >> 12) & 0b11) as u8,
+            tim6_dac1_dma_rmp: ((value >> 13) & 0b11) as u8,
+            tim7_dac2_dma_rmp: ((value >> 14) & 0b11) as u8,
+            i2c_pb6_fm: ((value >> 16) & 0b11) as u8,
+            i2c_pb7_fm: ((value >> 17) & 0b11) as u8,
+            i2c_pb8_fm: ((value >> 18) & 0b11) as u8,
+            i2c_pb9_fm: ((value >> 19) & 0b11) as u8,
+            i2c1_fm: ((value >> 20) & 0b11) as u8,
+            i2c2_fm: ((value >> 21) & 0b11) as u8,
+            encoder_mode: ((value >> 22) & 0b11) as u8,
+            fpu_it: ((value >> 26) & 0b11) as u8,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40010000u32 + 0x0u32) as *mut u32) };
+        Cache {
+            mem_mode: ((value >> 0) & 0b11) as u8,
+            usb_it_rmp: ((value >> 5) & 0b11) as u8,
+            tim1_itr_rmp: ((value >> 6) & 0b11) as u8,
+            dac_trig_rmp: ((value >> 7) & 0b11) as u8,
+            adc24_dma_rmp: ((value >> 8) & 0b11) as u8,
+            tim16_dma_rmp: ((value >> 11) & 0b11) as u8,
+            tim17_dma_rmp: ((value >> 12) & 0b11) as u8,
+            tim6_dac1_dma_rmp: ((value >> 13) & 0b11) as u8,
+            tim7_dac2_dma_rmp: ((value >> 14) & 0b11) as u8,
+            i2c_pb6_fm: ((value >> 16) & 0b11) as u8,
+            i2c_pb7_fm: ((value >> 17) & 0b11) as u8,
+            i2c_pb8_fm: ((value >> 18) & 0b11) as u8,
+            i2c_pb9_fm: ((value >> 19) & 0b11) as u8,
+            i2c1_fm: ((value >> 20) & 0b11) as u8,
+            i2c2_fm: ((value >> 21) & 0b11) as u8,
+            encoder_mode: ((value >> 22) & 0b11) as u8,
+            fpu_it: ((value >> 26) & 0b11) as u8,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.mem_mode as u32) << 0)
+                | ((self.usb_it_rmp as u32) << 5)
+                | ((self.tim1_itr_rmp as u32) << 6)
+                | ((self.dac_trig_rmp as u32) << 7)
+                | ((self.adc24_dma_rmp as u32) << 8)
+                | ((self.tim16_dma_rmp as u32) << 11)
+                | ((self.tim17_dma_rmp as u32) << 12)
+                | ((self.tim6_dac1_dma_rmp as u32) << 13)
+                | ((self.tim7_dac2_dma_rmp as u32) << 14)
+                | ((self.i2c_pb6_fm as u32) << 16)
+                | ((self.i2c_pb7_fm as u32) << 17)
+                | ((self.i2c_pb8_fm as u32) << 18)
+                | ((self.i2c_pb9_fm as u32) << 19)
+                | ((self.i2c1_fm as u32) << 20)
+                | ((self.i2c2_fm as u32) << 21)
+                | ((self.encoder_mode as u32) << 22)
+                | ((self.fpu_it as u32) << 26)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40010000u32 + 0x0u32) as *mut u32, value) };
+        }
+    }
 }
 /// external interrupt configuration register 1
-/// Size: 0x20 bits
 pub mod exticr1 {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x8;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const EXTI3_BIT_OFFSET: u8 = 12;
-	const EXTI3_BIT_WIDTH: u8 = 4;
-	/// EXTI 3 configuration bits (Width: 4, Offset: 12)
-	pub fn get_exti3() -> u8 { ::read(REGISTER_ADDRESS, EXTI3_BIT_OFFSET, EXTI3_BIT_WIDTH) as u8 }
-	/// EXTI 3 configuration bits (Width: 4, Offset: 12)
-	pub fn set_exti3(value: u8) { ::write(REGISTER_ADDRESS, EXTI3_BIT_OFFSET, EXTI3_BIT_WIDTH, value as u32); }
-
-	const EXTI2_BIT_OFFSET: u8 = 8;
-	const EXTI2_BIT_WIDTH: u8 = 4;
-	/// EXTI 2 configuration bits (Width: 4, Offset: 8)
-	pub fn get_exti2() -> u8 { ::read(REGISTER_ADDRESS, EXTI2_BIT_OFFSET, EXTI2_BIT_WIDTH) as u8 }
-	/// EXTI 2 configuration bits (Width: 4, Offset: 8)
-	pub fn set_exti2(value: u8) { ::write(REGISTER_ADDRESS, EXTI2_BIT_OFFSET, EXTI2_BIT_WIDTH, value as u32); }
-
-	const EXTI1_BIT_OFFSET: u8 = 4;
-	const EXTI1_BIT_WIDTH: u8 = 4;
-	/// EXTI 1 configuration bits (Width: 4, Offset: 4)
-	pub fn get_exti1() -> u8 { ::read(REGISTER_ADDRESS, EXTI1_BIT_OFFSET, EXTI1_BIT_WIDTH) as u8 }
-	/// EXTI 1 configuration bits (Width: 4, Offset: 4)
-	pub fn set_exti1(value: u8) { ::write(REGISTER_ADDRESS, EXTI1_BIT_OFFSET, EXTI1_BIT_WIDTH, value as u32); }
-
-	const EXTI0_BIT_OFFSET: u8 = 0;
-	const EXTI0_BIT_WIDTH: u8 = 4;
-	/// EXTI 0 configuration bits (Width: 4, Offset: 0)
-	pub fn get_exti0() -> u8 { ::read(REGISTER_ADDRESS, EXTI0_BIT_OFFSET, EXTI0_BIT_WIDTH) as u8 }
-	/// EXTI 0 configuration bits (Width: 4, Offset: 0)
-	pub fn set_exti0(value: u8) { ::write(REGISTER_ADDRESS, EXTI0_BIT_OFFSET, EXTI0_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// EXTI 3 configuration bits
+        pub exti3: u8,
+        /// EXTI 2 configuration bits
+        pub exti2: u8,
+        /// EXTI 1 configuration bits
+        pub exti1: u8,
+        /// EXTI 0 configuration bits
+        pub exti0: u8,
+    }
+    pub struct Cache {
+        /// EXTI 3 configuration bits
+        pub exti3: u8,
+        /// EXTI 2 configuration bits
+        pub exti2: u8,
+        /// EXTI 1 configuration bits
+        pub exti1: u8,
+        /// EXTI 0 configuration bits
+        pub exti0: u8,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40010000u32 + 0x8u32) as *mut u32) };
+        ReadonlyCache {
+            exti3: ((value >> 12) & 0b1111) as u8,
+            exti2: ((value >> 8) & 0b1111) as u8,
+            exti1: ((value >> 4) & 0b1111) as u8,
+            exti0: ((value >> 0) & 0b1111) as u8,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40010000u32 + 0x8u32) as *mut u32) };
+        Cache {
+            exti3: ((value >> 12) & 0b1111) as u8,
+            exti2: ((value >> 8) & 0b1111) as u8,
+            exti1: ((value >> 4) & 0b1111) as u8,
+            exti0: ((value >> 0) & 0b1111) as u8,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.exti3 as u32) << 12)
+                | ((self.exti2 as u32) << 8)
+                | ((self.exti1 as u32) << 4)
+                | ((self.exti0 as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40010000u32 + 0x8u32) as *mut u32, value) };
+        }
+    }
 }
 /// external interrupt configuration register 2
-/// Size: 0x20 bits
 pub mod exticr2 {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0xC;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const EXTI7_BIT_OFFSET: u8 = 12;
-	const EXTI7_BIT_WIDTH: u8 = 4;
-	/// EXTI 7 configuration bits (Width: 4, Offset: 12)
-	pub fn get_exti7() -> u8 { ::read(REGISTER_ADDRESS, EXTI7_BIT_OFFSET, EXTI7_BIT_WIDTH) as u8 }
-	/// EXTI 7 configuration bits (Width: 4, Offset: 12)
-	pub fn set_exti7(value: u8) { ::write(REGISTER_ADDRESS, EXTI7_BIT_OFFSET, EXTI7_BIT_WIDTH, value as u32); }
-
-	const EXTI6_BIT_OFFSET: u8 = 8;
-	const EXTI6_BIT_WIDTH: u8 = 4;
-	/// EXTI 6 configuration bits (Width: 4, Offset: 8)
-	pub fn get_exti6() -> u8 { ::read(REGISTER_ADDRESS, EXTI6_BIT_OFFSET, EXTI6_BIT_WIDTH) as u8 }
-	/// EXTI 6 configuration bits (Width: 4, Offset: 8)
-	pub fn set_exti6(value: u8) { ::write(REGISTER_ADDRESS, EXTI6_BIT_OFFSET, EXTI6_BIT_WIDTH, value as u32); }
-
-	const EXTI5_BIT_OFFSET: u8 = 4;
-	const EXTI5_BIT_WIDTH: u8 = 4;
-	/// EXTI 5 configuration bits (Width: 4, Offset: 4)
-	pub fn get_exti5() -> u8 { ::read(REGISTER_ADDRESS, EXTI5_BIT_OFFSET, EXTI5_BIT_WIDTH) as u8 }
-	/// EXTI 5 configuration bits (Width: 4, Offset: 4)
-	pub fn set_exti5(value: u8) { ::write(REGISTER_ADDRESS, EXTI5_BIT_OFFSET, EXTI5_BIT_WIDTH, value as u32); }
-
-	const EXTI4_BIT_OFFSET: u8 = 0;
-	const EXTI4_BIT_WIDTH: u8 = 4;
-	/// EXTI 4 configuration bits (Width: 4, Offset: 0)
-	pub fn get_exti4() -> u8 { ::read(REGISTER_ADDRESS, EXTI4_BIT_OFFSET, EXTI4_BIT_WIDTH) as u8 }
-	/// EXTI 4 configuration bits (Width: 4, Offset: 0)
-	pub fn set_exti4(value: u8) { ::write(REGISTER_ADDRESS, EXTI4_BIT_OFFSET, EXTI4_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// EXTI 7 configuration bits
+        pub exti7: u8,
+        /// EXTI 6 configuration bits
+        pub exti6: u8,
+        /// EXTI 5 configuration bits
+        pub exti5: u8,
+        /// EXTI 4 configuration bits
+        pub exti4: u8,
+    }
+    pub struct Cache {
+        /// EXTI 7 configuration bits
+        pub exti7: u8,
+        /// EXTI 6 configuration bits
+        pub exti6: u8,
+        /// EXTI 5 configuration bits
+        pub exti5: u8,
+        /// EXTI 4 configuration bits
+        pub exti4: u8,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40010000u32 + 0xCu32) as *mut u32) };
+        ReadonlyCache {
+            exti7: ((value >> 12) & 0b1111) as u8,
+            exti6: ((value >> 8) & 0b1111) as u8,
+            exti5: ((value >> 4) & 0b1111) as u8,
+            exti4: ((value >> 0) & 0b1111) as u8,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40010000u32 + 0xCu32) as *mut u32) };
+        Cache {
+            exti7: ((value >> 12) & 0b1111) as u8,
+            exti6: ((value >> 8) & 0b1111) as u8,
+            exti5: ((value >> 4) & 0b1111) as u8,
+            exti4: ((value >> 0) & 0b1111) as u8,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.exti7 as u32) << 12)
+                | ((self.exti6 as u32) << 8)
+                | ((self.exti5 as u32) << 4)
+                | ((self.exti4 as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40010000u32 + 0xCu32) as *mut u32, value) };
+        }
+    }
 }
 /// external interrupt configuration register 3
-/// Size: 0x20 bits
 pub mod exticr3 {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x10;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const EXTI11_BIT_OFFSET: u8 = 12;
-	const EXTI11_BIT_WIDTH: u8 = 4;
-	/// EXTI 11 configuration bits (Width: 4, Offset: 12)
-	pub fn get_exti11() -> u8 { ::read(REGISTER_ADDRESS, EXTI11_BIT_OFFSET, EXTI11_BIT_WIDTH) as u8 }
-	/// EXTI 11 configuration bits (Width: 4, Offset: 12)
-	pub fn set_exti11(value: u8) { ::write(REGISTER_ADDRESS, EXTI11_BIT_OFFSET, EXTI11_BIT_WIDTH, value as u32); }
-
-	const EXTI10_BIT_OFFSET: u8 = 8;
-	const EXTI10_BIT_WIDTH: u8 = 4;
-	/// EXTI 10 configuration bits (Width: 4, Offset: 8)
-	pub fn get_exti10() -> u8 { ::read(REGISTER_ADDRESS, EXTI10_BIT_OFFSET, EXTI10_BIT_WIDTH) as u8 }
-	/// EXTI 10 configuration bits (Width: 4, Offset: 8)
-	pub fn set_exti10(value: u8) { ::write(REGISTER_ADDRESS, EXTI10_BIT_OFFSET, EXTI10_BIT_WIDTH, value as u32); }
-
-	const EXTI9_BIT_OFFSET: u8 = 4;
-	const EXTI9_BIT_WIDTH: u8 = 4;
-	/// EXTI 9 configuration bits (Width: 4, Offset: 4)
-	pub fn get_exti9() -> u8 { ::read(REGISTER_ADDRESS, EXTI9_BIT_OFFSET, EXTI9_BIT_WIDTH) as u8 }
-	/// EXTI 9 configuration bits (Width: 4, Offset: 4)
-	pub fn set_exti9(value: u8) { ::write(REGISTER_ADDRESS, EXTI9_BIT_OFFSET, EXTI9_BIT_WIDTH, value as u32); }
-
-	const EXTI8_BIT_OFFSET: u8 = 0;
-	const EXTI8_BIT_WIDTH: u8 = 4;
-	/// EXTI 8 configuration bits (Width: 4, Offset: 0)
-	pub fn get_exti8() -> u8 { ::read(REGISTER_ADDRESS, EXTI8_BIT_OFFSET, EXTI8_BIT_WIDTH) as u8 }
-	/// EXTI 8 configuration bits (Width: 4, Offset: 0)
-	pub fn set_exti8(value: u8) { ::write(REGISTER_ADDRESS, EXTI8_BIT_OFFSET, EXTI8_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// EXTI 11 configuration bits
+        pub exti11: u8,
+        /// EXTI 10 configuration bits
+        pub exti10: u8,
+        /// EXTI 9 configuration bits
+        pub exti9: u8,
+        /// EXTI 8 configuration bits
+        pub exti8: u8,
+    }
+    pub struct Cache {
+        /// EXTI 11 configuration bits
+        pub exti11: u8,
+        /// EXTI 10 configuration bits
+        pub exti10: u8,
+        /// EXTI 9 configuration bits
+        pub exti9: u8,
+        /// EXTI 8 configuration bits
+        pub exti8: u8,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40010000u32 + 0x10u32) as *mut u32) };
+        ReadonlyCache {
+            exti11: ((value >> 12) & 0b1111) as u8,
+            exti10: ((value >> 8) & 0b1111) as u8,
+            exti9: ((value >> 4) & 0b1111) as u8,
+            exti8: ((value >> 0) & 0b1111) as u8,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40010000u32 + 0x10u32) as *mut u32) };
+        Cache {
+            exti11: ((value >> 12) & 0b1111) as u8,
+            exti10: ((value >> 8) & 0b1111) as u8,
+            exti9: ((value >> 4) & 0b1111) as u8,
+            exti8: ((value >> 0) & 0b1111) as u8,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.exti11 as u32) << 12)
+                | ((self.exti10 as u32) << 8)
+                | ((self.exti9 as u32) << 4)
+                | ((self.exti8 as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40010000u32 + 0x10u32) as *mut u32, value) };
+        }
+    }
 }
 /// external interrupt configuration register 4
-/// Size: 0x20 bits
 pub mod exticr4 {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x14;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const EXTI15_BIT_OFFSET: u8 = 12;
-	const EXTI15_BIT_WIDTH: u8 = 4;
-	/// EXTI 15 configuration bits (Width: 4, Offset: 12)
-	pub fn get_exti15() -> u8 { ::read(REGISTER_ADDRESS, EXTI15_BIT_OFFSET, EXTI15_BIT_WIDTH) as u8 }
-	/// EXTI 15 configuration bits (Width: 4, Offset: 12)
-	pub fn set_exti15(value: u8) { ::write(REGISTER_ADDRESS, EXTI15_BIT_OFFSET, EXTI15_BIT_WIDTH, value as u32); }
-
-	const EXTI14_BIT_OFFSET: u8 = 8;
-	const EXTI14_BIT_WIDTH: u8 = 4;
-	/// EXTI 14 configuration bits (Width: 4, Offset: 8)
-	pub fn get_exti14() -> u8 { ::read(REGISTER_ADDRESS, EXTI14_BIT_OFFSET, EXTI14_BIT_WIDTH) as u8 }
-	/// EXTI 14 configuration bits (Width: 4, Offset: 8)
-	pub fn set_exti14(value: u8) { ::write(REGISTER_ADDRESS, EXTI14_BIT_OFFSET, EXTI14_BIT_WIDTH, value as u32); }
-
-	const EXTI13_BIT_OFFSET: u8 = 4;
-	const EXTI13_BIT_WIDTH: u8 = 4;
-	/// EXTI 13 configuration bits (Width: 4, Offset: 4)
-	pub fn get_exti13() -> u8 { ::read(REGISTER_ADDRESS, EXTI13_BIT_OFFSET, EXTI13_BIT_WIDTH) as u8 }
-	/// EXTI 13 configuration bits (Width: 4, Offset: 4)
-	pub fn set_exti13(value: u8) { ::write(REGISTER_ADDRESS, EXTI13_BIT_OFFSET, EXTI13_BIT_WIDTH, value as u32); }
-
-	const EXTI12_BIT_OFFSET: u8 = 0;
-	const EXTI12_BIT_WIDTH: u8 = 4;
-	/// EXTI 12 configuration bits (Width: 4, Offset: 0)
-	pub fn get_exti12() -> u8 { ::read(REGISTER_ADDRESS, EXTI12_BIT_OFFSET, EXTI12_BIT_WIDTH) as u8 }
-	/// EXTI 12 configuration bits (Width: 4, Offset: 0)
-	pub fn set_exti12(value: u8) { ::write(REGISTER_ADDRESS, EXTI12_BIT_OFFSET, EXTI12_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// EXTI 15 configuration bits
+        pub exti15: u8,
+        /// EXTI 14 configuration bits
+        pub exti14: u8,
+        /// EXTI 13 configuration bits
+        pub exti13: u8,
+        /// EXTI 12 configuration bits
+        pub exti12: u8,
+    }
+    pub struct Cache {
+        /// EXTI 15 configuration bits
+        pub exti15: u8,
+        /// EXTI 14 configuration bits
+        pub exti14: u8,
+        /// EXTI 13 configuration bits
+        pub exti13: u8,
+        /// EXTI 12 configuration bits
+        pub exti12: u8,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40010000u32 + 0x14u32) as *mut u32) };
+        ReadonlyCache {
+            exti15: ((value >> 12) & 0b1111) as u8,
+            exti14: ((value >> 8) & 0b1111) as u8,
+            exti13: ((value >> 4) & 0b1111) as u8,
+            exti12: ((value >> 0) & 0b1111) as u8,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40010000u32 + 0x14u32) as *mut u32) };
+        Cache {
+            exti15: ((value >> 12) & 0b1111) as u8,
+            exti14: ((value >> 8) & 0b1111) as u8,
+            exti13: ((value >> 4) & 0b1111) as u8,
+            exti12: ((value >> 0) & 0b1111) as u8,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.exti15 as u32) << 12)
+                | ((self.exti14 as u32) << 8)
+                | ((self.exti13 as u32) << 4)
+                | ((self.exti12 as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40010000u32 + 0x14u32) as *mut u32, value) };
+        }
+    }
 }
 /// configuration register 2
-/// Size: 0x20 bits
 pub mod cfgr2 {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x18;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const LOCUP_LOCK_BIT_OFFSET: u8 = 0;
-	const LOCUP_LOCK_BIT_WIDTH: u8 = 1;
-	/// Cortex-M0 LOCKUP bit enable bit (Width: 1, Offset: 0)
-	pub fn get_locup_lock() -> u8 { ::read(REGISTER_ADDRESS, LOCUP_LOCK_BIT_OFFSET, LOCUP_LOCK_BIT_WIDTH) as u8 }
-	/// Cortex-M0 LOCKUP bit enable bit (Width: 1, Offset: 0)
-	pub fn set_locup_lock(value: u8) { ::write(REGISTER_ADDRESS, LOCUP_LOCK_BIT_OFFSET, LOCUP_LOCK_BIT_WIDTH, value as u32); }
-
-	const SRAM_PARITY_LOCK_BIT_OFFSET: u8 = 1;
-	const SRAM_PARITY_LOCK_BIT_WIDTH: u8 = 1;
-	/// SRAM parity lock bit (Width: 1, Offset: 1)
-	pub fn get_sram_parity_lock() -> u8 { ::read(REGISTER_ADDRESS, SRAM_PARITY_LOCK_BIT_OFFSET, SRAM_PARITY_LOCK_BIT_WIDTH) as u8 }
-	/// SRAM parity lock bit (Width: 1, Offset: 1)
-	pub fn set_sram_parity_lock(value: u8) { ::write(REGISTER_ADDRESS, SRAM_PARITY_LOCK_BIT_OFFSET, SRAM_PARITY_LOCK_BIT_WIDTH, value as u32); }
-
-	const PVD_LOCK_BIT_OFFSET: u8 = 2;
-	const PVD_LOCK_BIT_WIDTH: u8 = 1;
-	/// PVD lock enable bit (Width: 1, Offset: 2)
-	pub fn get_pvd_lock() -> u8 { ::read(REGISTER_ADDRESS, PVD_LOCK_BIT_OFFSET, PVD_LOCK_BIT_WIDTH) as u8 }
-	/// PVD lock enable bit (Width: 1, Offset: 2)
-	pub fn set_pvd_lock(value: u8) { ::write(REGISTER_ADDRESS, PVD_LOCK_BIT_OFFSET, PVD_LOCK_BIT_WIDTH, value as u32); }
-
-	const BYP_ADD_PAR_BIT_OFFSET: u8 = 4;
-	const BYP_ADD_PAR_BIT_WIDTH: u8 = 1;
-	/// Bypass address bit 29 in parity calculation (Width: 1, Offset: 4)
-	pub fn get_byp_add_par() -> u8 { ::read(REGISTER_ADDRESS, BYP_ADD_PAR_BIT_OFFSET, BYP_ADD_PAR_BIT_WIDTH) as u8 }
-	/// Bypass address bit 29 in parity calculation (Width: 1, Offset: 4)
-	pub fn set_byp_add_par(value: u8) { ::write(REGISTER_ADDRESS, BYP_ADD_PAR_BIT_OFFSET, BYP_ADD_PAR_BIT_WIDTH, value as u32); }
-
-	const SRAM_PEF_BIT_OFFSET: u8 = 8;
-	const SRAM_PEF_BIT_WIDTH: u8 = 1;
-	/// SRAM parity flag (Width: 1, Offset: 8)
-	pub fn get_sram_pef() -> u8 { ::read(REGISTER_ADDRESS, SRAM_PEF_BIT_OFFSET, SRAM_PEF_BIT_WIDTH) as u8 }
-	/// SRAM parity flag (Width: 1, Offset: 8)
-	pub fn set_sram_pef(value: u8) { ::write(REGISTER_ADDRESS, SRAM_PEF_BIT_OFFSET, SRAM_PEF_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Cortex-M0 LOCKUP bit enable bit
+        pub locup_lock: bool,
+        /// SRAM parity lock bit
+        pub sram_parity_lock: bool,
+        /// PVD lock enable bit
+        pub pvd_lock: bool,
+        /// Bypass address bit 29 in parity calculation
+        pub byp_add_par: bool,
+        /// SRAM parity flag
+        pub sram_pef: bool,
+    }
+    pub struct Cache {
+        /// Cortex-M0 LOCKUP bit enable bit
+        pub locup_lock: bool,
+        /// SRAM parity lock bit
+        pub sram_parity_lock: bool,
+        /// PVD lock enable bit
+        pub pvd_lock: bool,
+        /// Bypass address bit 29 in parity calculation
+        pub byp_add_par: bool,
+        /// SRAM parity flag
+        pub sram_pef: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40010000u32 + 0x18u32) as *mut u32) };
+        ReadonlyCache {
+            locup_lock: ((value >> 0) & 0b1) > 0,
+            sram_parity_lock: ((value >> 1) & 0b1) > 0,
+            pvd_lock: ((value >> 2) & 0b1) > 0,
+            byp_add_par: ((value >> 4) & 0b1) > 0,
+            sram_pef: ((value >> 8) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40010000u32 + 0x18u32) as *mut u32) };
+        Cache {
+            locup_lock: ((value >> 0) & 0b1) > 0,
+            sram_parity_lock: ((value >> 1) & 0b1) > 0,
+            pvd_lock: ((value >> 2) & 0b1) > 0,
+            byp_add_par: ((value >> 4) & 0b1) > 0,
+            sram_pef: ((value >> 8) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.locup_lock as u32) << 0)
+                | ((self.sram_parity_lock as u32) << 1)
+                | ((self.pvd_lock as u32) << 2)
+                | ((self.byp_add_par as u32) << 4)
+                | ((self.sram_pef as u32) << 8)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40010000u32 + 0x18u32) as *mut u32, value) };
+        }
+    }
 }
 /// CCM SRAM protection register
-/// Size: 0x20 bits
 pub mod rcr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x4;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const PAGE0_WP_BIT_OFFSET: u8 = 0;
-	const PAGE0_WP_BIT_WIDTH: u8 = 1;
-	/// CCM SRAM page write protection bit (Width: 1, Offset: 0)
-	pub fn get_page0_wp() -> u8 { ::read(REGISTER_ADDRESS, PAGE0_WP_BIT_OFFSET, PAGE0_WP_BIT_WIDTH) as u8 }
-	/// CCM SRAM page write protection bit (Width: 1, Offset: 0)
-	pub fn set_page0_wp(value: u8) { ::write(REGISTER_ADDRESS, PAGE0_WP_BIT_OFFSET, PAGE0_WP_BIT_WIDTH, value as u32); }
-
-	const PAGE1_WP_BIT_OFFSET: u8 = 1;
-	const PAGE1_WP_BIT_WIDTH: u8 = 1;
-	/// CCM SRAM page write protection bit (Width: 1, Offset: 1)
-	pub fn get_page1_wp() -> u8 { ::read(REGISTER_ADDRESS, PAGE1_WP_BIT_OFFSET, PAGE1_WP_BIT_WIDTH) as u8 }
-	/// CCM SRAM page write protection bit (Width: 1, Offset: 1)
-	pub fn set_page1_wp(value: u8) { ::write(REGISTER_ADDRESS, PAGE1_WP_BIT_OFFSET, PAGE1_WP_BIT_WIDTH, value as u32); }
-
-	const PAGE2_WP_BIT_OFFSET: u8 = 2;
-	const PAGE2_WP_BIT_WIDTH: u8 = 1;
-	/// CCM SRAM page write protection bit (Width: 1, Offset: 2)
-	pub fn get_page2_wp() -> u8 { ::read(REGISTER_ADDRESS, PAGE2_WP_BIT_OFFSET, PAGE2_WP_BIT_WIDTH) as u8 }
-	/// CCM SRAM page write protection bit (Width: 1, Offset: 2)
-	pub fn set_page2_wp(value: u8) { ::write(REGISTER_ADDRESS, PAGE2_WP_BIT_OFFSET, PAGE2_WP_BIT_WIDTH, value as u32); }
-
-	const PAGE3_WP_BIT_OFFSET: u8 = 3;
-	const PAGE3_WP_BIT_WIDTH: u8 = 1;
-	/// CCM SRAM page write protection bit (Width: 1, Offset: 3)
-	pub fn get_page3_wp() -> u8 { ::read(REGISTER_ADDRESS, PAGE3_WP_BIT_OFFSET, PAGE3_WP_BIT_WIDTH) as u8 }
-	/// CCM SRAM page write protection bit (Width: 1, Offset: 3)
-	pub fn set_page3_wp(value: u8) { ::write(REGISTER_ADDRESS, PAGE3_WP_BIT_OFFSET, PAGE3_WP_BIT_WIDTH, value as u32); }
-
-	const PAGE4_WP_BIT_OFFSET: u8 = 4;
-	const PAGE4_WP_BIT_WIDTH: u8 = 1;
-	/// CCM SRAM page write protection bit (Width: 1, Offset: 4)
-	pub fn get_page4_wp() -> u8 { ::read(REGISTER_ADDRESS, PAGE4_WP_BIT_OFFSET, PAGE4_WP_BIT_WIDTH) as u8 }
-	/// CCM SRAM page write protection bit (Width: 1, Offset: 4)
-	pub fn set_page4_wp(value: u8) { ::write(REGISTER_ADDRESS, PAGE4_WP_BIT_OFFSET, PAGE4_WP_BIT_WIDTH, value as u32); }
-
-	const PAGE5_WP_BIT_OFFSET: u8 = 5;
-	const PAGE5_WP_BIT_WIDTH: u8 = 1;
-	/// CCM SRAM page write protection bit (Width: 1, Offset: 5)
-	pub fn get_page5_wp() -> u8 { ::read(REGISTER_ADDRESS, PAGE5_WP_BIT_OFFSET, PAGE5_WP_BIT_WIDTH) as u8 }
-	/// CCM SRAM page write protection bit (Width: 1, Offset: 5)
-	pub fn set_page5_wp(value: u8) { ::write(REGISTER_ADDRESS, PAGE5_WP_BIT_OFFSET, PAGE5_WP_BIT_WIDTH, value as u32); }
-
-	const PAGE6_WP_BIT_OFFSET: u8 = 6;
-	const PAGE6_WP_BIT_WIDTH: u8 = 1;
-	/// CCM SRAM page write protection bit (Width: 1, Offset: 6)
-	pub fn get_page6_wp() -> u8 { ::read(REGISTER_ADDRESS, PAGE6_WP_BIT_OFFSET, PAGE6_WP_BIT_WIDTH) as u8 }
-	/// CCM SRAM page write protection bit (Width: 1, Offset: 6)
-	pub fn set_page6_wp(value: u8) { ::write(REGISTER_ADDRESS, PAGE6_WP_BIT_OFFSET, PAGE6_WP_BIT_WIDTH, value as u32); }
-
-	const PAGE7_WP_BIT_OFFSET: u8 = 7;
-	const PAGE7_WP_BIT_WIDTH: u8 = 1;
-	/// CCM SRAM page write protection bit (Width: 1, Offset: 7)
-	pub fn get_page7_wp() -> u8 { ::read(REGISTER_ADDRESS, PAGE7_WP_BIT_OFFSET, PAGE7_WP_BIT_WIDTH) as u8 }
-	/// CCM SRAM page write protection bit (Width: 1, Offset: 7)
-	pub fn set_page7_wp(value: u8) { ::write(REGISTER_ADDRESS, PAGE7_WP_BIT_OFFSET, PAGE7_WP_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// CCM SRAM page write protection bit
+        pub page0_wp: bool,
+        /// CCM SRAM page write protection bit
+        pub page1_wp: bool,
+        /// CCM SRAM page write protection bit
+        pub page2_wp: bool,
+        /// CCM SRAM page write protection bit
+        pub page3_wp: bool,
+        /// CCM SRAM page write protection bit
+        pub page4_wp: bool,
+        /// CCM SRAM page write protection bit
+        pub page5_wp: bool,
+        /// CCM SRAM page write protection bit
+        pub page6_wp: bool,
+        /// CCM SRAM page write protection bit
+        pub page7_wp: bool,
+    }
+    pub struct Cache {
+        /// CCM SRAM page write protection bit
+        pub page0_wp: bool,
+        /// CCM SRAM page write protection bit
+        pub page1_wp: bool,
+        /// CCM SRAM page write protection bit
+        pub page2_wp: bool,
+        /// CCM SRAM page write protection bit
+        pub page3_wp: bool,
+        /// CCM SRAM page write protection bit
+        pub page4_wp: bool,
+        /// CCM SRAM page write protection bit
+        pub page5_wp: bool,
+        /// CCM SRAM page write protection bit
+        pub page6_wp: bool,
+        /// CCM SRAM page write protection bit
+        pub page7_wp: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40010000u32 + 0x4u32) as *mut u32) };
+        ReadonlyCache {
+            page0_wp: ((value >> 0) & 0b1) > 0,
+            page1_wp: ((value >> 1) & 0b1) > 0,
+            page2_wp: ((value >> 2) & 0b1) > 0,
+            page3_wp: ((value >> 3) & 0b1) > 0,
+            page4_wp: ((value >> 4) & 0b1) > 0,
+            page5_wp: ((value >> 5) & 0b1) > 0,
+            page6_wp: ((value >> 6) & 0b1) > 0,
+            page7_wp: ((value >> 7) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40010000u32 + 0x4u32) as *mut u32) };
+        Cache {
+            page0_wp: ((value >> 0) & 0b1) > 0,
+            page1_wp: ((value >> 1) & 0b1) > 0,
+            page2_wp: ((value >> 2) & 0b1) > 0,
+            page3_wp: ((value >> 3) & 0b1) > 0,
+            page4_wp: ((value >> 4) & 0b1) > 0,
+            page5_wp: ((value >> 5) & 0b1) > 0,
+            page6_wp: ((value >> 6) & 0b1) > 0,
+            page7_wp: ((value >> 7) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.page0_wp as u32) << 0)
+                | ((self.page1_wp as u32) << 1)
+                | ((self.page2_wp as u32) << 2)
+                | ((self.page3_wp as u32) << 3)
+                | ((self.page4_wp as u32) << 4)
+                | ((self.page5_wp as u32) << 5)
+                | ((self.page6_wp as u32) << 6)
+                | ((self.page7_wp as u32) << 7)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40010000u32 + 0x4u32) as *mut u32, value) };
+        }
+    }
 }
 /*
 <?xml version="1.0"?>
 <peripheral xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <name>SYSCFG</name>
-  <description>System configuration controller</description>
-  <groupName>SYSCFG</groupName>
-  <baseAddress>0x40010000</baseAddress>
   <addressBlock>
     <offset>0x0</offset>
     <size>0x19</size>
     <usage>registers</usage>
   </addressBlock>
+  <baseAddress>0x40010000</baseAddress>
+  <description>System configuration controller</description>
+  <groupName>SYSCFG</groupName>
+  <name>SYSCFG</name>
   <registers>
     <register>
-      <name>CFGR1</name>
-      <displayName>CFGR1</displayName>
-      <description>configuration register 1</description>
-      <addressOffset>0x0</addressOffset>
-      <size>0x20</size>
       <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
+      <addressOffset>0x0</addressOffset>
+      <description>configuration register 1</description>
+      <displayName>CFGR1</displayName>
       <fields>
         <field>
-          <name>MEM_MODE</name>
-          <description>Memory mapping selection
-              bits</description>
           <bitOffset>0</bitOffset>
           <bitWidth>2</bitWidth>
+          <description>
+                                Memory mapping selection
+                                bits
+                            </description>
+          <name>MEM_MODE</name>
         </field>
         <field>
-          <name>USB_IT_RMP</name>
-          <description>USB interrupt remap</description>
           <bitOffset>5</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>USB interrupt remap</description>
+          <name>USB_IT_RMP</name>
         </field>
         <field>
-          <name>TIM1_ITR_RMP</name>
-          <description>Timer 1 ITR3 selection</description>
           <bitOffset>6</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>Timer 1 ITR3 selection</description>
+          <name>TIM1_ITR_RMP</name>
         </field>
         <field>
-          <name>DAC_TRIG_RMP</name>
-          <description>DAC trigger remap (when TSEL =
-              001)</description>
           <bitOffset>7</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                DAC trigger remap (when TSEL =
+                                001)
+                            </description>
+          <name>DAC_TRIG_RMP</name>
         </field>
         <field>
-          <name>ADC24_DMA_RMP</name>
-          <description>ADC24 DMA remapping bit</description>
           <bitOffset>8</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>ADC24 DMA remapping bit</description>
+          <name>ADC24_DMA_RMP</name>
         </field>
         <field>
-          <name>TIM16_DMA_RMP</name>
-          <description>TIM16 DMA request remapping
-              bit</description>
           <bitOffset>11</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                TIM16 DMA request remapping
+                                bit
+                            </description>
+          <name>TIM16_DMA_RMP</name>
         </field>
         <field>
-          <name>TIM17_DMA_RMP</name>
-          <description>TIM17 DMA request remapping
-              bit</description>
           <bitOffset>12</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                TIM17 DMA request remapping
+                                bit
+                            </description>
+          <name>TIM17_DMA_RMP</name>
         </field>
         <field>
-          <name>TIM6_DAC1_DMA_RMP</name>
-          <description>TIM6 and DAC1 DMA request remapping
-              bit</description>
           <bitOffset>13</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                TIM6 and DAC1 DMA request remapping
+                                bit
+                            </description>
+          <name>TIM6_DAC1_DMA_RMP</name>
         </field>
         <field>
-          <name>TIM7_DAC2_DMA_RMP</name>
-          <description>TIM7 and DAC2 DMA request remapping
-              bit</description>
           <bitOffset>14</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                TIM7 and DAC2 DMA request remapping
+                                bit
+                            </description>
+          <name>TIM7_DAC2_DMA_RMP</name>
         </field>
         <field>
-          <name>I2C_PB6_FM</name>
-          <description>Fast Mode Plus (FM+) driving capability
-              activation bits.</description>
           <bitOffset>16</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                Fast Mode Plus (FM+) driving capability
+                                activation bits.
+                            </description>
+          <name>I2C_PB6_FM</name>
         </field>
         <field>
-          <name>I2C_PB7_FM</name>
-          <description>Fast Mode Plus (FM+) driving capability
-              activation bits.</description>
           <bitOffset>17</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                Fast Mode Plus (FM+) driving capability
+                                activation bits.
+                            </description>
+          <name>I2C_PB7_FM</name>
         </field>
         <field>
-          <name>I2C_PB8_FM</name>
-          <description>Fast Mode Plus (FM+) driving capability
-              activation bits.</description>
           <bitOffset>18</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                Fast Mode Plus (FM+) driving capability
+                                activation bits.
+                            </description>
+          <name>I2C_PB8_FM</name>
         </field>
         <field>
-          <name>I2C_PB9_FM</name>
-          <description>Fast Mode Plus (FM+) driving capability
-              activation bits.</description>
           <bitOffset>19</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                Fast Mode Plus (FM+) driving capability
+                                activation bits.
+                            </description>
+          <name>I2C_PB9_FM</name>
         </field>
         <field>
-          <name>I2C1_FM</name>
-          <description>I2C1 Fast Mode Plus</description>
           <bitOffset>20</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>I2C1 Fast Mode Plus</description>
+          <name>I2C1_FM</name>
         </field>
         <field>
-          <name>I2C2_FM</name>
-          <description>I2C2 Fast Mode Plus</description>
           <bitOffset>21</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>I2C2 Fast Mode Plus</description>
+          <name>I2C2_FM</name>
         </field>
         <field>
-          <name>ENCODER_MODE</name>
-          <description>Encoder mode</description>
           <bitOffset>22</bitOffset>
           <bitWidth>2</bitWidth>
+          <description>Encoder mode</description>
+          <name>ENCODER_MODE</name>
         </field>
         <field>
-          <name>FPU_IT</name>
-          <description>Interrupt enable bits from
-              FPU</description>
           <bitOffset>26</bitOffset>
           <bitWidth>6</bitWidth>
+          <description>
+                                Interrupt enable bits from
+                                FPU
+                            </description>
+          <name>FPU_IT</name>
         </field>
       </fields>
+      <name>CFGR1</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
     </register>
     <register>
-      <name>EXTICR1</name>
-      <displayName>EXTICR1</displayName>
-      <description>external interrupt configuration register
-          1</description>
+      <access>read-write</access>
       <addressOffset>0x8</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x0000</resetValue>
+      <description>
+                        external interrupt configuration register
+                        1
+                    </description>
+      <displayName>EXTICR1</displayName>
       <fields>
         <field>
-          <name>EXTI3</name>
+          <bitOffset>12</bitOffset>
+          <bitWidth>4</bitWidth>
           <description>EXTI 3 configuration bits</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>4</bitWidth>
+          <name>EXTI3</name>
         </field>
         <field>
-          <name>EXTI2</name>
+          <bitOffset>8</bitOffset>
+          <bitWidth>4</bitWidth>
           <description>EXTI 2 configuration bits</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>4</bitWidth>
+          <name>EXTI2</name>
         </field>
         <field>
-          <name>EXTI1</name>
+          <bitOffset>4</bitOffset>
+          <bitWidth>4</bitWidth>
           <description>EXTI 1 configuration bits</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>4</bitWidth>
+          <name>EXTI1</name>
         </field>
         <field>
-          <name>EXTI0</name>
+          <bitOffset>0</bitOffset>
+          <bitWidth>4</bitWidth>
           <description>EXTI 0 configuration bits</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>4</bitWidth>
+          <name>EXTI0</name>
         </field>
       </fields>
+      <name>EXTICR1</name>
+      <resetValue>0x0000</resetValue>
+      <size>0x20</size>
     </register>
     <register>
-      <name>EXTICR2</name>
-      <displayName>EXTICR2</displayName>
-      <description>external interrupt configuration register
-          2</description>
+      <access>read-write</access>
       <addressOffset>0xC</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x0000</resetValue>
+      <description>
+                        external interrupt configuration register
+                        2
+                    </description>
+      <displayName>EXTICR2</displayName>
       <fields>
         <field>
-          <name>EXTI7</name>
+          <bitOffset>12</bitOffset>
+          <bitWidth>4</bitWidth>
           <description>EXTI 7 configuration bits</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>4</bitWidth>
+          <name>EXTI7</name>
         </field>
         <field>
-          <name>EXTI6</name>
+          <bitOffset>8</bitOffset>
+          <bitWidth>4</bitWidth>
           <description>EXTI 6 configuration bits</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>4</bitWidth>
+          <name>EXTI6</name>
         </field>
         <field>
-          <name>EXTI5</name>
+          <bitOffset>4</bitOffset>
+          <bitWidth>4</bitWidth>
           <description>EXTI 5 configuration bits</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>4</bitWidth>
+          <name>EXTI5</name>
         </field>
         <field>
-          <name>EXTI4</name>
+          <bitOffset>0</bitOffset>
+          <bitWidth>4</bitWidth>
           <description>EXTI 4 configuration bits</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>4</bitWidth>
+          <name>EXTI4</name>
         </field>
       </fields>
+      <name>EXTICR2</name>
+      <resetValue>0x0000</resetValue>
+      <size>0x20</size>
     </register>
     <register>
-      <name>EXTICR3</name>
-      <displayName>EXTICR3</displayName>
-      <description>external interrupt configuration register
-          3</description>
+      <access>read-write</access>
       <addressOffset>0x10</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x0000</resetValue>
+      <description>
+                        external interrupt configuration register
+                        3
+                    </description>
+      <displayName>EXTICR3</displayName>
       <fields>
         <field>
-          <name>EXTI11</name>
+          <bitOffset>12</bitOffset>
+          <bitWidth>4</bitWidth>
           <description>EXTI 11 configuration bits</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>4</bitWidth>
+          <name>EXTI11</name>
         </field>
         <field>
-          <name>EXTI10</name>
+          <bitOffset>8</bitOffset>
+          <bitWidth>4</bitWidth>
           <description>EXTI 10 configuration bits</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>4</bitWidth>
+          <name>EXTI10</name>
         </field>
         <field>
-          <name>EXTI9</name>
-          <description>EXTI 9 configuration bits</description>
           <bitOffset>4</bitOffset>
           <bitWidth>4</bitWidth>
+          <description>EXTI 9 configuration bits</description>
+          <name>EXTI9</name>
         </field>
         <field>
-          <name>EXTI8</name>
-          <description>EXTI 8 configuration bits</description>
           <bitOffset>0</bitOffset>
           <bitWidth>4</bitWidth>
+          <description>EXTI 8 configuration bits</description>
+          <name>EXTI8</name>
         </field>
       </fields>
+      <name>EXTICR3</name>
+      <resetValue>0x0000</resetValue>
+      <size>0x20</size>
     </register>
     <register>
-      <name>EXTICR4</name>
-      <displayName>EXTICR4</displayName>
-      <description>external interrupt configuration register
-          4</description>
-      <addressOffset>0x14</addressOffset>
-      <size>0x20</size>
       <access>read-write</access>
-      <resetValue>0x0000</resetValue>
+      <addressOffset>0x14</addressOffset>
+      <description>
+                        external interrupt configuration register
+                        4
+                    </description>
+      <displayName>EXTICR4</displayName>
       <fields>
         <field>
-          <name>EXTI15</name>
-          <description>EXTI 15 configuration bits</description>
           <bitOffset>12</bitOffset>
           <bitWidth>4</bitWidth>
+          <description>EXTI 15 configuration bits</description>
+          <name>EXTI15</name>
         </field>
         <field>
-          <name>EXTI14</name>
+          <bitOffset>8</bitOffset>
+          <bitWidth>4</bitWidth>
           <description>EXTI 14 configuration bits</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>4</bitWidth>
+          <name>EXTI14</name>
         </field>
         <field>
-          <name>EXTI13</name>
+          <bitOffset>4</bitOffset>
+          <bitWidth>4</bitWidth>
           <description>EXTI 13 configuration bits</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>4</bitWidth>
+          <name>EXTI13</name>
         </field>
         <field>
-          <name>EXTI12</name>
-          <description>EXTI 12 configuration bits</description>
           <bitOffset>0</bitOffset>
           <bitWidth>4</bitWidth>
+          <description>EXTI 12 configuration bits</description>
+          <name>EXTI12</name>
         </field>
       </fields>
+      <name>EXTICR4</name>
+      <resetValue>0x0000</resetValue>
+      <size>0x20</size>
     </register>
     <register>
-      <name>CFGR2</name>
-      <displayName>CFGR2</displayName>
-      <description>configuration register 2</description>
-      <addressOffset>0x18</addressOffset>
-      <size>0x20</size>
       <access>read-write</access>
-      <resetValue>0x0000</resetValue>
+      <addressOffset>0x18</addressOffset>
+      <description>configuration register 2</description>
+      <displayName>CFGR2</displayName>
       <fields>
         <field>
-          <name>LOCUP_LOCK</name>
-          <description>Cortex-M0 LOCKUP bit enable
-              bit</description>
           <bitOffset>0</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                Cortex-M0 LOCKUP bit enable
+                                bit
+                            </description>
+          <name>LOCUP_LOCK</name>
         </field>
         <field>
-          <name>SRAM_PARITY_LOCK</name>
-          <description>SRAM parity lock bit</description>
           <bitOffset>1</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>SRAM parity lock bit</description>
+          <name>SRAM_PARITY_LOCK</name>
         </field>
         <field>
-          <name>PVD_LOCK</name>
-          <description>PVD lock enable bit</description>
           <bitOffset>2</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>PVD lock enable bit</description>
+          <name>PVD_LOCK</name>
         </field>
         <field>
-          <name>BYP_ADD_PAR</name>
-          <description>Bypass address bit 29 in parity
-              calculation</description>
           <bitOffset>4</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                Bypass address bit 29 in parity
+                                calculation
+                            </description>
+          <name>BYP_ADD_PAR</name>
         </field>
         <field>
-          <name>SRAM_PEF</name>
-          <description>SRAM parity flag</description>
           <bitOffset>8</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>SRAM parity flag</description>
+          <name>SRAM_PEF</name>
         </field>
       </fields>
+      <name>CFGR2</name>
+      <resetValue>0x0000</resetValue>
+      <size>0x20</size>
     </register>
     <register>
-      <name>RCR</name>
-      <displayName>RCR</displayName>
-      <description>CCM SRAM protection register</description>
-      <addressOffset>0x4</addressOffset>
-      <size>0x20</size>
       <access>read-write</access>
-      <resetValue>0x0000</resetValue>
+      <addressOffset>0x4</addressOffset>
+      <description>CCM SRAM protection register</description>
+      <displayName>RCR</displayName>
       <fields>
         <field>
-          <name>PAGE0_WP</name>
-          <description>CCM SRAM page write protection
-              bit</description>
           <bitOffset>0</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                CCM SRAM page write protection
+                                bit
+                            </description>
+          <name>PAGE0_WP</name>
         </field>
         <field>
-          <name>PAGE1_WP</name>
-          <description>CCM SRAM page write protection
-              bit</description>
           <bitOffset>1</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                CCM SRAM page write protection
+                                bit
+                            </description>
+          <name>PAGE1_WP</name>
         </field>
         <field>
-          <name>PAGE2_WP</name>
-          <description>CCM SRAM page write protection
-              bit</description>
           <bitOffset>2</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                CCM SRAM page write protection
+                                bit
+                            </description>
+          <name>PAGE2_WP</name>
         </field>
         <field>
-          <name>PAGE3_WP</name>
-          <description>CCM SRAM page write protection
-              bit</description>
           <bitOffset>3</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                CCM SRAM page write protection
+                                bit
+                            </description>
+          <name>PAGE3_WP</name>
         </field>
         <field>
-          <name>PAGE4_WP</name>
-          <description>CCM SRAM page write protection
-              bit</description>
           <bitOffset>4</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                CCM SRAM page write protection
+                                bit
+                            </description>
+          <name>PAGE4_WP</name>
         </field>
         <field>
-          <name>PAGE5_WP</name>
-          <description>CCM SRAM page write protection
-              bit</description>
           <bitOffset>5</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                CCM SRAM page write protection
+                                bit
+                            </description>
+          <name>PAGE5_WP</name>
         </field>
         <field>
-          <name>PAGE6_WP</name>
-          <description>CCM SRAM page write protection
-              bit</description>
           <bitOffset>6</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                CCM SRAM page write protection
+                                bit
+                            </description>
+          <name>PAGE6_WP</name>
         </field>
         <field>
-          <name>PAGE7_WP</name>
-          <description>CCM SRAM page write protection
-              bit</description>
           <bitOffset>7</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>
+                                CCM SRAM page write protection
+                                bit
+                            </description>
+          <name>PAGE7_WP</name>
         </field>
       </fields>
+      <name>RCR</name>
+      <resetValue>0x0000</resetValue>
+      <size>0x20</size>
     </register>
   </registers>
-</peripheral>*/
+</peripheral>
+*/

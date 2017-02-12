@@ -8,10 +8,10 @@ build = "build.rs"
 peripheral = { path = "libs/peripheral"}
 #cortex-m = "*"
 
-[dependencies.f3]
-default-features = false
-features = [] #"default-init", "default-panic-fmt", "examples", "interrupts", "static-ram"]
-version = "*"
+#[dependencies.f3]
+#default-features = false
+#features = [] #"default-init", "default-panic-fmt", "examples", "interrupts", "static-ram"]
+#version = "*"
 
 [profile.release]
 lto = true

@@ -1,210 +1,329 @@
-/// MOD CRC
-/// cyclic redundancy check calculation unit
-const BASE_ADDRESS: u32 = 0x40023000;
 /// Data register
-/// Size: 0x20 bits
 pub mod dr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x0;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const DR_BIT_OFFSET: u8 = 0;
-	const DR_BIT_WIDTH: u8 = 32;
-	/// Data register bits (Width: 32, Offset: 0)
-	pub fn get_dr() -> u32 { ::read(REGISTER_ADDRESS, DR_BIT_OFFSET, DR_BIT_WIDTH) as u32 }
-	/// Data register bits (Width: 32, Offset: 0)
-	pub fn set_dr(value: u32) { ::write(REGISTER_ADDRESS, DR_BIT_OFFSET, DR_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Data register bits
+        pub dr: u32,
+    }
+    pub struct Cache {
+        /// Data register bits
+        pub dr: u32,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40023000u32 + 0x0u32) as *mut u32) };
+        ReadonlyCache {
+            dr: ((value >> 0) & 0b11111111111111111111111111111111) as u32,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40023000u32 + 0x0u32) as *mut u32) };
+        Cache {
+            dr: ((value >> 0) & 0b11111111111111111111111111111111) as u32,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.dr as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40023000u32 + 0x0u32) as *mut u32, value) };
+        }
+    }
 }
 /// Independent data register
-/// Size: 0x20 bits
 pub mod idr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x4;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const IDR_BIT_OFFSET: u8 = 0;
-	const IDR_BIT_WIDTH: u8 = 8;
-	/// General-purpose 8-bit data register bits (Width: 8, Offset: 0)
-	pub fn get_idr() -> u8 { ::read(REGISTER_ADDRESS, IDR_BIT_OFFSET, IDR_BIT_WIDTH) as u8 }
-	/// General-purpose 8-bit data register bits (Width: 8, Offset: 0)
-	pub fn set_idr(value: u8) { ::write(REGISTER_ADDRESS, IDR_BIT_OFFSET, IDR_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// General-purpose 8-bit data register bits
+        pub idr: u8,
+    }
+    pub struct Cache {
+        /// General-purpose 8-bit data register bits
+        pub idr: u8,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40023000u32 + 0x4u32) as *mut u32) };
+        ReadonlyCache {
+            idr: ((value >> 0) & 0b11111111) as u8,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40023000u32 + 0x4u32) as *mut u32) };
+        Cache {
+            idr: ((value >> 0) & 0b11111111) as u8,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.idr as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40023000u32 + 0x4u32) as *mut u32, value) };
+        }
+    }
 }
 /// Control register
-/// Size: 0x20 bits
 pub mod cr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x8;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const RESET_BIT_OFFSET: u8 = 0;
-	const RESET_BIT_WIDTH: u8 = 1;
-	/// reset bit (Width: 1, Offset: 0)
-	pub fn get_reset() -> u8 { ::read(REGISTER_ADDRESS, RESET_BIT_OFFSET, RESET_BIT_WIDTH) as u8 }
-	/// reset bit (Width: 1, Offset: 0)
-	pub fn set_reset(value: u8) { ::write(REGISTER_ADDRESS, RESET_BIT_OFFSET, RESET_BIT_WIDTH, value as u32); }
-
-	const POLYSIZE_BIT_OFFSET: u8 = 3;
-	const POLYSIZE_BIT_WIDTH: u8 = 2;
-	/// Polynomial size (Width: 2, Offset: 3)
-	pub fn get_polysize() -> u8 { ::read(REGISTER_ADDRESS, POLYSIZE_BIT_OFFSET, POLYSIZE_BIT_WIDTH) as u8 }
-	/// Polynomial size (Width: 2, Offset: 3)
-	pub fn set_polysize(value: u8) { ::write(REGISTER_ADDRESS, POLYSIZE_BIT_OFFSET, POLYSIZE_BIT_WIDTH, value as u32); }
-
-	const REV_IN_BIT_OFFSET: u8 = 5;
-	const REV_IN_BIT_WIDTH: u8 = 2;
-	/// Reverse input data (Width: 2, Offset: 5)
-	pub fn get_rev_in() -> u8 { ::read(REGISTER_ADDRESS, REV_IN_BIT_OFFSET, REV_IN_BIT_WIDTH) as u8 }
-	/// Reverse input data (Width: 2, Offset: 5)
-	pub fn set_rev_in(value: u8) { ::write(REGISTER_ADDRESS, REV_IN_BIT_OFFSET, REV_IN_BIT_WIDTH, value as u32); }
-
-	const REV_OUT_BIT_OFFSET: u8 = 7;
-	const REV_OUT_BIT_WIDTH: u8 = 1;
-	/// Reverse output data (Width: 1, Offset: 7)
-	pub fn get_rev_out() -> u8 { ::read(REGISTER_ADDRESS, REV_OUT_BIT_OFFSET, REV_OUT_BIT_WIDTH) as u8 }
-	/// Reverse output data (Width: 1, Offset: 7)
-	pub fn set_rev_out(value: u8) { ::write(REGISTER_ADDRESS, REV_OUT_BIT_OFFSET, REV_OUT_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// reset bit
+        pub reset: bool,
+        /// Polynomial size
+        pub polysize: bool,
+        /// Reverse input data
+        pub rev_in: bool,
+        /// Reverse output data
+        pub rev_out: bool,
+    }
+    pub struct Cache {
+        /// reset bit
+        pub reset: bool,
+        /// Polynomial size
+        pub polysize: bool,
+        /// Reverse input data
+        pub rev_in: bool,
+        /// Reverse output data
+        pub rev_out: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40023000u32 + 0x8u32) as *mut u32) };
+        ReadonlyCache {
+            reset: ((value >> 0) & 0b1) > 0,
+            polysize: ((value >> 3) & 0b1) > 0,
+            rev_in: ((value >> 5) & 0b1) > 0,
+            rev_out: ((value >> 7) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40023000u32 + 0x8u32) as *mut u32) };
+        Cache {
+            reset: ((value >> 0) & 0b1) > 0,
+            polysize: ((value >> 3) & 0b1) > 0,
+            rev_in: ((value >> 5) & 0b1) > 0,
+            rev_out: ((value >> 7) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.reset as u32) << 0)
+                | ((self.polysize as u32) << 3)
+                | ((self.rev_in as u32) << 5)
+                | ((self.rev_out as u32) << 7)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40023000u32 + 0x8u32) as *mut u32, value) };
+        }
+    }
 }
 /// Initial CRC value
-/// Size: 0x20 bits
 pub mod init {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x10;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const INIT_BIT_OFFSET: u8 = 0;
-	const INIT_BIT_WIDTH: u8 = 32;
-	/// Programmable initial CRC value (Width: 32, Offset: 0)
-	pub fn get_init() -> u32 { ::read(REGISTER_ADDRESS, INIT_BIT_OFFSET, INIT_BIT_WIDTH) as u32 }
-	/// Programmable initial CRC value (Width: 32, Offset: 0)
-	pub fn set_init(value: u32) { ::write(REGISTER_ADDRESS, INIT_BIT_OFFSET, INIT_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Programmable initial CRC value
+        pub init: u32,
+    }
+    pub struct Cache {
+        /// Programmable initial CRC value
+        pub init: u32,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40023000u32 + 0x10u32) as *mut u32) };
+        ReadonlyCache {
+            init: ((value >> 0) & 0b11111111111111111111111111111111) as u32,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40023000u32 + 0x10u32) as *mut u32) };
+        Cache {
+            init: ((value >> 0) & 0b11111111111111111111111111111111) as u32,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.init as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40023000u32 + 0x10u32) as *mut u32, value) };
+        }
+    }
 }
 /// CRC polynomial
-/// Size: 0x20 bits
 pub mod pol {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x14;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const POL_BIT_OFFSET: u8 = 0;
-	const POL_BIT_WIDTH: u8 = 32;
-	/// Programmable polynomial (Width: 32, Offset: 0)
-	pub fn get_pol() -> u32 { ::read(REGISTER_ADDRESS, POL_BIT_OFFSET, POL_BIT_WIDTH) as u32 }
-	/// Programmable polynomial (Width: 32, Offset: 0)
-	pub fn set_pol(value: u32) { ::write(REGISTER_ADDRESS, POL_BIT_OFFSET, POL_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Programmable polynomial
+        pub pol: u32,
+    }
+    pub struct Cache {
+        /// Programmable polynomial
+        pub pol: u32,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40023000u32 + 0x14u32) as *mut u32) };
+        ReadonlyCache {
+            pol: ((value >> 0) & 0b11111111111111111111111111111111) as u32,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40023000u32 + 0x14u32) as *mut u32) };
+        Cache {
+            pol: ((value >> 0) & 0b11111111111111111111111111111111) as u32,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.pol as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40023000u32 + 0x14u32) as *mut u32, value) };
+        }
+    }
 }
 /*
 <?xml version="1.0"?>
 <peripheral xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <name>CRC</name>
-  <description>cyclic redundancy check calculation
-      unit</description>
-  <groupName>CRC</groupName>
-  <baseAddress>0x40023000</baseAddress>
   <addressBlock>
     <offset>0x0</offset>
     <size>0x400</size>
     <usage>registers</usage>
   </addressBlock>
+  <baseAddress>0x40023000</baseAddress>
+  <description>
+                cyclic redundancy check calculation
+                unit
+            </description>
+  <groupName>CRC</groupName>
+  <name>CRC</name>
   <registers>
     <register>
-      <name>DR</name>
-      <displayName>DR</displayName>
-      <description>Data register</description>
-      <addressOffset>0x0</addressOffset>
-      <size>0x20</size>
       <access>read-write</access>
-      <resetValue>0xFFFFFFFF</resetValue>
+      <addressOffset>0x0</addressOffset>
+      <description>Data register</description>
+      <displayName>DR</displayName>
       <fields>
         <field>
-          <name>DR</name>
-          <description>Data register bits</description>
           <bitOffset>0</bitOffset>
           <bitWidth>32</bitWidth>
+          <description>Data register bits</description>
+          <name>DR</name>
         </field>
       </fields>
+      <name>DR</name>
+      <resetValue>0xFFFFFFFF</resetValue>
+      <size>0x20</size>
     </register>
     <register>
-      <name>IDR</name>
-      <displayName>IDR</displayName>
-      <description>Independent data register</description>
-      <addressOffset>0x4</addressOffset>
-      <size>0x20</size>
       <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
+      <addressOffset>0x4</addressOffset>
+      <description>Independent data register</description>
+      <displayName>IDR</displayName>
       <fields>
         <field>
-          <name>IDR</name>
-          <description>General-purpose 8-bit data register
-              bits</description>
           <bitOffset>0</bitOffset>
           <bitWidth>8</bitWidth>
+          <description>
+                                General-purpose 8-bit data register
+                                bits
+                            </description>
+          <name>IDR</name>
         </field>
       </fields>
+      <name>IDR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
     </register>
     <register>
-      <name>CR</name>
-      <displayName>CR</displayName>
-      <description>Control register</description>
-      <addressOffset>0x8</addressOffset>
-      <size>0x20</size>
       <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
+      <addressOffset>0x8</addressOffset>
+      <description>Control register</description>
+      <displayName>CR</displayName>
       <fields>
         <field>
-          <name>RESET</name>
-          <description>reset bit</description>
           <bitOffset>0</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>reset bit</description>
+          <name>RESET</name>
         </field>
         <field>
-          <name>POLYSIZE</name>
-          <description>Polynomial size</description>
           <bitOffset>3</bitOffset>
           <bitWidth>2</bitWidth>
+          <description>Polynomial size</description>
+          <name>POLYSIZE</name>
         </field>
         <field>
-          <name>REV_IN</name>
-          <description>Reverse input data</description>
           <bitOffset>5</bitOffset>
           <bitWidth>2</bitWidth>
+          <description>Reverse input data</description>
+          <name>REV_IN</name>
         </field>
         <field>
-          <name>REV_OUT</name>
-          <description>Reverse output data</description>
           <bitOffset>7</bitOffset>
           <bitWidth>1</bitWidth>
+          <description>Reverse output data</description>
+          <name>REV_OUT</name>
         </field>
       </fields>
+      <name>CR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
     </register>
     <register>
-      <name>INIT</name>
-      <displayName>INIT</displayName>
-      <description>Initial CRC value</description>
+      <access>read-write</access>
       <addressOffset>0x10</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0xFFFFFFFF</resetValue>
+      <description>Initial CRC value</description>
+      <displayName>INIT</displayName>
       <fields>
         <field>
-          <name>INIT</name>
-          <description>Programmable initial CRC
-              value</description>
           <bitOffset>0</bitOffset>
           <bitWidth>32</bitWidth>
+          <description>
+                                Programmable initial CRC
+                                value
+                            </description>
+          <name>INIT</name>
         </field>
       </fields>
+      <name>INIT</name>
+      <resetValue>0xFFFFFFFF</resetValue>
+      <size>0x20</size>
     </register>
     <register>
-      <name>POL</name>
-      <displayName>POL</displayName>
-      <description>CRC polynomial</description>
-      <addressOffset>0x14</addressOffset>
-      <size>0x20</size>
       <access>read-write</access>
-      <resetValue>0x04C11DB7</resetValue>
+      <addressOffset>0x14</addressOffset>
+      <description>CRC polynomial</description>
+      <displayName>POL</displayName>
       <fields>
         <field>
-          <name>POL</name>
-          <description>Programmable polynomial</description>
           <bitOffset>0</bitOffset>
           <bitWidth>32</bitWidth>
+          <description>Programmable polynomial</description>
+          <name>POL</name>
         </field>
       </fields>
+      <name>POL</name>
+      <resetValue>0x04C11DB7</resetValue>
+      <size>0x20</size>
     </register>
   </registers>
-</peripheral>*/
+</peripheral>
+*/

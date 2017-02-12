@@ -1,586 +1,733 @@
-/// MOD FPU
-/// Floting point unit
-const BASE_ADDRESS: u32 = 0xE000ED88;
 /// Coprocessor Access Control Register
-/// Size: 0x20 bits
 pub mod cpacr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x0;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CP0_BIT_OFFSET: u8 = 0;
-	const CP0_BIT_WIDTH: u8 = 1;
-	/// Access privileges for coprocessor 0 (Width: 1, Offset: 0)
-	pub fn get_cp0() -> u8 { ::read(REGISTER_ADDRESS, CP0_BIT_OFFSET, CP0_BIT_WIDTH) as u8 }
-	/// Access privileges for coprocessor 0 (Width: 1, Offset: 0)
-	pub fn set_cp0(value: u8) { ::write(REGISTER_ADDRESS, CP0_BIT_OFFSET, CP0_BIT_WIDTH, value as u32); }
-
-	const CP1_BIT_OFFSET: u8 = 2;
-	const CP1_BIT_WIDTH: u8 = 1;
-	/// Access privileges for coprocessor 1 (Width: 1, Offset: 2)
-	pub fn get_cp1() -> u8 { ::read(REGISTER_ADDRESS, CP1_BIT_OFFSET, CP1_BIT_WIDTH) as u8 }
-	/// Access privileges for coprocessor 1 (Width: 1, Offset: 2)
-	pub fn set_cp1(value: u8) { ::write(REGISTER_ADDRESS, CP1_BIT_OFFSET, CP1_BIT_WIDTH, value as u32); }
-
-	const CP2_BIT_OFFSET: u8 = 4;
-	const CP2_BIT_WIDTH: u8 = 1;
-	/// Access privileges for coprocessor 2 (Width: 1, Offset: 4)
-	pub fn get_cp2() -> u8 { ::read(REGISTER_ADDRESS, CP2_BIT_OFFSET, CP2_BIT_WIDTH) as u8 }
-	/// Access privileges for coprocessor 2 (Width: 1, Offset: 4)
-	pub fn set_cp2(value: u8) { ::write(REGISTER_ADDRESS, CP2_BIT_OFFSET, CP2_BIT_WIDTH, value as u32); }
-
-	const CP3_BIT_OFFSET: u8 = 6;
-	const CP3_BIT_WIDTH: u8 = 1;
-	/// Access privileges for coprocessor 3 (Width: 1, Offset: 6)
-	pub fn get_cp3() -> u8 { ::read(REGISTER_ADDRESS, CP3_BIT_OFFSET, CP3_BIT_WIDTH) as u8 }
-	/// Access privileges for coprocessor 3 (Width: 1, Offset: 6)
-	pub fn set_cp3(value: u8) { ::write(REGISTER_ADDRESS, CP3_BIT_OFFSET, CP3_BIT_WIDTH, value as u32); }
-
-	const CP4_BIT_OFFSET: u8 = 8;
-	const CP4_BIT_WIDTH: u8 = 1;
-	/// Access privileges for coprocessor 4 (Width: 1, Offset: 8)
-	pub fn get_cp4() -> u8 { ::read(REGISTER_ADDRESS, CP4_BIT_OFFSET, CP4_BIT_WIDTH) as u8 }
-	/// Access privileges for coprocessor 4 (Width: 1, Offset: 8)
-	pub fn set_cp4(value: u8) { ::write(REGISTER_ADDRESS, CP4_BIT_OFFSET, CP4_BIT_WIDTH, value as u32); }
-
-	const CP5_BIT_OFFSET: u8 = 10;
-	const CP5_BIT_WIDTH: u8 = 1;
-	/// Access privileges for coprocessor 5 (Width: 1, Offset: 10)
-	pub fn get_cp5() -> u8 { ::read(REGISTER_ADDRESS, CP5_BIT_OFFSET, CP5_BIT_WIDTH) as u8 }
-	/// Access privileges for coprocessor 5 (Width: 1, Offset: 10)
-	pub fn set_cp5(value: u8) { ::write(REGISTER_ADDRESS, CP5_BIT_OFFSET, CP5_BIT_WIDTH, value as u32); }
-
-	const CP6_BIT_OFFSET: u8 = 12;
-	const CP6_BIT_WIDTH: u8 = 2;
-	/// Access privileges for coprocessor 6 (Width: 2, Offset: 12)
-	pub fn get_cp6() -> u8 { ::read(REGISTER_ADDRESS, CP6_BIT_OFFSET, CP6_BIT_WIDTH) as u8 }
-	/// Access privileges for coprocessor 6 (Width: 2, Offset: 12)
-	pub fn set_cp6(value: u8) { ::write(REGISTER_ADDRESS, CP6_BIT_OFFSET, CP6_BIT_WIDTH, value as u32); }
-
-	const CP7_BIT_OFFSET: u8 = 14;
-	const CP7_BIT_WIDTH: u8 = 1;
-	/// Access privileges for coprocessor 7 (Width: 1, Offset: 14)
-	pub fn get_cp7() -> u8 { ::read(REGISTER_ADDRESS, CP7_BIT_OFFSET, CP7_BIT_WIDTH) as u8 }
-	/// Access privileges for coprocessor 7 (Width: 1, Offset: 14)
-	pub fn set_cp7(value: u8) { ::write(REGISTER_ADDRESS, CP7_BIT_OFFSET, CP7_BIT_WIDTH, value as u32); }
-
-	const CP10_BIT_OFFSET: u8 = 20;
-	const CP10_BIT_WIDTH: u8 = 1;
-	/// Access privileges for coprocessor 10 (Width: 1, Offset: 20)
-	pub fn get_cp10() -> u8 { ::read(REGISTER_ADDRESS, CP10_BIT_OFFSET, CP10_BIT_WIDTH) as u8 }
-	/// Access privileges for coprocessor 10 (Width: 1, Offset: 20)
-	pub fn set_cp10(value: u8) { ::write(REGISTER_ADDRESS, CP10_BIT_OFFSET, CP10_BIT_WIDTH, value as u32); }
-
-	const CP11_BIT_OFFSET: u8 = 22;
-	const CP11_BIT_WIDTH: u8 = 1;
-	/// Access privileges for coprocessor 11 (Width: 1, Offset: 22)
-	pub fn get_cp11() -> u8 { ::read(REGISTER_ADDRESS, CP11_BIT_OFFSET, CP11_BIT_WIDTH) as u8 }
-	/// Access privileges for coprocessor 11 (Width: 1, Offset: 22)
-	pub fn set_cp11(value: u8) { ::write(REGISTER_ADDRESS, CP11_BIT_OFFSET, CP11_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Access privileges for coprocessor 0
+        pub cp0: bool,
+        /// Access privileges for coprocessor 1
+        pub cp1: bool,
+        /// Access privileges for coprocessor 2
+        pub cp2: bool,
+        /// Access privileges for coprocessor 3
+        pub cp3: bool,
+        /// Access privileges for coprocessor 4
+        pub cp4: bool,
+        /// Access privileges for coprocessor 5
+        pub cp5: bool,
+        /// Access privileges for coprocessor 6
+        pub cp6: bool,
+        /// Access privileges for coprocessor 7
+        pub cp7: bool,
+        /// Access privileges for coprocessor 10
+        pub cp10: bool,
+        /// Access privileges for coprocessor 11
+        pub cp11: bool,
+    }
+    pub struct Cache {
+        /// Access privileges for coprocessor 0
+        pub cp0: bool,
+        /// Access privileges for coprocessor 1
+        pub cp1: bool,
+        /// Access privileges for coprocessor 2
+        pub cp2: bool,
+        /// Access privileges for coprocessor 3
+        pub cp3: bool,
+        /// Access privileges for coprocessor 4
+        pub cp4: bool,
+        /// Access privileges for coprocessor 5
+        pub cp5: bool,
+        /// Access privileges for coprocessor 6
+        pub cp6: bool,
+        /// Access privileges for coprocessor 7
+        pub cp7: bool,
+        /// Access privileges for coprocessor 10
+        pub cp10: bool,
+        /// Access privileges for coprocessor 11
+        pub cp11: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x0u32) as *mut u32) };
+        ReadonlyCache {
+            cp0: ((value >> 0) & 0b1) > 0,
+            cp1: ((value >> 2) & 0b1) > 0,
+            cp2: ((value >> 4) & 0b1) > 0,
+            cp3: ((value >> 6) & 0b1) > 0,
+            cp4: ((value >> 8) & 0b1) > 0,
+            cp5: ((value >> 10) & 0b1) > 0,
+            cp6: ((value >> 12) & 0b1) > 0,
+            cp7: ((value >> 14) & 0b1) > 0,
+            cp10: ((value >> 20) & 0b1) > 0,
+            cp11: ((value >> 22) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x0u32) as *mut u32) };
+        Cache {
+            cp0: ((value >> 0) & 0b1) > 0,
+            cp1: ((value >> 2) & 0b1) > 0,
+            cp2: ((value >> 4) & 0b1) > 0,
+            cp3: ((value >> 6) & 0b1) > 0,
+            cp4: ((value >> 8) & 0b1) > 0,
+            cp5: ((value >> 10) & 0b1) > 0,
+            cp6: ((value >> 12) & 0b1) > 0,
+            cp7: ((value >> 14) & 0b1) > 0,
+            cp10: ((value >> 20) & 0b1) > 0,
+            cp11: ((value >> 22) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.cp0 as u32) << 0)
+                | ((self.cp1 as u32) << 2)
+                | ((self.cp2 as u32) << 4)
+                | ((self.cp3 as u32) << 6)
+                | ((self.cp4 as u32) << 8)
+                | ((self.cp5 as u32) << 10)
+                | ((self.cp6 as u32) << 12)
+                | ((self.cp7 as u32) << 14)
+                | ((self.cp10 as u32) << 20)
+                | ((self.cp11 as u32) << 22)
+            ;
+            unsafe { ::core::ptr::write_volatile((0xE000ED88u32 + 0x0u32) as *mut u32, value) };
+        }
+    }
 }
 /// FP Context Control Register
-/// Size: 0x20 bits
 pub mod fpccr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x1AC;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const LSPACT_BIT_OFFSET: u8 = 0;
-	const LSPACT_BIT_WIDTH: u8 = 1;
-	/// LSPACT (Width: 1, Offset: 0)
-	pub fn get_lspact() -> u8 { ::read(REGISTER_ADDRESS, LSPACT_BIT_OFFSET, LSPACT_BIT_WIDTH) as u8 }
-	/// LSPACT (Width: 1, Offset: 0)
-	pub fn set_lspact(value: u8) { ::write(REGISTER_ADDRESS, LSPACT_BIT_OFFSET, LSPACT_BIT_WIDTH, value as u32); }
-
-	const USER_BIT_OFFSET: u8 = 1;
-	const USER_BIT_WIDTH: u8 = 1;
-	/// USER (Width: 1, Offset: 1)
-	pub fn get_user() -> u8 { ::read(REGISTER_ADDRESS, USER_BIT_OFFSET, USER_BIT_WIDTH) as u8 }
-	/// USER (Width: 1, Offset: 1)
-	pub fn set_user(value: u8) { ::write(REGISTER_ADDRESS, USER_BIT_OFFSET, USER_BIT_WIDTH, value as u32); }
-
-	const THREAD_BIT_OFFSET: u8 = 3;
-	const THREAD_BIT_WIDTH: u8 = 1;
-	/// THREAD (Width: 1, Offset: 3)
-	pub fn get_thread() -> u8 { ::read(REGISTER_ADDRESS, THREAD_BIT_OFFSET, THREAD_BIT_WIDTH) as u8 }
-	/// THREAD (Width: 1, Offset: 3)
-	pub fn set_thread(value: u8) { ::write(REGISTER_ADDRESS, THREAD_BIT_OFFSET, THREAD_BIT_WIDTH, value as u32); }
-
-	const HFRDY_BIT_OFFSET: u8 = 4;
-	const HFRDY_BIT_WIDTH: u8 = 1;
-	/// HFRDY (Width: 1, Offset: 4)
-	pub fn get_hfrdy() -> u8 { ::read(REGISTER_ADDRESS, HFRDY_BIT_OFFSET, HFRDY_BIT_WIDTH) as u8 }
-	/// HFRDY (Width: 1, Offset: 4)
-	pub fn set_hfrdy(value: u8) { ::write(REGISTER_ADDRESS, HFRDY_BIT_OFFSET, HFRDY_BIT_WIDTH, value as u32); }
-
-	const MMRDY_BIT_OFFSET: u8 = 5;
-	const MMRDY_BIT_WIDTH: u8 = 1;
-	/// MMRDY (Width: 1, Offset: 5)
-	pub fn get_mmrdy() -> u8 { ::read(REGISTER_ADDRESS, MMRDY_BIT_OFFSET, MMRDY_BIT_WIDTH) as u8 }
-	/// MMRDY (Width: 1, Offset: 5)
-	pub fn set_mmrdy(value: u8) { ::write(REGISTER_ADDRESS, MMRDY_BIT_OFFSET, MMRDY_BIT_WIDTH, value as u32); }
-
-	const BFRDY_BIT_OFFSET: u8 = 6;
-	const BFRDY_BIT_WIDTH: u8 = 1;
-	/// BFRDY (Width: 1, Offset: 6)
-	pub fn get_bfrdy() -> u8 { ::read(REGISTER_ADDRESS, BFRDY_BIT_OFFSET, BFRDY_BIT_WIDTH) as u8 }
-	/// BFRDY (Width: 1, Offset: 6)
-	pub fn set_bfrdy(value: u8) { ::write(REGISTER_ADDRESS, BFRDY_BIT_OFFSET, BFRDY_BIT_WIDTH, value as u32); }
-
-	const MONRDY_BIT_OFFSET: u8 = 8;
-	const MONRDY_BIT_WIDTH: u8 = 1;
-	/// MONRDY (Width: 1, Offset: 8)
-	pub fn get_monrdy() -> u8 { ::read(REGISTER_ADDRESS, MONRDY_BIT_OFFSET, MONRDY_BIT_WIDTH) as u8 }
-	/// MONRDY (Width: 1, Offset: 8)
-	pub fn set_monrdy(value: u8) { ::write(REGISTER_ADDRESS, MONRDY_BIT_OFFSET, MONRDY_BIT_WIDTH, value as u32); }
-
-	const LSPEN_BIT_OFFSET: u8 = 30;
-	const LSPEN_BIT_WIDTH: u8 = 1;
-	/// LSPEN (Width: 1, Offset: 30)
-	pub fn get_lspen() -> u8 { ::read(REGISTER_ADDRESS, LSPEN_BIT_OFFSET, LSPEN_BIT_WIDTH) as u8 }
-	/// LSPEN (Width: 1, Offset: 30)
-	pub fn set_lspen(value: u8) { ::write(REGISTER_ADDRESS, LSPEN_BIT_OFFSET, LSPEN_BIT_WIDTH, value as u32); }
-
-	const ASPEN_BIT_OFFSET: u8 = 31;
-	const ASPEN_BIT_WIDTH: u8 = 1;
-	/// ASPEN (Width: 1, Offset: 31)
-	pub fn get_aspen() -> u8 { ::read(REGISTER_ADDRESS, ASPEN_BIT_OFFSET, ASPEN_BIT_WIDTH) as u8 }
-	/// ASPEN (Width: 1, Offset: 31)
-	pub fn set_aspen(value: u8) { ::write(REGISTER_ADDRESS, ASPEN_BIT_OFFSET, ASPEN_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// LSPACT
+        pub lspact: bool,
+        /// USER
+        pub user: bool,
+        /// THREAD
+        pub thread: bool,
+        /// HFRDY
+        pub hfrdy: bool,
+        /// MMRDY
+        pub mmrdy: bool,
+        /// BFRDY
+        pub bfrdy: bool,
+        /// MONRDY
+        pub monrdy: bool,
+        /// LSPEN
+        pub lspen: bool,
+        /// ASPEN
+        pub aspen: bool,
+    }
+    pub struct Cache {
+        /// LSPACT
+        pub lspact: bool,
+        /// USER
+        pub user: bool,
+        /// THREAD
+        pub thread: bool,
+        /// HFRDY
+        pub hfrdy: bool,
+        /// MMRDY
+        pub mmrdy: bool,
+        /// BFRDY
+        pub bfrdy: bool,
+        /// MONRDY
+        pub monrdy: bool,
+        /// LSPEN
+        pub lspen: bool,
+        /// ASPEN
+        pub aspen: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x1ACu32) as *mut u32) };
+        ReadonlyCache {
+            lspact: ((value >> 0) & 0b1) > 0,
+            user: ((value >> 1) & 0b1) > 0,
+            thread: ((value >> 3) & 0b1) > 0,
+            hfrdy: ((value >> 4) & 0b1) > 0,
+            mmrdy: ((value >> 5) & 0b1) > 0,
+            bfrdy: ((value >> 6) & 0b1) > 0,
+            monrdy: ((value >> 8) & 0b1) > 0,
+            lspen: ((value >> 30) & 0b1) > 0,
+            aspen: ((value >> 31) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x1ACu32) as *mut u32) };
+        Cache {
+            lspact: ((value >> 0) & 0b1) > 0,
+            user: ((value >> 1) & 0b1) > 0,
+            thread: ((value >> 3) & 0b1) > 0,
+            hfrdy: ((value >> 4) & 0b1) > 0,
+            mmrdy: ((value >> 5) & 0b1) > 0,
+            bfrdy: ((value >> 6) & 0b1) > 0,
+            monrdy: ((value >> 8) & 0b1) > 0,
+            lspen: ((value >> 30) & 0b1) > 0,
+            aspen: ((value >> 31) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.lspact as u32) << 0)
+                | ((self.user as u32) << 1)
+                | ((self.thread as u32) << 3)
+                | ((self.hfrdy as u32) << 4)
+                | ((self.mmrdy as u32) << 5)
+                | ((self.bfrdy as u32) << 6)
+                | ((self.monrdy as u32) << 8)
+                | ((self.lspen as u32) << 30)
+                | ((self.aspen as u32) << 31)
+            ;
+            unsafe { ::core::ptr::write_volatile((0xE000ED88u32 + 0x1ACu32) as *mut u32, value) };
+        }
+    }
 }
 /// FP Context Address Register
-/// Size: 0x20 bits
 pub mod fpcar {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x1B0;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const ADDRESS_BIT_OFFSET: u8 = 3;
-	const ADDRESS_BIT_WIDTH: u8 = 29;
-	/// ADDRESS (Width: 29, Offset: 3)
-	pub fn get_address() -> u32 { ::read(REGISTER_ADDRESS, ADDRESS_BIT_OFFSET, ADDRESS_BIT_WIDTH) as u32 }
-	/// ADDRESS (Width: 29, Offset: 3)
-	pub fn set_address(value: u32) { ::write(REGISTER_ADDRESS, ADDRESS_BIT_OFFSET, ADDRESS_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// ADDRESS
+        pub address: u32,
+    }
+    pub struct Cache {
+        /// ADDRESS
+        pub address: u32,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x1B0u32) as *mut u32) };
+        ReadonlyCache {
+            address: ((value >> 3) & 0b11111111111111111111111111111) as u32,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x1B0u32) as *mut u32) };
+        Cache {
+            address: ((value >> 3) & 0b11111111111111111111111111111) as u32,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.address as u32) << 3)
+            ;
+            unsafe { ::core::ptr::write_volatile((0xE000ED88u32 + 0x1B0u32) as *mut u32, value) };
+        }
+    }
 }
 /// FP Default Status Control Register
-/// Size: 0x20 bits
 pub mod fpdscr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x1B4;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const RMode_BIT_OFFSET: u8 = 22;
-	const RMode_BIT_WIDTH: u8 = 2;
-	/// RMode (Width: 2, Offset: 22)
-	pub fn get_rmode() -> u8 { ::read(REGISTER_ADDRESS, RMode_BIT_OFFSET, RMode_BIT_WIDTH) as u8 }
-	/// RMode (Width: 2, Offset: 22)
-	pub fn set_rmode(value: u8) { ::write(REGISTER_ADDRESS, RMode_BIT_OFFSET, RMode_BIT_WIDTH, value as u32); }
-
-	const FZ_BIT_OFFSET: u8 = 24;
-	const FZ_BIT_WIDTH: u8 = 1;
-	/// FZ (Width: 1, Offset: 24)
-	pub fn get_fz() -> u8 { ::read(REGISTER_ADDRESS, FZ_BIT_OFFSET, FZ_BIT_WIDTH) as u8 }
-	/// FZ (Width: 1, Offset: 24)
-	pub fn set_fz(value: u8) { ::write(REGISTER_ADDRESS, FZ_BIT_OFFSET, FZ_BIT_WIDTH, value as u32); }
-
-	const DN_BIT_OFFSET: u8 = 25;
-	const DN_BIT_WIDTH: u8 = 1;
-	/// DN (Width: 1, Offset: 25)
-	pub fn get_dn() -> u8 { ::read(REGISTER_ADDRESS, DN_BIT_OFFSET, DN_BIT_WIDTH) as u8 }
-	/// DN (Width: 1, Offset: 25)
-	pub fn set_dn(value: u8) { ::write(REGISTER_ADDRESS, DN_BIT_OFFSET, DN_BIT_WIDTH, value as u32); }
-
-	const AHP_BIT_OFFSET: u8 = 26;
-	const AHP_BIT_WIDTH: u8 = 1;
-	/// AHP (Width: 1, Offset: 26)
-	pub fn get_ahp() -> u8 { ::read(REGISTER_ADDRESS, AHP_BIT_OFFSET, AHP_BIT_WIDTH) as u8 }
-	/// AHP (Width: 1, Offset: 26)
-	pub fn set_ahp(value: u8) { ::write(REGISTER_ADDRESS, AHP_BIT_OFFSET, AHP_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// RMode
+        pub rmode: u8,
+        /// FZ
+        pub fz: u8,
+        /// DN
+        pub dn: u8,
+        /// AHP
+        pub ahp: u8,
+    }
+    pub struct Cache {
+        /// RMode
+        pub rmode: u8,
+        /// FZ
+        pub fz: u8,
+        /// DN
+        pub dn: u8,
+        /// AHP
+        pub ahp: u8,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x1B4u32) as *mut u32) };
+        ReadonlyCache {
+            rmode: ((value >> 22) & 0b11) as u8,
+            fz: ((value >> 24) & 0b11) as u8,
+            dn: ((value >> 25) & 0b11) as u8,
+            ahp: ((value >> 26) & 0b11) as u8,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x1B4u32) as *mut u32) };
+        Cache {
+            rmode: ((value >> 22) & 0b11) as u8,
+            fz: ((value >> 24) & 0b11) as u8,
+            dn: ((value >> 25) & 0b11) as u8,
+            ahp: ((value >> 26) & 0b11) as u8,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.rmode as u32) << 22)
+                | ((self.fz as u32) << 24)
+                | ((self.dn as u32) << 25)
+                | ((self.ahp as u32) << 26)
+            ;
+            unsafe { ::core::ptr::write_volatile((0xE000ED88u32 + 0x1B4u32) as *mut u32, value) };
+        }
+    }
 }
 /// Media and VFP Feature Register 0
-/// Size: 0x20 bits
 pub mod mvfr0 {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x1B8;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const A_SIMD_BIT_OFFSET: u8 = 0;
-	const A_SIMD_BIT_WIDTH: u8 = 4;
-	/// A_SIMD registers (Width: 4, Offset: 0)
-	pub fn get_a_simd() -> u8 { ::read(REGISTER_ADDRESS, A_SIMD_BIT_OFFSET, A_SIMD_BIT_WIDTH) as u8 }
-
-	const Single_precision_BIT_OFFSET: u8 = 4;
-	const Single_precision_BIT_WIDTH: u8 = 4;
-	/// Single_precision (Width: 4, Offset: 4)
-	pub fn get_single_precision() -> u8 { ::read(REGISTER_ADDRESS, Single_precision_BIT_OFFSET, Single_precision_BIT_WIDTH) as u8 }
-
-	const Double_precision_BIT_OFFSET: u8 = 8;
-	const Double_precision_BIT_WIDTH: u8 = 4;
-	/// Double_precision (Width: 4, Offset: 8)
-	pub fn get_double_precision() -> u8 { ::read(REGISTER_ADDRESS, Double_precision_BIT_OFFSET, Double_precision_BIT_WIDTH) as u8 }
-
-	const FP_exception_trapping_BIT_OFFSET: u8 = 12;
-	const FP_exception_trapping_BIT_WIDTH: u8 = 4;
-	/// FP exception trapping (Width: 4, Offset: 12)
-	pub fn get_fp_exception_trapping() -> u8 { ::read(REGISTER_ADDRESS, FP_exception_trapping_BIT_OFFSET, FP_exception_trapping_BIT_WIDTH) as u8 }
-
-	const Divide_BIT_OFFSET: u8 = 16;
-	const Divide_BIT_WIDTH: u8 = 4;
-	/// Divide (Width: 4, Offset: 16)
-	pub fn get_divide() -> u8 { ::read(REGISTER_ADDRESS, Divide_BIT_OFFSET, Divide_BIT_WIDTH) as u8 }
-
-	const Square_root_BIT_OFFSET: u8 = 20;
-	const Square_root_BIT_WIDTH: u8 = 4;
-	/// Square root (Width: 4, Offset: 20)
-	pub fn get_square_root() -> u8 { ::read(REGISTER_ADDRESS, Square_root_BIT_OFFSET, Square_root_BIT_WIDTH) as u8 }
-
-	const Short_vectors_BIT_OFFSET: u8 = 24;
-	const Short_vectors_BIT_WIDTH: u8 = 4;
-	/// Short vectors (Width: 4, Offset: 24)
-	pub fn get_short_vectors() -> u8 { ::read(REGISTER_ADDRESS, Short_vectors_BIT_OFFSET, Short_vectors_BIT_WIDTH) as u8 }
-
-	const FP_rounding_modes_BIT_OFFSET: u8 = 28;
-	const FP_rounding_modes_BIT_WIDTH: u8 = 4;
-	/// FP rounding modes (Width: 4, Offset: 28)
-	pub fn get_fp_rounding_modes() -> u8 { ::read(REGISTER_ADDRESS, FP_rounding_modes_BIT_OFFSET, FP_rounding_modes_BIT_WIDTH) as u8 }
+    /// A_SIMD registers
+    /// Access: read-only, Width: 4, Offset: 0
+    /// Get A_SIMD registers
+    pub fn a_simd() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x1B8u32) as *mut u32) };
+        let value = value & (0b1111 << 0);
+        value as u8
+    }
+    /// Single_precision
+    /// Access: read-only, Width: 4, Offset: 4
+    /// Get Single_precision
+    pub fn single_precision() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x1B8u32) as *mut u32) };
+        let value = value & (0b1111 << 4);
+        value as u8
+    }
+    /// Double_precision
+    /// Access: read-only, Width: 4, Offset: 8
+    /// Get Double_precision
+    pub fn double_precision() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x1B8u32) as *mut u32) };
+        let value = value & (0b1111 << 8);
+        value as u8
+    }
+    /// FP exception trapping
+    /// Access: read-only, Width: 4, Offset: 12
+    /// Get FP exception trapping
+    pub fn fp_exception_trapping() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x1B8u32) as *mut u32) };
+        let value = value & (0b1111 << 12);
+        value as u8
+    }
+    /// Divide
+    /// Access: read-only, Width: 4, Offset: 16
+    /// Get Divide
+    pub fn divide() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x1B8u32) as *mut u32) };
+        let value = value & (0b1111 << 16);
+        value as u8
+    }
+    /// Square root
+    /// Access: read-only, Width: 4, Offset: 20
+    /// Get Square root
+    pub fn square_root() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x1B8u32) as *mut u32) };
+        let value = value & (0b1111 << 20);
+        value as u8
+    }
+    /// Short vectors
+    /// Access: read-only, Width: 4, Offset: 24
+    /// Get Short vectors
+    pub fn short_vectors() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x1B8u32) as *mut u32) };
+        let value = value & (0b1111 << 24);
+        value as u8
+    }
+    /// FP rounding modes
+    /// Access: read-only, Width: 4, Offset: 28
+    /// Get FP rounding modes
+    pub fn fp_rounding_modes() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x1B8u32) as *mut u32) };
+        let value = value & (0b1111 << 28);
+        value as u8
+    }
 }
 /// Media and VFP Feature Register 1
-/// Size: 0x20 bits
 pub mod mvfr1 {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x1BC;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const FtZ_mode_BIT_OFFSET: u8 = 0;
-	const FtZ_mode_BIT_WIDTH: u8 = 4;
-	/// FtZ mode (Width: 4, Offset: 0)
-	pub fn get_ftz_mode() -> u8 { ::read(REGISTER_ADDRESS, FtZ_mode_BIT_OFFSET, FtZ_mode_BIT_WIDTH) as u8 }
-
-	const D_NaN_mode_BIT_OFFSET: u8 = 4;
-	const D_NaN_mode_BIT_WIDTH: u8 = 4;
-	/// D_NaN mode (Width: 4, Offset: 4)
-	pub fn get_d_nan_mode() -> u8 { ::read(REGISTER_ADDRESS, D_NaN_mode_BIT_OFFSET, D_NaN_mode_BIT_WIDTH) as u8 }
-
-	const FP_HPFP_BIT_OFFSET: u8 = 24;
-	const FP_HPFP_BIT_WIDTH: u8 = 4;
-	/// FP HPFP (Width: 4, Offset: 24)
-	pub fn get_fp_hpfp() -> u8 { ::read(REGISTER_ADDRESS, FP_HPFP_BIT_OFFSET, FP_HPFP_BIT_WIDTH) as u8 }
-
-	const FP_fused_MAC_BIT_OFFSET: u8 = 28;
-	const FP_fused_MAC_BIT_WIDTH: u8 = 4;
-	/// FP fused MAC (Width: 4, Offset: 28)
-	pub fn get_fp_fused_mac() -> u8 { ::read(REGISTER_ADDRESS, FP_fused_MAC_BIT_OFFSET, FP_fused_MAC_BIT_WIDTH) as u8 }
+    /// FtZ mode
+    /// Access: read-only, Width: 4, Offset: 0
+    /// Get FtZ mode
+    pub fn ftz_mode() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x1BCu32) as *mut u32) };
+        let value = value & (0b1111 << 0);
+        value as u8
+    }
+    /// D_NaN mode
+    /// Access: read-only, Width: 4, Offset: 4
+    /// Get D_NaN mode
+    pub fn d_nan_mode() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x1BCu32) as *mut u32) };
+        let value = value & (0b1111 << 4);
+        value as u8
+    }
+    /// FP HPFP
+    /// Access: read-only, Width: 4, Offset: 24
+    /// Get FP HPFP
+    pub fn fp_hpfp() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x1BCu32) as *mut u32) };
+        let value = value & (0b1111 << 24);
+        value as u8
+    }
+    /// FP fused MAC
+    /// Access: read-only, Width: 4, Offset: 28
+    /// Get FP fused MAC
+    pub fn fp_fused_mac() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0xE000ED88u32 + 0x1BCu32) as *mut u32) };
+        let value = value & (0b1111 << 28);
+        value as u8
+    }
 }
 /// Floating point interrupt
 pub const INTERRUPT_FPU: u32 = 81;
-
 /*
 <?xml version="1.0"?>
 <peripheral xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <name>FPU</name>
-  <description>Floting point unit</description>
-  <groupName>FPU</groupName>
-  <baseAddress>0xE000ED88</baseAddress>
   <addressBlock>
     <offset>0x0</offset>
     <size>0x200</size>
     <usage>registers</usage>
   </addressBlock>
-  <registers>
-    <register>
-      <name>CPACR</name>
-      <displayName>CPACR</displayName>
-      <description>Coprocessor Access Control
-          Register</description>
-      <addressOffset>0x0</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>CP0</name>
-          <description>Access privileges for coprocessor
-              0</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CP1</name>
-          <description>Access privileges for coprocessor
-              1</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CP2</name>
-          <description>Access privileges for coprocessor
-              2</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CP3</name>
-          <description>Access privileges for coprocessor
-              3</description>
-          <bitOffset>6</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CP4</name>
-          <description>Access privileges for coprocessor
-              4</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CP5</name>
-          <description>Access privileges for coprocessor
-              5</description>
-          <bitOffset>10</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CP6</name>
-          <description>Access privileges for coprocessor
-              6</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>CP7</name>
-          <description>Access privileges for coprocessor
-              7</description>
-          <bitOffset>14</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CP10</name>
-          <description>Access privileges for coprocessor
-              10</description>
-          <bitOffset>20</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CP11</name>
-          <description>Access privileges for coprocessor
-              11</description>
-          <bitOffset>22</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>FPCCR</name>
-      <displayName>FPCCR</displayName>
-      <description>FP Context Control Register</description>
-      <addressOffset>0x1AC</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0xC0000000</resetValue>
-      <fields>
-        <field>
-          <name>LSPACT</name>
-          <description>LSPACT</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>USER</name>
-          <description>USER</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>THREAD</name>
-          <description>THREAD</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>HFRDY</name>
-          <description>HFRDY</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>MMRDY</name>
-          <description>MMRDY</description>
-          <bitOffset>5</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>BFRDY</name>
-          <description>BFRDY</description>
-          <bitOffset>6</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>MONRDY</name>
-          <description>MONRDY</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>LSPEN</name>
-          <description>LSPEN</description>
-          <bitOffset>30</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>ASPEN</name>
-          <description>ASPEN</description>
-          <bitOffset>31</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>FPCAR</name>
-      <displayName>FPCAR</displayName>
-      <description>FP Context Address Register</description>
-      <addressOffset>0x1B0</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>ADDRESS</name>
-          <description>ADDRESS</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>29</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>FPDSCR</name>
-      <displayName>FPDSCR</displayName>
-      <description>FP Default Status Control
-          Register</description>
-      <addressOffset>0x1B4</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>RMode</name>
-          <description>RMode</description>
-          <bitOffset>22</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>FZ</name>
-          <description>FZ</description>
-          <bitOffset>24</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>DN</name>
-          <description>DN</description>
-          <bitOffset>25</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>AHP</name>
-          <description>AHP</description>
-          <bitOffset>26</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>MVFR0</name>
-      <displayName>MVFR0</displayName>
-      <description>Media and VFP Feature Register
-          0</description>
-      <addressOffset>0x1B8</addressOffset>
-      <size>0x20</size>
-      <access>read-only</access>
-      <resetValue>0x10110021</resetValue>
-      <fields>
-        <field>
-          <name>A_SIMD</name>
-          <description>A_SIMD registers</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>Single_precision</name>
-          <description>Single_precision</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>Double_precision</name>
-          <description>Double_precision</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>FP_exception_trapping</name>
-          <description>FP exception trapping</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>Divide</name>
-          <description>Divide</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>Square_root</name>
-          <description>Square root</description>
-          <bitOffset>20</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>Short_vectors</name>
-          <description>Short vectors</description>
-          <bitOffset>24</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>FP_rounding_modes</name>
-          <description>FP rounding modes</description>
-          <bitOffset>28</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>MVFR1</name>
-      <displayName>MVFR1</displayName>
-      <description>Media and VFP Feature Register
-          1</description>
-      <addressOffset>0x1BC</addressOffset>
-      <size>0x20</size>
-      <access>read-only</access>
-      <resetValue>0x11000011</resetValue>
-      <fields>
-        <field>
-          <name>FtZ_mode</name>
-          <description>FtZ mode</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>D_NaN_mode</name>
-          <description>D_NaN mode</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>FP_HPFP</name>
-          <description>FP HPFP</description>
-          <bitOffset>24</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>FP_fused_MAC</name>
-          <description>FP fused MAC</description>
-          <bitOffset>28</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-      </fields>
-    </register>
-  </registers>
+  <baseAddress>0xE000ED88</baseAddress>
+  <description>Floting point unit</description>
+  <groupName>FPU</groupName>
   <interrupt>
-    <name>FPU</name>
     <description>Floating point interrupt</description>
+    <name>FPU</name>
     <value>81</value>
   </interrupt>
-</peripheral>*/
+  <name>FPU</name>
+  <registers>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x0</addressOffset>
+      <description>
+                        Coprocessor Access Control
+                        Register
+                    </description>
+      <displayName>CPACR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Access privileges for coprocessor
+                                0
+                            </description>
+          <name>CP0</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Access privileges for coprocessor
+                                1
+                            </description>
+          <name>CP1</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Access privileges for coprocessor
+                                2
+                            </description>
+          <name>CP2</name>
+        </field>
+        <field>
+          <bitOffset>6</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Access privileges for coprocessor
+                                3
+                            </description>
+          <name>CP3</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Access privileges for coprocessor
+                                4
+                            </description>
+          <name>CP4</name>
+        </field>
+        <field>
+          <bitOffset>10</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Access privileges for coprocessor
+                                5
+                            </description>
+          <name>CP5</name>
+        </field>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>
+                                Access privileges for coprocessor
+                                6
+                            </description>
+          <name>CP6</name>
+        </field>
+        <field>
+          <bitOffset>14</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Access privileges for coprocessor
+                                7
+                            </description>
+          <name>CP7</name>
+        </field>
+        <field>
+          <bitOffset>20</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Access privileges for coprocessor
+                                10
+                            </description>
+          <name>CP10</name>
+        </field>
+        <field>
+          <bitOffset>22</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Access privileges for coprocessor
+                                11
+                            </description>
+          <name>CP11</name>
+        </field>
+      </fields>
+      <name>CPACR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x1AC</addressOffset>
+      <description>FP Context Control Register</description>
+      <displayName>FPCCR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>LSPACT</description>
+          <name>LSPACT</name>
+        </field>
+        <field>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>USER</description>
+          <name>USER</name>
+        </field>
+        <field>
+          <bitOffset>3</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>THREAD</description>
+          <name>THREAD</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>HFRDY</description>
+          <name>HFRDY</name>
+        </field>
+        <field>
+          <bitOffset>5</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>MMRDY</description>
+          <name>MMRDY</name>
+        </field>
+        <field>
+          <bitOffset>6</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>BFRDY</description>
+          <name>BFRDY</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>MONRDY</description>
+          <name>MONRDY</name>
+        </field>
+        <field>
+          <bitOffset>30</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>LSPEN</description>
+          <name>LSPEN</name>
+        </field>
+        <field>
+          <bitOffset>31</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>ASPEN</description>
+          <name>ASPEN</name>
+        </field>
+      </fields>
+      <name>FPCCR</name>
+      <resetValue>0xC0000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x1B0</addressOffset>
+      <description>FP Context Address Register</description>
+      <displayName>FPCAR</displayName>
+      <fields>
+        <field>
+          <bitOffset>3</bitOffset>
+          <bitWidth>29</bitWidth>
+          <description>ADDRESS</description>
+          <name>ADDRESS</name>
+        </field>
+      </fields>
+      <name>FPCAR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x1B4</addressOffset>
+      <description>
+                        FP Default Status Control
+                        Register
+                    </description>
+      <displayName>FPDSCR</displayName>
+      <fields>
+        <field>
+          <bitOffset>22</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>RMode</description>
+          <name>RMode</name>
+        </field>
+        <field>
+          <bitOffset>24</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>FZ</description>
+          <name>FZ</name>
+        </field>
+        <field>
+          <bitOffset>25</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>DN</description>
+          <name>DN</name>
+        </field>
+        <field>
+          <bitOffset>26</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>AHP</description>
+          <name>AHP</name>
+        </field>
+      </fields>
+      <name>FPDSCR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-only</access>
+      <addressOffset>0x1B8</addressOffset>
+      <description>
+                        Media and VFP Feature Register
+                        0
+                    </description>
+      <displayName>MVFR0</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>A_SIMD registers</description>
+          <name>A_SIMD</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>Single_precision</description>
+          <name>Single_precision</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>Double_precision</description>
+          <name>Double_precision</name>
+        </field>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>FP exception trapping</description>
+          <name>FP_exception_trapping</name>
+        </field>
+        <field>
+          <bitOffset>16</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>Divide</description>
+          <name>Divide</name>
+        </field>
+        <field>
+          <bitOffset>20</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>Square root</description>
+          <name>Square_root</name>
+        </field>
+        <field>
+          <bitOffset>24</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>Short vectors</description>
+          <name>Short_vectors</name>
+        </field>
+        <field>
+          <bitOffset>28</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>FP rounding modes</description>
+          <name>FP_rounding_modes</name>
+        </field>
+      </fields>
+      <name>MVFR0</name>
+      <resetValue>0x10110021</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-only</access>
+      <addressOffset>0x1BC</addressOffset>
+      <description>
+                        Media and VFP Feature Register
+                        1
+                    </description>
+      <displayName>MVFR1</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>FtZ mode</description>
+          <name>FtZ_mode</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>D_NaN mode</description>
+          <name>D_NaN_mode</name>
+        </field>
+        <field>
+          <bitOffset>24</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>FP HPFP</description>
+          <name>FP_HPFP</name>
+        </field>
+        <field>
+          <bitOffset>28</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>FP fused MAC</description>
+          <name>FP_fused_MAC</name>
+        </field>
+      </fields>
+      <name>MVFR1</name>
+      <resetValue>0x11000011</resetValue>
+      <size>0x20</size>
+    </register>
+  </registers>
+</peripheral>
+*/

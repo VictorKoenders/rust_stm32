@@ -1,2727 +1,3489 @@
-/// MOD TIM1
-/// Advanced timer
-const BASE_ADDRESS: u32 = 0x40012C00;
 /// control register 1
-/// Size: 0x20 bits
 pub mod cr1 {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x0;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CEN_BIT_OFFSET: u8 = 0;
-	const CEN_BIT_WIDTH: u8 = 1;
-	/// Counter enable (Width: 1, Offset: 0)
-	pub fn get_cen() -> u8 { ::read(REGISTER_ADDRESS, CEN_BIT_OFFSET, CEN_BIT_WIDTH) as u8 }
-	/// Counter enable (Width: 1, Offset: 0)
-	pub fn set_cen(value: u8) { ::write(REGISTER_ADDRESS, CEN_BIT_OFFSET, CEN_BIT_WIDTH, value as u32); }
-
-	const UDIS_BIT_OFFSET: u8 = 1;
-	const UDIS_BIT_WIDTH: u8 = 1;
-	/// Update disable (Width: 1, Offset: 1)
-	pub fn get_udis() -> u8 { ::read(REGISTER_ADDRESS, UDIS_BIT_OFFSET, UDIS_BIT_WIDTH) as u8 }
-	/// Update disable (Width: 1, Offset: 1)
-	pub fn set_udis(value: u8) { ::write(REGISTER_ADDRESS, UDIS_BIT_OFFSET, UDIS_BIT_WIDTH, value as u32); }
-
-	const URS_BIT_OFFSET: u8 = 2;
-	const URS_BIT_WIDTH: u8 = 1;
-	/// Update request source (Width: 1, Offset: 2)
-	pub fn get_urs() -> u8 { ::read(REGISTER_ADDRESS, URS_BIT_OFFSET, URS_BIT_WIDTH) as u8 }
-	/// Update request source (Width: 1, Offset: 2)
-	pub fn set_urs(value: u8) { ::write(REGISTER_ADDRESS, URS_BIT_OFFSET, URS_BIT_WIDTH, value as u32); }
-
-	const OPM_BIT_OFFSET: u8 = 3;
-	const OPM_BIT_WIDTH: u8 = 1;
-	/// One-pulse mode (Width: 1, Offset: 3)
-	pub fn get_opm() -> u8 { ::read(REGISTER_ADDRESS, OPM_BIT_OFFSET, OPM_BIT_WIDTH) as u8 }
-	/// One-pulse mode (Width: 1, Offset: 3)
-	pub fn set_opm(value: u8) { ::write(REGISTER_ADDRESS, OPM_BIT_OFFSET, OPM_BIT_WIDTH, value as u32); }
-
-	const DIR_BIT_OFFSET: u8 = 4;
-	const DIR_BIT_WIDTH: u8 = 1;
-	/// Direction (Width: 1, Offset: 4)
-	pub fn get_dir() -> u8 { ::read(REGISTER_ADDRESS, DIR_BIT_OFFSET, DIR_BIT_WIDTH) as u8 }
-	/// Direction (Width: 1, Offset: 4)
-	pub fn set_dir(value: u8) { ::write(REGISTER_ADDRESS, DIR_BIT_OFFSET, DIR_BIT_WIDTH, value as u32); }
-
-	const CMS_BIT_OFFSET: u8 = 5;
-	const CMS_BIT_WIDTH: u8 = 2;
-	/// Center-aligned mode selection (Width: 2, Offset: 5)
-	pub fn get_cms() -> u8 { ::read(REGISTER_ADDRESS, CMS_BIT_OFFSET, CMS_BIT_WIDTH) as u8 }
-	/// Center-aligned mode selection (Width: 2, Offset: 5)
-	pub fn set_cms(value: u8) { ::write(REGISTER_ADDRESS, CMS_BIT_OFFSET, CMS_BIT_WIDTH, value as u32); }
-
-	const ARPE_BIT_OFFSET: u8 = 7;
-	const ARPE_BIT_WIDTH: u8 = 1;
-	/// Auto-reload preload enable (Width: 1, Offset: 7)
-	pub fn get_arpe() -> u8 { ::read(REGISTER_ADDRESS, ARPE_BIT_OFFSET, ARPE_BIT_WIDTH) as u8 }
-	/// Auto-reload preload enable (Width: 1, Offset: 7)
-	pub fn set_arpe(value: u8) { ::write(REGISTER_ADDRESS, ARPE_BIT_OFFSET, ARPE_BIT_WIDTH, value as u32); }
-
-	const CKD_BIT_OFFSET: u8 = 8;
-	const CKD_BIT_WIDTH: u8 = 2;
-	/// Clock division (Width: 2, Offset: 8)
-	pub fn get_ckd() -> u8 { ::read(REGISTER_ADDRESS, CKD_BIT_OFFSET, CKD_BIT_WIDTH) as u8 }
-	/// Clock division (Width: 2, Offset: 8)
-	pub fn set_ckd(value: u8) { ::write(REGISTER_ADDRESS, CKD_BIT_OFFSET, CKD_BIT_WIDTH, value as u32); }
-
-	const UIFREMAP_BIT_OFFSET: u8 = 11;
-	const UIFREMAP_BIT_WIDTH: u8 = 1;
-	/// UIF status bit remapping (Width: 1, Offset: 11)
-	pub fn get_uifremap() -> u8 { ::read(REGISTER_ADDRESS, UIFREMAP_BIT_OFFSET, UIFREMAP_BIT_WIDTH) as u8 }
-	/// UIF status bit remapping (Width: 1, Offset: 11)
-	pub fn set_uifremap(value: u8) { ::write(REGISTER_ADDRESS, UIFREMAP_BIT_OFFSET, UIFREMAP_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Counter enable
+        pub cen: bool,
+        /// Update disable
+        pub udis: bool,
+        /// Update request source
+        pub urs: bool,
+        /// One-pulse mode
+        pub opm: bool,
+        /// Direction
+        pub dir: bool,
+        /// Center-aligned mode selection
+        pub cms: bool,
+        /// Auto-reload preload enable
+        pub arpe: bool,
+        /// Clock division
+        pub ckd: bool,
+        /// UIF status bit remapping
+        pub uifremap: bool,
+    }
+    pub struct Cache {
+        /// Counter enable
+        pub cen: bool,
+        /// Update disable
+        pub udis: bool,
+        /// Update request source
+        pub urs: bool,
+        /// One-pulse mode
+        pub opm: bool,
+        /// Direction
+        pub dir: bool,
+        /// Center-aligned mode selection
+        pub cms: bool,
+        /// Auto-reload preload enable
+        pub arpe: bool,
+        /// Clock division
+        pub ckd: bool,
+        /// UIF status bit remapping
+        pub uifremap: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x0u32) as *mut u32) };
+        ReadonlyCache {
+            cen: ((value >> 0) & 0b1) > 0,
+            udis: ((value >> 1) & 0b1) > 0,
+            urs: ((value >> 2) & 0b1) > 0,
+            opm: ((value >> 3) & 0b1) > 0,
+            dir: ((value >> 4) & 0b1) > 0,
+            cms: ((value >> 5) & 0b1) > 0,
+            arpe: ((value >> 7) & 0b1) > 0,
+            ckd: ((value >> 8) & 0b1) > 0,
+            uifremap: ((value >> 11) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x0u32) as *mut u32) };
+        Cache {
+            cen: ((value >> 0) & 0b1) > 0,
+            udis: ((value >> 1) & 0b1) > 0,
+            urs: ((value >> 2) & 0b1) > 0,
+            opm: ((value >> 3) & 0b1) > 0,
+            dir: ((value >> 4) & 0b1) > 0,
+            cms: ((value >> 5) & 0b1) > 0,
+            arpe: ((value >> 7) & 0b1) > 0,
+            ckd: ((value >> 8) & 0b1) > 0,
+            uifremap: ((value >> 11) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.cen as u32) << 0)
+                | ((self.udis as u32) << 1)
+                | ((self.urs as u32) << 2)
+                | ((self.opm as u32) << 3)
+                | ((self.dir as u32) << 4)
+                | ((self.cms as u32) << 5)
+                | ((self.arpe as u32) << 7)
+                | ((self.ckd as u32) << 8)
+                | ((self.uifremap as u32) << 11)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x0u32) as *mut u32, value) };
+        }
+    }
 }
 /// control register 2
-/// Size: 0x20 bits
 pub mod cr2 {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x4;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CCPC_BIT_OFFSET: u8 = 0;
-	const CCPC_BIT_WIDTH: u8 = 1;
-	/// Capture/compare preloaded control (Width: 1, Offset: 0)
-	pub fn get_ccpc() -> u8 { ::read(REGISTER_ADDRESS, CCPC_BIT_OFFSET, CCPC_BIT_WIDTH) as u8 }
-	/// Capture/compare preloaded control (Width: 1, Offset: 0)
-	pub fn set_ccpc(value: u8) { ::write(REGISTER_ADDRESS, CCPC_BIT_OFFSET, CCPC_BIT_WIDTH, value as u32); }
-
-	const CCUS_BIT_OFFSET: u8 = 2;
-	const CCUS_BIT_WIDTH: u8 = 1;
-	/// Capture/compare control update selection (Width: 1, Offset: 2)
-	pub fn get_ccus() -> u8 { ::read(REGISTER_ADDRESS, CCUS_BIT_OFFSET, CCUS_BIT_WIDTH) as u8 }
-	/// Capture/compare control update selection (Width: 1, Offset: 2)
-	pub fn set_ccus(value: u8) { ::write(REGISTER_ADDRESS, CCUS_BIT_OFFSET, CCUS_BIT_WIDTH, value as u32); }
-
-	const CCDS_BIT_OFFSET: u8 = 3;
-	const CCDS_BIT_WIDTH: u8 = 1;
-	/// Capture/compare DMA selection (Width: 1, Offset: 3)
-	pub fn get_ccds() -> u8 { ::read(REGISTER_ADDRESS, CCDS_BIT_OFFSET, CCDS_BIT_WIDTH) as u8 }
-	/// Capture/compare DMA selection (Width: 1, Offset: 3)
-	pub fn set_ccds(value: u8) { ::write(REGISTER_ADDRESS, CCDS_BIT_OFFSET, CCDS_BIT_WIDTH, value as u32); }
-
-	const MMS_BIT_OFFSET: u8 = 4;
-	const MMS_BIT_WIDTH: u8 = 3;
-	/// Master mode selection (Width: 3, Offset: 4)
-	pub fn get_mms() -> u8 { ::read(REGISTER_ADDRESS, MMS_BIT_OFFSET, MMS_BIT_WIDTH) as u8 }
-	/// Master mode selection (Width: 3, Offset: 4)
-	pub fn set_mms(value: u8) { ::write(REGISTER_ADDRESS, MMS_BIT_OFFSET, MMS_BIT_WIDTH, value as u32); }
-
-	const TI1S_BIT_OFFSET: u8 = 7;
-	const TI1S_BIT_WIDTH: u8 = 1;
-	/// TI1 selection (Width: 1, Offset: 7)
-	pub fn get_ti1s() -> u8 { ::read(REGISTER_ADDRESS, TI1S_BIT_OFFSET, TI1S_BIT_WIDTH) as u8 }
-	/// TI1 selection (Width: 1, Offset: 7)
-	pub fn set_ti1s(value: u8) { ::write(REGISTER_ADDRESS, TI1S_BIT_OFFSET, TI1S_BIT_WIDTH, value as u32); }
-
-	const OIS1_BIT_OFFSET: u8 = 8;
-	const OIS1_BIT_WIDTH: u8 = 1;
-	/// Output Idle state 1 (Width: 1, Offset: 8)
-	pub fn get_ois1() -> u8 { ::read(REGISTER_ADDRESS, OIS1_BIT_OFFSET, OIS1_BIT_WIDTH) as u8 }
-	/// Output Idle state 1 (Width: 1, Offset: 8)
-	pub fn set_ois1(value: u8) { ::write(REGISTER_ADDRESS, OIS1_BIT_OFFSET, OIS1_BIT_WIDTH, value as u32); }
-
-	const OIS1N_BIT_OFFSET: u8 = 9;
-	const OIS1N_BIT_WIDTH: u8 = 1;
-	/// Output Idle state 1 (Width: 1, Offset: 9)
-	pub fn get_ois1n() -> u8 { ::read(REGISTER_ADDRESS, OIS1N_BIT_OFFSET, OIS1N_BIT_WIDTH) as u8 }
-	/// Output Idle state 1 (Width: 1, Offset: 9)
-	pub fn set_ois1n(value: u8) { ::write(REGISTER_ADDRESS, OIS1N_BIT_OFFSET, OIS1N_BIT_WIDTH, value as u32); }
-
-	const OIS2_BIT_OFFSET: u8 = 10;
-	const OIS2_BIT_WIDTH: u8 = 1;
-	/// Output Idle state 2 (Width: 1, Offset: 10)
-	pub fn get_ois2() -> u8 { ::read(REGISTER_ADDRESS, OIS2_BIT_OFFSET, OIS2_BIT_WIDTH) as u8 }
-	/// Output Idle state 2 (Width: 1, Offset: 10)
-	pub fn set_ois2(value: u8) { ::write(REGISTER_ADDRESS, OIS2_BIT_OFFSET, OIS2_BIT_WIDTH, value as u32); }
-
-	const OIS2N_BIT_OFFSET: u8 = 11;
-	const OIS2N_BIT_WIDTH: u8 = 1;
-	/// Output Idle state 2 (Width: 1, Offset: 11)
-	pub fn get_ois2n() -> u8 { ::read(REGISTER_ADDRESS, OIS2N_BIT_OFFSET, OIS2N_BIT_WIDTH) as u8 }
-	/// Output Idle state 2 (Width: 1, Offset: 11)
-	pub fn set_ois2n(value: u8) { ::write(REGISTER_ADDRESS, OIS2N_BIT_OFFSET, OIS2N_BIT_WIDTH, value as u32); }
-
-	const OIS3_BIT_OFFSET: u8 = 12;
-	const OIS3_BIT_WIDTH: u8 = 1;
-	/// Output Idle state 3 (Width: 1, Offset: 12)
-	pub fn get_ois3() -> u8 { ::read(REGISTER_ADDRESS, OIS3_BIT_OFFSET, OIS3_BIT_WIDTH) as u8 }
-	/// Output Idle state 3 (Width: 1, Offset: 12)
-	pub fn set_ois3(value: u8) { ::write(REGISTER_ADDRESS, OIS3_BIT_OFFSET, OIS3_BIT_WIDTH, value as u32); }
-
-	const OIS3N_BIT_OFFSET: u8 = 13;
-	const OIS3N_BIT_WIDTH: u8 = 1;
-	/// Output Idle state 3 (Width: 1, Offset: 13)
-	pub fn get_ois3n() -> u8 { ::read(REGISTER_ADDRESS, OIS3N_BIT_OFFSET, OIS3N_BIT_WIDTH) as u8 }
-	/// Output Idle state 3 (Width: 1, Offset: 13)
-	pub fn set_ois3n(value: u8) { ::write(REGISTER_ADDRESS, OIS3N_BIT_OFFSET, OIS3N_BIT_WIDTH, value as u32); }
-
-	const OIS4_BIT_OFFSET: u8 = 14;
-	const OIS4_BIT_WIDTH: u8 = 1;
-	/// Output Idle state 4 (Width: 1, Offset: 14)
-	pub fn get_ois4() -> u8 { ::read(REGISTER_ADDRESS, OIS4_BIT_OFFSET, OIS4_BIT_WIDTH) as u8 }
-	/// Output Idle state 4 (Width: 1, Offset: 14)
-	pub fn set_ois4(value: u8) { ::write(REGISTER_ADDRESS, OIS4_BIT_OFFSET, OIS4_BIT_WIDTH, value as u32); }
-
-	const OIS5_BIT_OFFSET: u8 = 16;
-	const OIS5_BIT_WIDTH: u8 = 1;
-	/// Output Idle state 5 (Width: 1, Offset: 16)
-	pub fn get_ois5() -> u8 { ::read(REGISTER_ADDRESS, OIS5_BIT_OFFSET, OIS5_BIT_WIDTH) as u8 }
-	/// Output Idle state 5 (Width: 1, Offset: 16)
-	pub fn set_ois5(value: u8) { ::write(REGISTER_ADDRESS, OIS5_BIT_OFFSET, OIS5_BIT_WIDTH, value as u32); }
-
-	const OIS6_BIT_OFFSET: u8 = 18;
-	const OIS6_BIT_WIDTH: u8 = 1;
-	/// Output Idle state 6 (Width: 1, Offset: 18)
-	pub fn get_ois6() -> u8 { ::read(REGISTER_ADDRESS, OIS6_BIT_OFFSET, OIS6_BIT_WIDTH) as u8 }
-	/// Output Idle state 6 (Width: 1, Offset: 18)
-	pub fn set_ois6(value: u8) { ::write(REGISTER_ADDRESS, OIS6_BIT_OFFSET, OIS6_BIT_WIDTH, value as u32); }
-
-	const MMS2_BIT_OFFSET: u8 = 20;
-	const MMS2_BIT_WIDTH: u8 = 4;
-	/// Master mode selection 2 (Width: 4, Offset: 20)
-	pub fn get_mms2() -> u8 { ::read(REGISTER_ADDRESS, MMS2_BIT_OFFSET, MMS2_BIT_WIDTH) as u8 }
-	/// Master mode selection 2 (Width: 4, Offset: 20)
-	pub fn set_mms2(value: u8) { ::write(REGISTER_ADDRESS, MMS2_BIT_OFFSET, MMS2_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Capture/compare preloaded control
+        pub ccpc: bool,
+        /// Capture/compare control update selection
+        pub ccus: bool,
+        /// Capture/compare DMA selection
+        pub ccds: bool,
+        /// Master mode selection
+        pub mms: bool,
+        /// TI1 selection
+        pub ti1s: bool,
+        /// Output Idle state 1
+        pub ois1: bool,
+        /// Output Idle state 1
+        pub ois1n: bool,
+        /// Output Idle state 2
+        pub ois2: bool,
+        /// Output Idle state 2
+        pub ois2n: bool,
+        /// Output Idle state 3
+        pub ois3: bool,
+        /// Output Idle state 3
+        pub ois3n: bool,
+        /// Output Idle state 4
+        pub ois4: bool,
+        /// Output Idle state 5
+        pub ois5: bool,
+        /// Output Idle state 6
+        pub ois6: bool,
+        /// Master mode selection 2
+        pub mms2: bool,
+    }
+    pub struct Cache {
+        /// Capture/compare preloaded control
+        pub ccpc: bool,
+        /// Capture/compare control update selection
+        pub ccus: bool,
+        /// Capture/compare DMA selection
+        pub ccds: bool,
+        /// Master mode selection
+        pub mms: bool,
+        /// TI1 selection
+        pub ti1s: bool,
+        /// Output Idle state 1
+        pub ois1: bool,
+        /// Output Idle state 1
+        pub ois1n: bool,
+        /// Output Idle state 2
+        pub ois2: bool,
+        /// Output Idle state 2
+        pub ois2n: bool,
+        /// Output Idle state 3
+        pub ois3: bool,
+        /// Output Idle state 3
+        pub ois3n: bool,
+        /// Output Idle state 4
+        pub ois4: bool,
+        /// Output Idle state 5
+        pub ois5: bool,
+        /// Output Idle state 6
+        pub ois6: bool,
+        /// Master mode selection 2
+        pub mms2: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x4u32) as *mut u32) };
+        ReadonlyCache {
+            ccpc: ((value >> 0) & 0b1) > 0,
+            ccus: ((value >> 2) & 0b1) > 0,
+            ccds: ((value >> 3) & 0b1) > 0,
+            mms: ((value >> 4) & 0b1) > 0,
+            ti1s: ((value >> 7) & 0b1) > 0,
+            ois1: ((value >> 8) & 0b1) > 0,
+            ois1n: ((value >> 9) & 0b1) > 0,
+            ois2: ((value >> 10) & 0b1) > 0,
+            ois2n: ((value >> 11) & 0b1) > 0,
+            ois3: ((value >> 12) & 0b1) > 0,
+            ois3n: ((value >> 13) & 0b1) > 0,
+            ois4: ((value >> 14) & 0b1) > 0,
+            ois5: ((value >> 16) & 0b1) > 0,
+            ois6: ((value >> 18) & 0b1) > 0,
+            mms2: ((value >> 20) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x4u32) as *mut u32) };
+        Cache {
+            ccpc: ((value >> 0) & 0b1) > 0,
+            ccus: ((value >> 2) & 0b1) > 0,
+            ccds: ((value >> 3) & 0b1) > 0,
+            mms: ((value >> 4) & 0b1) > 0,
+            ti1s: ((value >> 7) & 0b1) > 0,
+            ois1: ((value >> 8) & 0b1) > 0,
+            ois1n: ((value >> 9) & 0b1) > 0,
+            ois2: ((value >> 10) & 0b1) > 0,
+            ois2n: ((value >> 11) & 0b1) > 0,
+            ois3: ((value >> 12) & 0b1) > 0,
+            ois3n: ((value >> 13) & 0b1) > 0,
+            ois4: ((value >> 14) & 0b1) > 0,
+            ois5: ((value >> 16) & 0b1) > 0,
+            ois6: ((value >> 18) & 0b1) > 0,
+            mms2: ((value >> 20) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.ccpc as u32) << 0)
+                | ((self.ccus as u32) << 2)
+                | ((self.ccds as u32) << 3)
+                | ((self.mms as u32) << 4)
+                | ((self.ti1s as u32) << 7)
+                | ((self.ois1 as u32) << 8)
+                | ((self.ois1n as u32) << 9)
+                | ((self.ois2 as u32) << 10)
+                | ((self.ois2n as u32) << 11)
+                | ((self.ois3 as u32) << 12)
+                | ((self.ois3n as u32) << 13)
+                | ((self.ois4 as u32) << 14)
+                | ((self.ois5 as u32) << 16)
+                | ((self.ois6 as u32) << 18)
+                | ((self.mms2 as u32) << 20)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x4u32) as *mut u32, value) };
+        }
+    }
 }
 /// slave mode control register
-/// Size: 0x20 bits
 pub mod smcr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x8;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const SMS_BIT_OFFSET: u8 = 0;
-	const SMS_BIT_WIDTH: u8 = 3;
-	/// Slave mode selection (Width: 3, Offset: 0)
-	pub fn get_sms() -> u8 { ::read(REGISTER_ADDRESS, SMS_BIT_OFFSET, SMS_BIT_WIDTH) as u8 }
-	/// Slave mode selection (Width: 3, Offset: 0)
-	pub fn set_sms(value: u8) { ::write(REGISTER_ADDRESS, SMS_BIT_OFFSET, SMS_BIT_WIDTH, value as u32); }
-
-	const OCCS_BIT_OFFSET: u8 = 3;
-	const OCCS_BIT_WIDTH: u8 = 1;
-	/// OCREF clear selection (Width: 1, Offset: 3)
-	pub fn get_occs() -> u8 { ::read(REGISTER_ADDRESS, OCCS_BIT_OFFSET, OCCS_BIT_WIDTH) as u8 }
-	/// OCREF clear selection (Width: 1, Offset: 3)
-	pub fn set_occs(value: u8) { ::write(REGISTER_ADDRESS, OCCS_BIT_OFFSET, OCCS_BIT_WIDTH, value as u32); }
-
-	const TS_BIT_OFFSET: u8 = 4;
-	const TS_BIT_WIDTH: u8 = 3;
-	/// Trigger selection (Width: 3, Offset: 4)
-	pub fn get_ts() -> u8 { ::read(REGISTER_ADDRESS, TS_BIT_OFFSET, TS_BIT_WIDTH) as u8 }
-	/// Trigger selection (Width: 3, Offset: 4)
-	pub fn set_ts(value: u8) { ::write(REGISTER_ADDRESS, TS_BIT_OFFSET, TS_BIT_WIDTH, value as u32); }
-
-	const MSM_BIT_OFFSET: u8 = 7;
-	const MSM_BIT_WIDTH: u8 = 1;
-	/// Master/Slave mode (Width: 1, Offset: 7)
-	pub fn get_msm() -> u8 { ::read(REGISTER_ADDRESS, MSM_BIT_OFFSET, MSM_BIT_WIDTH) as u8 }
-	/// Master/Slave mode (Width: 1, Offset: 7)
-	pub fn set_msm(value: u8) { ::write(REGISTER_ADDRESS, MSM_BIT_OFFSET, MSM_BIT_WIDTH, value as u32); }
-
-	const ETF_BIT_OFFSET: u8 = 8;
-	const ETF_BIT_WIDTH: u8 = 4;
-	/// External trigger filter (Width: 4, Offset: 8)
-	pub fn get_etf() -> u8 { ::read(REGISTER_ADDRESS, ETF_BIT_OFFSET, ETF_BIT_WIDTH) as u8 }
-	/// External trigger filter (Width: 4, Offset: 8)
-	pub fn set_etf(value: u8) { ::write(REGISTER_ADDRESS, ETF_BIT_OFFSET, ETF_BIT_WIDTH, value as u32); }
-
-	const ETPS_BIT_OFFSET: u8 = 12;
-	const ETPS_BIT_WIDTH: u8 = 2;
-	/// External trigger prescaler (Width: 2, Offset: 12)
-	pub fn get_etps() -> u8 { ::read(REGISTER_ADDRESS, ETPS_BIT_OFFSET, ETPS_BIT_WIDTH) as u8 }
-	/// External trigger prescaler (Width: 2, Offset: 12)
-	pub fn set_etps(value: u8) { ::write(REGISTER_ADDRESS, ETPS_BIT_OFFSET, ETPS_BIT_WIDTH, value as u32); }
-
-	const ECE_BIT_OFFSET: u8 = 14;
-	const ECE_BIT_WIDTH: u8 = 1;
-	/// External clock enable (Width: 1, Offset: 14)
-	pub fn get_ece() -> u8 { ::read(REGISTER_ADDRESS, ECE_BIT_OFFSET, ECE_BIT_WIDTH) as u8 }
-	/// External clock enable (Width: 1, Offset: 14)
-	pub fn set_ece(value: u8) { ::write(REGISTER_ADDRESS, ECE_BIT_OFFSET, ECE_BIT_WIDTH, value as u32); }
-
-	const ETP_BIT_OFFSET: u8 = 15;
-	const ETP_BIT_WIDTH: u8 = 1;
-	/// External trigger polarity (Width: 1, Offset: 15)
-	pub fn get_etp() -> u8 { ::read(REGISTER_ADDRESS, ETP_BIT_OFFSET, ETP_BIT_WIDTH) as u8 }
-	/// External trigger polarity (Width: 1, Offset: 15)
-	pub fn set_etp(value: u8) { ::write(REGISTER_ADDRESS, ETP_BIT_OFFSET, ETP_BIT_WIDTH, value as u32); }
-
-	const SMS3_BIT_OFFSET: u8 = 16;
-	const SMS3_BIT_WIDTH: u8 = 1;
-	/// Slave mode selection bit 3 (Width: 1, Offset: 16)
-	pub fn get_sms3() -> u8 { ::read(REGISTER_ADDRESS, SMS3_BIT_OFFSET, SMS3_BIT_WIDTH) as u8 }
-	/// Slave mode selection bit 3 (Width: 1, Offset: 16)
-	pub fn set_sms3(value: u8) { ::write(REGISTER_ADDRESS, SMS3_BIT_OFFSET, SMS3_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Slave mode selection
+        pub sms: u8,
+        /// OCREF clear selection
+        pub occs: u8,
+        /// Trigger selection
+        pub ts: u8,
+        /// Master/Slave mode
+        pub msm: u8,
+        /// External trigger filter
+        pub etf: u8,
+        /// External trigger prescaler
+        pub etps: u8,
+        /// External clock enable
+        pub ece: u8,
+        /// External trigger polarity
+        pub etp: u8,
+        /// Slave mode selection bit 3
+        pub sms3: u8,
+    }
+    pub struct Cache {
+        /// Slave mode selection
+        pub sms: u8,
+        /// OCREF clear selection
+        pub occs: u8,
+        /// Trigger selection
+        pub ts: u8,
+        /// Master/Slave mode
+        pub msm: u8,
+        /// External trigger filter
+        pub etf: u8,
+        /// External trigger prescaler
+        pub etps: u8,
+        /// External clock enable
+        pub ece: u8,
+        /// External trigger polarity
+        pub etp: u8,
+        /// Slave mode selection bit 3
+        pub sms3: u8,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x8u32) as *mut u32) };
+        ReadonlyCache {
+            sms: ((value >> 0) & 0b111) as u8,
+            occs: ((value >> 3) & 0b111) as u8,
+            ts: ((value >> 4) & 0b111) as u8,
+            msm: ((value >> 7) & 0b111) as u8,
+            etf: ((value >> 8) & 0b111) as u8,
+            etps: ((value >> 12) & 0b111) as u8,
+            ece: ((value >> 14) & 0b111) as u8,
+            etp: ((value >> 15) & 0b111) as u8,
+            sms3: ((value >> 16) & 0b111) as u8,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x8u32) as *mut u32) };
+        Cache {
+            sms: ((value >> 0) & 0b111) as u8,
+            occs: ((value >> 3) & 0b111) as u8,
+            ts: ((value >> 4) & 0b111) as u8,
+            msm: ((value >> 7) & 0b111) as u8,
+            etf: ((value >> 8) & 0b111) as u8,
+            etps: ((value >> 12) & 0b111) as u8,
+            ece: ((value >> 14) & 0b111) as u8,
+            etp: ((value >> 15) & 0b111) as u8,
+            sms3: ((value >> 16) & 0b111) as u8,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.sms as u32) << 0)
+                | ((self.occs as u32) << 3)
+                | ((self.ts as u32) << 4)
+                | ((self.msm as u32) << 7)
+                | ((self.etf as u32) << 8)
+                | ((self.etps as u32) << 12)
+                | ((self.ece as u32) << 14)
+                | ((self.etp as u32) << 15)
+                | ((self.sms3 as u32) << 16)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x8u32) as *mut u32, value) };
+        }
+    }
 }
 /// DMA/Interrupt enable register
-/// Size: 0x20 bits
 pub mod dier {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0xC;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const TDE_BIT_OFFSET: u8 = 14;
-	const TDE_BIT_WIDTH: u8 = 1;
-	/// Trigger DMA request enable (Width: 1, Offset: 14)
-	pub fn get_tde() -> u8 { ::read(REGISTER_ADDRESS, TDE_BIT_OFFSET, TDE_BIT_WIDTH) as u8 }
-	/// Trigger DMA request enable (Width: 1, Offset: 14)
-	pub fn set_tde(value: u8) { ::write(REGISTER_ADDRESS, TDE_BIT_OFFSET, TDE_BIT_WIDTH, value as u32); }
-
-	const COMDE_BIT_OFFSET: u8 = 13;
-	const COMDE_BIT_WIDTH: u8 = 1;
-	/// Reserved (Width: 1, Offset: 13)
-	pub fn get_comde() -> u8 { ::read(REGISTER_ADDRESS, COMDE_BIT_OFFSET, COMDE_BIT_WIDTH) as u8 }
-	/// Reserved (Width: 1, Offset: 13)
-	pub fn set_comde(value: u8) { ::write(REGISTER_ADDRESS, COMDE_BIT_OFFSET, COMDE_BIT_WIDTH, value as u32); }
-
-	const CC4DE_BIT_OFFSET: u8 = 12;
-	const CC4DE_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 4 DMA request enable (Width: 1, Offset: 12)
-	pub fn get_cc4de() -> u8 { ::read(REGISTER_ADDRESS, CC4DE_BIT_OFFSET, CC4DE_BIT_WIDTH) as u8 }
-	/// Capture/Compare 4 DMA request enable (Width: 1, Offset: 12)
-	pub fn set_cc4de(value: u8) { ::write(REGISTER_ADDRESS, CC4DE_BIT_OFFSET, CC4DE_BIT_WIDTH, value as u32); }
-
-	const CC3DE_BIT_OFFSET: u8 = 11;
-	const CC3DE_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 3 DMA request enable (Width: 1, Offset: 11)
-	pub fn get_cc3de() -> u8 { ::read(REGISTER_ADDRESS, CC3DE_BIT_OFFSET, CC3DE_BIT_WIDTH) as u8 }
-	/// Capture/Compare 3 DMA request enable (Width: 1, Offset: 11)
-	pub fn set_cc3de(value: u8) { ::write(REGISTER_ADDRESS, CC3DE_BIT_OFFSET, CC3DE_BIT_WIDTH, value as u32); }
-
-	const CC2DE_BIT_OFFSET: u8 = 10;
-	const CC2DE_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 2 DMA request enable (Width: 1, Offset: 10)
-	pub fn get_cc2de() -> u8 { ::read(REGISTER_ADDRESS, CC2DE_BIT_OFFSET, CC2DE_BIT_WIDTH) as u8 }
-	/// Capture/Compare 2 DMA request enable (Width: 1, Offset: 10)
-	pub fn set_cc2de(value: u8) { ::write(REGISTER_ADDRESS, CC2DE_BIT_OFFSET, CC2DE_BIT_WIDTH, value as u32); }
-
-	const CC1DE_BIT_OFFSET: u8 = 9;
-	const CC1DE_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 1 DMA request enable (Width: 1, Offset: 9)
-	pub fn get_cc1de() -> u8 { ::read(REGISTER_ADDRESS, CC1DE_BIT_OFFSET, CC1DE_BIT_WIDTH) as u8 }
-	/// Capture/Compare 1 DMA request enable (Width: 1, Offset: 9)
-	pub fn set_cc1de(value: u8) { ::write(REGISTER_ADDRESS, CC1DE_BIT_OFFSET, CC1DE_BIT_WIDTH, value as u32); }
-
-	const UDE_BIT_OFFSET: u8 = 8;
-	const UDE_BIT_WIDTH: u8 = 1;
-	/// Update DMA request enable (Width: 1, Offset: 8)
-	pub fn get_ude() -> u8 { ::read(REGISTER_ADDRESS, UDE_BIT_OFFSET, UDE_BIT_WIDTH) as u8 }
-	/// Update DMA request enable (Width: 1, Offset: 8)
-	pub fn set_ude(value: u8) { ::write(REGISTER_ADDRESS, UDE_BIT_OFFSET, UDE_BIT_WIDTH, value as u32); }
-
-	const BIE_BIT_OFFSET: u8 = 7;
-	const BIE_BIT_WIDTH: u8 = 1;
-	/// Break interrupt enable (Width: 1, Offset: 7)
-	pub fn get_bie() -> u8 { ::read(REGISTER_ADDRESS, BIE_BIT_OFFSET, BIE_BIT_WIDTH) as u8 }
-	/// Break interrupt enable (Width: 1, Offset: 7)
-	pub fn set_bie(value: u8) { ::write(REGISTER_ADDRESS, BIE_BIT_OFFSET, BIE_BIT_WIDTH, value as u32); }
-
-	const TIE_BIT_OFFSET: u8 = 6;
-	const TIE_BIT_WIDTH: u8 = 1;
-	/// Trigger interrupt enable (Width: 1, Offset: 6)
-	pub fn get_tie() -> u8 { ::read(REGISTER_ADDRESS, TIE_BIT_OFFSET, TIE_BIT_WIDTH) as u8 }
-	/// Trigger interrupt enable (Width: 1, Offset: 6)
-	pub fn set_tie(value: u8) { ::write(REGISTER_ADDRESS, TIE_BIT_OFFSET, TIE_BIT_WIDTH, value as u32); }
-
-	const COMIE_BIT_OFFSET: u8 = 5;
-	const COMIE_BIT_WIDTH: u8 = 1;
-	/// COM interrupt enable (Width: 1, Offset: 5)
-	pub fn get_comie() -> u8 { ::read(REGISTER_ADDRESS, COMIE_BIT_OFFSET, COMIE_BIT_WIDTH) as u8 }
-	/// COM interrupt enable (Width: 1, Offset: 5)
-	pub fn set_comie(value: u8) { ::write(REGISTER_ADDRESS, COMIE_BIT_OFFSET, COMIE_BIT_WIDTH, value as u32); }
-
-	const CC4IE_BIT_OFFSET: u8 = 4;
-	const CC4IE_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 4 interrupt enable (Width: 1, Offset: 4)
-	pub fn get_cc4ie() -> u8 { ::read(REGISTER_ADDRESS, CC4IE_BIT_OFFSET, CC4IE_BIT_WIDTH) as u8 }
-	/// Capture/Compare 4 interrupt enable (Width: 1, Offset: 4)
-	pub fn set_cc4ie(value: u8) { ::write(REGISTER_ADDRESS, CC4IE_BIT_OFFSET, CC4IE_BIT_WIDTH, value as u32); }
-
-	const CC3IE_BIT_OFFSET: u8 = 3;
-	const CC3IE_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 3 interrupt enable (Width: 1, Offset: 3)
-	pub fn get_cc3ie() -> u8 { ::read(REGISTER_ADDRESS, CC3IE_BIT_OFFSET, CC3IE_BIT_WIDTH) as u8 }
-	/// Capture/Compare 3 interrupt enable (Width: 1, Offset: 3)
-	pub fn set_cc3ie(value: u8) { ::write(REGISTER_ADDRESS, CC3IE_BIT_OFFSET, CC3IE_BIT_WIDTH, value as u32); }
-
-	const CC2IE_BIT_OFFSET: u8 = 2;
-	const CC2IE_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 2 interrupt enable (Width: 1, Offset: 2)
-	pub fn get_cc2ie() -> u8 { ::read(REGISTER_ADDRESS, CC2IE_BIT_OFFSET, CC2IE_BIT_WIDTH) as u8 }
-	/// Capture/Compare 2 interrupt enable (Width: 1, Offset: 2)
-	pub fn set_cc2ie(value: u8) { ::write(REGISTER_ADDRESS, CC2IE_BIT_OFFSET, CC2IE_BIT_WIDTH, value as u32); }
-
-	const CC1IE_BIT_OFFSET: u8 = 1;
-	const CC1IE_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 1 interrupt enable (Width: 1, Offset: 1)
-	pub fn get_cc1ie() -> u8 { ::read(REGISTER_ADDRESS, CC1IE_BIT_OFFSET, CC1IE_BIT_WIDTH) as u8 }
-	/// Capture/Compare 1 interrupt enable (Width: 1, Offset: 1)
-	pub fn set_cc1ie(value: u8) { ::write(REGISTER_ADDRESS, CC1IE_BIT_OFFSET, CC1IE_BIT_WIDTH, value as u32); }
-
-	const UIE_BIT_OFFSET: u8 = 0;
-	const UIE_BIT_WIDTH: u8 = 1;
-	/// Update interrupt enable (Width: 1, Offset: 0)
-	pub fn get_uie() -> u8 { ::read(REGISTER_ADDRESS, UIE_BIT_OFFSET, UIE_BIT_WIDTH) as u8 }
-	/// Update interrupt enable (Width: 1, Offset: 0)
-	pub fn set_uie(value: u8) { ::write(REGISTER_ADDRESS, UIE_BIT_OFFSET, UIE_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Trigger DMA request enable
+        pub tde: bool,
+        /// Reserved
+        pub comde: bool,
+        /// Capture/Compare 4 DMA request enable
+        pub cc4de: bool,
+        /// Capture/Compare 3 DMA request enable
+        pub cc3de: bool,
+        /// Capture/Compare 2 DMA request enable
+        pub cc2de: bool,
+        /// Capture/Compare 1 DMA request enable
+        pub cc1de: bool,
+        /// Update DMA request enable
+        pub ude: bool,
+        /// Break interrupt enable
+        pub bie: bool,
+        /// Trigger interrupt enable
+        pub tie: bool,
+        /// COM interrupt enable
+        pub comie: bool,
+        /// Capture/Compare 4 interrupt enable
+        pub cc4ie: bool,
+        /// Capture/Compare 3 interrupt enable
+        pub cc3ie: bool,
+        /// Capture/Compare 2 interrupt enable
+        pub cc2ie: bool,
+        /// Capture/Compare 1 interrupt enable
+        pub cc1ie: bool,
+        /// Update interrupt enable
+        pub uie: bool,
+    }
+    pub struct Cache {
+        /// Trigger DMA request enable
+        pub tde: bool,
+        /// Reserved
+        pub comde: bool,
+        /// Capture/Compare 4 DMA request enable
+        pub cc4de: bool,
+        /// Capture/Compare 3 DMA request enable
+        pub cc3de: bool,
+        /// Capture/Compare 2 DMA request enable
+        pub cc2de: bool,
+        /// Capture/Compare 1 DMA request enable
+        pub cc1de: bool,
+        /// Update DMA request enable
+        pub ude: bool,
+        /// Break interrupt enable
+        pub bie: bool,
+        /// Trigger interrupt enable
+        pub tie: bool,
+        /// COM interrupt enable
+        pub comie: bool,
+        /// Capture/Compare 4 interrupt enable
+        pub cc4ie: bool,
+        /// Capture/Compare 3 interrupt enable
+        pub cc3ie: bool,
+        /// Capture/Compare 2 interrupt enable
+        pub cc2ie: bool,
+        /// Capture/Compare 1 interrupt enable
+        pub cc1ie: bool,
+        /// Update interrupt enable
+        pub uie: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0xCu32) as *mut u32) };
+        ReadonlyCache {
+            tde: ((value >> 14) & 0b1) > 0,
+            comde: ((value >> 13) & 0b1) > 0,
+            cc4de: ((value >> 12) & 0b1) > 0,
+            cc3de: ((value >> 11) & 0b1) > 0,
+            cc2de: ((value >> 10) & 0b1) > 0,
+            cc1de: ((value >> 9) & 0b1) > 0,
+            ude: ((value >> 8) & 0b1) > 0,
+            bie: ((value >> 7) & 0b1) > 0,
+            tie: ((value >> 6) & 0b1) > 0,
+            comie: ((value >> 5) & 0b1) > 0,
+            cc4ie: ((value >> 4) & 0b1) > 0,
+            cc3ie: ((value >> 3) & 0b1) > 0,
+            cc2ie: ((value >> 2) & 0b1) > 0,
+            cc1ie: ((value >> 1) & 0b1) > 0,
+            uie: ((value >> 0) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0xCu32) as *mut u32) };
+        Cache {
+            tde: ((value >> 14) & 0b1) > 0,
+            comde: ((value >> 13) & 0b1) > 0,
+            cc4de: ((value >> 12) & 0b1) > 0,
+            cc3de: ((value >> 11) & 0b1) > 0,
+            cc2de: ((value >> 10) & 0b1) > 0,
+            cc1de: ((value >> 9) & 0b1) > 0,
+            ude: ((value >> 8) & 0b1) > 0,
+            bie: ((value >> 7) & 0b1) > 0,
+            tie: ((value >> 6) & 0b1) > 0,
+            comie: ((value >> 5) & 0b1) > 0,
+            cc4ie: ((value >> 4) & 0b1) > 0,
+            cc3ie: ((value >> 3) & 0b1) > 0,
+            cc2ie: ((value >> 2) & 0b1) > 0,
+            cc1ie: ((value >> 1) & 0b1) > 0,
+            uie: ((value >> 0) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.tde as u32) << 14)
+                | ((self.comde as u32) << 13)
+                | ((self.cc4de as u32) << 12)
+                | ((self.cc3de as u32) << 11)
+                | ((self.cc2de as u32) << 10)
+                | ((self.cc1de as u32) << 9)
+                | ((self.ude as u32) << 8)
+                | ((self.bie as u32) << 7)
+                | ((self.tie as u32) << 6)
+                | ((self.comie as u32) << 5)
+                | ((self.cc4ie as u32) << 4)
+                | ((self.cc3ie as u32) << 3)
+                | ((self.cc2ie as u32) << 2)
+                | ((self.cc1ie as u32) << 1)
+                | ((self.uie as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0xCu32) as *mut u32, value) };
+        }
+    }
 }
 /// status register
-/// Size: 0x20 bits
 pub mod sr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x10;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const UIF_BIT_OFFSET: u8 = 0;
-	const UIF_BIT_WIDTH: u8 = 1;
-	/// Update interrupt flag (Width: 1, Offset: 0)
-	pub fn get_uif() -> u8 { ::read(REGISTER_ADDRESS, UIF_BIT_OFFSET, UIF_BIT_WIDTH) as u8 }
-	/// Update interrupt flag (Width: 1, Offset: 0)
-	pub fn set_uif(value: u8) { ::write(REGISTER_ADDRESS, UIF_BIT_OFFSET, UIF_BIT_WIDTH, value as u32); }
-
-	const CC1IF_BIT_OFFSET: u8 = 1;
-	const CC1IF_BIT_WIDTH: u8 = 1;
-	/// Capture/compare 1 interrupt flag (Width: 1, Offset: 1)
-	pub fn get_cc1if() -> u8 { ::read(REGISTER_ADDRESS, CC1IF_BIT_OFFSET, CC1IF_BIT_WIDTH) as u8 }
-	/// Capture/compare 1 interrupt flag (Width: 1, Offset: 1)
-	pub fn set_cc1if(value: u8) { ::write(REGISTER_ADDRESS, CC1IF_BIT_OFFSET, CC1IF_BIT_WIDTH, value as u32); }
-
-	const CC2IF_BIT_OFFSET: u8 = 2;
-	const CC2IF_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 2 interrupt flag (Width: 1, Offset: 2)
-	pub fn get_cc2if() -> u8 { ::read(REGISTER_ADDRESS, CC2IF_BIT_OFFSET, CC2IF_BIT_WIDTH) as u8 }
-	/// Capture/Compare 2 interrupt flag (Width: 1, Offset: 2)
-	pub fn set_cc2if(value: u8) { ::write(REGISTER_ADDRESS, CC2IF_BIT_OFFSET, CC2IF_BIT_WIDTH, value as u32); }
-
-	const CC3IF_BIT_OFFSET: u8 = 3;
-	const CC3IF_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 3 interrupt flag (Width: 1, Offset: 3)
-	pub fn get_cc3if() -> u8 { ::read(REGISTER_ADDRESS, CC3IF_BIT_OFFSET, CC3IF_BIT_WIDTH) as u8 }
-	/// Capture/Compare 3 interrupt flag (Width: 1, Offset: 3)
-	pub fn set_cc3if(value: u8) { ::write(REGISTER_ADDRESS, CC3IF_BIT_OFFSET, CC3IF_BIT_WIDTH, value as u32); }
-
-	const CC4IF_BIT_OFFSET: u8 = 4;
-	const CC4IF_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 4 interrupt flag (Width: 1, Offset: 4)
-	pub fn get_cc4if() -> u8 { ::read(REGISTER_ADDRESS, CC4IF_BIT_OFFSET, CC4IF_BIT_WIDTH) as u8 }
-	/// Capture/Compare 4 interrupt flag (Width: 1, Offset: 4)
-	pub fn set_cc4if(value: u8) { ::write(REGISTER_ADDRESS, CC4IF_BIT_OFFSET, CC4IF_BIT_WIDTH, value as u32); }
-
-	const COMIF_BIT_OFFSET: u8 = 5;
-	const COMIF_BIT_WIDTH: u8 = 1;
-	/// COM interrupt flag (Width: 1, Offset: 5)
-	pub fn get_comif() -> u8 { ::read(REGISTER_ADDRESS, COMIF_BIT_OFFSET, COMIF_BIT_WIDTH) as u8 }
-	/// COM interrupt flag (Width: 1, Offset: 5)
-	pub fn set_comif(value: u8) { ::write(REGISTER_ADDRESS, COMIF_BIT_OFFSET, COMIF_BIT_WIDTH, value as u32); }
-
-	const TIF_BIT_OFFSET: u8 = 6;
-	const TIF_BIT_WIDTH: u8 = 1;
-	/// Trigger interrupt flag (Width: 1, Offset: 6)
-	pub fn get_tif() -> u8 { ::read(REGISTER_ADDRESS, TIF_BIT_OFFSET, TIF_BIT_WIDTH) as u8 }
-	/// Trigger interrupt flag (Width: 1, Offset: 6)
-	pub fn set_tif(value: u8) { ::write(REGISTER_ADDRESS, TIF_BIT_OFFSET, TIF_BIT_WIDTH, value as u32); }
-
-	const BIF_BIT_OFFSET: u8 = 7;
-	const BIF_BIT_WIDTH: u8 = 1;
-	/// Break interrupt flag (Width: 1, Offset: 7)
-	pub fn get_bif() -> u8 { ::read(REGISTER_ADDRESS, BIF_BIT_OFFSET, BIF_BIT_WIDTH) as u8 }
-	/// Break interrupt flag (Width: 1, Offset: 7)
-	pub fn set_bif(value: u8) { ::write(REGISTER_ADDRESS, BIF_BIT_OFFSET, BIF_BIT_WIDTH, value as u32); }
-
-	const B2IF_BIT_OFFSET: u8 = 8;
-	const B2IF_BIT_WIDTH: u8 = 1;
-	/// Break 2 interrupt flag (Width: 1, Offset: 8)
-	pub fn get_b2if() -> u8 { ::read(REGISTER_ADDRESS, B2IF_BIT_OFFSET, B2IF_BIT_WIDTH) as u8 }
-	/// Break 2 interrupt flag (Width: 1, Offset: 8)
-	pub fn set_b2if(value: u8) { ::write(REGISTER_ADDRESS, B2IF_BIT_OFFSET, B2IF_BIT_WIDTH, value as u32); }
-
-	const CC1OF_BIT_OFFSET: u8 = 9;
-	const CC1OF_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 1 overcapture flag (Width: 1, Offset: 9)
-	pub fn get_cc1of() -> u8 { ::read(REGISTER_ADDRESS, CC1OF_BIT_OFFSET, CC1OF_BIT_WIDTH) as u8 }
-	/// Capture/Compare 1 overcapture flag (Width: 1, Offset: 9)
-	pub fn set_cc1of(value: u8) { ::write(REGISTER_ADDRESS, CC1OF_BIT_OFFSET, CC1OF_BIT_WIDTH, value as u32); }
-
-	const CC2OF_BIT_OFFSET: u8 = 10;
-	const CC2OF_BIT_WIDTH: u8 = 1;
-	/// Capture/compare 2 overcapture flag (Width: 1, Offset: 10)
-	pub fn get_cc2of() -> u8 { ::read(REGISTER_ADDRESS, CC2OF_BIT_OFFSET, CC2OF_BIT_WIDTH) as u8 }
-	/// Capture/compare 2 overcapture flag (Width: 1, Offset: 10)
-	pub fn set_cc2of(value: u8) { ::write(REGISTER_ADDRESS, CC2OF_BIT_OFFSET, CC2OF_BIT_WIDTH, value as u32); }
-
-	const CC3OF_BIT_OFFSET: u8 = 11;
-	const CC3OF_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 3 overcapture flag (Width: 1, Offset: 11)
-	pub fn get_cc3of() -> u8 { ::read(REGISTER_ADDRESS, CC3OF_BIT_OFFSET, CC3OF_BIT_WIDTH) as u8 }
-	/// Capture/Compare 3 overcapture flag (Width: 1, Offset: 11)
-	pub fn set_cc3of(value: u8) { ::write(REGISTER_ADDRESS, CC3OF_BIT_OFFSET, CC3OF_BIT_WIDTH, value as u32); }
-
-	const CC4OF_BIT_OFFSET: u8 = 12;
-	const CC4OF_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 4 overcapture flag (Width: 1, Offset: 12)
-	pub fn get_cc4of() -> u8 { ::read(REGISTER_ADDRESS, CC4OF_BIT_OFFSET, CC4OF_BIT_WIDTH) as u8 }
-	/// Capture/Compare 4 overcapture flag (Width: 1, Offset: 12)
-	pub fn set_cc4of(value: u8) { ::write(REGISTER_ADDRESS, CC4OF_BIT_OFFSET, CC4OF_BIT_WIDTH, value as u32); }
-
-	const C5IF_BIT_OFFSET: u8 = 16;
-	const C5IF_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 5 interrupt flag (Width: 1, Offset: 16)
-	pub fn get_c5if() -> u8 { ::read(REGISTER_ADDRESS, C5IF_BIT_OFFSET, C5IF_BIT_WIDTH) as u8 }
-	/// Capture/Compare 5 interrupt flag (Width: 1, Offset: 16)
-	pub fn set_c5if(value: u8) { ::write(REGISTER_ADDRESS, C5IF_BIT_OFFSET, C5IF_BIT_WIDTH, value as u32); }
-
-	const C6IF_BIT_OFFSET: u8 = 17;
-	const C6IF_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 6 interrupt flag (Width: 1, Offset: 17)
-	pub fn get_c6if() -> u8 { ::read(REGISTER_ADDRESS, C6IF_BIT_OFFSET, C6IF_BIT_WIDTH) as u8 }
-	/// Capture/Compare 6 interrupt flag (Width: 1, Offset: 17)
-	pub fn set_c6if(value: u8) { ::write(REGISTER_ADDRESS, C6IF_BIT_OFFSET, C6IF_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Update interrupt flag
+        pub uif: bool,
+        /// Capture/compare 1 interrupt flag
+        pub cc1if: bool,
+        /// Capture/Compare 2 interrupt flag
+        pub cc2if: bool,
+        /// Capture/Compare 3 interrupt flag
+        pub cc3if: bool,
+        /// Capture/Compare 4 interrupt flag
+        pub cc4if: bool,
+        /// COM interrupt flag
+        pub comif: bool,
+        /// Trigger interrupt flag
+        pub tif: bool,
+        /// Break interrupt flag
+        pub bif: bool,
+        /// Break 2 interrupt flag
+        pub b2if: bool,
+        /// Capture/Compare 1 overcapture flag
+        pub cc1of: bool,
+        /// Capture/compare 2 overcapture flag
+        pub cc2of: bool,
+        /// Capture/Compare 3 overcapture flag
+        pub cc3of: bool,
+        /// Capture/Compare 4 overcapture flag
+        pub cc4of: bool,
+        /// Capture/Compare 5 interrupt flag
+        pub c5if: bool,
+        /// Capture/Compare 6 interrupt flag
+        pub c6if: bool,
+    }
+    pub struct Cache {
+        /// Update interrupt flag
+        pub uif: bool,
+        /// Capture/compare 1 interrupt flag
+        pub cc1if: bool,
+        /// Capture/Compare 2 interrupt flag
+        pub cc2if: bool,
+        /// Capture/Compare 3 interrupt flag
+        pub cc3if: bool,
+        /// Capture/Compare 4 interrupt flag
+        pub cc4if: bool,
+        /// COM interrupt flag
+        pub comif: bool,
+        /// Trigger interrupt flag
+        pub tif: bool,
+        /// Break interrupt flag
+        pub bif: bool,
+        /// Break 2 interrupt flag
+        pub b2if: bool,
+        /// Capture/Compare 1 overcapture flag
+        pub cc1of: bool,
+        /// Capture/compare 2 overcapture flag
+        pub cc2of: bool,
+        /// Capture/Compare 3 overcapture flag
+        pub cc3of: bool,
+        /// Capture/Compare 4 overcapture flag
+        pub cc4of: bool,
+        /// Capture/Compare 5 interrupt flag
+        pub c5if: bool,
+        /// Capture/Compare 6 interrupt flag
+        pub c6if: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x10u32) as *mut u32) };
+        ReadonlyCache {
+            uif: ((value >> 0) & 0b1) > 0,
+            cc1if: ((value >> 1) & 0b1) > 0,
+            cc2if: ((value >> 2) & 0b1) > 0,
+            cc3if: ((value >> 3) & 0b1) > 0,
+            cc4if: ((value >> 4) & 0b1) > 0,
+            comif: ((value >> 5) & 0b1) > 0,
+            tif: ((value >> 6) & 0b1) > 0,
+            bif: ((value >> 7) & 0b1) > 0,
+            b2if: ((value >> 8) & 0b1) > 0,
+            cc1of: ((value >> 9) & 0b1) > 0,
+            cc2of: ((value >> 10) & 0b1) > 0,
+            cc3of: ((value >> 11) & 0b1) > 0,
+            cc4of: ((value >> 12) & 0b1) > 0,
+            c5if: ((value >> 16) & 0b1) > 0,
+            c6if: ((value >> 17) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x10u32) as *mut u32) };
+        Cache {
+            uif: ((value >> 0) & 0b1) > 0,
+            cc1if: ((value >> 1) & 0b1) > 0,
+            cc2if: ((value >> 2) & 0b1) > 0,
+            cc3if: ((value >> 3) & 0b1) > 0,
+            cc4if: ((value >> 4) & 0b1) > 0,
+            comif: ((value >> 5) & 0b1) > 0,
+            tif: ((value >> 6) & 0b1) > 0,
+            bif: ((value >> 7) & 0b1) > 0,
+            b2if: ((value >> 8) & 0b1) > 0,
+            cc1of: ((value >> 9) & 0b1) > 0,
+            cc2of: ((value >> 10) & 0b1) > 0,
+            cc3of: ((value >> 11) & 0b1) > 0,
+            cc4of: ((value >> 12) & 0b1) > 0,
+            c5if: ((value >> 16) & 0b1) > 0,
+            c6if: ((value >> 17) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.uif as u32) << 0)
+                | ((self.cc1if as u32) << 1)
+                | ((self.cc2if as u32) << 2)
+                | ((self.cc3if as u32) << 3)
+                | ((self.cc4if as u32) << 4)
+                | ((self.comif as u32) << 5)
+                | ((self.tif as u32) << 6)
+                | ((self.bif as u32) << 7)
+                | ((self.b2if as u32) << 8)
+                | ((self.cc1of as u32) << 9)
+                | ((self.cc2of as u32) << 10)
+                | ((self.cc3of as u32) << 11)
+                | ((self.cc4of as u32) << 12)
+                | ((self.c5if as u32) << 16)
+                | ((self.c6if as u32) << 17)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x10u32) as *mut u32, value) };
+        }
+    }
 }
 /// event generation register
-/// Size: 0x20 bits
 pub mod egr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x14;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const UG_BIT_OFFSET: u8 = 0;
-	const UG_BIT_WIDTH: u8 = 1;
-	/// Update generation (Width: 1, Offset: 0)
-	pub fn set_ug(value: u8) { ::write(REGISTER_ADDRESS, UG_BIT_OFFSET, UG_BIT_WIDTH, value as u32); }
-
-	const CC1G_BIT_OFFSET: u8 = 1;
-	const CC1G_BIT_WIDTH: u8 = 1;
-	/// Capture/compare 1 generation (Width: 1, Offset: 1)
-	pub fn set_cc1g(value: u8) { ::write(REGISTER_ADDRESS, CC1G_BIT_OFFSET, CC1G_BIT_WIDTH, value as u32); }
-
-	const CC2G_BIT_OFFSET: u8 = 2;
-	const CC2G_BIT_WIDTH: u8 = 1;
-	/// Capture/compare 2 generation (Width: 1, Offset: 2)
-	pub fn set_cc2g(value: u8) { ::write(REGISTER_ADDRESS, CC2G_BIT_OFFSET, CC2G_BIT_WIDTH, value as u32); }
-
-	const CC3G_BIT_OFFSET: u8 = 3;
-	const CC3G_BIT_WIDTH: u8 = 1;
-	/// Capture/compare 3 generation (Width: 1, Offset: 3)
-	pub fn set_cc3g(value: u8) { ::write(REGISTER_ADDRESS, CC3G_BIT_OFFSET, CC3G_BIT_WIDTH, value as u32); }
-
-	const CC4G_BIT_OFFSET: u8 = 4;
-	const CC4G_BIT_WIDTH: u8 = 1;
-	/// Capture/compare 4 generation (Width: 1, Offset: 4)
-	pub fn set_cc4g(value: u8) { ::write(REGISTER_ADDRESS, CC4G_BIT_OFFSET, CC4G_BIT_WIDTH, value as u32); }
-
-	const COMG_BIT_OFFSET: u8 = 5;
-	const COMG_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare control update generation (Width: 1, Offset: 5)
-	pub fn set_comg(value: u8) { ::write(REGISTER_ADDRESS, COMG_BIT_OFFSET, COMG_BIT_WIDTH, value as u32); }
-
-	const TG_BIT_OFFSET: u8 = 6;
-	const TG_BIT_WIDTH: u8 = 1;
-	/// Trigger generation (Width: 1, Offset: 6)
-	pub fn set_tg(value: u8) { ::write(REGISTER_ADDRESS, TG_BIT_OFFSET, TG_BIT_WIDTH, value as u32); }
-
-	const BG_BIT_OFFSET: u8 = 7;
-	const BG_BIT_WIDTH: u8 = 1;
-	/// Break generation (Width: 1, Offset: 7)
-	pub fn set_bg(value: u8) { ::write(REGISTER_ADDRESS, BG_BIT_OFFSET, BG_BIT_WIDTH, value as u32); }
-
-	const B2G_BIT_OFFSET: u8 = 8;
-	const B2G_BIT_WIDTH: u8 = 1;
-	/// Break 2 generation (Width: 1, Offset: 8)
-	pub fn set_b2g(value: u8) { ::write(REGISTER_ADDRESS, B2G_BIT_OFFSET, B2G_BIT_WIDTH, value as u32); }
+    /// Update generation
+    /// Access: write-only, Width: 1, Offset: 0
+    /// Set Update generation
+    pub fn ug(value: bool) {
+        let value = value as u32;
+        unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x14u32) as *mut u32, value) };
+    }
+    /// Capture/compare 1 generation
+    /// Access: write-only, Width: 1, Offset: 1
+    /// Set Capture/compare 1 generation
+    pub fn cc1g(value: bool) {
+        let value = value as u32;
+        let value = value << 1;
+        unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x14u32) as *mut u32, value) };
+    }
+    /// Capture/compare 2 generation
+    /// Access: write-only, Width: 1, Offset: 2
+    /// Set Capture/compare 2 generation
+    pub fn cc2g(value: bool) {
+        let value = value as u32;
+        let value = value << 2;
+        unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x14u32) as *mut u32, value) };
+    }
+    /// Capture/compare 3 generation
+    /// Access: write-only, Width: 1, Offset: 3
+    /// Set Capture/compare 3 generation
+    pub fn cc3g(value: bool) {
+        let value = value as u32;
+        let value = value << 3;
+        unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x14u32) as *mut u32, value) };
+    }
+    /// Capture/compare 4 generation
+    /// Access: write-only, Width: 1, Offset: 4
+    /// Set Capture/compare 4 generation
+    pub fn cc4g(value: bool) {
+        let value = value as u32;
+        let value = value << 4;
+        unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x14u32) as *mut u32, value) };
+    }
+    /// Capture/Compare control update generation
+    /// Access: write-only, Width: 1, Offset: 5
+    /// Set Capture/Compare control update generation
+    pub fn comg(value: bool) {
+        let value = value as u32;
+        let value = value << 5;
+        unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x14u32) as *mut u32, value) };
+    }
+    /// Trigger generation
+    /// Access: write-only, Width: 1, Offset: 6
+    /// Set Trigger generation
+    pub fn tg(value: bool) {
+        let value = value as u32;
+        let value = value << 6;
+        unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x14u32) as *mut u32, value) };
+    }
+    /// Break generation
+    /// Access: write-only, Width: 1, Offset: 7
+    /// Set Break generation
+    pub fn bg(value: bool) {
+        let value = value as u32;
+        let value = value << 7;
+        unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x14u32) as *mut u32, value) };
+    }
+    /// Break 2 generation
+    /// Access: write-only, Width: 1, Offset: 8
+    /// Set Break 2 generation
+    pub fn b2g(value: bool) {
+        let value = value as u32;
+        let value = value << 8;
+        unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x14u32) as *mut u32, value) };
+    }
 }
 /// capture/compare mode register (output mode)
-/// Size: 0x20 bits
 pub mod ccmr1_output {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x18;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const OC2CE_BIT_OFFSET: u8 = 15;
-	const OC2CE_BIT_WIDTH: u8 = 1;
-	/// Output Compare 2 clear enable (Width: 1, Offset: 15)
-	pub fn get_oc2ce() -> u8 { ::read(REGISTER_ADDRESS, OC2CE_BIT_OFFSET, OC2CE_BIT_WIDTH) as u8 }
-	/// Output Compare 2 clear enable (Width: 1, Offset: 15)
-	pub fn set_oc2ce(value: u8) { ::write(REGISTER_ADDRESS, OC2CE_BIT_OFFSET, OC2CE_BIT_WIDTH, value as u32); }
-
-	const OC2M_BIT_OFFSET: u8 = 12;
-	const OC2M_BIT_WIDTH: u8 = 3;
-	/// Output Compare 2 mode (Width: 3, Offset: 12)
-	pub fn get_oc2m() -> u8 { ::read(REGISTER_ADDRESS, OC2M_BIT_OFFSET, OC2M_BIT_WIDTH) as u8 }
-	/// Output Compare 2 mode (Width: 3, Offset: 12)
-	pub fn set_oc2m(value: u8) { ::write(REGISTER_ADDRESS, OC2M_BIT_OFFSET, OC2M_BIT_WIDTH, value as u32); }
-
-	const OC2PE_BIT_OFFSET: u8 = 11;
-	const OC2PE_BIT_WIDTH: u8 = 1;
-	/// Output Compare 2 preload enable (Width: 1, Offset: 11)
-	pub fn get_oc2pe() -> u8 { ::read(REGISTER_ADDRESS, OC2PE_BIT_OFFSET, OC2PE_BIT_WIDTH) as u8 }
-	/// Output Compare 2 preload enable (Width: 1, Offset: 11)
-	pub fn set_oc2pe(value: u8) { ::write(REGISTER_ADDRESS, OC2PE_BIT_OFFSET, OC2PE_BIT_WIDTH, value as u32); }
-
-	const OC2FE_BIT_OFFSET: u8 = 10;
-	const OC2FE_BIT_WIDTH: u8 = 1;
-	/// Output Compare 2 fast enable (Width: 1, Offset: 10)
-	pub fn get_oc2fe() -> u8 { ::read(REGISTER_ADDRESS, OC2FE_BIT_OFFSET, OC2FE_BIT_WIDTH) as u8 }
-	/// Output Compare 2 fast enable (Width: 1, Offset: 10)
-	pub fn set_oc2fe(value: u8) { ::write(REGISTER_ADDRESS, OC2FE_BIT_OFFSET, OC2FE_BIT_WIDTH, value as u32); }
-
-	const CC2S_BIT_OFFSET: u8 = 8;
-	const CC2S_BIT_WIDTH: u8 = 2;
-	/// Capture/Compare 2 selection (Width: 2, Offset: 8)
-	pub fn get_cc2s() -> u8 { ::read(REGISTER_ADDRESS, CC2S_BIT_OFFSET, CC2S_BIT_WIDTH) as u8 }
-	/// Capture/Compare 2 selection (Width: 2, Offset: 8)
-	pub fn set_cc2s(value: u8) { ::write(REGISTER_ADDRESS, CC2S_BIT_OFFSET, CC2S_BIT_WIDTH, value as u32); }
-
-	const OC1CE_BIT_OFFSET: u8 = 7;
-	const OC1CE_BIT_WIDTH: u8 = 1;
-	/// Output Compare 1 clear enable (Width: 1, Offset: 7)
-	pub fn get_oc1ce() -> u8 { ::read(REGISTER_ADDRESS, OC1CE_BIT_OFFSET, OC1CE_BIT_WIDTH) as u8 }
-	/// Output Compare 1 clear enable (Width: 1, Offset: 7)
-	pub fn set_oc1ce(value: u8) { ::write(REGISTER_ADDRESS, OC1CE_BIT_OFFSET, OC1CE_BIT_WIDTH, value as u32); }
-
-	const OC1M_BIT_OFFSET: u8 = 4;
-	const OC1M_BIT_WIDTH: u8 = 3;
-	/// Output Compare 1 mode (Width: 3, Offset: 4)
-	pub fn get_oc1m() -> u8 { ::read(REGISTER_ADDRESS, OC1M_BIT_OFFSET, OC1M_BIT_WIDTH) as u8 }
-	/// Output Compare 1 mode (Width: 3, Offset: 4)
-	pub fn set_oc1m(value: u8) { ::write(REGISTER_ADDRESS, OC1M_BIT_OFFSET, OC1M_BIT_WIDTH, value as u32); }
-
-	const OC1PE_BIT_OFFSET: u8 = 3;
-	const OC1PE_BIT_WIDTH: u8 = 1;
-	/// Output Compare 1 preload enable (Width: 1, Offset: 3)
-	pub fn get_oc1pe() -> u8 { ::read(REGISTER_ADDRESS, OC1PE_BIT_OFFSET, OC1PE_BIT_WIDTH) as u8 }
-	/// Output Compare 1 preload enable (Width: 1, Offset: 3)
-	pub fn set_oc1pe(value: u8) { ::write(REGISTER_ADDRESS, OC1PE_BIT_OFFSET, OC1PE_BIT_WIDTH, value as u32); }
-
-	const OC1FE_BIT_OFFSET: u8 = 2;
-	const OC1FE_BIT_WIDTH: u8 = 1;
-	/// Output Compare 1 fast enable (Width: 1, Offset: 2)
-	pub fn get_oc1fe() -> u8 { ::read(REGISTER_ADDRESS, OC1FE_BIT_OFFSET, OC1FE_BIT_WIDTH) as u8 }
-	/// Output Compare 1 fast enable (Width: 1, Offset: 2)
-	pub fn set_oc1fe(value: u8) { ::write(REGISTER_ADDRESS, OC1FE_BIT_OFFSET, OC1FE_BIT_WIDTH, value as u32); }
-
-	const CC1S_BIT_OFFSET: u8 = 0;
-	const CC1S_BIT_WIDTH: u8 = 2;
-	/// Capture/Compare 1 selection (Width: 2, Offset: 0)
-	pub fn get_cc1s() -> u8 { ::read(REGISTER_ADDRESS, CC1S_BIT_OFFSET, CC1S_BIT_WIDTH) as u8 }
-	/// Capture/Compare 1 selection (Width: 2, Offset: 0)
-	pub fn set_cc1s(value: u8) { ::write(REGISTER_ADDRESS, CC1S_BIT_OFFSET, CC1S_BIT_WIDTH, value as u32); }
-
-	const OC1M_3_BIT_OFFSET: u8 = 16;
-	const OC1M_3_BIT_WIDTH: u8 = 1;
-	/// Output Compare 1 mode bit 3 (Width: 1, Offset: 16)
-	pub fn get_oc1m_3() -> u8 { ::read(REGISTER_ADDRESS, OC1M_3_BIT_OFFSET, OC1M_3_BIT_WIDTH) as u8 }
-	/// Output Compare 1 mode bit 3 (Width: 1, Offset: 16)
-	pub fn set_oc1m_3(value: u8) { ::write(REGISTER_ADDRESS, OC1M_3_BIT_OFFSET, OC1M_3_BIT_WIDTH, value as u32); }
-
-	const OC2M_3_BIT_OFFSET: u8 = 24;
-	const OC2M_3_BIT_WIDTH: u8 = 1;
-	/// Output Compare 2 mode bit 3 (Width: 1, Offset: 24)
-	pub fn get_oc2m_3() -> u8 { ::read(REGISTER_ADDRESS, OC2M_3_BIT_OFFSET, OC2M_3_BIT_WIDTH) as u8 }
-	/// Output Compare 2 mode bit 3 (Width: 1, Offset: 24)
-	pub fn set_oc2m_3(value: u8) { ::write(REGISTER_ADDRESS, OC2M_3_BIT_OFFSET, OC2M_3_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Output Compare 2 clear enable
+        pub oc2ce: bool,
+        /// Output Compare 2 mode
+        pub oc2m: bool,
+        /// Output Compare 2 preload enable
+        pub oc2pe: bool,
+        /// Output Compare 2 fast enable
+        pub oc2fe: bool,
+        /// Capture/Compare 2 selection
+        pub cc2s: bool,
+        /// Output Compare 1 clear enable
+        pub oc1ce: bool,
+        /// Output Compare 1 mode
+        pub oc1m: bool,
+        /// Output Compare 1 preload enable
+        pub oc1pe: bool,
+        /// Output Compare 1 fast enable
+        pub oc1fe: bool,
+        /// Capture/Compare 1 selection
+        pub cc1s: bool,
+        /// Output Compare 1 mode bit 3
+        pub oc1m_3: bool,
+        /// Output Compare 2 mode bit 3
+        pub oc2m_3: bool,
+    }
+    pub struct Cache {
+        /// Output Compare 2 clear enable
+        pub oc2ce: bool,
+        /// Output Compare 2 mode
+        pub oc2m: bool,
+        /// Output Compare 2 preload enable
+        pub oc2pe: bool,
+        /// Output Compare 2 fast enable
+        pub oc2fe: bool,
+        /// Capture/Compare 2 selection
+        pub cc2s: bool,
+        /// Output Compare 1 clear enable
+        pub oc1ce: bool,
+        /// Output Compare 1 mode
+        pub oc1m: bool,
+        /// Output Compare 1 preload enable
+        pub oc1pe: bool,
+        /// Output Compare 1 fast enable
+        pub oc1fe: bool,
+        /// Capture/Compare 1 selection
+        pub cc1s: bool,
+        /// Output Compare 1 mode bit 3
+        pub oc1m_3: bool,
+        /// Output Compare 2 mode bit 3
+        pub oc2m_3: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x18u32) as *mut u32) };
+        ReadonlyCache {
+            oc2ce: ((value >> 15) & 0b1) > 0,
+            oc2m: ((value >> 12) & 0b1) > 0,
+            oc2pe: ((value >> 11) & 0b1) > 0,
+            oc2fe: ((value >> 10) & 0b1) > 0,
+            cc2s: ((value >> 8) & 0b1) > 0,
+            oc1ce: ((value >> 7) & 0b1) > 0,
+            oc1m: ((value >> 4) & 0b1) > 0,
+            oc1pe: ((value >> 3) & 0b1) > 0,
+            oc1fe: ((value >> 2) & 0b1) > 0,
+            cc1s: ((value >> 0) & 0b1) > 0,
+            oc1m_3: ((value >> 16) & 0b1) > 0,
+            oc2m_3: ((value >> 24) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x18u32) as *mut u32) };
+        Cache {
+            oc2ce: ((value >> 15) & 0b1) > 0,
+            oc2m: ((value >> 12) & 0b1) > 0,
+            oc2pe: ((value >> 11) & 0b1) > 0,
+            oc2fe: ((value >> 10) & 0b1) > 0,
+            cc2s: ((value >> 8) & 0b1) > 0,
+            oc1ce: ((value >> 7) & 0b1) > 0,
+            oc1m: ((value >> 4) & 0b1) > 0,
+            oc1pe: ((value >> 3) & 0b1) > 0,
+            oc1fe: ((value >> 2) & 0b1) > 0,
+            cc1s: ((value >> 0) & 0b1) > 0,
+            oc1m_3: ((value >> 16) & 0b1) > 0,
+            oc2m_3: ((value >> 24) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.oc2ce as u32) << 15)
+                | ((self.oc2m as u32) << 12)
+                | ((self.oc2pe as u32) << 11)
+                | ((self.oc2fe as u32) << 10)
+                | ((self.cc2s as u32) << 8)
+                | ((self.oc1ce as u32) << 7)
+                | ((self.oc1m as u32) << 4)
+                | ((self.oc1pe as u32) << 3)
+                | ((self.oc1fe as u32) << 2)
+                | ((self.cc1s as u32) << 0)
+                | ((self.oc1m_3 as u32) << 16)
+                | ((self.oc2m_3 as u32) << 24)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x18u32) as *mut u32, value) };
+        }
+    }
 }
 /// capture/compare mode register 1 (input mode)
-/// Size: 0x20 bits
 pub mod ccmr1_input {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x18;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const IC2F_BIT_OFFSET: u8 = 12;
-	const IC2F_BIT_WIDTH: u8 = 4;
-	/// Input capture 2 filter (Width: 4, Offset: 12)
-	pub fn get_ic2f() -> u8 { ::read(REGISTER_ADDRESS, IC2F_BIT_OFFSET, IC2F_BIT_WIDTH) as u8 }
-	/// Input capture 2 filter (Width: 4, Offset: 12)
-	pub fn set_ic2f(value: u8) { ::write(REGISTER_ADDRESS, IC2F_BIT_OFFSET, IC2F_BIT_WIDTH, value as u32); }
-
-	const IC2PCS_BIT_OFFSET: u8 = 10;
-	const IC2PCS_BIT_WIDTH: u8 = 2;
-	/// Input capture 2 prescaler (Width: 2, Offset: 10)
-	pub fn get_ic2pcs() -> u8 { ::read(REGISTER_ADDRESS, IC2PCS_BIT_OFFSET, IC2PCS_BIT_WIDTH) as u8 }
-	/// Input capture 2 prescaler (Width: 2, Offset: 10)
-	pub fn set_ic2pcs(value: u8) { ::write(REGISTER_ADDRESS, IC2PCS_BIT_OFFSET, IC2PCS_BIT_WIDTH, value as u32); }
-
-	const CC2S_BIT_OFFSET: u8 = 8;
-	const CC2S_BIT_WIDTH: u8 = 2;
-	/// Capture/Compare 2 selection (Width: 2, Offset: 8)
-	pub fn get_cc2s() -> u8 { ::read(REGISTER_ADDRESS, CC2S_BIT_OFFSET, CC2S_BIT_WIDTH) as u8 }
-	/// Capture/Compare 2 selection (Width: 2, Offset: 8)
-	pub fn set_cc2s(value: u8) { ::write(REGISTER_ADDRESS, CC2S_BIT_OFFSET, CC2S_BIT_WIDTH, value as u32); }
-
-	const IC1F_BIT_OFFSET: u8 = 4;
-	const IC1F_BIT_WIDTH: u8 = 4;
-	/// Input capture 1 filter (Width: 4, Offset: 4)
-	pub fn get_ic1f() -> u8 { ::read(REGISTER_ADDRESS, IC1F_BIT_OFFSET, IC1F_BIT_WIDTH) as u8 }
-	/// Input capture 1 filter (Width: 4, Offset: 4)
-	pub fn set_ic1f(value: u8) { ::write(REGISTER_ADDRESS, IC1F_BIT_OFFSET, IC1F_BIT_WIDTH, value as u32); }
-
-	const IC1PCS_BIT_OFFSET: u8 = 2;
-	const IC1PCS_BIT_WIDTH: u8 = 2;
-	/// Input capture 1 prescaler (Width: 2, Offset: 2)
-	pub fn get_ic1pcs() -> u8 { ::read(REGISTER_ADDRESS, IC1PCS_BIT_OFFSET, IC1PCS_BIT_WIDTH) as u8 }
-	/// Input capture 1 prescaler (Width: 2, Offset: 2)
-	pub fn set_ic1pcs(value: u8) { ::write(REGISTER_ADDRESS, IC1PCS_BIT_OFFSET, IC1PCS_BIT_WIDTH, value as u32); }
-
-	const CC1S_BIT_OFFSET: u8 = 0;
-	const CC1S_BIT_WIDTH: u8 = 2;
-	/// Capture/Compare 1 selection (Width: 2, Offset: 0)
-	pub fn get_cc1s() -> u8 { ::read(REGISTER_ADDRESS, CC1S_BIT_OFFSET, CC1S_BIT_WIDTH) as u8 }
-	/// Capture/Compare 1 selection (Width: 2, Offset: 0)
-	pub fn set_cc1s(value: u8) { ::write(REGISTER_ADDRESS, CC1S_BIT_OFFSET, CC1S_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Input capture 2 filter
+        pub ic2f: u8,
+        /// Input capture 2 prescaler
+        pub ic2pcs: u8,
+        /// Capture/Compare 2 selection
+        pub cc2s: u8,
+        /// Input capture 1 filter
+        pub ic1f: u8,
+        /// Input capture 1 prescaler
+        pub ic1pcs: u8,
+        /// Capture/Compare 1 selection
+        pub cc1s: u8,
+    }
+    pub struct Cache {
+        /// Input capture 2 filter
+        pub ic2f: u8,
+        /// Input capture 2 prescaler
+        pub ic2pcs: u8,
+        /// Capture/Compare 2 selection
+        pub cc2s: u8,
+        /// Input capture 1 filter
+        pub ic1f: u8,
+        /// Input capture 1 prescaler
+        pub ic1pcs: u8,
+        /// Capture/Compare 1 selection
+        pub cc1s: u8,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x18u32) as *mut u32) };
+        ReadonlyCache {
+            ic2f: ((value >> 12) & 0b1111) as u8,
+            ic2pcs: ((value >> 10) & 0b1111) as u8,
+            cc2s: ((value >> 8) & 0b1111) as u8,
+            ic1f: ((value >> 4) & 0b1111) as u8,
+            ic1pcs: ((value >> 2) & 0b1111) as u8,
+            cc1s: ((value >> 0) & 0b1111) as u8,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x18u32) as *mut u32) };
+        Cache {
+            ic2f: ((value >> 12) & 0b1111) as u8,
+            ic2pcs: ((value >> 10) & 0b1111) as u8,
+            cc2s: ((value >> 8) & 0b1111) as u8,
+            ic1f: ((value >> 4) & 0b1111) as u8,
+            ic1pcs: ((value >> 2) & 0b1111) as u8,
+            cc1s: ((value >> 0) & 0b1111) as u8,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.ic2f as u32) << 12)
+                | ((self.ic2pcs as u32) << 10)
+                | ((self.cc2s as u32) << 8)
+                | ((self.ic1f as u32) << 4)
+                | ((self.ic1pcs as u32) << 2)
+                | ((self.cc1s as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x18u32) as *mut u32, value) };
+        }
+    }
 }
 /// capture/compare mode register (output mode)
-/// Size: 0x20 bits
 pub mod ccmr2_output {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x1C;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const OC4CE_BIT_OFFSET: u8 = 15;
-	const OC4CE_BIT_WIDTH: u8 = 1;
-	/// Output compare 4 clear enable (Width: 1, Offset: 15)
-	pub fn get_oc4ce() -> u8 { ::read(REGISTER_ADDRESS, OC4CE_BIT_OFFSET, OC4CE_BIT_WIDTH) as u8 }
-	/// Output compare 4 clear enable (Width: 1, Offset: 15)
-	pub fn set_oc4ce(value: u8) { ::write(REGISTER_ADDRESS, OC4CE_BIT_OFFSET, OC4CE_BIT_WIDTH, value as u32); }
-
-	const OC4M_BIT_OFFSET: u8 = 12;
-	const OC4M_BIT_WIDTH: u8 = 3;
-	/// Output compare 4 mode (Width: 3, Offset: 12)
-	pub fn get_oc4m() -> u8 { ::read(REGISTER_ADDRESS, OC4M_BIT_OFFSET, OC4M_BIT_WIDTH) as u8 }
-	/// Output compare 4 mode (Width: 3, Offset: 12)
-	pub fn set_oc4m(value: u8) { ::write(REGISTER_ADDRESS, OC4M_BIT_OFFSET, OC4M_BIT_WIDTH, value as u32); }
-
-	const OC4PE_BIT_OFFSET: u8 = 11;
-	const OC4PE_BIT_WIDTH: u8 = 1;
-	/// Output compare 4 preload enable (Width: 1, Offset: 11)
-	pub fn get_oc4pe() -> u8 { ::read(REGISTER_ADDRESS, OC4PE_BIT_OFFSET, OC4PE_BIT_WIDTH) as u8 }
-	/// Output compare 4 preload enable (Width: 1, Offset: 11)
-	pub fn set_oc4pe(value: u8) { ::write(REGISTER_ADDRESS, OC4PE_BIT_OFFSET, OC4PE_BIT_WIDTH, value as u32); }
-
-	const OC4FE_BIT_OFFSET: u8 = 10;
-	const OC4FE_BIT_WIDTH: u8 = 1;
-	/// Output compare 4 fast enable (Width: 1, Offset: 10)
-	pub fn get_oc4fe() -> u8 { ::read(REGISTER_ADDRESS, OC4FE_BIT_OFFSET, OC4FE_BIT_WIDTH) as u8 }
-	/// Output compare 4 fast enable (Width: 1, Offset: 10)
-	pub fn set_oc4fe(value: u8) { ::write(REGISTER_ADDRESS, OC4FE_BIT_OFFSET, OC4FE_BIT_WIDTH, value as u32); }
-
-	const CC4S_BIT_OFFSET: u8 = 8;
-	const CC4S_BIT_WIDTH: u8 = 2;
-	/// Capture/Compare 4 selection (Width: 2, Offset: 8)
-	pub fn get_cc4s() -> u8 { ::read(REGISTER_ADDRESS, CC4S_BIT_OFFSET, CC4S_BIT_WIDTH) as u8 }
-	/// Capture/Compare 4 selection (Width: 2, Offset: 8)
-	pub fn set_cc4s(value: u8) { ::write(REGISTER_ADDRESS, CC4S_BIT_OFFSET, CC4S_BIT_WIDTH, value as u32); }
-
-	const OC3CE_BIT_OFFSET: u8 = 7;
-	const OC3CE_BIT_WIDTH: u8 = 1;
-	/// Output compare 3 clear enable (Width: 1, Offset: 7)
-	pub fn get_oc3ce() -> u8 { ::read(REGISTER_ADDRESS, OC3CE_BIT_OFFSET, OC3CE_BIT_WIDTH) as u8 }
-	/// Output compare 3 clear enable (Width: 1, Offset: 7)
-	pub fn set_oc3ce(value: u8) { ::write(REGISTER_ADDRESS, OC3CE_BIT_OFFSET, OC3CE_BIT_WIDTH, value as u32); }
-
-	const OC3M_BIT_OFFSET: u8 = 4;
-	const OC3M_BIT_WIDTH: u8 = 3;
-	/// Output compare 3 mode (Width: 3, Offset: 4)
-	pub fn get_oc3m() -> u8 { ::read(REGISTER_ADDRESS, OC3M_BIT_OFFSET, OC3M_BIT_WIDTH) as u8 }
-	/// Output compare 3 mode (Width: 3, Offset: 4)
-	pub fn set_oc3m(value: u8) { ::write(REGISTER_ADDRESS, OC3M_BIT_OFFSET, OC3M_BIT_WIDTH, value as u32); }
-
-	const OC3PE_BIT_OFFSET: u8 = 3;
-	const OC3PE_BIT_WIDTH: u8 = 1;
-	/// Output compare 3 preload enable (Width: 1, Offset: 3)
-	pub fn get_oc3pe() -> u8 { ::read(REGISTER_ADDRESS, OC3PE_BIT_OFFSET, OC3PE_BIT_WIDTH) as u8 }
-	/// Output compare 3 preload enable (Width: 1, Offset: 3)
-	pub fn set_oc3pe(value: u8) { ::write(REGISTER_ADDRESS, OC3PE_BIT_OFFSET, OC3PE_BIT_WIDTH, value as u32); }
-
-	const OC3FE_BIT_OFFSET: u8 = 2;
-	const OC3FE_BIT_WIDTH: u8 = 1;
-	/// Output compare 3 fast enable (Width: 1, Offset: 2)
-	pub fn get_oc3fe() -> u8 { ::read(REGISTER_ADDRESS, OC3FE_BIT_OFFSET, OC3FE_BIT_WIDTH) as u8 }
-	/// Output compare 3 fast enable (Width: 1, Offset: 2)
-	pub fn set_oc3fe(value: u8) { ::write(REGISTER_ADDRESS, OC3FE_BIT_OFFSET, OC3FE_BIT_WIDTH, value as u32); }
-
-	const CC3S_BIT_OFFSET: u8 = 0;
-	const CC3S_BIT_WIDTH: u8 = 2;
-	/// Capture/Compare 3 selection (Width: 2, Offset: 0)
-	pub fn get_cc3s() -> u8 { ::read(REGISTER_ADDRESS, CC3S_BIT_OFFSET, CC3S_BIT_WIDTH) as u8 }
-	/// Capture/Compare 3 selection (Width: 2, Offset: 0)
-	pub fn set_cc3s(value: u8) { ::write(REGISTER_ADDRESS, CC3S_BIT_OFFSET, CC3S_BIT_WIDTH, value as u32); }
-
-	const OC3M_3_BIT_OFFSET: u8 = 16;
-	const OC3M_3_BIT_WIDTH: u8 = 1;
-	/// Output Compare 3 mode bit 3 (Width: 1, Offset: 16)
-	pub fn get_oc3m_3() -> u8 { ::read(REGISTER_ADDRESS, OC3M_3_BIT_OFFSET, OC3M_3_BIT_WIDTH) as u8 }
-	/// Output Compare 3 mode bit 3 (Width: 1, Offset: 16)
-	pub fn set_oc3m_3(value: u8) { ::write(REGISTER_ADDRESS, OC3M_3_BIT_OFFSET, OC3M_3_BIT_WIDTH, value as u32); }
-
-	const OC4M_3_BIT_OFFSET: u8 = 24;
-	const OC4M_3_BIT_WIDTH: u8 = 1;
-	/// Output Compare 4 mode bit 3 (Width: 1, Offset: 24)
-	pub fn get_oc4m_3() -> u8 { ::read(REGISTER_ADDRESS, OC4M_3_BIT_OFFSET, OC4M_3_BIT_WIDTH) as u8 }
-	/// Output Compare 4 mode bit 3 (Width: 1, Offset: 24)
-	pub fn set_oc4m_3(value: u8) { ::write(REGISTER_ADDRESS, OC4M_3_BIT_OFFSET, OC4M_3_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Output compare 4 clear enable
+        pub oc4ce: bool,
+        /// Output compare 4 mode
+        pub oc4m: bool,
+        /// Output compare 4 preload enable
+        pub oc4pe: bool,
+        /// Output compare 4 fast enable
+        pub oc4fe: bool,
+        /// Capture/Compare 4 selection
+        pub cc4s: bool,
+        /// Output compare 3 clear enable
+        pub oc3ce: bool,
+        /// Output compare 3 mode
+        pub oc3m: bool,
+        /// Output compare 3 preload enable
+        pub oc3pe: bool,
+        /// Output compare 3 fast enable
+        pub oc3fe: bool,
+        /// Capture/Compare 3 selection
+        pub cc3s: bool,
+        /// Output Compare 3 mode bit 3
+        pub oc3m_3: bool,
+        /// Output Compare 4 mode bit 3
+        pub oc4m_3: bool,
+    }
+    pub struct Cache {
+        /// Output compare 4 clear enable
+        pub oc4ce: bool,
+        /// Output compare 4 mode
+        pub oc4m: bool,
+        /// Output compare 4 preload enable
+        pub oc4pe: bool,
+        /// Output compare 4 fast enable
+        pub oc4fe: bool,
+        /// Capture/Compare 4 selection
+        pub cc4s: bool,
+        /// Output compare 3 clear enable
+        pub oc3ce: bool,
+        /// Output compare 3 mode
+        pub oc3m: bool,
+        /// Output compare 3 preload enable
+        pub oc3pe: bool,
+        /// Output compare 3 fast enable
+        pub oc3fe: bool,
+        /// Capture/Compare 3 selection
+        pub cc3s: bool,
+        /// Output Compare 3 mode bit 3
+        pub oc3m_3: bool,
+        /// Output Compare 4 mode bit 3
+        pub oc4m_3: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x1Cu32) as *mut u32) };
+        ReadonlyCache {
+            oc4ce: ((value >> 15) & 0b1) > 0,
+            oc4m: ((value >> 12) & 0b1) > 0,
+            oc4pe: ((value >> 11) & 0b1) > 0,
+            oc4fe: ((value >> 10) & 0b1) > 0,
+            cc4s: ((value >> 8) & 0b1) > 0,
+            oc3ce: ((value >> 7) & 0b1) > 0,
+            oc3m: ((value >> 4) & 0b1) > 0,
+            oc3pe: ((value >> 3) & 0b1) > 0,
+            oc3fe: ((value >> 2) & 0b1) > 0,
+            cc3s: ((value >> 0) & 0b1) > 0,
+            oc3m_3: ((value >> 16) & 0b1) > 0,
+            oc4m_3: ((value >> 24) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x1Cu32) as *mut u32) };
+        Cache {
+            oc4ce: ((value >> 15) & 0b1) > 0,
+            oc4m: ((value >> 12) & 0b1) > 0,
+            oc4pe: ((value >> 11) & 0b1) > 0,
+            oc4fe: ((value >> 10) & 0b1) > 0,
+            cc4s: ((value >> 8) & 0b1) > 0,
+            oc3ce: ((value >> 7) & 0b1) > 0,
+            oc3m: ((value >> 4) & 0b1) > 0,
+            oc3pe: ((value >> 3) & 0b1) > 0,
+            oc3fe: ((value >> 2) & 0b1) > 0,
+            cc3s: ((value >> 0) & 0b1) > 0,
+            oc3m_3: ((value >> 16) & 0b1) > 0,
+            oc4m_3: ((value >> 24) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.oc4ce as u32) << 15)
+                | ((self.oc4m as u32) << 12)
+                | ((self.oc4pe as u32) << 11)
+                | ((self.oc4fe as u32) << 10)
+                | ((self.cc4s as u32) << 8)
+                | ((self.oc3ce as u32) << 7)
+                | ((self.oc3m as u32) << 4)
+                | ((self.oc3pe as u32) << 3)
+                | ((self.oc3fe as u32) << 2)
+                | ((self.cc3s as u32) << 0)
+                | ((self.oc3m_3 as u32) << 16)
+                | ((self.oc4m_3 as u32) << 24)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x1Cu32) as *mut u32, value) };
+        }
+    }
 }
 /// capture/compare mode register 2 (input mode)
-/// Size: 0x20 bits
 pub mod ccmr2_input {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x1C;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const IC4F_BIT_OFFSET: u8 = 12;
-	const IC4F_BIT_WIDTH: u8 = 4;
-	/// Input capture 4 filter (Width: 4, Offset: 12)
-	pub fn get_ic4f() -> u8 { ::read(REGISTER_ADDRESS, IC4F_BIT_OFFSET, IC4F_BIT_WIDTH) as u8 }
-	/// Input capture 4 filter (Width: 4, Offset: 12)
-	pub fn set_ic4f(value: u8) { ::write(REGISTER_ADDRESS, IC4F_BIT_OFFSET, IC4F_BIT_WIDTH, value as u32); }
-
-	const IC4PSC_BIT_OFFSET: u8 = 10;
-	const IC4PSC_BIT_WIDTH: u8 = 2;
-	/// Input capture 4 prescaler (Width: 2, Offset: 10)
-	pub fn get_ic4psc() -> u8 { ::read(REGISTER_ADDRESS, IC4PSC_BIT_OFFSET, IC4PSC_BIT_WIDTH) as u8 }
-	/// Input capture 4 prescaler (Width: 2, Offset: 10)
-	pub fn set_ic4psc(value: u8) { ::write(REGISTER_ADDRESS, IC4PSC_BIT_OFFSET, IC4PSC_BIT_WIDTH, value as u32); }
-
-	const CC4S_BIT_OFFSET: u8 = 8;
-	const CC4S_BIT_WIDTH: u8 = 2;
-	/// Capture/Compare 4 selection (Width: 2, Offset: 8)
-	pub fn get_cc4s() -> u8 { ::read(REGISTER_ADDRESS, CC4S_BIT_OFFSET, CC4S_BIT_WIDTH) as u8 }
-	/// Capture/Compare 4 selection (Width: 2, Offset: 8)
-	pub fn set_cc4s(value: u8) { ::write(REGISTER_ADDRESS, CC4S_BIT_OFFSET, CC4S_BIT_WIDTH, value as u32); }
-
-	const IC3F_BIT_OFFSET: u8 = 4;
-	const IC3F_BIT_WIDTH: u8 = 4;
-	/// Input capture 3 filter (Width: 4, Offset: 4)
-	pub fn get_ic3f() -> u8 { ::read(REGISTER_ADDRESS, IC3F_BIT_OFFSET, IC3F_BIT_WIDTH) as u8 }
-	/// Input capture 3 filter (Width: 4, Offset: 4)
-	pub fn set_ic3f(value: u8) { ::write(REGISTER_ADDRESS, IC3F_BIT_OFFSET, IC3F_BIT_WIDTH, value as u32); }
-
-	const IC3PSC_BIT_OFFSET: u8 = 2;
-	const IC3PSC_BIT_WIDTH: u8 = 2;
-	/// Input capture 3 prescaler (Width: 2, Offset: 2)
-	pub fn get_ic3psc() -> u8 { ::read(REGISTER_ADDRESS, IC3PSC_BIT_OFFSET, IC3PSC_BIT_WIDTH) as u8 }
-	/// Input capture 3 prescaler (Width: 2, Offset: 2)
-	pub fn set_ic3psc(value: u8) { ::write(REGISTER_ADDRESS, IC3PSC_BIT_OFFSET, IC3PSC_BIT_WIDTH, value as u32); }
-
-	const CC3S_BIT_OFFSET: u8 = 0;
-	const CC3S_BIT_WIDTH: u8 = 2;
-	/// Capture/compare 3 selection (Width: 2, Offset: 0)
-	pub fn get_cc3s() -> u8 { ::read(REGISTER_ADDRESS, CC3S_BIT_OFFSET, CC3S_BIT_WIDTH) as u8 }
-	/// Capture/compare 3 selection (Width: 2, Offset: 0)
-	pub fn set_cc3s(value: u8) { ::write(REGISTER_ADDRESS, CC3S_BIT_OFFSET, CC3S_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Input capture 4 filter
+        pub ic4f: u8,
+        /// Input capture 4 prescaler
+        pub ic4psc: u8,
+        /// Capture/Compare 4 selection
+        pub cc4s: u8,
+        /// Input capture 3 filter
+        pub ic3f: u8,
+        /// Input capture 3 prescaler
+        pub ic3psc: u8,
+        /// Capture/compare 3 selection
+        pub cc3s: u8,
+    }
+    pub struct Cache {
+        /// Input capture 4 filter
+        pub ic4f: u8,
+        /// Input capture 4 prescaler
+        pub ic4psc: u8,
+        /// Capture/Compare 4 selection
+        pub cc4s: u8,
+        /// Input capture 3 filter
+        pub ic3f: u8,
+        /// Input capture 3 prescaler
+        pub ic3psc: u8,
+        /// Capture/compare 3 selection
+        pub cc3s: u8,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x1Cu32) as *mut u32) };
+        ReadonlyCache {
+            ic4f: ((value >> 12) & 0b1111) as u8,
+            ic4psc: ((value >> 10) & 0b1111) as u8,
+            cc4s: ((value >> 8) & 0b1111) as u8,
+            ic3f: ((value >> 4) & 0b1111) as u8,
+            ic3psc: ((value >> 2) & 0b1111) as u8,
+            cc3s: ((value >> 0) & 0b1111) as u8,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x1Cu32) as *mut u32) };
+        Cache {
+            ic4f: ((value >> 12) & 0b1111) as u8,
+            ic4psc: ((value >> 10) & 0b1111) as u8,
+            cc4s: ((value >> 8) & 0b1111) as u8,
+            ic3f: ((value >> 4) & 0b1111) as u8,
+            ic3psc: ((value >> 2) & 0b1111) as u8,
+            cc3s: ((value >> 0) & 0b1111) as u8,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.ic4f as u32) << 12)
+                | ((self.ic4psc as u32) << 10)
+                | ((self.cc4s as u32) << 8)
+                | ((self.ic3f as u32) << 4)
+                | ((self.ic3psc as u32) << 2)
+                | ((self.cc3s as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x1Cu32) as *mut u32, value) };
+        }
+    }
 }
 /// capture/compare enable register
-/// Size: 0x20 bits
 pub mod ccer {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x20;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CC1E_BIT_OFFSET: u8 = 0;
-	const CC1E_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 1 output enable (Width: 1, Offset: 0)
-	pub fn get_cc1e() -> u8 { ::read(REGISTER_ADDRESS, CC1E_BIT_OFFSET, CC1E_BIT_WIDTH) as u8 }
-	/// Capture/Compare 1 output enable (Width: 1, Offset: 0)
-	pub fn set_cc1e(value: u8) { ::write(REGISTER_ADDRESS, CC1E_BIT_OFFSET, CC1E_BIT_WIDTH, value as u32); }
-
-	const CC1P_BIT_OFFSET: u8 = 1;
-	const CC1P_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 1 output Polarity (Width: 1, Offset: 1)
-	pub fn get_cc1p() -> u8 { ::read(REGISTER_ADDRESS, CC1P_BIT_OFFSET, CC1P_BIT_WIDTH) as u8 }
-	/// Capture/Compare 1 output Polarity (Width: 1, Offset: 1)
-	pub fn set_cc1p(value: u8) { ::write(REGISTER_ADDRESS, CC1P_BIT_OFFSET, CC1P_BIT_WIDTH, value as u32); }
-
-	const CC1NE_BIT_OFFSET: u8 = 2;
-	const CC1NE_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 1 complementary output enable (Width: 1, Offset: 2)
-	pub fn get_cc1ne() -> u8 { ::read(REGISTER_ADDRESS, CC1NE_BIT_OFFSET, CC1NE_BIT_WIDTH) as u8 }
-	/// Capture/Compare 1 complementary output enable (Width: 1, Offset: 2)
-	pub fn set_cc1ne(value: u8) { ::write(REGISTER_ADDRESS, CC1NE_BIT_OFFSET, CC1NE_BIT_WIDTH, value as u32); }
-
-	const CC1NP_BIT_OFFSET: u8 = 3;
-	const CC1NP_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 1 output Polarity (Width: 1, Offset: 3)
-	pub fn get_cc1np() -> u8 { ::read(REGISTER_ADDRESS, CC1NP_BIT_OFFSET, CC1NP_BIT_WIDTH) as u8 }
-	/// Capture/Compare 1 output Polarity (Width: 1, Offset: 3)
-	pub fn set_cc1np(value: u8) { ::write(REGISTER_ADDRESS, CC1NP_BIT_OFFSET, CC1NP_BIT_WIDTH, value as u32); }
-
-	const CC2E_BIT_OFFSET: u8 = 4;
-	const CC2E_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 2 output enable (Width: 1, Offset: 4)
-	pub fn get_cc2e() -> u8 { ::read(REGISTER_ADDRESS, CC2E_BIT_OFFSET, CC2E_BIT_WIDTH) as u8 }
-	/// Capture/Compare 2 output enable (Width: 1, Offset: 4)
-	pub fn set_cc2e(value: u8) { ::write(REGISTER_ADDRESS, CC2E_BIT_OFFSET, CC2E_BIT_WIDTH, value as u32); }
-
-	const CC2P_BIT_OFFSET: u8 = 5;
-	const CC2P_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 2 output Polarity (Width: 1, Offset: 5)
-	pub fn get_cc2p() -> u8 { ::read(REGISTER_ADDRESS, CC2P_BIT_OFFSET, CC2P_BIT_WIDTH) as u8 }
-	/// Capture/Compare 2 output Polarity (Width: 1, Offset: 5)
-	pub fn set_cc2p(value: u8) { ::write(REGISTER_ADDRESS, CC2P_BIT_OFFSET, CC2P_BIT_WIDTH, value as u32); }
-
-	const CC2NE_BIT_OFFSET: u8 = 6;
-	const CC2NE_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 2 complementary output enable (Width: 1, Offset: 6)
-	pub fn get_cc2ne() -> u8 { ::read(REGISTER_ADDRESS, CC2NE_BIT_OFFSET, CC2NE_BIT_WIDTH) as u8 }
-	/// Capture/Compare 2 complementary output enable (Width: 1, Offset: 6)
-	pub fn set_cc2ne(value: u8) { ::write(REGISTER_ADDRESS, CC2NE_BIT_OFFSET, CC2NE_BIT_WIDTH, value as u32); }
-
-	const CC2NP_BIT_OFFSET: u8 = 7;
-	const CC2NP_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 2 output Polarity (Width: 1, Offset: 7)
-	pub fn get_cc2np() -> u8 { ::read(REGISTER_ADDRESS, CC2NP_BIT_OFFSET, CC2NP_BIT_WIDTH) as u8 }
-	/// Capture/Compare 2 output Polarity (Width: 1, Offset: 7)
-	pub fn set_cc2np(value: u8) { ::write(REGISTER_ADDRESS, CC2NP_BIT_OFFSET, CC2NP_BIT_WIDTH, value as u32); }
-
-	const CC3E_BIT_OFFSET: u8 = 8;
-	const CC3E_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 3 output enable (Width: 1, Offset: 8)
-	pub fn get_cc3e() -> u8 { ::read(REGISTER_ADDRESS, CC3E_BIT_OFFSET, CC3E_BIT_WIDTH) as u8 }
-	/// Capture/Compare 3 output enable (Width: 1, Offset: 8)
-	pub fn set_cc3e(value: u8) { ::write(REGISTER_ADDRESS, CC3E_BIT_OFFSET, CC3E_BIT_WIDTH, value as u32); }
-
-	const CC3P_BIT_OFFSET: u8 = 9;
-	const CC3P_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 3 output Polarity (Width: 1, Offset: 9)
-	pub fn get_cc3p() -> u8 { ::read(REGISTER_ADDRESS, CC3P_BIT_OFFSET, CC3P_BIT_WIDTH) as u8 }
-	/// Capture/Compare 3 output Polarity (Width: 1, Offset: 9)
-	pub fn set_cc3p(value: u8) { ::write(REGISTER_ADDRESS, CC3P_BIT_OFFSET, CC3P_BIT_WIDTH, value as u32); }
-
-	const CC3NE_BIT_OFFSET: u8 = 10;
-	const CC3NE_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 3 complementary output enable (Width: 1, Offset: 10)
-	pub fn get_cc3ne() -> u8 { ::read(REGISTER_ADDRESS, CC3NE_BIT_OFFSET, CC3NE_BIT_WIDTH) as u8 }
-	/// Capture/Compare 3 complementary output enable (Width: 1, Offset: 10)
-	pub fn set_cc3ne(value: u8) { ::write(REGISTER_ADDRESS, CC3NE_BIT_OFFSET, CC3NE_BIT_WIDTH, value as u32); }
-
-	const CC3NP_BIT_OFFSET: u8 = 11;
-	const CC3NP_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 3 output Polarity (Width: 1, Offset: 11)
-	pub fn get_cc3np() -> u8 { ::read(REGISTER_ADDRESS, CC3NP_BIT_OFFSET, CC3NP_BIT_WIDTH) as u8 }
-	/// Capture/Compare 3 output Polarity (Width: 1, Offset: 11)
-	pub fn set_cc3np(value: u8) { ::write(REGISTER_ADDRESS, CC3NP_BIT_OFFSET, CC3NP_BIT_WIDTH, value as u32); }
-
-	const CC4E_BIT_OFFSET: u8 = 12;
-	const CC4E_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 4 output enable (Width: 1, Offset: 12)
-	pub fn get_cc4e() -> u8 { ::read(REGISTER_ADDRESS, CC4E_BIT_OFFSET, CC4E_BIT_WIDTH) as u8 }
-	/// Capture/Compare 4 output enable (Width: 1, Offset: 12)
-	pub fn set_cc4e(value: u8) { ::write(REGISTER_ADDRESS, CC4E_BIT_OFFSET, CC4E_BIT_WIDTH, value as u32); }
-
-	const CC4P_BIT_OFFSET: u8 = 13;
-	const CC4P_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 3 output Polarity (Width: 1, Offset: 13)
-	pub fn get_cc4p() -> u8 { ::read(REGISTER_ADDRESS, CC4P_BIT_OFFSET, CC4P_BIT_WIDTH) as u8 }
-	/// Capture/Compare 3 output Polarity (Width: 1, Offset: 13)
-	pub fn set_cc4p(value: u8) { ::write(REGISTER_ADDRESS, CC4P_BIT_OFFSET, CC4P_BIT_WIDTH, value as u32); }
-
-	const CC4NP_BIT_OFFSET: u8 = 15;
-	const CC4NP_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 4 output Polarity (Width: 1, Offset: 15)
-	pub fn get_cc4np() -> u8 { ::read(REGISTER_ADDRESS, CC4NP_BIT_OFFSET, CC4NP_BIT_WIDTH) as u8 }
-	/// Capture/Compare 4 output Polarity (Width: 1, Offset: 15)
-	pub fn set_cc4np(value: u8) { ::write(REGISTER_ADDRESS, CC4NP_BIT_OFFSET, CC4NP_BIT_WIDTH, value as u32); }
-
-	const CC5E_BIT_OFFSET: u8 = 16;
-	const CC5E_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 5 output enable (Width: 1, Offset: 16)
-	pub fn get_cc5e() -> u8 { ::read(REGISTER_ADDRESS, CC5E_BIT_OFFSET, CC5E_BIT_WIDTH) as u8 }
-	/// Capture/Compare 5 output enable (Width: 1, Offset: 16)
-	pub fn set_cc5e(value: u8) { ::write(REGISTER_ADDRESS, CC5E_BIT_OFFSET, CC5E_BIT_WIDTH, value as u32); }
-
-	const CC5P_BIT_OFFSET: u8 = 17;
-	const CC5P_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 5 output Polarity (Width: 1, Offset: 17)
-	pub fn get_cc5p() -> u8 { ::read(REGISTER_ADDRESS, CC5P_BIT_OFFSET, CC5P_BIT_WIDTH) as u8 }
-	/// Capture/Compare 5 output Polarity (Width: 1, Offset: 17)
-	pub fn set_cc5p(value: u8) { ::write(REGISTER_ADDRESS, CC5P_BIT_OFFSET, CC5P_BIT_WIDTH, value as u32); }
-
-	const CC6E_BIT_OFFSET: u8 = 20;
-	const CC6E_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 6 output enable (Width: 1, Offset: 20)
-	pub fn get_cc6e() -> u8 { ::read(REGISTER_ADDRESS, CC6E_BIT_OFFSET, CC6E_BIT_WIDTH) as u8 }
-	/// Capture/Compare 6 output enable (Width: 1, Offset: 20)
-	pub fn set_cc6e(value: u8) { ::write(REGISTER_ADDRESS, CC6E_BIT_OFFSET, CC6E_BIT_WIDTH, value as u32); }
-
-	const CC6P_BIT_OFFSET: u8 = 21;
-	const CC6P_BIT_WIDTH: u8 = 1;
-	/// Capture/Compare 6 output Polarity (Width: 1, Offset: 21)
-	pub fn get_cc6p() -> u8 { ::read(REGISTER_ADDRESS, CC6P_BIT_OFFSET, CC6P_BIT_WIDTH) as u8 }
-	/// Capture/Compare 6 output Polarity (Width: 1, Offset: 21)
-	pub fn set_cc6p(value: u8) { ::write(REGISTER_ADDRESS, CC6P_BIT_OFFSET, CC6P_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Capture/Compare 1 output enable
+        pub cc1e: bool,
+        /// Capture/Compare 1 output Polarity
+        pub cc1p: bool,
+        /// Capture/Compare 1 complementary output enable
+        pub cc1ne: bool,
+        /// Capture/Compare 1 output Polarity
+        pub cc1np: bool,
+        /// Capture/Compare 2 output enable
+        pub cc2e: bool,
+        /// Capture/Compare 2 output Polarity
+        pub cc2p: bool,
+        /// Capture/Compare 2 complementary output enable
+        pub cc2ne: bool,
+        /// Capture/Compare 2 output Polarity
+        pub cc2np: bool,
+        /// Capture/Compare 3 output enable
+        pub cc3e: bool,
+        /// Capture/Compare 3 output Polarity
+        pub cc3p: bool,
+        /// Capture/Compare 3 complementary output enable
+        pub cc3ne: bool,
+        /// Capture/Compare 3 output Polarity
+        pub cc3np: bool,
+        /// Capture/Compare 4 output enable
+        pub cc4e: bool,
+        /// Capture/Compare 3 output Polarity
+        pub cc4p: bool,
+        /// Capture/Compare 4 output Polarity
+        pub cc4np: bool,
+        /// Capture/Compare 5 output enable
+        pub cc5e: bool,
+        /// Capture/Compare 5 output Polarity
+        pub cc5p: bool,
+        /// Capture/Compare 6 output enable
+        pub cc6e: bool,
+        /// Capture/Compare 6 output Polarity
+        pub cc6p: bool,
+    }
+    pub struct Cache {
+        /// Capture/Compare 1 output enable
+        pub cc1e: bool,
+        /// Capture/Compare 1 output Polarity
+        pub cc1p: bool,
+        /// Capture/Compare 1 complementary output enable
+        pub cc1ne: bool,
+        /// Capture/Compare 1 output Polarity
+        pub cc1np: bool,
+        /// Capture/Compare 2 output enable
+        pub cc2e: bool,
+        /// Capture/Compare 2 output Polarity
+        pub cc2p: bool,
+        /// Capture/Compare 2 complementary output enable
+        pub cc2ne: bool,
+        /// Capture/Compare 2 output Polarity
+        pub cc2np: bool,
+        /// Capture/Compare 3 output enable
+        pub cc3e: bool,
+        /// Capture/Compare 3 output Polarity
+        pub cc3p: bool,
+        /// Capture/Compare 3 complementary output enable
+        pub cc3ne: bool,
+        /// Capture/Compare 3 output Polarity
+        pub cc3np: bool,
+        /// Capture/Compare 4 output enable
+        pub cc4e: bool,
+        /// Capture/Compare 3 output Polarity
+        pub cc4p: bool,
+        /// Capture/Compare 4 output Polarity
+        pub cc4np: bool,
+        /// Capture/Compare 5 output enable
+        pub cc5e: bool,
+        /// Capture/Compare 5 output Polarity
+        pub cc5p: bool,
+        /// Capture/Compare 6 output enable
+        pub cc6e: bool,
+        /// Capture/Compare 6 output Polarity
+        pub cc6p: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x20u32) as *mut u32) };
+        ReadonlyCache {
+            cc1e: ((value >> 0) & 0b1) > 0,
+            cc1p: ((value >> 1) & 0b1) > 0,
+            cc1ne: ((value >> 2) & 0b1) > 0,
+            cc1np: ((value >> 3) & 0b1) > 0,
+            cc2e: ((value >> 4) & 0b1) > 0,
+            cc2p: ((value >> 5) & 0b1) > 0,
+            cc2ne: ((value >> 6) & 0b1) > 0,
+            cc2np: ((value >> 7) & 0b1) > 0,
+            cc3e: ((value >> 8) & 0b1) > 0,
+            cc3p: ((value >> 9) & 0b1) > 0,
+            cc3ne: ((value >> 10) & 0b1) > 0,
+            cc3np: ((value >> 11) & 0b1) > 0,
+            cc4e: ((value >> 12) & 0b1) > 0,
+            cc4p: ((value >> 13) & 0b1) > 0,
+            cc4np: ((value >> 15) & 0b1) > 0,
+            cc5e: ((value >> 16) & 0b1) > 0,
+            cc5p: ((value >> 17) & 0b1) > 0,
+            cc6e: ((value >> 20) & 0b1) > 0,
+            cc6p: ((value >> 21) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x20u32) as *mut u32) };
+        Cache {
+            cc1e: ((value >> 0) & 0b1) > 0,
+            cc1p: ((value >> 1) & 0b1) > 0,
+            cc1ne: ((value >> 2) & 0b1) > 0,
+            cc1np: ((value >> 3) & 0b1) > 0,
+            cc2e: ((value >> 4) & 0b1) > 0,
+            cc2p: ((value >> 5) & 0b1) > 0,
+            cc2ne: ((value >> 6) & 0b1) > 0,
+            cc2np: ((value >> 7) & 0b1) > 0,
+            cc3e: ((value >> 8) & 0b1) > 0,
+            cc3p: ((value >> 9) & 0b1) > 0,
+            cc3ne: ((value >> 10) & 0b1) > 0,
+            cc3np: ((value >> 11) & 0b1) > 0,
+            cc4e: ((value >> 12) & 0b1) > 0,
+            cc4p: ((value >> 13) & 0b1) > 0,
+            cc4np: ((value >> 15) & 0b1) > 0,
+            cc5e: ((value >> 16) & 0b1) > 0,
+            cc5p: ((value >> 17) & 0b1) > 0,
+            cc6e: ((value >> 20) & 0b1) > 0,
+            cc6p: ((value >> 21) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.cc1e as u32) << 0)
+                | ((self.cc1p as u32) << 1)
+                | ((self.cc1ne as u32) << 2)
+                | ((self.cc1np as u32) << 3)
+                | ((self.cc2e as u32) << 4)
+                | ((self.cc2p as u32) << 5)
+                | ((self.cc2ne as u32) << 6)
+                | ((self.cc2np as u32) << 7)
+                | ((self.cc3e as u32) << 8)
+                | ((self.cc3p as u32) << 9)
+                | ((self.cc3ne as u32) << 10)
+                | ((self.cc3np as u32) << 11)
+                | ((self.cc4e as u32) << 12)
+                | ((self.cc4p as u32) << 13)
+                | ((self.cc4np as u32) << 15)
+                | ((self.cc5e as u32) << 16)
+                | ((self.cc5p as u32) << 17)
+                | ((self.cc6e as u32) << 20)
+                | ((self.cc6p as u32) << 21)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x20u32) as *mut u32, value) };
+        }
+    }
 }
 /// counter
-/// Size: 0x20 bits
 pub mod cnt {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x24;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CNT_BIT_OFFSET: u8 = 0;
-	const CNT_BIT_WIDTH: u8 = 16;
-	/// counter value (Width: 16, Offset: 0)
-	pub fn get_cnt() -> u16 { ::read(REGISTER_ADDRESS, CNT_BIT_OFFSET, CNT_BIT_WIDTH) as u16 }
-	/// counter value (Width: 16, Offset: 0)
-	pub fn set_cnt(value: u16) { ::write(REGISTER_ADDRESS, CNT_BIT_OFFSET, CNT_BIT_WIDTH, value as u32); }
-
-	const UIFCPY_BIT_OFFSET: u8 = 31;
-	const UIFCPY_BIT_WIDTH: u8 = 1;
-	/// UIF copy (Width: 1, Offset: 31)
-	pub fn get_uifcpy() -> u8 { ::read(REGISTER_ADDRESS, UIFCPY_BIT_OFFSET, UIFCPY_BIT_WIDTH) as u8 }
+    /// counter value
+    /// Access: read-write, Width: 16, Offset: 0
+    /// Set counter value
+    pub fn set_cnt(value: u16) {
+        let value = value as u32;
+        unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x24u32) as *mut u32, value) };
+    }
+    /// Get counter value
+    pub fn get_cnt() -> u16 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x24u32) as *mut u32) };
+        let value = value & (0b1111111111111111 << 0);
+        value as u16
+    }
+    /// UIF copy
+    /// Access: read-only, Width: 1, Offset: 31
+    /// Get UIF copy
+    pub fn uifcpy() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x24u32) as *mut u32) };
+        let value = value & (0b1 << 31);
+        value > 0
+    }
 }
 /// prescaler
-/// Size: 0x20 bits
 pub mod psc {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x28;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const PSC_BIT_OFFSET: u8 = 0;
-	const PSC_BIT_WIDTH: u8 = 16;
-	/// Prescaler value (Width: 16, Offset: 0)
-	pub fn get_psc() -> u16 { ::read(REGISTER_ADDRESS, PSC_BIT_OFFSET, PSC_BIT_WIDTH) as u16 }
-	/// Prescaler value (Width: 16, Offset: 0)
-	pub fn set_psc(value: u16) { ::write(REGISTER_ADDRESS, PSC_BIT_OFFSET, PSC_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Prescaler value
+        pub psc: u16,
+    }
+    pub struct Cache {
+        /// Prescaler value
+        pub psc: u16,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x28u32) as *mut u32) };
+        ReadonlyCache {
+            psc: ((value >> 0) & 0b1111111111111111) as u16,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x28u32) as *mut u32) };
+        Cache {
+            psc: ((value >> 0) & 0b1111111111111111) as u16,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.psc as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x28u32) as *mut u32, value) };
+        }
+    }
 }
 /// auto-reload register
-/// Size: 0x20 bits
 pub mod arr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x2C;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const ARR_BIT_OFFSET: u8 = 0;
-	const ARR_BIT_WIDTH: u8 = 16;
-	/// Auto-reload value (Width: 16, Offset: 0)
-	pub fn get_arr() -> u16 { ::read(REGISTER_ADDRESS, ARR_BIT_OFFSET, ARR_BIT_WIDTH) as u16 }
-	/// Auto-reload value (Width: 16, Offset: 0)
-	pub fn set_arr(value: u16) { ::write(REGISTER_ADDRESS, ARR_BIT_OFFSET, ARR_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Auto-reload value
+        pub arr: u16,
+    }
+    pub struct Cache {
+        /// Auto-reload value
+        pub arr: u16,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x2Cu32) as *mut u32) };
+        ReadonlyCache {
+            arr: ((value >> 0) & 0b1111111111111111) as u16,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x2Cu32) as *mut u32) };
+        Cache {
+            arr: ((value >> 0) & 0b1111111111111111) as u16,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.arr as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x2Cu32) as *mut u32, value) };
+        }
+    }
 }
 /// repetition counter register
-/// Size: 0x20 bits
 pub mod rcr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x30;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const REP_BIT_OFFSET: u8 = 0;
-	const REP_BIT_WIDTH: u8 = 16;
-	/// Repetition counter value (Width: 16, Offset: 0)
-	pub fn get_rep() -> u16 { ::read(REGISTER_ADDRESS, REP_BIT_OFFSET, REP_BIT_WIDTH) as u16 }
-	/// Repetition counter value (Width: 16, Offset: 0)
-	pub fn set_rep(value: u16) { ::write(REGISTER_ADDRESS, REP_BIT_OFFSET, REP_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Repetition counter value
+        pub rep: u16,
+    }
+    pub struct Cache {
+        /// Repetition counter value
+        pub rep: u16,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x30u32) as *mut u32) };
+        ReadonlyCache {
+            rep: ((value >> 0) & 0b1111111111111111) as u16,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x30u32) as *mut u32) };
+        Cache {
+            rep: ((value >> 0) & 0b1111111111111111) as u16,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.rep as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x30u32) as *mut u32, value) };
+        }
+    }
 }
 /// capture/compare register 1
-/// Size: 0x20 bits
 pub mod ccr1 {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x34;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CCR1_BIT_OFFSET: u8 = 0;
-	const CCR1_BIT_WIDTH: u8 = 16;
-	/// Capture/Compare 1 value (Width: 16, Offset: 0)
-	pub fn get_ccr1() -> u16 { ::read(REGISTER_ADDRESS, CCR1_BIT_OFFSET, CCR1_BIT_WIDTH) as u16 }
-	/// Capture/Compare 1 value (Width: 16, Offset: 0)
-	pub fn set_ccr1(value: u16) { ::write(REGISTER_ADDRESS, CCR1_BIT_OFFSET, CCR1_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Capture/Compare 1 value
+        pub ccr1: u16,
+    }
+    pub struct Cache {
+        /// Capture/Compare 1 value
+        pub ccr1: u16,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x34u32) as *mut u32) };
+        ReadonlyCache {
+            ccr1: ((value >> 0) & 0b1111111111111111) as u16,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x34u32) as *mut u32) };
+        Cache {
+            ccr1: ((value >> 0) & 0b1111111111111111) as u16,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.ccr1 as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x34u32) as *mut u32, value) };
+        }
+    }
 }
 /// capture/compare register 2
-/// Size: 0x20 bits
 pub mod ccr2 {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x38;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CCR2_BIT_OFFSET: u8 = 0;
-	const CCR2_BIT_WIDTH: u8 = 16;
-	/// Capture/Compare 2 value (Width: 16, Offset: 0)
-	pub fn get_ccr2() -> u16 { ::read(REGISTER_ADDRESS, CCR2_BIT_OFFSET, CCR2_BIT_WIDTH) as u16 }
-	/// Capture/Compare 2 value (Width: 16, Offset: 0)
-	pub fn set_ccr2(value: u16) { ::write(REGISTER_ADDRESS, CCR2_BIT_OFFSET, CCR2_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Capture/Compare 2 value
+        pub ccr2: u16,
+    }
+    pub struct Cache {
+        /// Capture/Compare 2 value
+        pub ccr2: u16,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x38u32) as *mut u32) };
+        ReadonlyCache {
+            ccr2: ((value >> 0) & 0b1111111111111111) as u16,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x38u32) as *mut u32) };
+        Cache {
+            ccr2: ((value >> 0) & 0b1111111111111111) as u16,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.ccr2 as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x38u32) as *mut u32, value) };
+        }
+    }
 }
 /// capture/compare register 3
-/// Size: 0x20 bits
 pub mod ccr3 {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x3C;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CCR3_BIT_OFFSET: u8 = 0;
-	const CCR3_BIT_WIDTH: u8 = 16;
-	/// Capture/Compare 3 value (Width: 16, Offset: 0)
-	pub fn get_ccr3() -> u16 { ::read(REGISTER_ADDRESS, CCR3_BIT_OFFSET, CCR3_BIT_WIDTH) as u16 }
-	/// Capture/Compare 3 value (Width: 16, Offset: 0)
-	pub fn set_ccr3(value: u16) { ::write(REGISTER_ADDRESS, CCR3_BIT_OFFSET, CCR3_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Capture/Compare 3 value
+        pub ccr3: u16,
+    }
+    pub struct Cache {
+        /// Capture/Compare 3 value
+        pub ccr3: u16,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x3Cu32) as *mut u32) };
+        ReadonlyCache {
+            ccr3: ((value >> 0) & 0b1111111111111111) as u16,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x3Cu32) as *mut u32) };
+        Cache {
+            ccr3: ((value >> 0) & 0b1111111111111111) as u16,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.ccr3 as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x3Cu32) as *mut u32, value) };
+        }
+    }
 }
 /// capture/compare register 4
-/// Size: 0x20 bits
 pub mod ccr4 {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x40;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CCR4_BIT_OFFSET: u8 = 0;
-	const CCR4_BIT_WIDTH: u8 = 16;
-	/// Capture/Compare 3 value (Width: 16, Offset: 0)
-	pub fn get_ccr4() -> u16 { ::read(REGISTER_ADDRESS, CCR4_BIT_OFFSET, CCR4_BIT_WIDTH) as u16 }
-	/// Capture/Compare 3 value (Width: 16, Offset: 0)
-	pub fn set_ccr4(value: u16) { ::write(REGISTER_ADDRESS, CCR4_BIT_OFFSET, CCR4_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Capture/Compare 3 value
+        pub ccr4: u16,
+    }
+    pub struct Cache {
+        /// Capture/Compare 3 value
+        pub ccr4: u16,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x40u32) as *mut u32) };
+        ReadonlyCache {
+            ccr4: ((value >> 0) & 0b1111111111111111) as u16,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x40u32) as *mut u32) };
+        Cache {
+            ccr4: ((value >> 0) & 0b1111111111111111) as u16,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.ccr4 as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x40u32) as *mut u32, value) };
+        }
+    }
 }
 /// break and dead-time register
-/// Size: 0x20 bits
 pub mod bdtr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x44;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const DTG_BIT_OFFSET: u8 = 0;
-	const DTG_BIT_WIDTH: u8 = 8;
-	/// Dead-time generator setup (Width: 8, Offset: 0)
-	pub fn get_dtg() -> u8 { ::read(REGISTER_ADDRESS, DTG_BIT_OFFSET, DTG_BIT_WIDTH) as u8 }
-	/// Dead-time generator setup (Width: 8, Offset: 0)
-	pub fn set_dtg(value: u8) { ::write(REGISTER_ADDRESS, DTG_BIT_OFFSET, DTG_BIT_WIDTH, value as u32); }
-
-	const LOCK_BIT_OFFSET: u8 = 8;
-	const LOCK_BIT_WIDTH: u8 = 2;
-	/// Lock configuration (Width: 2, Offset: 8)
-	pub fn get_lock() -> u8 { ::read(REGISTER_ADDRESS, LOCK_BIT_OFFSET, LOCK_BIT_WIDTH) as u8 }
-	/// Lock configuration (Width: 2, Offset: 8)
-	pub fn set_lock(value: u8) { ::write(REGISTER_ADDRESS, LOCK_BIT_OFFSET, LOCK_BIT_WIDTH, value as u32); }
-
-	const OSSI_BIT_OFFSET: u8 = 10;
-	const OSSI_BIT_WIDTH: u8 = 1;
-	/// Off-state selection for Idle mode (Width: 1, Offset: 10)
-	pub fn get_ossi() -> u8 { ::read(REGISTER_ADDRESS, OSSI_BIT_OFFSET, OSSI_BIT_WIDTH) as u8 }
-	/// Off-state selection for Idle mode (Width: 1, Offset: 10)
-	pub fn set_ossi(value: u8) { ::write(REGISTER_ADDRESS, OSSI_BIT_OFFSET, OSSI_BIT_WIDTH, value as u32); }
-
-	const OSSR_BIT_OFFSET: u8 = 11;
-	const OSSR_BIT_WIDTH: u8 = 1;
-	/// Off-state selection for Run mode (Width: 1, Offset: 11)
-	pub fn get_ossr() -> u8 { ::read(REGISTER_ADDRESS, OSSR_BIT_OFFSET, OSSR_BIT_WIDTH) as u8 }
-	/// Off-state selection for Run mode (Width: 1, Offset: 11)
-	pub fn set_ossr(value: u8) { ::write(REGISTER_ADDRESS, OSSR_BIT_OFFSET, OSSR_BIT_WIDTH, value as u32); }
-
-	const BKE_BIT_OFFSET: u8 = 12;
-	const BKE_BIT_WIDTH: u8 = 1;
-	/// Break enable (Width: 1, Offset: 12)
-	pub fn get_bke() -> u8 { ::read(REGISTER_ADDRESS, BKE_BIT_OFFSET, BKE_BIT_WIDTH) as u8 }
-	/// Break enable (Width: 1, Offset: 12)
-	pub fn set_bke(value: u8) { ::write(REGISTER_ADDRESS, BKE_BIT_OFFSET, BKE_BIT_WIDTH, value as u32); }
-
-	const BKP_BIT_OFFSET: u8 = 13;
-	const BKP_BIT_WIDTH: u8 = 1;
-	/// Break polarity (Width: 1, Offset: 13)
-	pub fn get_bkp() -> u8 { ::read(REGISTER_ADDRESS, BKP_BIT_OFFSET, BKP_BIT_WIDTH) as u8 }
-	/// Break polarity (Width: 1, Offset: 13)
-	pub fn set_bkp(value: u8) { ::write(REGISTER_ADDRESS, BKP_BIT_OFFSET, BKP_BIT_WIDTH, value as u32); }
-
-	const AOE_BIT_OFFSET: u8 = 14;
-	const AOE_BIT_WIDTH: u8 = 1;
-	/// Automatic output enable (Width: 1, Offset: 14)
-	pub fn get_aoe() -> u8 { ::read(REGISTER_ADDRESS, AOE_BIT_OFFSET, AOE_BIT_WIDTH) as u8 }
-	/// Automatic output enable (Width: 1, Offset: 14)
-	pub fn set_aoe(value: u8) { ::write(REGISTER_ADDRESS, AOE_BIT_OFFSET, AOE_BIT_WIDTH, value as u32); }
-
-	const MOE_BIT_OFFSET: u8 = 15;
-	const MOE_BIT_WIDTH: u8 = 1;
-	/// Main output enable (Width: 1, Offset: 15)
-	pub fn get_moe() -> u8 { ::read(REGISTER_ADDRESS, MOE_BIT_OFFSET, MOE_BIT_WIDTH) as u8 }
-	/// Main output enable (Width: 1, Offset: 15)
-	pub fn set_moe(value: u8) { ::write(REGISTER_ADDRESS, MOE_BIT_OFFSET, MOE_BIT_WIDTH, value as u32); }
-
-	const BKF_BIT_OFFSET: u8 = 16;
-	const BKF_BIT_WIDTH: u8 = 4;
-	/// Break filter (Width: 4, Offset: 16)
-	pub fn get_bkf() -> u8 { ::read(REGISTER_ADDRESS, BKF_BIT_OFFSET, BKF_BIT_WIDTH) as u8 }
-	/// Break filter (Width: 4, Offset: 16)
-	pub fn set_bkf(value: u8) { ::write(REGISTER_ADDRESS, BKF_BIT_OFFSET, BKF_BIT_WIDTH, value as u32); }
-
-	const BK2F_BIT_OFFSET: u8 = 20;
-	const BK2F_BIT_WIDTH: u8 = 4;
-	/// Break 2 filter (Width: 4, Offset: 20)
-	pub fn get_bk2f() -> u8 { ::read(REGISTER_ADDRESS, BK2F_BIT_OFFSET, BK2F_BIT_WIDTH) as u8 }
-	/// Break 2 filter (Width: 4, Offset: 20)
-	pub fn set_bk2f(value: u8) { ::write(REGISTER_ADDRESS, BK2F_BIT_OFFSET, BK2F_BIT_WIDTH, value as u32); }
-
-	const BK2E_BIT_OFFSET: u8 = 24;
-	const BK2E_BIT_WIDTH: u8 = 1;
-	/// Break 2 enable (Width: 1, Offset: 24)
-	pub fn get_bk2e() -> u8 { ::read(REGISTER_ADDRESS, BK2E_BIT_OFFSET, BK2E_BIT_WIDTH) as u8 }
-	/// Break 2 enable (Width: 1, Offset: 24)
-	pub fn set_bk2e(value: u8) { ::write(REGISTER_ADDRESS, BK2E_BIT_OFFSET, BK2E_BIT_WIDTH, value as u32); }
-
-	const BK2P_BIT_OFFSET: u8 = 25;
-	const BK2P_BIT_WIDTH: u8 = 1;
-	/// Break 2 polarity (Width: 1, Offset: 25)
-	pub fn get_bk2p() -> u8 { ::read(REGISTER_ADDRESS, BK2P_BIT_OFFSET, BK2P_BIT_WIDTH) as u8 }
-	/// Break 2 polarity (Width: 1, Offset: 25)
-	pub fn set_bk2p(value: u8) { ::write(REGISTER_ADDRESS, BK2P_BIT_OFFSET, BK2P_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Dead-time generator setup
+        pub dtg: u8,
+        /// Lock configuration
+        pub lock: u8,
+        /// Off-state selection for Idle mode
+        pub ossi: u8,
+        /// Off-state selection for Run mode
+        pub ossr: u8,
+        /// Break enable
+        pub bke: u8,
+        /// Break polarity
+        pub bkp: u8,
+        /// Automatic output enable
+        pub aoe: u8,
+        /// Main output enable
+        pub moe: u8,
+        /// Break filter
+        pub bkf: u8,
+        /// Break 2 filter
+        pub bk2f: u8,
+        /// Break 2 enable
+        pub bk2e: u8,
+        /// Break 2 polarity
+        pub bk2p: u8,
+    }
+    pub struct Cache {
+        /// Dead-time generator setup
+        pub dtg: u8,
+        /// Lock configuration
+        pub lock: u8,
+        /// Off-state selection for Idle mode
+        pub ossi: u8,
+        /// Off-state selection for Run mode
+        pub ossr: u8,
+        /// Break enable
+        pub bke: u8,
+        /// Break polarity
+        pub bkp: u8,
+        /// Automatic output enable
+        pub aoe: u8,
+        /// Main output enable
+        pub moe: u8,
+        /// Break filter
+        pub bkf: u8,
+        /// Break 2 filter
+        pub bk2f: u8,
+        /// Break 2 enable
+        pub bk2e: u8,
+        /// Break 2 polarity
+        pub bk2p: u8,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x44u32) as *mut u32) };
+        ReadonlyCache {
+            dtg: ((value >> 0) & 0b11111111) as u8,
+            lock: ((value >> 8) & 0b11111111) as u8,
+            ossi: ((value >> 10) & 0b11111111) as u8,
+            ossr: ((value >> 11) & 0b11111111) as u8,
+            bke: ((value >> 12) & 0b11111111) as u8,
+            bkp: ((value >> 13) & 0b11111111) as u8,
+            aoe: ((value >> 14) & 0b11111111) as u8,
+            moe: ((value >> 15) & 0b11111111) as u8,
+            bkf: ((value >> 16) & 0b11111111) as u8,
+            bk2f: ((value >> 20) & 0b11111111) as u8,
+            bk2e: ((value >> 24) & 0b11111111) as u8,
+            bk2p: ((value >> 25) & 0b11111111) as u8,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x44u32) as *mut u32) };
+        Cache {
+            dtg: ((value >> 0) & 0b11111111) as u8,
+            lock: ((value >> 8) & 0b11111111) as u8,
+            ossi: ((value >> 10) & 0b11111111) as u8,
+            ossr: ((value >> 11) & 0b11111111) as u8,
+            bke: ((value >> 12) & 0b11111111) as u8,
+            bkp: ((value >> 13) & 0b11111111) as u8,
+            aoe: ((value >> 14) & 0b11111111) as u8,
+            moe: ((value >> 15) & 0b11111111) as u8,
+            bkf: ((value >> 16) & 0b11111111) as u8,
+            bk2f: ((value >> 20) & 0b11111111) as u8,
+            bk2e: ((value >> 24) & 0b11111111) as u8,
+            bk2p: ((value >> 25) & 0b11111111) as u8,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.dtg as u32) << 0)
+                | ((self.lock as u32) << 8)
+                | ((self.ossi as u32) << 10)
+                | ((self.ossr as u32) << 11)
+                | ((self.bke as u32) << 12)
+                | ((self.bkp as u32) << 13)
+                | ((self.aoe as u32) << 14)
+                | ((self.moe as u32) << 15)
+                | ((self.bkf as u32) << 16)
+                | ((self.bk2f as u32) << 20)
+                | ((self.bk2e as u32) << 24)
+                | ((self.bk2p as u32) << 25)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x44u32) as *mut u32, value) };
+        }
+    }
 }
 /// DMA control register
-/// Size: 0x20 bits
 pub mod dcr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x48;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const DBL_BIT_OFFSET: u8 = 8;
-	const DBL_BIT_WIDTH: u8 = 5;
-	/// DMA burst length (Width: 5, Offset: 8)
-	pub fn get_dbl() -> u8 { ::read(REGISTER_ADDRESS, DBL_BIT_OFFSET, DBL_BIT_WIDTH) as u8 }
-	/// DMA burst length (Width: 5, Offset: 8)
-	pub fn set_dbl(value: u8) { ::write(REGISTER_ADDRESS, DBL_BIT_OFFSET, DBL_BIT_WIDTH, value as u32); }
-
-	const DBA_BIT_OFFSET: u8 = 0;
-	const DBA_BIT_WIDTH: u8 = 5;
-	/// DMA base address (Width: 5, Offset: 0)
-	pub fn get_dba() -> u8 { ::read(REGISTER_ADDRESS, DBA_BIT_OFFSET, DBA_BIT_WIDTH) as u8 }
-	/// DMA base address (Width: 5, Offset: 0)
-	pub fn set_dba(value: u8) { ::write(REGISTER_ADDRESS, DBA_BIT_OFFSET, DBA_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// DMA burst length
+        pub dbl: u8,
+        /// DMA base address
+        pub dba: u8,
+    }
+    pub struct Cache {
+        /// DMA burst length
+        pub dbl: u8,
+        /// DMA base address
+        pub dba: u8,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x48u32) as *mut u32) };
+        ReadonlyCache {
+            dbl: ((value >> 8) & 0b11111) as u8,
+            dba: ((value >> 0) & 0b11111) as u8,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x48u32) as *mut u32) };
+        Cache {
+            dbl: ((value >> 8) & 0b11111) as u8,
+            dba: ((value >> 0) & 0b11111) as u8,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.dbl as u32) << 8)
+                | ((self.dba as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x48u32) as *mut u32, value) };
+        }
+    }
 }
 /// DMA address for full transfer
-/// Size: 0x20 bits
 pub mod dmar {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x4C;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const DMAB_BIT_OFFSET: u8 = 0;
-	const DMAB_BIT_WIDTH: u8 = 16;
-	/// DMA register for burst accesses (Width: 16, Offset: 0)
-	pub fn get_dmab() -> u16 { ::read(REGISTER_ADDRESS, DMAB_BIT_OFFSET, DMAB_BIT_WIDTH) as u16 }
-	/// DMA register for burst accesses (Width: 16, Offset: 0)
-	pub fn set_dmab(value: u16) { ::write(REGISTER_ADDRESS, DMAB_BIT_OFFSET, DMAB_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// DMA register for burst accesses
+        pub dmab: u16,
+    }
+    pub struct Cache {
+        /// DMA register for burst accesses
+        pub dmab: u16,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x4Cu32) as *mut u32) };
+        ReadonlyCache {
+            dmab: ((value >> 0) & 0b1111111111111111) as u16,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x4Cu32) as *mut u32) };
+        Cache {
+            dmab: ((value >> 0) & 0b1111111111111111) as u16,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.dmab as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x4Cu32) as *mut u32, value) };
+        }
+    }
 }
 /// capture/compare mode register 3 (output mode)
-/// Size: 0x20 bits
 pub mod ccmr3_output {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x54;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const OC5FE_BIT_OFFSET: u8 = 2;
-	const OC5FE_BIT_WIDTH: u8 = 1;
-	/// Output compare 5 fast enable (Width: 1, Offset: 2)
-	pub fn get_oc5fe() -> u8 { ::read(REGISTER_ADDRESS, OC5FE_BIT_OFFSET, OC5FE_BIT_WIDTH) as u8 }
-	/// Output compare 5 fast enable (Width: 1, Offset: 2)
-	pub fn set_oc5fe(value: u8) { ::write(REGISTER_ADDRESS, OC5FE_BIT_OFFSET, OC5FE_BIT_WIDTH, value as u32); }
-
-	const OC5PE_BIT_OFFSET: u8 = 3;
-	const OC5PE_BIT_WIDTH: u8 = 1;
-	/// Output compare 5 preload enable (Width: 1, Offset: 3)
-	pub fn get_oc5pe() -> u8 { ::read(REGISTER_ADDRESS, OC5PE_BIT_OFFSET, OC5PE_BIT_WIDTH) as u8 }
-	/// Output compare 5 preload enable (Width: 1, Offset: 3)
-	pub fn set_oc5pe(value: u8) { ::write(REGISTER_ADDRESS, OC5PE_BIT_OFFSET, OC5PE_BIT_WIDTH, value as u32); }
-
-	const OC5M_BIT_OFFSET: u8 = 4;
-	const OC5M_BIT_WIDTH: u8 = 3;
-	/// Output compare 5 mode (Width: 3, Offset: 4)
-	pub fn get_oc5m() -> u8 { ::read(REGISTER_ADDRESS, OC5M_BIT_OFFSET, OC5M_BIT_WIDTH) as u8 }
-	/// Output compare 5 mode (Width: 3, Offset: 4)
-	pub fn set_oc5m(value: u8) { ::write(REGISTER_ADDRESS, OC5M_BIT_OFFSET, OC5M_BIT_WIDTH, value as u32); }
-
-	const OC5CE_BIT_OFFSET: u8 = 7;
-	const OC5CE_BIT_WIDTH: u8 = 1;
-	/// Output compare 5 clear enable (Width: 1, Offset: 7)
-	pub fn get_oc5ce() -> u8 { ::read(REGISTER_ADDRESS, OC5CE_BIT_OFFSET, OC5CE_BIT_WIDTH) as u8 }
-	/// Output compare 5 clear enable (Width: 1, Offset: 7)
-	pub fn set_oc5ce(value: u8) { ::write(REGISTER_ADDRESS, OC5CE_BIT_OFFSET, OC5CE_BIT_WIDTH, value as u32); }
-
-	const OC6FE_BIT_OFFSET: u8 = 10;
-	const OC6FE_BIT_WIDTH: u8 = 1;
-	/// Output compare 6 fast enable (Width: 1, Offset: 10)
-	pub fn get_oc6fe() -> u8 { ::read(REGISTER_ADDRESS, OC6FE_BIT_OFFSET, OC6FE_BIT_WIDTH) as u8 }
-	/// Output compare 6 fast enable (Width: 1, Offset: 10)
-	pub fn set_oc6fe(value: u8) { ::write(REGISTER_ADDRESS, OC6FE_BIT_OFFSET, OC6FE_BIT_WIDTH, value as u32); }
-
-	const OC6PE_BIT_OFFSET: u8 = 11;
-	const OC6PE_BIT_WIDTH: u8 = 1;
-	/// Output compare 6 preload enable (Width: 1, Offset: 11)
-	pub fn get_oc6pe() -> u8 { ::read(REGISTER_ADDRESS, OC6PE_BIT_OFFSET, OC6PE_BIT_WIDTH) as u8 }
-	/// Output compare 6 preload enable (Width: 1, Offset: 11)
-	pub fn set_oc6pe(value: u8) { ::write(REGISTER_ADDRESS, OC6PE_BIT_OFFSET, OC6PE_BIT_WIDTH, value as u32); }
-
-	const OC6M_BIT_OFFSET: u8 = 12;
-	const OC6M_BIT_WIDTH: u8 = 3;
-	/// Output compare 6 mode (Width: 3, Offset: 12)
-	pub fn get_oc6m() -> u8 { ::read(REGISTER_ADDRESS, OC6M_BIT_OFFSET, OC6M_BIT_WIDTH) as u8 }
-	/// Output compare 6 mode (Width: 3, Offset: 12)
-	pub fn set_oc6m(value: u8) { ::write(REGISTER_ADDRESS, OC6M_BIT_OFFSET, OC6M_BIT_WIDTH, value as u32); }
-
-	const OC6CE_BIT_OFFSET: u8 = 15;
-	const OC6CE_BIT_WIDTH: u8 = 1;
-	/// Output compare 6 clear enable (Width: 1, Offset: 15)
-	pub fn get_oc6ce() -> u8 { ::read(REGISTER_ADDRESS, OC6CE_BIT_OFFSET, OC6CE_BIT_WIDTH) as u8 }
-	/// Output compare 6 clear enable (Width: 1, Offset: 15)
-	pub fn set_oc6ce(value: u8) { ::write(REGISTER_ADDRESS, OC6CE_BIT_OFFSET, OC6CE_BIT_WIDTH, value as u32); }
-
-	const OC5M_3_BIT_OFFSET: u8 = 16;
-	const OC5M_3_BIT_WIDTH: u8 = 1;
-	/// Outout Compare 5 mode bit 3 (Width: 1, Offset: 16)
-	pub fn get_oc5m_3() -> u8 { ::read(REGISTER_ADDRESS, OC5M_3_BIT_OFFSET, OC5M_3_BIT_WIDTH) as u8 }
-	/// Outout Compare 5 mode bit 3 (Width: 1, Offset: 16)
-	pub fn set_oc5m_3(value: u8) { ::write(REGISTER_ADDRESS, OC5M_3_BIT_OFFSET, OC5M_3_BIT_WIDTH, value as u32); }
-
-	const OC6M_3_BIT_OFFSET: u8 = 24;
-	const OC6M_3_BIT_WIDTH: u8 = 1;
-	/// Outout Compare 6 mode bit 3 (Width: 1, Offset: 24)
-	pub fn get_oc6m_3() -> u8 { ::read(REGISTER_ADDRESS, OC6M_3_BIT_OFFSET, OC6M_3_BIT_WIDTH) as u8 }
-	/// Outout Compare 6 mode bit 3 (Width: 1, Offset: 24)
-	pub fn set_oc6m_3(value: u8) { ::write(REGISTER_ADDRESS, OC6M_3_BIT_OFFSET, OC6M_3_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Output compare 5 fast enable
+        pub oc5fe: bool,
+        /// Output compare 5 preload enable
+        pub oc5pe: bool,
+        /// Output compare 5 mode
+        pub oc5m: bool,
+        /// Output compare 5 clear enable
+        pub oc5ce: bool,
+        /// Output compare 6 fast enable
+        pub oc6fe: bool,
+        /// Output compare 6 preload enable
+        pub oc6pe: bool,
+        /// Output compare 6 mode
+        pub oc6m: bool,
+        /// Output compare 6 clear enable
+        pub oc6ce: bool,
+        /// Outout Compare 5 mode bit 3
+        pub oc5m_3: bool,
+        /// Outout Compare 6 mode bit 3
+        pub oc6m_3: bool,
+    }
+    pub struct Cache {
+        /// Output compare 5 fast enable
+        pub oc5fe: bool,
+        /// Output compare 5 preload enable
+        pub oc5pe: bool,
+        /// Output compare 5 mode
+        pub oc5m: bool,
+        /// Output compare 5 clear enable
+        pub oc5ce: bool,
+        /// Output compare 6 fast enable
+        pub oc6fe: bool,
+        /// Output compare 6 preload enable
+        pub oc6pe: bool,
+        /// Output compare 6 mode
+        pub oc6m: bool,
+        /// Output compare 6 clear enable
+        pub oc6ce: bool,
+        /// Outout Compare 5 mode bit 3
+        pub oc5m_3: bool,
+        /// Outout Compare 6 mode bit 3
+        pub oc6m_3: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x54u32) as *mut u32) };
+        ReadonlyCache {
+            oc5fe: ((value >> 2) & 0b1) > 0,
+            oc5pe: ((value >> 3) & 0b1) > 0,
+            oc5m: ((value >> 4) & 0b1) > 0,
+            oc5ce: ((value >> 7) & 0b1) > 0,
+            oc6fe: ((value >> 10) & 0b1) > 0,
+            oc6pe: ((value >> 11) & 0b1) > 0,
+            oc6m: ((value >> 12) & 0b1) > 0,
+            oc6ce: ((value >> 15) & 0b1) > 0,
+            oc5m_3: ((value >> 16) & 0b1) > 0,
+            oc6m_3: ((value >> 24) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x54u32) as *mut u32) };
+        Cache {
+            oc5fe: ((value >> 2) & 0b1) > 0,
+            oc5pe: ((value >> 3) & 0b1) > 0,
+            oc5m: ((value >> 4) & 0b1) > 0,
+            oc5ce: ((value >> 7) & 0b1) > 0,
+            oc6fe: ((value >> 10) & 0b1) > 0,
+            oc6pe: ((value >> 11) & 0b1) > 0,
+            oc6m: ((value >> 12) & 0b1) > 0,
+            oc6ce: ((value >> 15) & 0b1) > 0,
+            oc5m_3: ((value >> 16) & 0b1) > 0,
+            oc6m_3: ((value >> 24) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.oc5fe as u32) << 2)
+                | ((self.oc5pe as u32) << 3)
+                | ((self.oc5m as u32) << 4)
+                | ((self.oc5ce as u32) << 7)
+                | ((self.oc6fe as u32) << 10)
+                | ((self.oc6pe as u32) << 11)
+                | ((self.oc6m as u32) << 12)
+                | ((self.oc6ce as u32) << 15)
+                | ((self.oc5m_3 as u32) << 16)
+                | ((self.oc6m_3 as u32) << 24)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x54u32) as *mut u32, value) };
+        }
+    }
 }
 /// capture/compare register 5
-/// Size: 0x20 bits
 pub mod ccr5 {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x58;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CCR5_BIT_OFFSET: u8 = 0;
-	const CCR5_BIT_WIDTH: u8 = 16;
-	/// Capture/Compare 5 value (Width: 16, Offset: 0)
-	pub fn get_ccr5() -> u16 { ::read(REGISTER_ADDRESS, CCR5_BIT_OFFSET, CCR5_BIT_WIDTH) as u16 }
-	/// Capture/Compare 5 value (Width: 16, Offset: 0)
-	pub fn set_ccr5(value: u16) { ::write(REGISTER_ADDRESS, CCR5_BIT_OFFSET, CCR5_BIT_WIDTH, value as u32); }
-
-	const GC5C1_BIT_OFFSET: u8 = 29;
-	const GC5C1_BIT_WIDTH: u8 = 1;
-	/// Group Channel 5 and Channel 1 (Width: 1, Offset: 29)
-	pub fn get_gc5c1() -> u8 { ::read(REGISTER_ADDRESS, GC5C1_BIT_OFFSET, GC5C1_BIT_WIDTH) as u8 }
-	/// Group Channel 5 and Channel 1 (Width: 1, Offset: 29)
-	pub fn set_gc5c1(value: u8) { ::write(REGISTER_ADDRESS, GC5C1_BIT_OFFSET, GC5C1_BIT_WIDTH, value as u32); }
-
-	const GC5C2_BIT_OFFSET: u8 = 30;
-	const GC5C2_BIT_WIDTH: u8 = 1;
-	/// Group Channel 5 and Channel 2 (Width: 1, Offset: 30)
-	pub fn get_gc5c2() -> u8 { ::read(REGISTER_ADDRESS, GC5C2_BIT_OFFSET, GC5C2_BIT_WIDTH) as u8 }
-	/// Group Channel 5 and Channel 2 (Width: 1, Offset: 30)
-	pub fn set_gc5c2(value: u8) { ::write(REGISTER_ADDRESS, GC5C2_BIT_OFFSET, GC5C2_BIT_WIDTH, value as u32); }
-
-	const GC5C3_BIT_OFFSET: u8 = 31;
-	const GC5C3_BIT_WIDTH: u8 = 1;
-	/// Group Channel 5 and Channel 3 (Width: 1, Offset: 31)
-	pub fn get_gc5c3() -> u8 { ::read(REGISTER_ADDRESS, GC5C3_BIT_OFFSET, GC5C3_BIT_WIDTH) as u8 }
-	/// Group Channel 5 and Channel 3 (Width: 1, Offset: 31)
-	pub fn set_gc5c3(value: u8) { ::write(REGISTER_ADDRESS, GC5C3_BIT_OFFSET, GC5C3_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Capture/Compare 5 value
+        pub ccr5: u16,
+        /// Group Channel 5 and Channel 1
+        pub gc5c1: u16,
+        /// Group Channel 5 and Channel 2
+        pub gc5c2: u16,
+        /// Group Channel 5 and Channel 3
+        pub gc5c3: u16,
+    }
+    pub struct Cache {
+        /// Capture/Compare 5 value
+        pub ccr5: u16,
+        /// Group Channel 5 and Channel 1
+        pub gc5c1: u16,
+        /// Group Channel 5 and Channel 2
+        pub gc5c2: u16,
+        /// Group Channel 5 and Channel 3
+        pub gc5c3: u16,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x58u32) as *mut u32) };
+        ReadonlyCache {
+            ccr5: ((value >> 0) & 0b1111111111111111) as u16,
+            gc5c1: ((value >> 29) & 0b1111111111111111) as u16,
+            gc5c2: ((value >> 30) & 0b1111111111111111) as u16,
+            gc5c3: ((value >> 31) & 0b1111111111111111) as u16,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x58u32) as *mut u32) };
+        Cache {
+            ccr5: ((value >> 0) & 0b1111111111111111) as u16,
+            gc5c1: ((value >> 29) & 0b1111111111111111) as u16,
+            gc5c2: ((value >> 30) & 0b1111111111111111) as u16,
+            gc5c3: ((value >> 31) & 0b1111111111111111) as u16,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.ccr5 as u32) << 0)
+                | ((self.gc5c1 as u32) << 29)
+                | ((self.gc5c2 as u32) << 30)
+                | ((self.gc5c3 as u32) << 31)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x58u32) as *mut u32, value) };
+        }
+    }
 }
 /// capture/compare register 6
-/// Size: 0x20 bits
 pub mod ccr6 {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x5C;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const CCR6_BIT_OFFSET: u8 = 0;
-	const CCR6_BIT_WIDTH: u8 = 16;
-	/// Capture/Compare 6 value (Width: 16, Offset: 0)
-	pub fn get_ccr6() -> u16 { ::read(REGISTER_ADDRESS, CCR6_BIT_OFFSET, CCR6_BIT_WIDTH) as u16 }
-	/// Capture/Compare 6 value (Width: 16, Offset: 0)
-	pub fn set_ccr6(value: u16) { ::write(REGISTER_ADDRESS, CCR6_BIT_OFFSET, CCR6_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Capture/Compare 6 value
+        pub ccr6: u16,
+    }
+    pub struct Cache {
+        /// Capture/Compare 6 value
+        pub ccr6: u16,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x5Cu32) as *mut u32) };
+        ReadonlyCache {
+            ccr6: ((value >> 0) & 0b1111111111111111) as u16,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x5Cu32) as *mut u32) };
+        Cache {
+            ccr6: ((value >> 0) & 0b1111111111111111) as u16,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.ccr6 as u32) << 0)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x5Cu32) as *mut u32, value) };
+        }
+    }
 }
 /// option registers
-/// Size: 0x20 bits
 pub mod or {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x60;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const TIM1_ETR_ADC1_RMP_BIT_OFFSET: u8 = 0;
-	const TIM1_ETR_ADC1_RMP_BIT_WIDTH: u8 = 2;
-	/// TIM1_ETR_ADC1 remapping capability (Width: 2, Offset: 0)
-	pub fn get_tim1_etr_adc1_rmp() -> u8 { ::read(REGISTER_ADDRESS, TIM1_ETR_ADC1_RMP_BIT_OFFSET, TIM1_ETR_ADC1_RMP_BIT_WIDTH) as u8 }
-	/// TIM1_ETR_ADC1 remapping capability (Width: 2, Offset: 0)
-	pub fn set_tim1_etr_adc1_rmp(value: u8) { ::write(REGISTER_ADDRESS, TIM1_ETR_ADC1_RMP_BIT_OFFSET, TIM1_ETR_ADC1_RMP_BIT_WIDTH, value as u32); }
-
-	const TIM1_ETR_ADC4_RMP_BIT_OFFSET: u8 = 2;
-	const TIM1_ETR_ADC4_RMP_BIT_WIDTH: u8 = 2;
-	/// TIM1_ETR_ADC4 remapping capability (Width: 2, Offset: 2)
-	pub fn get_tim1_etr_adc4_rmp() -> u8 { ::read(REGISTER_ADDRESS, TIM1_ETR_ADC4_RMP_BIT_OFFSET, TIM1_ETR_ADC4_RMP_BIT_WIDTH) as u8 }
-	/// TIM1_ETR_ADC4 remapping capability (Width: 2, Offset: 2)
-	pub fn set_tim1_etr_adc4_rmp(value: u8) { ::write(REGISTER_ADDRESS, TIM1_ETR_ADC4_RMP_BIT_OFFSET, TIM1_ETR_ADC4_RMP_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// TIM1_ETR_ADC1 remapping capability
+        pub tim1_etr_adc1_rmp: u8,
+        /// TIM1_ETR_ADC4 remapping capability
+        pub tim1_etr_adc4_rmp: u8,
+    }
+    pub struct Cache {
+        /// TIM1_ETR_ADC1 remapping capability
+        pub tim1_etr_adc1_rmp: u8,
+        /// TIM1_ETR_ADC4 remapping capability
+        pub tim1_etr_adc4_rmp: u8,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x60u32) as *mut u32) };
+        ReadonlyCache {
+            tim1_etr_adc1_rmp: ((value >> 0) & 0b11) as u8,
+            tim1_etr_adc4_rmp: ((value >> 2) & 0b11) as u8,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40012C00u32 + 0x60u32) as *mut u32) };
+        Cache {
+            tim1_etr_adc1_rmp: ((value >> 0) & 0b11) as u8,
+            tim1_etr_adc4_rmp: ((value >> 2) & 0b11) as u8,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.tim1_etr_adc1_rmp as u32) << 0)
+                | ((self.tim1_etr_adc4_rmp as u32) << 2)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40012C00u32 + 0x60u32) as *mut u32, value) };
+        }
+    }
 }
 /// TIM1 capture compare interrupt
 pub const INTERRUPT_TIM1_CC: u32 = 27;
-
 /*
 <?xml version="1.0"?>
 <peripheral xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <name>TIM1</name>
-  <description>Advanced timer</description>
-  <groupName>TIMs</groupName>
-  <baseAddress>0x40012C00</baseAddress>
   <addressBlock>
     <offset>0x0</offset>
     <size>0x400</size>
     <usage>registers</usage>
   </addressBlock>
-  <registers>
-    <register>
-      <name>CR1</name>
-      <displayName>CR1</displayName>
-      <description>control register 1</description>
-      <addressOffset>0x0</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x0000</resetValue>
-      <fields>
-        <field>
-          <name>CEN</name>
-          <description>Counter enable</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>UDIS</name>
-          <description>Update disable</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>URS</name>
-          <description>Update request source</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OPM</name>
-          <description>One-pulse mode</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>DIR</name>
-          <description>Direction</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CMS</name>
-          <description>Center-aligned mode
-              selection</description>
-          <bitOffset>5</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>ARPE</name>
-          <description>Auto-reload preload enable</description>
-          <bitOffset>7</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CKD</name>
-          <description>Clock division</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>UIFREMAP</name>
-          <description>UIF status bit remapping</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>CR2</name>
-      <displayName>CR2</displayName>
-      <description>control register 2</description>
-      <addressOffset>0x4</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x0000</resetValue>
-      <fields>
-        <field>
-          <name>CCPC</name>
-          <description>Capture/compare preloaded
-              control</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CCUS</name>
-          <description>Capture/compare control update
-              selection</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CCDS</name>
-          <description>Capture/compare DMA
-              selection</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>MMS</name>
-          <description>Master mode selection</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>3</bitWidth>
-        </field>
-        <field>
-          <name>TI1S</name>
-          <description>TI1 selection</description>
-          <bitOffset>7</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OIS1</name>
-          <description>Output Idle state 1</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OIS1N</name>
-          <description>Output Idle state 1</description>
-          <bitOffset>9</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OIS2</name>
-          <description>Output Idle state 2</description>
-          <bitOffset>10</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OIS2N</name>
-          <description>Output Idle state 2</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OIS3</name>
-          <description>Output Idle state 3</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OIS3N</name>
-          <description>Output Idle state 3</description>
-          <bitOffset>13</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OIS4</name>
-          <description>Output Idle state 4</description>
-          <bitOffset>14</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OIS5</name>
-          <description>Output Idle state 5</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OIS6</name>
-          <description>Output Idle state 6</description>
-          <bitOffset>18</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>MMS2</name>
-          <description>Master mode selection 2</description>
-          <bitOffset>20</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>SMCR</name>
-      <displayName>SMCR</displayName>
-      <description>slave mode control register</description>
-      <addressOffset>0x8</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x0000</resetValue>
-      <fields>
-        <field>
-          <name>SMS</name>
-          <description>Slave mode selection</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>3</bitWidth>
-        </field>
-        <field>
-          <name>OCCS</name>
-          <description>OCREF clear selection</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TS</name>
-          <description>Trigger selection</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>3</bitWidth>
-        </field>
-        <field>
-          <name>MSM</name>
-          <description>Master/Slave mode</description>
-          <bitOffset>7</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>ETF</name>
-          <description>External trigger filter</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>ETPS</name>
-          <description>External trigger prescaler</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>ECE</name>
-          <description>External clock enable</description>
-          <bitOffset>14</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>ETP</name>
-          <description>External trigger polarity</description>
-          <bitOffset>15</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>SMS3</name>
-          <description>Slave mode selection bit 3</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>DIER</name>
-      <displayName>DIER</displayName>
-      <description>DMA/Interrupt enable register</description>
-      <addressOffset>0xC</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x0000</resetValue>
-      <fields>
-        <field>
-          <name>TDE</name>
-          <description>Trigger DMA request enable</description>
-          <bitOffset>14</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>COMDE</name>
-          <description>Reserved</description>
-          <bitOffset>13</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC4DE</name>
-          <description>Capture/Compare 4 DMA request
-              enable</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC3DE</name>
-          <description>Capture/Compare 3 DMA request
-              enable</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC2DE</name>
-          <description>Capture/Compare 2 DMA request
-              enable</description>
-          <bitOffset>10</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC1DE</name>
-          <description>Capture/Compare 1 DMA request
-              enable</description>
-          <bitOffset>9</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>UDE</name>
-          <description>Update DMA request enable</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>BIE</name>
-          <description>Break interrupt enable</description>
-          <bitOffset>7</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIE</name>
-          <description>Trigger interrupt enable</description>
-          <bitOffset>6</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>COMIE</name>
-          <description>COM interrupt enable</description>
-          <bitOffset>5</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC4IE</name>
-          <description>Capture/Compare 4 interrupt
-              enable</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC3IE</name>
-          <description>Capture/Compare 3 interrupt
-              enable</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC2IE</name>
-          <description>Capture/Compare 2 interrupt
-              enable</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC1IE</name>
-          <description>Capture/Compare 1 interrupt
-              enable</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>UIE</name>
-          <description>Update interrupt enable</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>SR</name>
-      <displayName>SR</displayName>
-      <description>status register</description>
-      <addressOffset>0x10</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x0000</resetValue>
-      <fields>
-        <field>
-          <name>UIF</name>
-          <description>Update interrupt flag</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC1IF</name>
-          <description>Capture/compare 1 interrupt
-              flag</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC2IF</name>
-          <description>Capture/Compare 2 interrupt
-              flag</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC3IF</name>
-          <description>Capture/Compare 3 interrupt
-              flag</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC4IF</name>
-          <description>Capture/Compare 4 interrupt
-              flag</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>COMIF</name>
-          <description>COM interrupt flag</description>
-          <bitOffset>5</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIF</name>
-          <description>Trigger interrupt flag</description>
-          <bitOffset>6</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>BIF</name>
-          <description>Break interrupt flag</description>
-          <bitOffset>7</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>B2IF</name>
-          <description>Break 2 interrupt flag</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC1OF</name>
-          <description>Capture/Compare 1 overcapture
-              flag</description>
-          <bitOffset>9</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC2OF</name>
-          <description>Capture/compare 2 overcapture
-              flag</description>
-          <bitOffset>10</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC3OF</name>
-          <description>Capture/Compare 3 overcapture
-              flag</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC4OF</name>
-          <description>Capture/Compare 4 overcapture
-              flag</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>C5IF</name>
-          <description>Capture/Compare 5 interrupt
-              flag</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>C6IF</name>
-          <description>Capture/Compare 6 interrupt
-              flag</description>
-          <bitOffset>17</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>EGR</name>
-      <displayName>EGR</displayName>
-      <description>event generation register</description>
-      <addressOffset>0x14</addressOffset>
-      <size>0x20</size>
-      <access>write-only</access>
-      <resetValue>0x0000</resetValue>
-      <fields>
-        <field>
-          <name>UG</name>
-          <description>Update generation</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC1G</name>
-          <description>Capture/compare 1
-              generation</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC2G</name>
-          <description>Capture/compare 2
-              generation</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC3G</name>
-          <description>Capture/compare 3
-              generation</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC4G</name>
-          <description>Capture/compare 4
-              generation</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>COMG</name>
-          <description>Capture/Compare control update
-              generation</description>
-          <bitOffset>5</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TG</name>
-          <description>Trigger generation</description>
-          <bitOffset>6</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>BG</name>
-          <description>Break generation</description>
-          <bitOffset>7</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>B2G</name>
-          <description>Break 2 generation</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>CCMR1_Output</name>
-      <displayName>CCMR1_Output</displayName>
-      <description>capture/compare mode register (output
-          mode)</description>
-      <addressOffset>0x18</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>OC2CE</name>
-          <description>Output Compare 2 clear
-              enable</description>
-          <bitOffset>15</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OC2M</name>
-          <description>Output Compare 2 mode</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>3</bitWidth>
-        </field>
-        <field>
-          <name>OC2PE</name>
-          <description>Output Compare 2 preload
-              enable</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OC2FE</name>
-          <description>Output Compare 2 fast
-              enable</description>
-          <bitOffset>10</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC2S</name>
-          <description>Capture/Compare 2
-              selection</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>OC1CE</name>
-          <description>Output Compare 1 clear
-              enable</description>
-          <bitOffset>7</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OC1M</name>
-          <description>Output Compare 1 mode</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>3</bitWidth>
-        </field>
-        <field>
-          <name>OC1PE</name>
-          <description>Output Compare 1 preload
-              enable</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OC1FE</name>
-          <description>Output Compare 1 fast
-              enable</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC1S</name>
-          <description>Capture/Compare 1
-              selection</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>OC1M_3</name>
-          <description>Output Compare 1 mode bit
-              3</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OC2M_3</name>
-          <description>Output Compare 2 mode bit
-              3</description>
-          <bitOffset>24</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>CCMR1_Input</name>
-      <displayName>CCMR1_Input</displayName>
-      <description>capture/compare mode register 1 (input
-          mode)</description>
-      <addressOffset>0x18</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>IC2F</name>
-          <description>Input capture 2 filter</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>IC2PCS</name>
-          <description>Input capture 2 prescaler</description>
-          <bitOffset>10</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>CC2S</name>
-          <description>Capture/Compare 2
-              selection</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>IC1F</name>
-          <description>Input capture 1 filter</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>IC1PCS</name>
-          <description>Input capture 1 prescaler</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>CC1S</name>
-          <description>Capture/Compare 1
-              selection</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-      </fields>
-      <alternateRegister>CCMR1_Output</alternateRegister>
-    </register>
-    <register>
-      <name>CCMR2_Output</name>
-      <displayName>CCMR2_Output</displayName>
-      <description>capture/compare mode register (output
-          mode)</description>
-      <addressOffset>0x1C</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>OC4CE</name>
-          <description>Output compare 4 clear
-              enable</description>
-          <bitOffset>15</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OC4M</name>
-          <description>Output compare 4 mode</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>3</bitWidth>
-        </field>
-        <field>
-          <name>OC4PE</name>
-          <description>Output compare 4 preload
-              enable</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OC4FE</name>
-          <description>Output compare 4 fast
-              enable</description>
-          <bitOffset>10</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC4S</name>
-          <description>Capture/Compare 4
-              selection</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>OC3CE</name>
-          <description>Output compare 3 clear
-              enable</description>
-          <bitOffset>7</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OC3M</name>
-          <description>Output compare 3 mode</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>3</bitWidth>
-        </field>
-        <field>
-          <name>OC3PE</name>
-          <description>Output compare 3 preload
-              enable</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OC3FE</name>
-          <description>Output compare 3 fast
-              enable</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC3S</name>
-          <description>Capture/Compare 3
-              selection</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>OC3M_3</name>
-          <description>Output Compare 3 mode bit
-              3</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OC4M_3</name>
-          <description>Output Compare 4 mode bit
-              3</description>
-          <bitOffset>24</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>CCMR2_Input</name>
-      <displayName>CCMR2_Input</displayName>
-      <description>capture/compare mode register 2 (input
-          mode)</description>
-      <addressOffset>0x1C</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>IC4F</name>
-          <description>Input capture 4 filter</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>IC4PSC</name>
-          <description>Input capture 4 prescaler</description>
-          <bitOffset>10</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>CC4S</name>
-          <description>Capture/Compare 4
-              selection</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>IC3F</name>
-          <description>Input capture 3 filter</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>IC3PSC</name>
-          <description>Input capture 3 prescaler</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>CC3S</name>
-          <description>Capture/compare 3
-              selection</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-      </fields>
-      <alternateRegister>CCMR2_Output</alternateRegister>
-    </register>
-    <register>
-      <name>CCER</name>
-      <displayName>CCER</displayName>
-      <description>capture/compare enable
-          register</description>
-      <addressOffset>0x20</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x0000</resetValue>
-      <fields>
-        <field>
-          <name>CC1E</name>
-          <description>Capture/Compare 1 output
-              enable</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC1P</name>
-          <description>Capture/Compare 1 output
-              Polarity</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC1NE</name>
-          <description>Capture/Compare 1 complementary output
-              enable</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC1NP</name>
-          <description>Capture/Compare 1 output
-              Polarity</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC2E</name>
-          <description>Capture/Compare 2 output
-              enable</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC2P</name>
-          <description>Capture/Compare 2 output
-              Polarity</description>
-          <bitOffset>5</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC2NE</name>
-          <description>Capture/Compare 2 complementary output
-              enable</description>
-          <bitOffset>6</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC2NP</name>
-          <description>Capture/Compare 2 output
-              Polarity</description>
-          <bitOffset>7</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC3E</name>
-          <description>Capture/Compare 3 output
-              enable</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC3P</name>
-          <description>Capture/Compare 3 output
-              Polarity</description>
-          <bitOffset>9</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC3NE</name>
-          <description>Capture/Compare 3 complementary output
-              enable</description>
-          <bitOffset>10</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC3NP</name>
-          <description>Capture/Compare 3 output
-              Polarity</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC4E</name>
-          <description>Capture/Compare 4 output
-              enable</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC4P</name>
-          <description>Capture/Compare 3 output
-              Polarity</description>
-          <bitOffset>13</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC4NP</name>
-          <description>Capture/Compare 4 output
-              Polarity</description>
-          <bitOffset>15</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC5E</name>
-          <description>Capture/Compare 5 output
-              enable</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC5P</name>
-          <description>Capture/Compare 5 output
-              Polarity</description>
-          <bitOffset>17</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC6E</name>
-          <description>Capture/Compare 6 output
-              enable</description>
-          <bitOffset>20</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CC6P</name>
-          <description>Capture/Compare 6 output
-              Polarity</description>
-          <bitOffset>21</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>CNT</name>
-      <displayName>CNT</displayName>
-      <description>counter</description>
-      <addressOffset>0x24</addressOffset>
-      <size>0x20</size>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>CNT</name>
-          <description>counter value</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>16</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>UIFCPY</name>
-          <description>UIF copy</description>
-          <bitOffset>31</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>PSC</name>
-      <displayName>PSC</displayName>
-      <description>prescaler</description>
-      <addressOffset>0x28</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x0000</resetValue>
-      <fields>
-        <field>
-          <name>PSC</name>
-          <description>Prescaler value</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>16</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>ARR</name>
-      <displayName>ARR</displayName>
-      <description>auto-reload register</description>
-      <addressOffset>0x2C</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>ARR</name>
-          <description>Auto-reload value</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>16</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>RCR</name>
-      <displayName>RCR</displayName>
-      <description>repetition counter register</description>
-      <addressOffset>0x30</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x0000</resetValue>
-      <fields>
-        <field>
-          <name>REP</name>
-          <description>Repetition counter value</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>16</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>CCR1</name>
-      <displayName>CCR1</displayName>
-      <description>capture/compare register 1</description>
-      <addressOffset>0x34</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>CCR1</name>
-          <description>Capture/Compare 1 value</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>16</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>CCR2</name>
-      <displayName>CCR2</displayName>
-      <description>capture/compare register 2</description>
-      <addressOffset>0x38</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>CCR2</name>
-          <description>Capture/Compare 2 value</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>16</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>CCR3</name>
-      <displayName>CCR3</displayName>
-      <description>capture/compare register 3</description>
-      <addressOffset>0x3C</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>CCR3</name>
-          <description>Capture/Compare 3 value</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>16</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>CCR4</name>
-      <displayName>CCR4</displayName>
-      <description>capture/compare register 4</description>
-      <addressOffset>0x40</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>CCR4</name>
-          <description>Capture/Compare 3 value</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>16</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>BDTR</name>
-      <displayName>BDTR</displayName>
-      <description>break and dead-time register</description>
-      <addressOffset>0x44</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>DTG</name>
-          <description>Dead-time generator setup</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>8</bitWidth>
-        </field>
-        <field>
-          <name>LOCK</name>
-          <description>Lock configuration</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>OSSI</name>
-          <description>Off-state selection for Idle
-              mode</description>
-          <bitOffset>10</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OSSR</name>
-          <description>Off-state selection for Run
-              mode</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>BKE</name>
-          <description>Break enable</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>BKP</name>
-          <description>Break polarity</description>
-          <bitOffset>13</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>AOE</name>
-          <description>Automatic output enable</description>
-          <bitOffset>14</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>MOE</name>
-          <description>Main output enable</description>
-          <bitOffset>15</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>BKF</name>
-          <description>Break filter</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>BK2F</name>
-          <description>Break 2 filter</description>
-          <bitOffset>20</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>BK2E</name>
-          <description>Break 2 enable</description>
-          <bitOffset>24</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>BK2P</name>
-          <description>Break 2 polarity</description>
-          <bitOffset>25</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>DCR</name>
-      <displayName>DCR</displayName>
-      <description>DMA control register</description>
-      <addressOffset>0x48</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>DBL</name>
-          <description>DMA burst length</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>5</bitWidth>
-        </field>
-        <field>
-          <name>DBA</name>
-          <description>DMA base address</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>5</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>DMAR</name>
-      <displayName>DMAR</displayName>
-      <description>DMA address for full transfer</description>
-      <addressOffset>0x4C</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>DMAB</name>
-          <description>DMA register for burst
-              accesses</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>16</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>CCMR3_Output</name>
-      <displayName>CCMR3_Output</displayName>
-      <description>capture/compare mode register 3 (output
-          mode)</description>
-      <addressOffset>0x54</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>OC5FE</name>
-          <description>Output compare 5 fast
-              enable</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OC5PE</name>
-          <description>Output compare 5 preload
-              enable</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OC5M</name>
-          <description>Output compare 5 mode</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>3</bitWidth>
-        </field>
-        <field>
-          <name>OC5CE</name>
-          <description>Output compare 5 clear
-              enable</description>
-          <bitOffset>7</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OC6FE</name>
-          <description>Output compare 6 fast
-              enable</description>
-          <bitOffset>10</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OC6PE</name>
-          <description>Output compare 6 preload
-              enable</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OC6M</name>
-          <description>Output compare 6 mode</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>3</bitWidth>
-        </field>
-        <field>
-          <name>OC6CE</name>
-          <description>Output compare 6 clear
-              enable</description>
-          <bitOffset>15</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OC5M_3</name>
-          <description>Outout Compare 5 mode bit
-              3</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>OC6M_3</name>
-          <description>Outout Compare 6 mode bit
-              3</description>
-          <bitOffset>24</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>CCR5</name>
-      <displayName>CCR5</displayName>
-      <description>capture/compare register 5</description>
-      <addressOffset>0x58</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>CCR5</name>
-          <description>Capture/Compare 5 value</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>16</bitWidth>
-        </field>
-        <field>
-          <name>GC5C1</name>
-          <description>Group Channel 5 and Channel
-              1</description>
-          <bitOffset>29</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>GC5C2</name>
-          <description>Group Channel 5 and Channel
-              2</description>
-          <bitOffset>30</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>GC5C3</name>
-          <description>Group Channel 5 and Channel
-              3</description>
-          <bitOffset>31</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>CCR6</name>
-      <displayName>CCR6</displayName>
-      <description>capture/compare register 6</description>
-      <addressOffset>0x5C</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>CCR6</name>
-          <description>Capture/Compare 6 value</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>16</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>OR</name>
-      <displayName>OR</displayName>
-      <description>option registers</description>
-      <addressOffset>0x60</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>TIM1_ETR_ADC1_RMP</name>
-          <description>TIM1_ETR_ADC1 remapping
-              capability</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>TIM1_ETR_ADC4_RMP</name>
-          <description>TIM1_ETR_ADC4 remapping
-              capability</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-      </fields>
-    </register>
-  </registers>
+  <baseAddress>0x40012C00</baseAddress>
+  <description>Advanced timer</description>
+  <groupName>TIMs</groupName>
   <interrupt>
-    <name>TIM1_CC</name>
     <description>TIM1 capture compare interrupt</description>
+    <name>TIM1_CC</name>
     <value>27</value>
   </interrupt>
-</peripheral>*/
+  <name>TIM1</name>
+  <registers>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x0</addressOffset>
+      <description>control register 1</description>
+      <displayName>CR1</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Counter enable</description>
+          <name>CEN</name>
+        </field>
+        <field>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Update disable</description>
+          <name>UDIS</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Update request source</description>
+          <name>URS</name>
+        </field>
+        <field>
+          <bitOffset>3</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>One-pulse mode</description>
+          <name>OPM</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Direction</description>
+          <name>DIR</name>
+        </field>
+        <field>
+          <bitOffset>5</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>
+                                Center-aligned mode
+                                selection
+                            </description>
+          <name>CMS</name>
+        </field>
+        <field>
+          <bitOffset>7</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Auto-reload preload enable</description>
+          <name>ARPE</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>Clock division</description>
+          <name>CKD</name>
+        </field>
+        <field>
+          <bitOffset>11</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>UIF status bit remapping</description>
+          <name>UIFREMAP</name>
+        </field>
+      </fields>
+      <name>CR1</name>
+      <resetValue>0x0000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x4</addressOffset>
+      <description>control register 2</description>
+      <displayName>CR2</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/compare preloaded
+                                control
+                            </description>
+          <name>CCPC</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/compare control update
+                                selection
+                            </description>
+          <name>CCUS</name>
+        </field>
+        <field>
+          <bitOffset>3</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/compare DMA
+                                selection
+                            </description>
+          <name>CCDS</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>3</bitWidth>
+          <description>Master mode selection</description>
+          <name>MMS</name>
+        </field>
+        <field>
+          <bitOffset>7</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>TI1 selection</description>
+          <name>TI1S</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Output Idle state 1</description>
+          <name>OIS1</name>
+        </field>
+        <field>
+          <bitOffset>9</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Output Idle state 1</description>
+          <name>OIS1N</name>
+        </field>
+        <field>
+          <bitOffset>10</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Output Idle state 2</description>
+          <name>OIS2</name>
+        </field>
+        <field>
+          <bitOffset>11</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Output Idle state 2</description>
+          <name>OIS2N</name>
+        </field>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Output Idle state 3</description>
+          <name>OIS3</name>
+        </field>
+        <field>
+          <bitOffset>13</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Output Idle state 3</description>
+          <name>OIS3N</name>
+        </field>
+        <field>
+          <bitOffset>14</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Output Idle state 4</description>
+          <name>OIS4</name>
+        </field>
+        <field>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Output Idle state 5</description>
+          <name>OIS5</name>
+        </field>
+        <field>
+          <bitOffset>18</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Output Idle state 6</description>
+          <name>OIS6</name>
+        </field>
+        <field>
+          <bitOffset>20</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>Master mode selection 2</description>
+          <name>MMS2</name>
+        </field>
+      </fields>
+      <name>CR2</name>
+      <resetValue>0x0000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x8</addressOffset>
+      <description>slave mode control register</description>
+      <displayName>SMCR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>3</bitWidth>
+          <description>Slave mode selection</description>
+          <name>SMS</name>
+        </field>
+        <field>
+          <bitOffset>3</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>OCREF clear selection</description>
+          <name>OCCS</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>3</bitWidth>
+          <description>Trigger selection</description>
+          <name>TS</name>
+        </field>
+        <field>
+          <bitOffset>7</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Master/Slave mode</description>
+          <name>MSM</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>External trigger filter</description>
+          <name>ETF</name>
+        </field>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>External trigger prescaler</description>
+          <name>ETPS</name>
+        </field>
+        <field>
+          <bitOffset>14</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>External clock enable</description>
+          <name>ECE</name>
+        </field>
+        <field>
+          <bitOffset>15</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>External trigger polarity</description>
+          <name>ETP</name>
+        </field>
+        <field>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Slave mode selection bit 3</description>
+          <name>SMS3</name>
+        </field>
+      </fields>
+      <name>SMCR</name>
+      <resetValue>0x0000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0xC</addressOffset>
+      <description>DMA/Interrupt enable register</description>
+      <displayName>DIER</displayName>
+      <fields>
+        <field>
+          <bitOffset>14</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Trigger DMA request enable</description>
+          <name>TDE</name>
+        </field>
+        <field>
+          <bitOffset>13</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Reserved</description>
+          <name>COMDE</name>
+        </field>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 4 DMA request
+                                enable
+                            </description>
+          <name>CC4DE</name>
+        </field>
+        <field>
+          <bitOffset>11</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 3 DMA request
+                                enable
+                            </description>
+          <name>CC3DE</name>
+        </field>
+        <field>
+          <bitOffset>10</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 2 DMA request
+                                enable
+                            </description>
+          <name>CC2DE</name>
+        </field>
+        <field>
+          <bitOffset>9</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 1 DMA request
+                                enable
+                            </description>
+          <name>CC1DE</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Update DMA request enable</description>
+          <name>UDE</name>
+        </field>
+        <field>
+          <bitOffset>7</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Break interrupt enable</description>
+          <name>BIE</name>
+        </field>
+        <field>
+          <bitOffset>6</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Trigger interrupt enable</description>
+          <name>TIE</name>
+        </field>
+        <field>
+          <bitOffset>5</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>COM interrupt enable</description>
+          <name>COMIE</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 4 interrupt
+                                enable
+                            </description>
+          <name>CC4IE</name>
+        </field>
+        <field>
+          <bitOffset>3</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 3 interrupt
+                                enable
+                            </description>
+          <name>CC3IE</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 2 interrupt
+                                enable
+                            </description>
+          <name>CC2IE</name>
+        </field>
+        <field>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 1 interrupt
+                                enable
+                            </description>
+          <name>CC1IE</name>
+        </field>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Update interrupt enable</description>
+          <name>UIE</name>
+        </field>
+      </fields>
+      <name>DIER</name>
+      <resetValue>0x0000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x10</addressOffset>
+      <description>status register</description>
+      <displayName>SR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Update interrupt flag</description>
+          <name>UIF</name>
+        </field>
+        <field>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/compare 1 interrupt
+                                flag
+                            </description>
+          <name>CC1IF</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 2 interrupt
+                                flag
+                            </description>
+          <name>CC2IF</name>
+        </field>
+        <field>
+          <bitOffset>3</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 3 interrupt
+                                flag
+                            </description>
+          <name>CC3IF</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 4 interrupt
+                                flag
+                            </description>
+          <name>CC4IF</name>
+        </field>
+        <field>
+          <bitOffset>5</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>COM interrupt flag</description>
+          <name>COMIF</name>
+        </field>
+        <field>
+          <bitOffset>6</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Trigger interrupt flag</description>
+          <name>TIF</name>
+        </field>
+        <field>
+          <bitOffset>7</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Break interrupt flag</description>
+          <name>BIF</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Break 2 interrupt flag</description>
+          <name>B2IF</name>
+        </field>
+        <field>
+          <bitOffset>9</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 1 overcapture
+                                flag
+                            </description>
+          <name>CC1OF</name>
+        </field>
+        <field>
+          <bitOffset>10</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/compare 2 overcapture
+                                flag
+                            </description>
+          <name>CC2OF</name>
+        </field>
+        <field>
+          <bitOffset>11</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 3 overcapture
+                                flag
+                            </description>
+          <name>CC3OF</name>
+        </field>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 4 overcapture
+                                flag
+                            </description>
+          <name>CC4OF</name>
+        </field>
+        <field>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 5 interrupt
+                                flag
+                            </description>
+          <name>C5IF</name>
+        </field>
+        <field>
+          <bitOffset>17</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 6 interrupt
+                                flag
+                            </description>
+          <name>C6IF</name>
+        </field>
+      </fields>
+      <name>SR</name>
+      <resetValue>0x0000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>write-only</access>
+      <addressOffset>0x14</addressOffset>
+      <description>event generation register</description>
+      <displayName>EGR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Update generation</description>
+          <name>UG</name>
+        </field>
+        <field>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/compare 1
+                                generation
+                            </description>
+          <name>CC1G</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/compare 2
+                                generation
+                            </description>
+          <name>CC2G</name>
+        </field>
+        <field>
+          <bitOffset>3</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/compare 3
+                                generation
+                            </description>
+          <name>CC3G</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/compare 4
+                                generation
+                            </description>
+          <name>CC4G</name>
+        </field>
+        <field>
+          <bitOffset>5</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare control update
+                                generation
+                            </description>
+          <name>COMG</name>
+        </field>
+        <field>
+          <bitOffset>6</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Trigger generation</description>
+          <name>TG</name>
+        </field>
+        <field>
+          <bitOffset>7</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Break generation</description>
+          <name>BG</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Break 2 generation</description>
+          <name>B2G</name>
+        </field>
+      </fields>
+      <name>EGR</name>
+      <resetValue>0x0000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x18</addressOffset>
+      <description>
+                        capture/compare mode register (output
+                        mode)
+                    </description>
+      <displayName>CCMR1_Output</displayName>
+      <fields>
+        <field>
+          <bitOffset>15</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output Compare 2 clear
+                                enable
+                            </description>
+          <name>OC2CE</name>
+        </field>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>3</bitWidth>
+          <description>Output Compare 2 mode</description>
+          <name>OC2M</name>
+        </field>
+        <field>
+          <bitOffset>11</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output Compare 2 preload
+                                enable
+                            </description>
+          <name>OC2PE</name>
+        </field>
+        <field>
+          <bitOffset>10</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output Compare 2 fast
+                                enable
+                            </description>
+          <name>OC2FE</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>
+                                Capture/Compare 2
+                                selection
+                            </description>
+          <name>CC2S</name>
+        </field>
+        <field>
+          <bitOffset>7</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output Compare 1 clear
+                                enable
+                            </description>
+          <name>OC1CE</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>3</bitWidth>
+          <description>Output Compare 1 mode</description>
+          <name>OC1M</name>
+        </field>
+        <field>
+          <bitOffset>3</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output Compare 1 preload
+                                enable
+                            </description>
+          <name>OC1PE</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output Compare 1 fast
+                                enable
+                            </description>
+          <name>OC1FE</name>
+        </field>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>
+                                Capture/Compare 1
+                                selection
+                            </description>
+          <name>CC1S</name>
+        </field>
+        <field>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output Compare 1 mode bit
+                                3
+                            </description>
+          <name>OC1M_3</name>
+        </field>
+        <field>
+          <bitOffset>24</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output Compare 2 mode bit
+                                3
+                            </description>
+          <name>OC2M_3</name>
+        </field>
+      </fields>
+      <name>CCMR1_Output</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x18</addressOffset>
+      <alternateRegister>CCMR1_Output</alternateRegister>
+      <description>
+                        capture/compare mode register 1 (input
+                        mode)
+                    </description>
+      <displayName>CCMR1_Input</displayName>
+      <fields>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>Input capture 2 filter</description>
+          <name>IC2F</name>
+        </field>
+        <field>
+          <bitOffset>10</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>Input capture 2 prescaler</description>
+          <name>IC2PCS</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>
+                                Capture/Compare 2
+                                selection
+                            </description>
+          <name>CC2S</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>Input capture 1 filter</description>
+          <name>IC1F</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>Input capture 1 prescaler</description>
+          <name>IC1PCS</name>
+        </field>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>
+                                Capture/Compare 1
+                                selection
+                            </description>
+          <name>CC1S</name>
+        </field>
+      </fields>
+      <name>CCMR1_Input</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x1C</addressOffset>
+      <description>
+                        capture/compare mode register (output
+                        mode)
+                    </description>
+      <displayName>CCMR2_Output</displayName>
+      <fields>
+        <field>
+          <bitOffset>15</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output compare 4 clear
+                                enable
+                            </description>
+          <name>OC4CE</name>
+        </field>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>3</bitWidth>
+          <description>Output compare 4 mode</description>
+          <name>OC4M</name>
+        </field>
+        <field>
+          <bitOffset>11</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output compare 4 preload
+                                enable
+                            </description>
+          <name>OC4PE</name>
+        </field>
+        <field>
+          <bitOffset>10</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output compare 4 fast
+                                enable
+                            </description>
+          <name>OC4FE</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>
+                                Capture/Compare 4
+                                selection
+                            </description>
+          <name>CC4S</name>
+        </field>
+        <field>
+          <bitOffset>7</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output compare 3 clear
+                                enable
+                            </description>
+          <name>OC3CE</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>3</bitWidth>
+          <description>Output compare 3 mode</description>
+          <name>OC3M</name>
+        </field>
+        <field>
+          <bitOffset>3</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output compare 3 preload
+                                enable
+                            </description>
+          <name>OC3PE</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output compare 3 fast
+                                enable
+                            </description>
+          <name>OC3FE</name>
+        </field>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>
+                                Capture/Compare 3
+                                selection
+                            </description>
+          <name>CC3S</name>
+        </field>
+        <field>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output Compare 3 mode bit
+                                3
+                            </description>
+          <name>OC3M_3</name>
+        </field>
+        <field>
+          <bitOffset>24</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output Compare 4 mode bit
+                                3
+                            </description>
+          <name>OC4M_3</name>
+        </field>
+      </fields>
+      <name>CCMR2_Output</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x1C</addressOffset>
+      <alternateRegister>CCMR2_Output</alternateRegister>
+      <description>
+                        capture/compare mode register 2 (input
+                        mode)
+                    </description>
+      <displayName>CCMR2_Input</displayName>
+      <fields>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>Input capture 4 filter</description>
+          <name>IC4F</name>
+        </field>
+        <field>
+          <bitOffset>10</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>Input capture 4 prescaler</description>
+          <name>IC4PSC</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>
+                                Capture/Compare 4
+                                selection
+                            </description>
+          <name>CC4S</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>Input capture 3 filter</description>
+          <name>IC3F</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>Input capture 3 prescaler</description>
+          <name>IC3PSC</name>
+        </field>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>
+                                Capture/compare 3
+                                selection
+                            </description>
+          <name>CC3S</name>
+        </field>
+      </fields>
+      <name>CCMR2_Input</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x20</addressOffset>
+      <description>
+                        capture/compare enable
+                        register
+                    </description>
+      <displayName>CCER</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 1 output
+                                enable
+                            </description>
+          <name>CC1E</name>
+        </field>
+        <field>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 1 output
+                                Polarity
+                            </description>
+          <name>CC1P</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 1 complementary output
+                                enable
+                            </description>
+          <name>CC1NE</name>
+        </field>
+        <field>
+          <bitOffset>3</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 1 output
+                                Polarity
+                            </description>
+          <name>CC1NP</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 2 output
+                                enable
+                            </description>
+          <name>CC2E</name>
+        </field>
+        <field>
+          <bitOffset>5</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 2 output
+                                Polarity
+                            </description>
+          <name>CC2P</name>
+        </field>
+        <field>
+          <bitOffset>6</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 2 complementary output
+                                enable
+                            </description>
+          <name>CC2NE</name>
+        </field>
+        <field>
+          <bitOffset>7</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 2 output
+                                Polarity
+                            </description>
+          <name>CC2NP</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 3 output
+                                enable
+                            </description>
+          <name>CC3E</name>
+        </field>
+        <field>
+          <bitOffset>9</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 3 output
+                                Polarity
+                            </description>
+          <name>CC3P</name>
+        </field>
+        <field>
+          <bitOffset>10</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 3 complementary output
+                                enable
+                            </description>
+          <name>CC3NE</name>
+        </field>
+        <field>
+          <bitOffset>11</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 3 output
+                                Polarity
+                            </description>
+          <name>CC3NP</name>
+        </field>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 4 output
+                                enable
+                            </description>
+          <name>CC4E</name>
+        </field>
+        <field>
+          <bitOffset>13</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 3 output
+                                Polarity
+                            </description>
+          <name>CC4P</name>
+        </field>
+        <field>
+          <bitOffset>15</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 4 output
+                                Polarity
+                            </description>
+          <name>CC4NP</name>
+        </field>
+        <field>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 5 output
+                                enable
+                            </description>
+          <name>CC5E</name>
+        </field>
+        <field>
+          <bitOffset>17</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 5 output
+                                Polarity
+                            </description>
+          <name>CC5P</name>
+        </field>
+        <field>
+          <bitOffset>20</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 6 output
+                                enable
+                            </description>
+          <name>CC6E</name>
+        </field>
+        <field>
+          <bitOffset>21</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Capture/Compare 6 output
+                                Polarity
+                            </description>
+          <name>CC6P</name>
+        </field>
+      </fields>
+      <name>CCER</name>
+      <resetValue>0x0000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <addressOffset>0x24</addressOffset>
+      <description>counter</description>
+      <displayName>CNT</displayName>
+      <fields>
+        <field>
+          <access>read-write</access>
+          <bitOffset>0</bitOffset>
+          <bitWidth>16</bitWidth>
+          <description>counter value</description>
+          <name>CNT</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>31</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>UIF copy</description>
+          <name>UIFCPY</name>
+        </field>
+      </fields>
+      <name>CNT</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x28</addressOffset>
+      <description>prescaler</description>
+      <displayName>PSC</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>16</bitWidth>
+          <description>Prescaler value</description>
+          <name>PSC</name>
+        </field>
+      </fields>
+      <name>PSC</name>
+      <resetValue>0x0000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x2C</addressOffset>
+      <description>auto-reload register</description>
+      <displayName>ARR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>16</bitWidth>
+          <description>Auto-reload value</description>
+          <name>ARR</name>
+        </field>
+      </fields>
+      <name>ARR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x30</addressOffset>
+      <description>repetition counter register</description>
+      <displayName>RCR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>16</bitWidth>
+          <description>Repetition counter value</description>
+          <name>REP</name>
+        </field>
+      </fields>
+      <name>RCR</name>
+      <resetValue>0x0000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x34</addressOffset>
+      <description>capture/compare register 1</description>
+      <displayName>CCR1</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>16</bitWidth>
+          <description>Capture/Compare 1 value</description>
+          <name>CCR1</name>
+        </field>
+      </fields>
+      <name>CCR1</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x38</addressOffset>
+      <description>capture/compare register 2</description>
+      <displayName>CCR2</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>16</bitWidth>
+          <description>Capture/Compare 2 value</description>
+          <name>CCR2</name>
+        </field>
+      </fields>
+      <name>CCR2</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x3C</addressOffset>
+      <description>capture/compare register 3</description>
+      <displayName>CCR3</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>16</bitWidth>
+          <description>Capture/Compare 3 value</description>
+          <name>CCR3</name>
+        </field>
+      </fields>
+      <name>CCR3</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x40</addressOffset>
+      <description>capture/compare register 4</description>
+      <displayName>CCR4</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>16</bitWidth>
+          <description>Capture/Compare 3 value</description>
+          <name>CCR4</name>
+        </field>
+      </fields>
+      <name>CCR4</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x44</addressOffset>
+      <description>break and dead-time register</description>
+      <displayName>BDTR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>8</bitWidth>
+          <description>Dead-time generator setup</description>
+          <name>DTG</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>Lock configuration</description>
+          <name>LOCK</name>
+        </field>
+        <field>
+          <bitOffset>10</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Off-state selection for Idle
+                                mode
+                            </description>
+          <name>OSSI</name>
+        </field>
+        <field>
+          <bitOffset>11</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Off-state selection for Run
+                                mode
+                            </description>
+          <name>OSSR</name>
+        </field>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Break enable</description>
+          <name>BKE</name>
+        </field>
+        <field>
+          <bitOffset>13</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Break polarity</description>
+          <name>BKP</name>
+        </field>
+        <field>
+          <bitOffset>14</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Automatic output enable</description>
+          <name>AOE</name>
+        </field>
+        <field>
+          <bitOffset>15</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Main output enable</description>
+          <name>MOE</name>
+        </field>
+        <field>
+          <bitOffset>16</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>Break filter</description>
+          <name>BKF</name>
+        </field>
+        <field>
+          <bitOffset>20</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>Break 2 filter</description>
+          <name>BK2F</name>
+        </field>
+        <field>
+          <bitOffset>24</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Break 2 enable</description>
+          <name>BK2E</name>
+        </field>
+        <field>
+          <bitOffset>25</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Break 2 polarity</description>
+          <name>BK2P</name>
+        </field>
+      </fields>
+      <name>BDTR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x48</addressOffset>
+      <description>DMA control register</description>
+      <displayName>DCR</displayName>
+      <fields>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>5</bitWidth>
+          <description>DMA burst length</description>
+          <name>DBL</name>
+        </field>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>5</bitWidth>
+          <description>DMA base address</description>
+          <name>DBA</name>
+        </field>
+      </fields>
+      <name>DCR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x4C</addressOffset>
+      <description>DMA address for full transfer</description>
+      <displayName>DMAR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>16</bitWidth>
+          <description>
+                                DMA register for burst
+                                accesses
+                            </description>
+          <name>DMAB</name>
+        </field>
+      </fields>
+      <name>DMAR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x54</addressOffset>
+      <description>
+                        capture/compare mode register 3 (output
+                        mode)
+                    </description>
+      <displayName>CCMR3_Output</displayName>
+      <fields>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output compare 5 fast
+                                enable
+                            </description>
+          <name>OC5FE</name>
+        </field>
+        <field>
+          <bitOffset>3</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output compare 5 preload
+                                enable
+                            </description>
+          <name>OC5PE</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>3</bitWidth>
+          <description>Output compare 5 mode</description>
+          <name>OC5M</name>
+        </field>
+        <field>
+          <bitOffset>7</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output compare 5 clear
+                                enable
+                            </description>
+          <name>OC5CE</name>
+        </field>
+        <field>
+          <bitOffset>10</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output compare 6 fast
+                                enable
+                            </description>
+          <name>OC6FE</name>
+        </field>
+        <field>
+          <bitOffset>11</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output compare 6 preload
+                                enable
+                            </description>
+          <name>OC6PE</name>
+        </field>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>3</bitWidth>
+          <description>Output compare 6 mode</description>
+          <name>OC6M</name>
+        </field>
+        <field>
+          <bitOffset>15</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Output compare 6 clear
+                                enable
+                            </description>
+          <name>OC6CE</name>
+        </field>
+        <field>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Outout Compare 5 mode bit
+                                3
+                            </description>
+          <name>OC5M_3</name>
+        </field>
+        <field>
+          <bitOffset>24</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Outout Compare 6 mode bit
+                                3
+                            </description>
+          <name>OC6M_3</name>
+        </field>
+      </fields>
+      <name>CCMR3_Output</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x58</addressOffset>
+      <description>capture/compare register 5</description>
+      <displayName>CCR5</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>16</bitWidth>
+          <description>Capture/Compare 5 value</description>
+          <name>CCR5</name>
+        </field>
+        <field>
+          <bitOffset>29</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Group Channel 5 and Channel
+                                1
+                            </description>
+          <name>GC5C1</name>
+        </field>
+        <field>
+          <bitOffset>30</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Group Channel 5 and Channel
+                                2
+                            </description>
+          <name>GC5C2</name>
+        </field>
+        <field>
+          <bitOffset>31</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Group Channel 5 and Channel
+                                3
+                            </description>
+          <name>GC5C3</name>
+        </field>
+      </fields>
+      <name>CCR5</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x5C</addressOffset>
+      <description>capture/compare register 6</description>
+      <displayName>CCR6</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>16</bitWidth>
+          <description>Capture/Compare 6 value</description>
+          <name>CCR6</name>
+        </field>
+      </fields>
+      <name>CCR6</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x60</addressOffset>
+      <description>option registers</description>
+      <displayName>OR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>
+                                TIM1_ETR_ADC1 remapping
+                                capability
+                            </description>
+          <name>TIM1_ETR_ADC1_RMP</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>
+                                TIM1_ETR_ADC4 remapping
+                                capability
+                            </description>
+          <name>TIM1_ETR_ADC4_RMP</name>
+        </field>
+      </fields>
+      <name>OR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+  </registers>
+</peripheral>
+*/

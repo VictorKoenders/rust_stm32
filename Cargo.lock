@@ -2,72 +2,10 @@
 name = "rust_stm32"
 version = "0.1.0"
 dependencies = [
- "f3 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "peripheral 0.1.0",
-]
-
-[[package]]
-name = "compiler-builtins-snapshot"
-version = "0.0.20161008+c56faf22abb39724008148d58f12bcd43b6d236b"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-dependencies = [
- "rlibc 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
-name = "cortex-m"
-version = "0.1.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-dependencies = [
- "volatile-register 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
-name = "f3"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-dependencies = [
- "compiler-builtins-snapshot 0.0.20161008+c56faf22abb39724008148d58f12bcd43b6d236b (registry+https://github.com/rust-lang/crates.io-index)",
- "cortex-m 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
- "ref_slice 1.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "stm32f30x-memory-map 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "peripheral"
 version = "0.1.0"
-dependencies = [
- "f3 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
-]
 
-[[package]]
-name = "ref_slice"
-version = "1.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-
-[[package]]
-name = "rlibc"
-version = "1.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-
-[[package]]
-name = "stm32f30x-memory-map"
-version = "0.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-dependencies = [
- "volatile-register 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
-name = "volatile-register"
-version = "0.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-
-[metadata]
-"checksum compiler-builtins-snapshot 0.0.20161008+c56faf22abb39724008148d58f12bcd43b6d236b (registry+https://github.com/rust-lang/crates.io-index)" = "ca81a7af7dcd70e798e34f9928e22c35204059493ffe3cda46a2f0c797209cf6"
-"checksum cortex-m 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)" = "f636846f87391b548e55be42a3f787c76348288f8716486a7e184004b745c62d"
-"checksum f3 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "222bb352cf5c98c7e15848332849c7cc555c347a7177fde285d773c1bc3aefc8"
-"checksum ref_slice 1.1.1 (registry+https://github.com/rust-lang/crates.io-index)" = "825740057197b7d43025e7faf6477eaabc03434e153233da02d1f44602f71527"
-"checksum rlibc 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)" = "fc874b127765f014d792f16763a81245ab80500e2ad921ed4ee9e82481ee08fe"
-"checksum stm32f30x-memory-map 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)" = "103962f33a3b2d9e5701fd55cd061dcb488c0c25f9f6c73f7f509f33352edde9"
-"checksum volatile-register 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)" = "a470889aa8f2d3ad893bd43cd90c824e63e8ac0ee5fe64c5d81a932d184fd549"

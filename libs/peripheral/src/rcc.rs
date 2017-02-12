@@ -1,2125 +1,2702 @@
-/// MOD RCC
-/// Reset and clock control
-const BASE_ADDRESS: u32 = 0x40021000;
 /// Clock control register
-/// Size: 0x20 bits
 pub mod cr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x0;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const HSION_BIT_OFFSET: u8 = 0;
-	const HSION_BIT_WIDTH: u8 = 1;
-	/// Internal High Speed clock enable (Width: 1, Offset: 0)
-	pub fn get_hsion() -> u8 { ::read(REGISTER_ADDRESS, HSION_BIT_OFFSET, HSION_BIT_WIDTH) as u8 }
-	/// Internal High Speed clock enable (Width: 1, Offset: 0)
-	pub fn set_hsion(value: u8) { ::write(REGISTER_ADDRESS, HSION_BIT_OFFSET, HSION_BIT_WIDTH, value as u32); }
-
-	const HSIRDY_BIT_OFFSET: u8 = 1;
-	const HSIRDY_BIT_WIDTH: u8 = 1;
-	/// Internal High Speed clock ready flag (Width: 1, Offset: 1)
-	pub fn get_hsirdy() -> u8 { ::read(REGISTER_ADDRESS, HSIRDY_BIT_OFFSET, HSIRDY_BIT_WIDTH) as u8 }
-
-	const HSITRIM_BIT_OFFSET: u8 = 3;
-	const HSITRIM_BIT_WIDTH: u8 = 5;
-	/// Internal High Speed clock trimming (Width: 5, Offset: 3)
-	pub fn get_hsitrim() -> u8 { ::read(REGISTER_ADDRESS, HSITRIM_BIT_OFFSET, HSITRIM_BIT_WIDTH) as u8 }
-	/// Internal High Speed clock trimming (Width: 5, Offset: 3)
-	pub fn set_hsitrim(value: u8) { ::write(REGISTER_ADDRESS, HSITRIM_BIT_OFFSET, HSITRIM_BIT_WIDTH, value as u32); }
-
-	const HSICAL_BIT_OFFSET: u8 = 8;
-	const HSICAL_BIT_WIDTH: u8 = 8;
-	/// Internal High Speed clock Calibration (Width: 8, Offset: 8)
-	pub fn get_hsical() -> u8 { ::read(REGISTER_ADDRESS, HSICAL_BIT_OFFSET, HSICAL_BIT_WIDTH) as u8 }
-
-	const HSEON_BIT_OFFSET: u8 = 16;
-	const HSEON_BIT_WIDTH: u8 = 1;
-	/// External High Speed clock enable (Width: 1, Offset: 16)
-	pub fn get_hseon() -> u8 { ::read(REGISTER_ADDRESS, HSEON_BIT_OFFSET, HSEON_BIT_WIDTH) as u8 }
-	/// External High Speed clock enable (Width: 1, Offset: 16)
-	pub fn set_hseon(value: u8) { ::write(REGISTER_ADDRESS, HSEON_BIT_OFFSET, HSEON_BIT_WIDTH, value as u32); }
-
-	const HSERDY_BIT_OFFSET: u8 = 17;
-	const HSERDY_BIT_WIDTH: u8 = 1;
-	/// External High Speed clock ready flag (Width: 1, Offset: 17)
-	pub fn get_hserdy() -> u8 { ::read(REGISTER_ADDRESS, HSERDY_BIT_OFFSET, HSERDY_BIT_WIDTH) as u8 }
-
-	const HSEBYP_BIT_OFFSET: u8 = 18;
-	const HSEBYP_BIT_WIDTH: u8 = 1;
-	/// External High Speed clock Bypass (Width: 1, Offset: 18)
-	pub fn get_hsebyp() -> u8 { ::read(REGISTER_ADDRESS, HSEBYP_BIT_OFFSET, HSEBYP_BIT_WIDTH) as u8 }
-	/// External High Speed clock Bypass (Width: 1, Offset: 18)
-	pub fn set_hsebyp(value: u8) { ::write(REGISTER_ADDRESS, HSEBYP_BIT_OFFSET, HSEBYP_BIT_WIDTH, value as u32); }
-
-	const CSSON_BIT_OFFSET: u8 = 19;
-	const CSSON_BIT_WIDTH: u8 = 1;
-	/// Clock Security System enable (Width: 1, Offset: 19)
-	pub fn get_csson() -> u8 { ::read(REGISTER_ADDRESS, CSSON_BIT_OFFSET, CSSON_BIT_WIDTH) as u8 }
-	/// Clock Security System enable (Width: 1, Offset: 19)
-	pub fn set_csson(value: u8) { ::write(REGISTER_ADDRESS, CSSON_BIT_OFFSET, CSSON_BIT_WIDTH, value as u32); }
-
-	const PLLON_BIT_OFFSET: u8 = 24;
-	const PLLON_BIT_WIDTH: u8 = 1;
-	/// PLL enable (Width: 1, Offset: 24)
-	pub fn get_pllon() -> u8 { ::read(REGISTER_ADDRESS, PLLON_BIT_OFFSET, PLLON_BIT_WIDTH) as u8 }
-	/// PLL enable (Width: 1, Offset: 24)
-	pub fn set_pllon(value: u8) { ::write(REGISTER_ADDRESS, PLLON_BIT_OFFSET, PLLON_BIT_WIDTH, value as u32); }
-
-	const PLLRDY_BIT_OFFSET: u8 = 25;
-	const PLLRDY_BIT_WIDTH: u8 = 1;
-	/// PLL clock ready flag (Width: 1, Offset: 25)
-	pub fn get_pllrdy() -> u8 { ::read(REGISTER_ADDRESS, PLLRDY_BIT_OFFSET, PLLRDY_BIT_WIDTH) as u8 }
+    /// Internal High Speed clock enable
+    /// Access: read-write, Width: 1, Offset: 0
+    /// Set Internal High Speed clock enable
+    pub fn set_hsion(value: bool) {
+        let value = value as u32;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x0u32) as *mut u32, value) };
+    }
+    /// Get Internal High Speed clock enable
+    pub fn get_hsion() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x0u32) as *mut u32) };
+        let value = value & (0b1 << 0);
+        value > 0
+    }
+    /// Internal High Speed clock ready flag
+    /// Access: read-only, Width: 1, Offset: 1
+    /// Get Internal High Speed clock ready flag
+    pub fn hsirdy() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x0u32) as *mut u32) };
+        let value = value & (0b1 << 1);
+        value > 0
+    }
+    /// Internal High Speed clock trimming
+    /// Access: read-write, Width: 5, Offset: 3
+    /// Set Internal High Speed clock trimming
+    pub fn set_hsitrim(value: u8) {
+        debug_assert!(value <= 0b11111, "set_hsitrim out of range");
+        let value = value as u32;
+        let value = value << 3;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x0u32) as *mut u32, value) };
+    }
+    /// Get Internal High Speed clock trimming
+    pub fn get_hsitrim() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x0u32) as *mut u32) };
+        let value = value & (0b11111 << 3);
+        value as u8
+    }
+    /// Internal High Speed clock Calibration
+    /// Access: read-only, Width: 8, Offset: 8
+    /// Get Internal High Speed clock Calibration
+    pub fn hsical() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x0u32) as *mut u32) };
+        let value = value & (0b11111111 << 8);
+        value as u8
+    }
+    /// External High Speed clock enable
+    /// Access: read-write, Width: 1, Offset: 16
+    /// Set External High Speed clock enable
+    pub fn set_hseon(value: bool) {
+        let value = value as u32;
+        let value = value << 16;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x0u32) as *mut u32, value) };
+    }
+    /// Get External High Speed clock enable
+    pub fn get_hseon() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x0u32) as *mut u32) };
+        let value = value & (0b1 << 16);
+        value > 0
+    }
+    /// External High Speed clock ready flag
+    /// Access: read-only, Width: 1, Offset: 17
+    /// Get External High Speed clock ready flag
+    pub fn hserdy() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x0u32) as *mut u32) };
+        let value = value & (0b1 << 17);
+        value > 0
+    }
+    /// External High Speed clock Bypass
+    /// Access: read-write, Width: 1, Offset: 18
+    /// Set External High Speed clock Bypass
+    pub fn set_hsebyp(value: bool) {
+        let value = value as u32;
+        let value = value << 18;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x0u32) as *mut u32, value) };
+    }
+    /// Get External High Speed clock Bypass
+    pub fn get_hsebyp() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x0u32) as *mut u32) };
+        let value = value & (0b1 << 18);
+        value > 0
+    }
+    /// Clock Security System enable
+    /// Access: read-write, Width: 1, Offset: 19
+    /// Set Clock Security System enable
+    pub fn set_csson(value: bool) {
+        let value = value as u32;
+        let value = value << 19;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x0u32) as *mut u32, value) };
+    }
+    /// Get Clock Security System enable
+    pub fn get_csson() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x0u32) as *mut u32) };
+        let value = value & (0b1 << 19);
+        value > 0
+    }
+    /// PLL enable
+    /// Access: read-write, Width: 1, Offset: 24
+    /// Set PLL enable
+    pub fn set_pllon(value: bool) {
+        let value = value as u32;
+        let value = value << 24;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x0u32) as *mut u32, value) };
+    }
+    /// Get PLL enable
+    pub fn get_pllon() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x0u32) as *mut u32) };
+        let value = value & (0b1 << 24);
+        value > 0
+    }
+    /// PLL clock ready flag
+    /// Access: read-only, Width: 1, Offset: 25
+    /// Get PLL clock ready flag
+    pub fn pllrdy() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x0u32) as *mut u32) };
+        let value = value & (0b1 << 25);
+        value > 0
+    }
 }
 /// Clock configuration register (RCC_CFGR)
-/// Size: 0x20 bits
 pub mod cfgr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x4;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const SW_BIT_OFFSET: u8 = 0;
-	const SW_BIT_WIDTH: u8 = 2;
-	/// System clock Switch (Width: 2, Offset: 0)
-	pub fn get_sw() -> u8 { ::read(REGISTER_ADDRESS, SW_BIT_OFFSET, SW_BIT_WIDTH) as u8 }
-	/// System clock Switch (Width: 2, Offset: 0)
-	pub fn set_sw(value: u8) { ::write(REGISTER_ADDRESS, SW_BIT_OFFSET, SW_BIT_WIDTH, value as u32); }
-
-	const SWS_BIT_OFFSET: u8 = 2;
-	const SWS_BIT_WIDTH: u8 = 2;
-	/// System Clock Switch Status (Width: 2, Offset: 2)
-	pub fn get_sws() -> u8 { ::read(REGISTER_ADDRESS, SWS_BIT_OFFSET, SWS_BIT_WIDTH) as u8 }
-
-	const HPRE_BIT_OFFSET: u8 = 4;
-	const HPRE_BIT_WIDTH: u8 = 4;
-	/// AHB prescaler (Width: 4, Offset: 4)
-	pub fn get_hpre() -> u8 { ::read(REGISTER_ADDRESS, HPRE_BIT_OFFSET, HPRE_BIT_WIDTH) as u8 }
-	/// AHB prescaler (Width: 4, Offset: 4)
-	pub fn set_hpre(value: u8) { ::write(REGISTER_ADDRESS, HPRE_BIT_OFFSET, HPRE_BIT_WIDTH, value as u32); }
-
-	const PPRE1_BIT_OFFSET: u8 = 8;
-	const PPRE1_BIT_WIDTH: u8 = 3;
-	/// APB Low speed prescaler (APB1) (Width: 3, Offset: 8)
-	pub fn get_ppre1() -> u8 { ::read(REGISTER_ADDRESS, PPRE1_BIT_OFFSET, PPRE1_BIT_WIDTH) as u8 }
-	/// APB Low speed prescaler (APB1) (Width: 3, Offset: 8)
-	pub fn set_ppre1(value: u8) { ::write(REGISTER_ADDRESS, PPRE1_BIT_OFFSET, PPRE1_BIT_WIDTH, value as u32); }
-
-	const PPRE2_BIT_OFFSET: u8 = 11;
-	const PPRE2_BIT_WIDTH: u8 = 3;
-	/// APB high speed prescaler (APB2) (Width: 3, Offset: 11)
-	pub fn get_ppre2() -> u8 { ::read(REGISTER_ADDRESS, PPRE2_BIT_OFFSET, PPRE2_BIT_WIDTH) as u8 }
-	/// APB high speed prescaler (APB2) (Width: 3, Offset: 11)
-	pub fn set_ppre2(value: u8) { ::write(REGISTER_ADDRESS, PPRE2_BIT_OFFSET, PPRE2_BIT_WIDTH, value as u32); }
-
-	const PLLSRC_BIT_OFFSET: u8 = 16;
-	const PLLSRC_BIT_WIDTH: u8 = 1;
-	/// PLL entry clock source (Width: 1, Offset: 16)
-	pub fn get_pllsrc() -> u8 { ::read(REGISTER_ADDRESS, PLLSRC_BIT_OFFSET, PLLSRC_BIT_WIDTH) as u8 }
-	/// PLL entry clock source (Width: 1, Offset: 16)
-	pub fn set_pllsrc(value: u8) { ::write(REGISTER_ADDRESS, PLLSRC_BIT_OFFSET, PLLSRC_BIT_WIDTH, value as u32); }
-
-	const PLLXTPRE_BIT_OFFSET: u8 = 17;
-	const PLLXTPRE_BIT_WIDTH: u8 = 1;
-	/// HSE divider for PLL entry (Width: 1, Offset: 17)
-	pub fn get_pllxtpre() -> u8 { ::read(REGISTER_ADDRESS, PLLXTPRE_BIT_OFFSET, PLLXTPRE_BIT_WIDTH) as u8 }
-	/// HSE divider for PLL entry (Width: 1, Offset: 17)
-	pub fn set_pllxtpre(value: u8) { ::write(REGISTER_ADDRESS, PLLXTPRE_BIT_OFFSET, PLLXTPRE_BIT_WIDTH, value as u32); }
-
-	const PLLMUL_BIT_OFFSET: u8 = 18;
-	const PLLMUL_BIT_WIDTH: u8 = 4;
-	/// PLL Multiplication Factor (Width: 4, Offset: 18)
-	pub fn get_pllmul() -> u8 { ::read(REGISTER_ADDRESS, PLLMUL_BIT_OFFSET, PLLMUL_BIT_WIDTH) as u8 }
-	/// PLL Multiplication Factor (Width: 4, Offset: 18)
-	pub fn set_pllmul(value: u8) { ::write(REGISTER_ADDRESS, PLLMUL_BIT_OFFSET, PLLMUL_BIT_WIDTH, value as u32); }
-
-	const USBPRES_BIT_OFFSET: u8 = 22;
-	const USBPRES_BIT_WIDTH: u8 = 1;
-	/// USB prescaler (Width: 1, Offset: 22)
-	pub fn get_usbpres() -> u8 { ::read(REGISTER_ADDRESS, USBPRES_BIT_OFFSET, USBPRES_BIT_WIDTH) as u8 }
-	/// USB prescaler (Width: 1, Offset: 22)
-	pub fn set_usbpres(value: u8) { ::write(REGISTER_ADDRESS, USBPRES_BIT_OFFSET, USBPRES_BIT_WIDTH, value as u32); }
-
-	const MCO_BIT_OFFSET: u8 = 24;
-	const MCO_BIT_WIDTH: u8 = 3;
-	/// Microcontroller clock output (Width: 3, Offset: 24)
-	pub fn get_mco() -> u8 { ::read(REGISTER_ADDRESS, MCO_BIT_OFFSET, MCO_BIT_WIDTH) as u8 }
-	/// Microcontroller clock output (Width: 3, Offset: 24)
-	pub fn set_mco(value: u8) { ::write(REGISTER_ADDRESS, MCO_BIT_OFFSET, MCO_BIT_WIDTH, value as u32); }
-
-	const MCOF_BIT_OFFSET: u8 = 28;
-	const MCOF_BIT_WIDTH: u8 = 1;
-	/// Microcontroller Clock Output Flag (Width: 1, Offset: 28)
-	pub fn get_mcof() -> u8 { ::read(REGISTER_ADDRESS, MCOF_BIT_OFFSET, MCOF_BIT_WIDTH) as u8 }
-
-	const I2SSRC_BIT_OFFSET: u8 = 23;
-	const I2SSRC_BIT_WIDTH: u8 = 1;
-	/// I2S external clock source selection (Width: 1, Offset: 23)
-	pub fn get_i2ssrc() -> u8 { ::read(REGISTER_ADDRESS, I2SSRC_BIT_OFFSET, I2SSRC_BIT_WIDTH) as u8 }
-	/// I2S external clock source selection (Width: 1, Offset: 23)
-	pub fn set_i2ssrc(value: u8) { ::write(REGISTER_ADDRESS, I2SSRC_BIT_OFFSET, I2SSRC_BIT_WIDTH, value as u32); }
+    /// System clock Switch
+    /// Access: read-write, Width: 2, Offset: 0
+    /// Set System clock Switch
+    pub fn set_sw(value: u8) {
+        debug_assert!(value <= 0b11, "set_sw out of range");
+        let value = value as u32;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x4u32) as *mut u32, value) };
+    }
+    /// Get System clock Switch
+    pub fn get_sw() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x4u32) as *mut u32) };
+        let value = value & (0b11 << 0);
+        value as u8
+    }
+    /// System Clock Switch Status
+    /// Access: read-only, Width: 2, Offset: 2
+    /// Get System Clock Switch Status
+    pub fn sws() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x4u32) as *mut u32) };
+        let value = value & (0b11 << 2);
+        value as u8
+    }
+    /// AHB prescaler
+    /// Access: read-write, Width: 4, Offset: 4
+    /// Set AHB prescaler
+    pub fn set_hpre(value: u8) {
+        debug_assert!(value <= 0b1111, "set_hpre out of range");
+        let value = value as u32;
+        let value = value << 4;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x4u32) as *mut u32, value) };
+    }
+    /// Get AHB prescaler
+    pub fn get_hpre() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x4u32) as *mut u32) };
+        let value = value & (0b1111 << 4);
+        value as u8
+    }
+    /// APB Low speed prescaler (APB1)
+    /// Access: read-write, Width: 3, Offset: 8
+    /// Set APB Low speed prescaler (APB1)
+    pub fn set_ppre1(value: u8) {
+        debug_assert!(value <= 0b111, "set_ppre1 out of range");
+        let value = value as u32;
+        let value = value << 8;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x4u32) as *mut u32, value) };
+    }
+    /// Get APB Low speed prescaler (APB1)
+    pub fn get_ppre1() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x4u32) as *mut u32) };
+        let value = value & (0b111 << 8);
+        value as u8
+    }
+    /// APB high speed prescaler (APB2)
+    /// Access: read-write, Width: 3, Offset: 11
+    /// Set APB high speed prescaler (APB2)
+    pub fn set_ppre2(value: u8) {
+        debug_assert!(value <= 0b111, "set_ppre2 out of range");
+        let value = value as u32;
+        let value = value << 11;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x4u32) as *mut u32, value) };
+    }
+    /// Get APB high speed prescaler (APB2)
+    pub fn get_ppre2() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x4u32) as *mut u32) };
+        let value = value & (0b111 << 11);
+        value as u8
+    }
+    /// PLL entry clock source
+    /// Access: read-write, Width: 1, Offset: 16
+    /// Set PLL entry clock source
+    pub fn set_pllsrc(value: bool) {
+        let value = value as u32;
+        let value = value << 16;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x4u32) as *mut u32, value) };
+    }
+    /// Get PLL entry clock source
+    pub fn get_pllsrc() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x4u32) as *mut u32) };
+        let value = value & (0b1 << 16);
+        value > 0
+    }
+    /// HSE divider for PLL entry
+    /// Access: read-write, Width: 1, Offset: 17
+    /// Set HSE divider for PLL entry
+    pub fn set_pllxtpre(value: bool) {
+        let value = value as u32;
+        let value = value << 17;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x4u32) as *mut u32, value) };
+    }
+    /// Get HSE divider for PLL entry
+    pub fn get_pllxtpre() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x4u32) as *mut u32) };
+        let value = value & (0b1 << 17);
+        value > 0
+    }
+    /// PLL Multiplication Factor
+    /// Access: read-write, Width: 4, Offset: 18
+    /// Set PLL Multiplication Factor
+    pub fn set_pllmul(value: u8) {
+        debug_assert!(value <= 0b1111, "set_pllmul out of range");
+        let value = value as u32;
+        let value = value << 18;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x4u32) as *mut u32, value) };
+    }
+    /// Get PLL Multiplication Factor
+    pub fn get_pllmul() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x4u32) as *mut u32) };
+        let value = value & (0b1111 << 18);
+        value as u8
+    }
+    /// USB prescaler
+    /// Access: read-write, Width: 1, Offset: 22
+    /// Set USB prescaler
+    pub fn set_usbpres(value: bool) {
+        let value = value as u32;
+        let value = value << 22;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x4u32) as *mut u32, value) };
+    }
+    /// Get USB prescaler
+    pub fn get_usbpres() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x4u32) as *mut u32) };
+        let value = value & (0b1 << 22);
+        value > 0
+    }
+    /// Microcontroller clock output
+    /// Access: read-write, Width: 3, Offset: 24
+    /// Set Microcontroller clock output
+    pub fn set_mco(value: u8) {
+        debug_assert!(value <= 0b111, "set_mco out of range");
+        let value = value as u32;
+        let value = value << 24;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x4u32) as *mut u32, value) };
+    }
+    /// Get Microcontroller clock output
+    pub fn get_mco() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x4u32) as *mut u32) };
+        let value = value & (0b111 << 24);
+        value as u8
+    }
+    /// Microcontroller Clock Output Flag
+    /// Access: read-only, Width: 1, Offset: 28
+    /// Get Microcontroller Clock Output Flag
+    pub fn mcof() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x4u32) as *mut u32) };
+        let value = value & (0b1 << 28);
+        value > 0
+    }
+    /// I2S external clock source selection
+    /// Access: read-write, Width: 1, Offset: 23
+    /// Set I2S external clock source selection
+    pub fn set_i2ssrc(value: bool) {
+        let value = value as u32;
+        let value = value << 23;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x4u32) as *mut u32, value) };
+    }
+    /// Get I2S external clock source selection
+    pub fn get_i2ssrc() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x4u32) as *mut u32) };
+        let value = value & (0b1 << 23);
+        value > 0
+    }
 }
 /// Clock interrupt register (RCC_CIR)
-/// Size: 0x20 bits
 pub mod cir {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x8;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const LSIRDYF_BIT_OFFSET: u8 = 0;
-	const LSIRDYF_BIT_WIDTH: u8 = 1;
-	/// LSI Ready Interrupt flag (Width: 1, Offset: 0)
-	pub fn get_lsirdyf() -> u8 { ::read(REGISTER_ADDRESS, LSIRDYF_BIT_OFFSET, LSIRDYF_BIT_WIDTH) as u8 }
-
-	const LSERDYF_BIT_OFFSET: u8 = 1;
-	const LSERDYF_BIT_WIDTH: u8 = 1;
-	/// LSE Ready Interrupt flag (Width: 1, Offset: 1)
-	pub fn get_lserdyf() -> u8 { ::read(REGISTER_ADDRESS, LSERDYF_BIT_OFFSET, LSERDYF_BIT_WIDTH) as u8 }
-
-	const HSIRDYF_BIT_OFFSET: u8 = 2;
-	const HSIRDYF_BIT_WIDTH: u8 = 1;
-	/// HSI Ready Interrupt flag (Width: 1, Offset: 2)
-	pub fn get_hsirdyf() -> u8 { ::read(REGISTER_ADDRESS, HSIRDYF_BIT_OFFSET, HSIRDYF_BIT_WIDTH) as u8 }
-
-	const HSERDYF_BIT_OFFSET: u8 = 3;
-	const HSERDYF_BIT_WIDTH: u8 = 1;
-	/// HSE Ready Interrupt flag (Width: 1, Offset: 3)
-	pub fn get_hserdyf() -> u8 { ::read(REGISTER_ADDRESS, HSERDYF_BIT_OFFSET, HSERDYF_BIT_WIDTH) as u8 }
-
-	const PLLRDYF_BIT_OFFSET: u8 = 4;
-	const PLLRDYF_BIT_WIDTH: u8 = 1;
-	/// PLL Ready Interrupt flag (Width: 1, Offset: 4)
-	pub fn get_pllrdyf() -> u8 { ::read(REGISTER_ADDRESS, PLLRDYF_BIT_OFFSET, PLLRDYF_BIT_WIDTH) as u8 }
-
-	const CSSF_BIT_OFFSET: u8 = 7;
-	const CSSF_BIT_WIDTH: u8 = 1;
-	/// Clock Security System Interrupt flag (Width: 1, Offset: 7)
-	pub fn get_cssf() -> u8 { ::read(REGISTER_ADDRESS, CSSF_BIT_OFFSET, CSSF_BIT_WIDTH) as u8 }
-
-	const LSIRDYIE_BIT_OFFSET: u8 = 8;
-	const LSIRDYIE_BIT_WIDTH: u8 = 1;
-	/// LSI Ready Interrupt Enable (Width: 1, Offset: 8)
-	pub fn get_lsirdyie() -> u8 { ::read(REGISTER_ADDRESS, LSIRDYIE_BIT_OFFSET, LSIRDYIE_BIT_WIDTH) as u8 }
-	/// LSI Ready Interrupt Enable (Width: 1, Offset: 8)
-	pub fn set_lsirdyie(value: u8) { ::write(REGISTER_ADDRESS, LSIRDYIE_BIT_OFFSET, LSIRDYIE_BIT_WIDTH, value as u32); }
-
-	const LSERDYIE_BIT_OFFSET: u8 = 9;
-	const LSERDYIE_BIT_WIDTH: u8 = 1;
-	/// LSE Ready Interrupt Enable (Width: 1, Offset: 9)
-	pub fn get_lserdyie() -> u8 { ::read(REGISTER_ADDRESS, LSERDYIE_BIT_OFFSET, LSERDYIE_BIT_WIDTH) as u8 }
-	/// LSE Ready Interrupt Enable (Width: 1, Offset: 9)
-	pub fn set_lserdyie(value: u8) { ::write(REGISTER_ADDRESS, LSERDYIE_BIT_OFFSET, LSERDYIE_BIT_WIDTH, value as u32); }
-
-	const HSIRDYIE_BIT_OFFSET: u8 = 10;
-	const HSIRDYIE_BIT_WIDTH: u8 = 1;
-	/// HSI Ready Interrupt Enable (Width: 1, Offset: 10)
-	pub fn get_hsirdyie() -> u8 { ::read(REGISTER_ADDRESS, HSIRDYIE_BIT_OFFSET, HSIRDYIE_BIT_WIDTH) as u8 }
-	/// HSI Ready Interrupt Enable (Width: 1, Offset: 10)
-	pub fn set_hsirdyie(value: u8) { ::write(REGISTER_ADDRESS, HSIRDYIE_BIT_OFFSET, HSIRDYIE_BIT_WIDTH, value as u32); }
-
-	const HSERDYIE_BIT_OFFSET: u8 = 11;
-	const HSERDYIE_BIT_WIDTH: u8 = 1;
-	/// HSE Ready Interrupt Enable (Width: 1, Offset: 11)
-	pub fn get_hserdyie() -> u8 { ::read(REGISTER_ADDRESS, HSERDYIE_BIT_OFFSET, HSERDYIE_BIT_WIDTH) as u8 }
-	/// HSE Ready Interrupt Enable (Width: 1, Offset: 11)
-	pub fn set_hserdyie(value: u8) { ::write(REGISTER_ADDRESS, HSERDYIE_BIT_OFFSET, HSERDYIE_BIT_WIDTH, value as u32); }
-
-	const PLLRDYIE_BIT_OFFSET: u8 = 12;
-	const PLLRDYIE_BIT_WIDTH: u8 = 1;
-	/// PLL Ready Interrupt Enable (Width: 1, Offset: 12)
-	pub fn get_pllrdyie() -> u8 { ::read(REGISTER_ADDRESS, PLLRDYIE_BIT_OFFSET, PLLRDYIE_BIT_WIDTH) as u8 }
-	/// PLL Ready Interrupt Enable (Width: 1, Offset: 12)
-	pub fn set_pllrdyie(value: u8) { ::write(REGISTER_ADDRESS, PLLRDYIE_BIT_OFFSET, PLLRDYIE_BIT_WIDTH, value as u32); }
-
-	const LSIRDYC_BIT_OFFSET: u8 = 16;
-	const LSIRDYC_BIT_WIDTH: u8 = 1;
-	/// LSI Ready Interrupt Clear (Width: 1, Offset: 16)
-	pub fn set_lsirdyc(value: u8) { ::write(REGISTER_ADDRESS, LSIRDYC_BIT_OFFSET, LSIRDYC_BIT_WIDTH, value as u32); }
-
-	const LSERDYC_BIT_OFFSET: u8 = 17;
-	const LSERDYC_BIT_WIDTH: u8 = 1;
-	/// LSE Ready Interrupt Clear (Width: 1, Offset: 17)
-	pub fn set_lserdyc(value: u8) { ::write(REGISTER_ADDRESS, LSERDYC_BIT_OFFSET, LSERDYC_BIT_WIDTH, value as u32); }
-
-	const HSIRDYC_BIT_OFFSET: u8 = 18;
-	const HSIRDYC_BIT_WIDTH: u8 = 1;
-	/// HSI Ready Interrupt Clear (Width: 1, Offset: 18)
-	pub fn set_hsirdyc(value: u8) { ::write(REGISTER_ADDRESS, HSIRDYC_BIT_OFFSET, HSIRDYC_BIT_WIDTH, value as u32); }
-
-	const HSERDYC_BIT_OFFSET: u8 = 19;
-	const HSERDYC_BIT_WIDTH: u8 = 1;
-	/// HSE Ready Interrupt Clear (Width: 1, Offset: 19)
-	pub fn set_hserdyc(value: u8) { ::write(REGISTER_ADDRESS, HSERDYC_BIT_OFFSET, HSERDYC_BIT_WIDTH, value as u32); }
-
-	const PLLRDYC_BIT_OFFSET: u8 = 20;
-	const PLLRDYC_BIT_WIDTH: u8 = 1;
-	/// PLL Ready Interrupt Clear (Width: 1, Offset: 20)
-	pub fn set_pllrdyc(value: u8) { ::write(REGISTER_ADDRESS, PLLRDYC_BIT_OFFSET, PLLRDYC_BIT_WIDTH, value as u32); }
-
-	const CSSC_BIT_OFFSET: u8 = 23;
-	const CSSC_BIT_WIDTH: u8 = 1;
-	/// Clock security system interrupt clear (Width: 1, Offset: 23)
-	pub fn set_cssc(value: u8) { ::write(REGISTER_ADDRESS, CSSC_BIT_OFFSET, CSSC_BIT_WIDTH, value as u32); }
+    /// LSI Ready Interrupt flag
+    /// Access: read-only, Width: 1, Offset: 0
+    /// Get LSI Ready Interrupt flag
+    pub fn lsirdyf() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x8u32) as *mut u32) };
+        let value = value & (0b1 << 0);
+        value > 0
+    }
+    /// LSE Ready Interrupt flag
+    /// Access: read-only, Width: 1, Offset: 1
+    /// Get LSE Ready Interrupt flag
+    pub fn lserdyf() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x8u32) as *mut u32) };
+        let value = value & (0b1 << 1);
+        value > 0
+    }
+    /// HSI Ready Interrupt flag
+    /// Access: read-only, Width: 1, Offset: 2
+    /// Get HSI Ready Interrupt flag
+    pub fn hsirdyf() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x8u32) as *mut u32) };
+        let value = value & (0b1 << 2);
+        value > 0
+    }
+    /// HSE Ready Interrupt flag
+    /// Access: read-only, Width: 1, Offset: 3
+    /// Get HSE Ready Interrupt flag
+    pub fn hserdyf() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x8u32) as *mut u32) };
+        let value = value & (0b1 << 3);
+        value > 0
+    }
+    /// PLL Ready Interrupt flag
+    /// Access: read-only, Width: 1, Offset: 4
+    /// Get PLL Ready Interrupt flag
+    pub fn pllrdyf() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x8u32) as *mut u32) };
+        let value = value & (0b1 << 4);
+        value > 0
+    }
+    /// Clock Security System Interrupt flag
+    /// Access: read-only, Width: 1, Offset: 7
+    /// Get Clock Security System Interrupt flag
+    pub fn cssf() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x8u32) as *mut u32) };
+        let value = value & (0b1 << 7);
+        value > 0
+    }
+    /// LSI Ready Interrupt Enable
+    /// Access: read-write, Width: 1, Offset: 8
+    /// Set LSI Ready Interrupt Enable
+    pub fn set_lsirdyie(value: bool) {
+        let value = value as u32;
+        let value = value << 8;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x8u32) as *mut u32, value) };
+    }
+    /// Get LSI Ready Interrupt Enable
+    pub fn get_lsirdyie() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x8u32) as *mut u32) };
+        let value = value & (0b1 << 8);
+        value > 0
+    }
+    /// LSE Ready Interrupt Enable
+    /// Access: read-write, Width: 1, Offset: 9
+    /// Set LSE Ready Interrupt Enable
+    pub fn set_lserdyie(value: bool) {
+        let value = value as u32;
+        let value = value << 9;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x8u32) as *mut u32, value) };
+    }
+    /// Get LSE Ready Interrupt Enable
+    pub fn get_lserdyie() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x8u32) as *mut u32) };
+        let value = value & (0b1 << 9);
+        value > 0
+    }
+    /// HSI Ready Interrupt Enable
+    /// Access: read-write, Width: 1, Offset: 10
+    /// Set HSI Ready Interrupt Enable
+    pub fn set_hsirdyie(value: bool) {
+        let value = value as u32;
+        let value = value << 10;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x8u32) as *mut u32, value) };
+    }
+    /// Get HSI Ready Interrupt Enable
+    pub fn get_hsirdyie() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x8u32) as *mut u32) };
+        let value = value & (0b1 << 10);
+        value > 0
+    }
+    /// HSE Ready Interrupt Enable
+    /// Access: read-write, Width: 1, Offset: 11
+    /// Set HSE Ready Interrupt Enable
+    pub fn set_hserdyie(value: bool) {
+        let value = value as u32;
+        let value = value << 11;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x8u32) as *mut u32, value) };
+    }
+    /// Get HSE Ready Interrupt Enable
+    pub fn get_hserdyie() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x8u32) as *mut u32) };
+        let value = value & (0b1 << 11);
+        value > 0
+    }
+    /// PLL Ready Interrupt Enable
+    /// Access: read-write, Width: 1, Offset: 12
+    /// Set PLL Ready Interrupt Enable
+    pub fn set_pllrdyie(value: bool) {
+        let value = value as u32;
+        let value = value << 12;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x8u32) as *mut u32, value) };
+    }
+    /// Get PLL Ready Interrupt Enable
+    pub fn get_pllrdyie() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x8u32) as *mut u32) };
+        let value = value & (0b1 << 12);
+        value > 0
+    }
+    /// LSI Ready Interrupt Clear
+    /// Access: write-only, Width: 1, Offset: 16
+    /// Set LSI Ready Interrupt Clear
+    pub fn lsirdyc(value: bool) {
+        let value = value as u32;
+        let value = value << 16;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x8u32) as *mut u32, value) };
+    }
+    /// LSE Ready Interrupt Clear
+    /// Access: write-only, Width: 1, Offset: 17
+    /// Set LSE Ready Interrupt Clear
+    pub fn lserdyc(value: bool) {
+        let value = value as u32;
+        let value = value << 17;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x8u32) as *mut u32, value) };
+    }
+    /// HSI Ready Interrupt Clear
+    /// Access: write-only, Width: 1, Offset: 18
+    /// Set HSI Ready Interrupt Clear
+    pub fn hsirdyc(value: bool) {
+        let value = value as u32;
+        let value = value << 18;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x8u32) as *mut u32, value) };
+    }
+    /// HSE Ready Interrupt Clear
+    /// Access: write-only, Width: 1, Offset: 19
+    /// Set HSE Ready Interrupt Clear
+    pub fn hserdyc(value: bool) {
+        let value = value as u32;
+        let value = value << 19;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x8u32) as *mut u32, value) };
+    }
+    /// PLL Ready Interrupt Clear
+    /// Access: write-only, Width: 1, Offset: 20
+    /// Set PLL Ready Interrupt Clear
+    pub fn pllrdyc(value: bool) {
+        let value = value as u32;
+        let value = value << 20;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x8u32) as *mut u32, value) };
+    }
+    /// Clock security system interrupt clear
+    /// Access: write-only, Width: 1, Offset: 23
+    /// Set Clock security system interrupt clear
+    pub fn cssc(value: bool) {
+        let value = value as u32;
+        let value = value << 23;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x8u32) as *mut u32, value) };
+    }
 }
 /// APB2 peripheral reset register (RCC_APB2RSTR)
-/// Size: 0x20 bits
 pub mod apb2rstr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0xC;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const SYSCFGRST_BIT_OFFSET: u8 = 0;
-	const SYSCFGRST_BIT_WIDTH: u8 = 1;
-	/// SYSCFG and COMP reset (Width: 1, Offset: 0)
-	pub fn get_syscfgrst() -> u8 { ::read(REGISTER_ADDRESS, SYSCFGRST_BIT_OFFSET, SYSCFGRST_BIT_WIDTH) as u8 }
-	/// SYSCFG and COMP reset (Width: 1, Offset: 0)
-	pub fn set_syscfgrst(value: u8) { ::write(REGISTER_ADDRESS, SYSCFGRST_BIT_OFFSET, SYSCFGRST_BIT_WIDTH, value as u32); }
-
-	const TIM1RST_BIT_OFFSET: u8 = 11;
-	const TIM1RST_BIT_WIDTH: u8 = 1;
-	/// TIM1 timer reset (Width: 1, Offset: 11)
-	pub fn get_tim1rst() -> u8 { ::read(REGISTER_ADDRESS, TIM1RST_BIT_OFFSET, TIM1RST_BIT_WIDTH) as u8 }
-	/// TIM1 timer reset (Width: 1, Offset: 11)
-	pub fn set_tim1rst(value: u8) { ::write(REGISTER_ADDRESS, TIM1RST_BIT_OFFSET, TIM1RST_BIT_WIDTH, value as u32); }
-
-	const SPI1RST_BIT_OFFSET: u8 = 12;
-	const SPI1RST_BIT_WIDTH: u8 = 1;
-	/// SPI 1 reset (Width: 1, Offset: 12)
-	pub fn get_spi1rst() -> u8 { ::read(REGISTER_ADDRESS, SPI1RST_BIT_OFFSET, SPI1RST_BIT_WIDTH) as u8 }
-	/// SPI 1 reset (Width: 1, Offset: 12)
-	pub fn set_spi1rst(value: u8) { ::write(REGISTER_ADDRESS, SPI1RST_BIT_OFFSET, SPI1RST_BIT_WIDTH, value as u32); }
-
-	const TIM8RST_BIT_OFFSET: u8 = 13;
-	const TIM8RST_BIT_WIDTH: u8 = 1;
-	/// TIM8 timer reset (Width: 1, Offset: 13)
-	pub fn get_tim8rst() -> u8 { ::read(REGISTER_ADDRESS, TIM8RST_BIT_OFFSET, TIM8RST_BIT_WIDTH) as u8 }
-	/// TIM8 timer reset (Width: 1, Offset: 13)
-	pub fn set_tim8rst(value: u8) { ::write(REGISTER_ADDRESS, TIM8RST_BIT_OFFSET, TIM8RST_BIT_WIDTH, value as u32); }
-
-	const USART1RST_BIT_OFFSET: u8 = 14;
-	const USART1RST_BIT_WIDTH: u8 = 1;
-	/// USART1 reset (Width: 1, Offset: 14)
-	pub fn get_usart1rst() -> u8 { ::read(REGISTER_ADDRESS, USART1RST_BIT_OFFSET, USART1RST_BIT_WIDTH) as u8 }
-	/// USART1 reset (Width: 1, Offset: 14)
-	pub fn set_usart1rst(value: u8) { ::write(REGISTER_ADDRESS, USART1RST_BIT_OFFSET, USART1RST_BIT_WIDTH, value as u32); }
-
-	const TIM15RST_BIT_OFFSET: u8 = 16;
-	const TIM15RST_BIT_WIDTH: u8 = 1;
-	/// TIM15 timer reset (Width: 1, Offset: 16)
-	pub fn get_tim15rst() -> u8 { ::read(REGISTER_ADDRESS, TIM15RST_BIT_OFFSET, TIM15RST_BIT_WIDTH) as u8 }
-	/// TIM15 timer reset (Width: 1, Offset: 16)
-	pub fn set_tim15rst(value: u8) { ::write(REGISTER_ADDRESS, TIM15RST_BIT_OFFSET, TIM15RST_BIT_WIDTH, value as u32); }
-
-	const TIM16RST_BIT_OFFSET: u8 = 17;
-	const TIM16RST_BIT_WIDTH: u8 = 1;
-	/// TIM16 timer reset (Width: 1, Offset: 17)
-	pub fn get_tim16rst() -> u8 { ::read(REGISTER_ADDRESS, TIM16RST_BIT_OFFSET, TIM16RST_BIT_WIDTH) as u8 }
-	/// TIM16 timer reset (Width: 1, Offset: 17)
-	pub fn set_tim16rst(value: u8) { ::write(REGISTER_ADDRESS, TIM16RST_BIT_OFFSET, TIM16RST_BIT_WIDTH, value as u32); }
-
-	const TIM17RST_BIT_OFFSET: u8 = 18;
-	const TIM17RST_BIT_WIDTH: u8 = 1;
-	/// TIM17 timer reset (Width: 1, Offset: 18)
-	pub fn get_tim17rst() -> u8 { ::read(REGISTER_ADDRESS, TIM17RST_BIT_OFFSET, TIM17RST_BIT_WIDTH) as u8 }
-	/// TIM17 timer reset (Width: 1, Offset: 18)
-	pub fn set_tim17rst(value: u8) { ::write(REGISTER_ADDRESS, TIM17RST_BIT_OFFSET, TIM17RST_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// SYSCFG and COMP reset
+        pub syscfgrst: bool,
+        /// TIM1 timer reset
+        pub tim1rst: bool,
+        /// SPI 1 reset
+        pub spi1rst: bool,
+        /// TIM8 timer reset
+        pub tim8rst: bool,
+        /// USART1 reset
+        pub usart1rst: bool,
+        /// TIM15 timer reset
+        pub tim15rst: bool,
+        /// TIM16 timer reset
+        pub tim16rst: bool,
+        /// TIM17 timer reset
+        pub tim17rst: bool,
+    }
+    pub struct Cache {
+        /// SYSCFG and COMP reset
+        pub syscfgrst: bool,
+        /// TIM1 timer reset
+        pub tim1rst: bool,
+        /// SPI 1 reset
+        pub spi1rst: bool,
+        /// TIM8 timer reset
+        pub tim8rst: bool,
+        /// USART1 reset
+        pub usart1rst: bool,
+        /// TIM15 timer reset
+        pub tim15rst: bool,
+        /// TIM16 timer reset
+        pub tim16rst: bool,
+        /// TIM17 timer reset
+        pub tim17rst: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0xCu32) as *mut u32) };
+        ReadonlyCache {
+            syscfgrst: ((value >> 0) & 0b1) > 0,
+            tim1rst: ((value >> 11) & 0b1) > 0,
+            spi1rst: ((value >> 12) & 0b1) > 0,
+            tim8rst: ((value >> 13) & 0b1) > 0,
+            usart1rst: ((value >> 14) & 0b1) > 0,
+            tim15rst: ((value >> 16) & 0b1) > 0,
+            tim16rst: ((value >> 17) & 0b1) > 0,
+            tim17rst: ((value >> 18) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0xCu32) as *mut u32) };
+        Cache {
+            syscfgrst: ((value >> 0) & 0b1) > 0,
+            tim1rst: ((value >> 11) & 0b1) > 0,
+            spi1rst: ((value >> 12) & 0b1) > 0,
+            tim8rst: ((value >> 13) & 0b1) > 0,
+            usart1rst: ((value >> 14) & 0b1) > 0,
+            tim15rst: ((value >> 16) & 0b1) > 0,
+            tim16rst: ((value >> 17) & 0b1) > 0,
+            tim17rst: ((value >> 18) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.syscfgrst as u32) << 0)
+                | ((self.tim1rst as u32) << 11)
+                | ((self.spi1rst as u32) << 12)
+                | ((self.tim8rst as u32) << 13)
+                | ((self.usart1rst as u32) << 14)
+                | ((self.tim15rst as u32) << 16)
+                | ((self.tim16rst as u32) << 17)
+                | ((self.tim17rst as u32) << 18)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0xCu32) as *mut u32, value) };
+        }
+    }
 }
 /// APB1 peripheral reset register (RCC_APB1RSTR)
-/// Size: 0x20 bits
 pub mod apb1rstr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x10;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const TIM2RST_BIT_OFFSET: u8 = 0;
-	const TIM2RST_BIT_WIDTH: u8 = 1;
-	/// Timer 2 reset (Width: 1, Offset: 0)
-	pub fn get_tim2rst() -> u8 { ::read(REGISTER_ADDRESS, TIM2RST_BIT_OFFSET, TIM2RST_BIT_WIDTH) as u8 }
-	/// Timer 2 reset (Width: 1, Offset: 0)
-	pub fn set_tim2rst(value: u8) { ::write(REGISTER_ADDRESS, TIM2RST_BIT_OFFSET, TIM2RST_BIT_WIDTH, value as u32); }
-
-	const TIM3RST_BIT_OFFSET: u8 = 1;
-	const TIM3RST_BIT_WIDTH: u8 = 1;
-	/// Timer 3 reset (Width: 1, Offset: 1)
-	pub fn get_tim3rst() -> u8 { ::read(REGISTER_ADDRESS, TIM3RST_BIT_OFFSET, TIM3RST_BIT_WIDTH) as u8 }
-	/// Timer 3 reset (Width: 1, Offset: 1)
-	pub fn set_tim3rst(value: u8) { ::write(REGISTER_ADDRESS, TIM3RST_BIT_OFFSET, TIM3RST_BIT_WIDTH, value as u32); }
-
-	const TIM4RST_BIT_OFFSET: u8 = 2;
-	const TIM4RST_BIT_WIDTH: u8 = 1;
-	/// Timer 14 reset (Width: 1, Offset: 2)
-	pub fn get_tim4rst() -> u8 { ::read(REGISTER_ADDRESS, TIM4RST_BIT_OFFSET, TIM4RST_BIT_WIDTH) as u8 }
-	/// Timer 14 reset (Width: 1, Offset: 2)
-	pub fn set_tim4rst(value: u8) { ::write(REGISTER_ADDRESS, TIM4RST_BIT_OFFSET, TIM4RST_BIT_WIDTH, value as u32); }
-
-	const TIM6RST_BIT_OFFSET: u8 = 4;
-	const TIM6RST_BIT_WIDTH: u8 = 1;
-	/// Timer 6 reset (Width: 1, Offset: 4)
-	pub fn get_tim6rst() -> u8 { ::read(REGISTER_ADDRESS, TIM6RST_BIT_OFFSET, TIM6RST_BIT_WIDTH) as u8 }
-	/// Timer 6 reset (Width: 1, Offset: 4)
-	pub fn set_tim6rst(value: u8) { ::write(REGISTER_ADDRESS, TIM6RST_BIT_OFFSET, TIM6RST_BIT_WIDTH, value as u32); }
-
-	const TIM7RST_BIT_OFFSET: u8 = 5;
-	const TIM7RST_BIT_WIDTH: u8 = 1;
-	/// Timer 7 reset (Width: 1, Offset: 5)
-	pub fn get_tim7rst() -> u8 { ::read(REGISTER_ADDRESS, TIM7RST_BIT_OFFSET, TIM7RST_BIT_WIDTH) as u8 }
-	/// Timer 7 reset (Width: 1, Offset: 5)
-	pub fn set_tim7rst(value: u8) { ::write(REGISTER_ADDRESS, TIM7RST_BIT_OFFSET, TIM7RST_BIT_WIDTH, value as u32); }
-
-	const WWDGRST_BIT_OFFSET: u8 = 11;
-	const WWDGRST_BIT_WIDTH: u8 = 1;
-	/// Window watchdog reset (Width: 1, Offset: 11)
-	pub fn get_wwdgrst() -> u8 { ::read(REGISTER_ADDRESS, WWDGRST_BIT_OFFSET, WWDGRST_BIT_WIDTH) as u8 }
-	/// Window watchdog reset (Width: 1, Offset: 11)
-	pub fn set_wwdgrst(value: u8) { ::write(REGISTER_ADDRESS, WWDGRST_BIT_OFFSET, WWDGRST_BIT_WIDTH, value as u32); }
-
-	const SPI2RST_BIT_OFFSET: u8 = 14;
-	const SPI2RST_BIT_WIDTH: u8 = 1;
-	/// SPI2 reset (Width: 1, Offset: 14)
-	pub fn get_spi2rst() -> u8 { ::read(REGISTER_ADDRESS, SPI2RST_BIT_OFFSET, SPI2RST_BIT_WIDTH) as u8 }
-	/// SPI2 reset (Width: 1, Offset: 14)
-	pub fn set_spi2rst(value: u8) { ::write(REGISTER_ADDRESS, SPI2RST_BIT_OFFSET, SPI2RST_BIT_WIDTH, value as u32); }
-
-	const SPI3RST_BIT_OFFSET: u8 = 15;
-	const SPI3RST_BIT_WIDTH: u8 = 1;
-	/// SPI3 reset (Width: 1, Offset: 15)
-	pub fn get_spi3rst() -> u8 { ::read(REGISTER_ADDRESS, SPI3RST_BIT_OFFSET, SPI3RST_BIT_WIDTH) as u8 }
-	/// SPI3 reset (Width: 1, Offset: 15)
-	pub fn set_spi3rst(value: u8) { ::write(REGISTER_ADDRESS, SPI3RST_BIT_OFFSET, SPI3RST_BIT_WIDTH, value as u32); }
-
-	const USART2RST_BIT_OFFSET: u8 = 17;
-	const USART2RST_BIT_WIDTH: u8 = 1;
-	/// USART 2 reset (Width: 1, Offset: 17)
-	pub fn get_usart2rst() -> u8 { ::read(REGISTER_ADDRESS, USART2RST_BIT_OFFSET, USART2RST_BIT_WIDTH) as u8 }
-	/// USART 2 reset (Width: 1, Offset: 17)
-	pub fn set_usart2rst(value: u8) { ::write(REGISTER_ADDRESS, USART2RST_BIT_OFFSET, USART2RST_BIT_WIDTH, value as u32); }
-
-	const USART3RST_BIT_OFFSET: u8 = 18;
-	const USART3RST_BIT_WIDTH: u8 = 1;
-	/// USART3 reset (Width: 1, Offset: 18)
-	pub fn get_usart3rst() -> u8 { ::read(REGISTER_ADDRESS, USART3RST_BIT_OFFSET, USART3RST_BIT_WIDTH) as u8 }
-	/// USART3 reset (Width: 1, Offset: 18)
-	pub fn set_usart3rst(value: u8) { ::write(REGISTER_ADDRESS, USART3RST_BIT_OFFSET, USART3RST_BIT_WIDTH, value as u32); }
-
-	const UART4RST_BIT_OFFSET: u8 = 19;
-	const UART4RST_BIT_WIDTH: u8 = 1;
-	/// UART 4 reset (Width: 1, Offset: 19)
-	pub fn get_uart4rst() -> u8 { ::read(REGISTER_ADDRESS, UART4RST_BIT_OFFSET, UART4RST_BIT_WIDTH) as u8 }
-	/// UART 4 reset (Width: 1, Offset: 19)
-	pub fn set_uart4rst(value: u8) { ::write(REGISTER_ADDRESS, UART4RST_BIT_OFFSET, UART4RST_BIT_WIDTH, value as u32); }
-
-	const UART5RST_BIT_OFFSET: u8 = 20;
-	const UART5RST_BIT_WIDTH: u8 = 1;
-	/// UART 5 reset (Width: 1, Offset: 20)
-	pub fn get_uart5rst() -> u8 { ::read(REGISTER_ADDRESS, UART5RST_BIT_OFFSET, UART5RST_BIT_WIDTH) as u8 }
-	/// UART 5 reset (Width: 1, Offset: 20)
-	pub fn set_uart5rst(value: u8) { ::write(REGISTER_ADDRESS, UART5RST_BIT_OFFSET, UART5RST_BIT_WIDTH, value as u32); }
-
-	const I2C1RST_BIT_OFFSET: u8 = 21;
-	const I2C1RST_BIT_WIDTH: u8 = 1;
-	/// I2C1 reset (Width: 1, Offset: 21)
-	pub fn get_i2c1rst() -> u8 { ::read(REGISTER_ADDRESS, I2C1RST_BIT_OFFSET, I2C1RST_BIT_WIDTH) as u8 }
-	/// I2C1 reset (Width: 1, Offset: 21)
-	pub fn set_i2c1rst(value: u8) { ::write(REGISTER_ADDRESS, I2C1RST_BIT_OFFSET, I2C1RST_BIT_WIDTH, value as u32); }
-
-	const I2C2RST_BIT_OFFSET: u8 = 22;
-	const I2C2RST_BIT_WIDTH: u8 = 1;
-	/// I2C2 reset (Width: 1, Offset: 22)
-	pub fn get_i2c2rst() -> u8 { ::read(REGISTER_ADDRESS, I2C2RST_BIT_OFFSET, I2C2RST_BIT_WIDTH) as u8 }
-	/// I2C2 reset (Width: 1, Offset: 22)
-	pub fn set_i2c2rst(value: u8) { ::write(REGISTER_ADDRESS, I2C2RST_BIT_OFFSET, I2C2RST_BIT_WIDTH, value as u32); }
-
-	const USBRST_BIT_OFFSET: u8 = 23;
-	const USBRST_BIT_WIDTH: u8 = 1;
-	/// USB reset (Width: 1, Offset: 23)
-	pub fn get_usbrst() -> u8 { ::read(REGISTER_ADDRESS, USBRST_BIT_OFFSET, USBRST_BIT_WIDTH) as u8 }
-	/// USB reset (Width: 1, Offset: 23)
-	pub fn set_usbrst(value: u8) { ::write(REGISTER_ADDRESS, USBRST_BIT_OFFSET, USBRST_BIT_WIDTH, value as u32); }
-
-	const CANRST_BIT_OFFSET: u8 = 25;
-	const CANRST_BIT_WIDTH: u8 = 1;
-	/// CAN reset (Width: 1, Offset: 25)
-	pub fn get_canrst() -> u8 { ::read(REGISTER_ADDRESS, CANRST_BIT_OFFSET, CANRST_BIT_WIDTH) as u8 }
-	/// CAN reset (Width: 1, Offset: 25)
-	pub fn set_canrst(value: u8) { ::write(REGISTER_ADDRESS, CANRST_BIT_OFFSET, CANRST_BIT_WIDTH, value as u32); }
-
-	const PWRRST_BIT_OFFSET: u8 = 28;
-	const PWRRST_BIT_WIDTH: u8 = 1;
-	/// Power interface reset (Width: 1, Offset: 28)
-	pub fn get_pwrrst() -> u8 { ::read(REGISTER_ADDRESS, PWRRST_BIT_OFFSET, PWRRST_BIT_WIDTH) as u8 }
-	/// Power interface reset (Width: 1, Offset: 28)
-	pub fn set_pwrrst(value: u8) { ::write(REGISTER_ADDRESS, PWRRST_BIT_OFFSET, PWRRST_BIT_WIDTH, value as u32); }
-
-	const DACRST_BIT_OFFSET: u8 = 29;
-	const DACRST_BIT_WIDTH: u8 = 1;
-	/// DAC interface reset (Width: 1, Offset: 29)
-	pub fn get_dacrst() -> u8 { ::read(REGISTER_ADDRESS, DACRST_BIT_OFFSET, DACRST_BIT_WIDTH) as u8 }
-	/// DAC interface reset (Width: 1, Offset: 29)
-	pub fn set_dacrst(value: u8) { ::write(REGISTER_ADDRESS, DACRST_BIT_OFFSET, DACRST_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Timer 2 reset
+        pub tim2rst: bool,
+        /// Timer 3 reset
+        pub tim3rst: bool,
+        /// Timer 14 reset
+        pub tim4rst: bool,
+        /// Timer 6 reset
+        pub tim6rst: bool,
+        /// Timer 7 reset
+        pub tim7rst: bool,
+        /// Window watchdog reset
+        pub wwdgrst: bool,
+        /// SPI2 reset
+        pub spi2rst: bool,
+        /// SPI3 reset
+        pub spi3rst: bool,
+        /// USART 2 reset
+        pub usart2rst: bool,
+        /// USART3 reset
+        pub usart3rst: bool,
+        /// UART 4 reset
+        pub uart4rst: bool,
+        /// UART 5 reset
+        pub uart5rst: bool,
+        /// I2C1 reset
+        pub i2c1rst: bool,
+        /// I2C2 reset
+        pub i2c2rst: bool,
+        /// USB reset
+        pub usbrst: bool,
+        /// CAN reset
+        pub canrst: bool,
+        /// Power interface reset
+        pub pwrrst: bool,
+        /// DAC interface reset
+        pub dacrst: bool,
+    }
+    pub struct Cache {
+        /// Timer 2 reset
+        pub tim2rst: bool,
+        /// Timer 3 reset
+        pub tim3rst: bool,
+        /// Timer 14 reset
+        pub tim4rst: bool,
+        /// Timer 6 reset
+        pub tim6rst: bool,
+        /// Timer 7 reset
+        pub tim7rst: bool,
+        /// Window watchdog reset
+        pub wwdgrst: bool,
+        /// SPI2 reset
+        pub spi2rst: bool,
+        /// SPI3 reset
+        pub spi3rst: bool,
+        /// USART 2 reset
+        pub usart2rst: bool,
+        /// USART3 reset
+        pub usart3rst: bool,
+        /// UART 4 reset
+        pub uart4rst: bool,
+        /// UART 5 reset
+        pub uart5rst: bool,
+        /// I2C1 reset
+        pub i2c1rst: bool,
+        /// I2C2 reset
+        pub i2c2rst: bool,
+        /// USB reset
+        pub usbrst: bool,
+        /// CAN reset
+        pub canrst: bool,
+        /// Power interface reset
+        pub pwrrst: bool,
+        /// DAC interface reset
+        pub dacrst: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x10u32) as *mut u32) };
+        ReadonlyCache {
+            tim2rst: ((value >> 0) & 0b1) > 0,
+            tim3rst: ((value >> 1) & 0b1) > 0,
+            tim4rst: ((value >> 2) & 0b1) > 0,
+            tim6rst: ((value >> 4) & 0b1) > 0,
+            tim7rst: ((value >> 5) & 0b1) > 0,
+            wwdgrst: ((value >> 11) & 0b1) > 0,
+            spi2rst: ((value >> 14) & 0b1) > 0,
+            spi3rst: ((value >> 15) & 0b1) > 0,
+            usart2rst: ((value >> 17) & 0b1) > 0,
+            usart3rst: ((value >> 18) & 0b1) > 0,
+            uart4rst: ((value >> 19) & 0b1) > 0,
+            uart5rst: ((value >> 20) & 0b1) > 0,
+            i2c1rst: ((value >> 21) & 0b1) > 0,
+            i2c2rst: ((value >> 22) & 0b1) > 0,
+            usbrst: ((value >> 23) & 0b1) > 0,
+            canrst: ((value >> 25) & 0b1) > 0,
+            pwrrst: ((value >> 28) & 0b1) > 0,
+            dacrst: ((value >> 29) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x10u32) as *mut u32) };
+        Cache {
+            tim2rst: ((value >> 0) & 0b1) > 0,
+            tim3rst: ((value >> 1) & 0b1) > 0,
+            tim4rst: ((value >> 2) & 0b1) > 0,
+            tim6rst: ((value >> 4) & 0b1) > 0,
+            tim7rst: ((value >> 5) & 0b1) > 0,
+            wwdgrst: ((value >> 11) & 0b1) > 0,
+            spi2rst: ((value >> 14) & 0b1) > 0,
+            spi3rst: ((value >> 15) & 0b1) > 0,
+            usart2rst: ((value >> 17) & 0b1) > 0,
+            usart3rst: ((value >> 18) & 0b1) > 0,
+            uart4rst: ((value >> 19) & 0b1) > 0,
+            uart5rst: ((value >> 20) & 0b1) > 0,
+            i2c1rst: ((value >> 21) & 0b1) > 0,
+            i2c2rst: ((value >> 22) & 0b1) > 0,
+            usbrst: ((value >> 23) & 0b1) > 0,
+            canrst: ((value >> 25) & 0b1) > 0,
+            pwrrst: ((value >> 28) & 0b1) > 0,
+            dacrst: ((value >> 29) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.tim2rst as u32) << 0)
+                | ((self.tim3rst as u32) << 1)
+                | ((self.tim4rst as u32) << 2)
+                | ((self.tim6rst as u32) << 4)
+                | ((self.tim7rst as u32) << 5)
+                | ((self.wwdgrst as u32) << 11)
+                | ((self.spi2rst as u32) << 14)
+                | ((self.spi3rst as u32) << 15)
+                | ((self.usart2rst as u32) << 17)
+                | ((self.usart3rst as u32) << 18)
+                | ((self.uart4rst as u32) << 19)
+                | ((self.uart5rst as u32) << 20)
+                | ((self.i2c1rst as u32) << 21)
+                | ((self.i2c2rst as u32) << 22)
+                | ((self.usbrst as u32) << 23)
+                | ((self.canrst as u32) << 25)
+                | ((self.pwrrst as u32) << 28)
+                | ((self.dacrst as u32) << 29)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x10u32) as *mut u32, value) };
+        }
+    }
 }
 /// AHB Peripheral Clock enable register (RCC_AHBENR)
-/// Size: 0x20 bits
 pub mod ahbenr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x14;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const DMAEN_BIT_OFFSET: u8 = 0;
-	const DMAEN_BIT_WIDTH: u8 = 1;
-	/// DMA1 clock enable (Width: 1, Offset: 0)
-	pub fn get_dmaen() -> u8 { ::read(REGISTER_ADDRESS, DMAEN_BIT_OFFSET, DMAEN_BIT_WIDTH) as u8 }
-	/// DMA1 clock enable (Width: 1, Offset: 0)
-	pub fn set_dmaen(value: u8) { ::write(REGISTER_ADDRESS, DMAEN_BIT_OFFSET, DMAEN_BIT_WIDTH, value as u32); }
-
-	const DMA2EN_BIT_OFFSET: u8 = 1;
-	const DMA2EN_BIT_WIDTH: u8 = 1;
-	/// DMA2 clock enable (Width: 1, Offset: 1)
-	pub fn get_dma2en() -> u8 { ::read(REGISTER_ADDRESS, DMA2EN_BIT_OFFSET, DMA2EN_BIT_WIDTH) as u8 }
-	/// DMA2 clock enable (Width: 1, Offset: 1)
-	pub fn set_dma2en(value: u8) { ::write(REGISTER_ADDRESS, DMA2EN_BIT_OFFSET, DMA2EN_BIT_WIDTH, value as u32); }
-
-	const SRAMEN_BIT_OFFSET: u8 = 2;
-	const SRAMEN_BIT_WIDTH: u8 = 1;
-	/// SRAM interface clock enable (Width: 1, Offset: 2)
-	pub fn get_sramen() -> u8 { ::read(REGISTER_ADDRESS, SRAMEN_BIT_OFFSET, SRAMEN_BIT_WIDTH) as u8 }
-	/// SRAM interface clock enable (Width: 1, Offset: 2)
-	pub fn set_sramen(value: u8) { ::write(REGISTER_ADDRESS, SRAMEN_BIT_OFFSET, SRAMEN_BIT_WIDTH, value as u32); }
-
-	const FLITFEN_BIT_OFFSET: u8 = 4;
-	const FLITFEN_BIT_WIDTH: u8 = 1;
-	/// FLITF clock enable (Width: 1, Offset: 4)
-	pub fn get_flitfen() -> u8 { ::read(REGISTER_ADDRESS, FLITFEN_BIT_OFFSET, FLITFEN_BIT_WIDTH) as u8 }
-	/// FLITF clock enable (Width: 1, Offset: 4)
-	pub fn set_flitfen(value: u8) { ::write(REGISTER_ADDRESS, FLITFEN_BIT_OFFSET, FLITFEN_BIT_WIDTH, value as u32); }
-
-	const CRCEN_BIT_OFFSET: u8 = 6;
-	const CRCEN_BIT_WIDTH: u8 = 1;
-	/// CRC clock enable (Width: 1, Offset: 6)
-	pub fn get_crcen() -> u8 { ::read(REGISTER_ADDRESS, CRCEN_BIT_OFFSET, CRCEN_BIT_WIDTH) as u8 }
-	/// CRC clock enable (Width: 1, Offset: 6)
-	pub fn set_crcen(value: u8) { ::write(REGISTER_ADDRESS, CRCEN_BIT_OFFSET, CRCEN_BIT_WIDTH, value as u32); }
-
-	const IOPAEN_BIT_OFFSET: u8 = 17;
-	const IOPAEN_BIT_WIDTH: u8 = 1;
-	/// I/O port A clock enable (Width: 1, Offset: 17)
-	pub fn get_iopaen() -> u8 { ::read(REGISTER_ADDRESS, IOPAEN_BIT_OFFSET, IOPAEN_BIT_WIDTH) as u8 }
-	/// I/O port A clock enable (Width: 1, Offset: 17)
-	pub fn set_iopaen(value: u8) { ::write(REGISTER_ADDRESS, IOPAEN_BIT_OFFSET, IOPAEN_BIT_WIDTH, value as u32); }
-
-	const IOPBEN_BIT_OFFSET: u8 = 18;
-	const IOPBEN_BIT_WIDTH: u8 = 1;
-	/// I/O port B clock enable (Width: 1, Offset: 18)
-	pub fn get_iopben() -> u8 { ::read(REGISTER_ADDRESS, IOPBEN_BIT_OFFSET, IOPBEN_BIT_WIDTH) as u8 }
-	/// I/O port B clock enable (Width: 1, Offset: 18)
-	pub fn set_iopben(value: u8) { ::write(REGISTER_ADDRESS, IOPBEN_BIT_OFFSET, IOPBEN_BIT_WIDTH, value as u32); }
-
-	const IOPCEN_BIT_OFFSET: u8 = 19;
-	const IOPCEN_BIT_WIDTH: u8 = 1;
-	/// I/O port C clock enable (Width: 1, Offset: 19)
-	pub fn get_iopcen() -> u8 { ::read(REGISTER_ADDRESS, IOPCEN_BIT_OFFSET, IOPCEN_BIT_WIDTH) as u8 }
-	/// I/O port C clock enable (Width: 1, Offset: 19)
-	pub fn set_iopcen(value: u8) { ::write(REGISTER_ADDRESS, IOPCEN_BIT_OFFSET, IOPCEN_BIT_WIDTH, value as u32); }
-
-	const IOPDEN_BIT_OFFSET: u8 = 20;
-	const IOPDEN_BIT_WIDTH: u8 = 1;
-	/// I/O port D clock enable (Width: 1, Offset: 20)
-	pub fn get_iopden() -> u8 { ::read(REGISTER_ADDRESS, IOPDEN_BIT_OFFSET, IOPDEN_BIT_WIDTH) as u8 }
-	/// I/O port D clock enable (Width: 1, Offset: 20)
-	pub fn set_iopden(value: u8) { ::write(REGISTER_ADDRESS, IOPDEN_BIT_OFFSET, IOPDEN_BIT_WIDTH, value as u32); }
-
-	const IOPEEN_BIT_OFFSET: u8 = 21;
-	const IOPEEN_BIT_WIDTH: u8 = 1;
-	/// I/O port E clock enable (Width: 1, Offset: 21)
-	pub fn get_iopeen() -> u8 { ::read(REGISTER_ADDRESS, IOPEEN_BIT_OFFSET, IOPEEN_BIT_WIDTH) as u8 }
-	/// I/O port E clock enable (Width: 1, Offset: 21)
-	pub fn set_iopeen(value: u8) { ::write(REGISTER_ADDRESS, IOPEEN_BIT_OFFSET, IOPEEN_BIT_WIDTH, value as u32); }
-
-	const IOPFEN_BIT_OFFSET: u8 = 22;
-	const IOPFEN_BIT_WIDTH: u8 = 1;
-	/// I/O port F clock enable (Width: 1, Offset: 22)
-	pub fn get_iopfen() -> u8 { ::read(REGISTER_ADDRESS, IOPFEN_BIT_OFFSET, IOPFEN_BIT_WIDTH) as u8 }
-	/// I/O port F clock enable (Width: 1, Offset: 22)
-	pub fn set_iopfen(value: u8) { ::write(REGISTER_ADDRESS, IOPFEN_BIT_OFFSET, IOPFEN_BIT_WIDTH, value as u32); }
-
-	const TSCEN_BIT_OFFSET: u8 = 24;
-	const TSCEN_BIT_WIDTH: u8 = 1;
-	/// Touch sensing controller clock enable (Width: 1, Offset: 24)
-	pub fn get_tscen() -> u8 { ::read(REGISTER_ADDRESS, TSCEN_BIT_OFFSET, TSCEN_BIT_WIDTH) as u8 }
-	/// Touch sensing controller clock enable (Width: 1, Offset: 24)
-	pub fn set_tscen(value: u8) { ::write(REGISTER_ADDRESS, TSCEN_BIT_OFFSET, TSCEN_BIT_WIDTH, value as u32); }
-
-	const ADC12EN_BIT_OFFSET: u8 = 28;
-	const ADC12EN_BIT_WIDTH: u8 = 1;
-	/// ADC1 and ADC2 clock enable (Width: 1, Offset: 28)
-	pub fn get_adc12en() -> u8 { ::read(REGISTER_ADDRESS, ADC12EN_BIT_OFFSET, ADC12EN_BIT_WIDTH) as u8 }
-	/// ADC1 and ADC2 clock enable (Width: 1, Offset: 28)
-	pub fn set_adc12en(value: u8) { ::write(REGISTER_ADDRESS, ADC12EN_BIT_OFFSET, ADC12EN_BIT_WIDTH, value as u32); }
-
-	const ADC34EN_BIT_OFFSET: u8 = 29;
-	const ADC34EN_BIT_WIDTH: u8 = 1;
-	/// ADC3 and ADC4 clock enable (Width: 1, Offset: 29)
-	pub fn get_adc34en() -> u8 { ::read(REGISTER_ADDRESS, ADC34EN_BIT_OFFSET, ADC34EN_BIT_WIDTH) as u8 }
-	/// ADC3 and ADC4 clock enable (Width: 1, Offset: 29)
-	pub fn set_adc34en(value: u8) { ::write(REGISTER_ADDRESS, ADC34EN_BIT_OFFSET, ADC34EN_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// DMA1 clock enable
+        pub dmaen: bool,
+        /// DMA2 clock enable
+        pub dma2en: bool,
+        /// SRAM interface clock enable
+        pub sramen: bool,
+        /// FLITF clock enable
+        pub flitfen: bool,
+        /// CRC clock enable
+        pub crcen: bool,
+        /// I/O port A clock enable
+        pub iopaen: bool,
+        /// I/O port B clock enable
+        pub iopben: bool,
+        /// I/O port C clock enable
+        pub iopcen: bool,
+        /// I/O port D clock enable
+        pub iopden: bool,
+        /// I/O port E clock enable
+        pub iopeen: bool,
+        /// I/O port F clock enable
+        pub iopfen: bool,
+        /// Touch sensing controller clock enable
+        pub tscen: bool,
+        /// ADC1 and ADC2 clock enable
+        pub adc12en: bool,
+        /// ADC3 and ADC4 clock enable
+        pub adc34en: bool,
+    }
+    pub struct Cache {
+        /// DMA1 clock enable
+        pub dmaen: bool,
+        /// DMA2 clock enable
+        pub dma2en: bool,
+        /// SRAM interface clock enable
+        pub sramen: bool,
+        /// FLITF clock enable
+        pub flitfen: bool,
+        /// CRC clock enable
+        pub crcen: bool,
+        /// I/O port A clock enable
+        pub iopaen: bool,
+        /// I/O port B clock enable
+        pub iopben: bool,
+        /// I/O port C clock enable
+        pub iopcen: bool,
+        /// I/O port D clock enable
+        pub iopden: bool,
+        /// I/O port E clock enable
+        pub iopeen: bool,
+        /// I/O port F clock enable
+        pub iopfen: bool,
+        /// Touch sensing controller clock enable
+        pub tscen: bool,
+        /// ADC1 and ADC2 clock enable
+        pub adc12en: bool,
+        /// ADC3 and ADC4 clock enable
+        pub adc34en: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x14u32) as *mut u32) };
+        ReadonlyCache {
+            dmaen: ((value >> 0) & 0b1) > 0,
+            dma2en: ((value >> 1) & 0b1) > 0,
+            sramen: ((value >> 2) & 0b1) > 0,
+            flitfen: ((value >> 4) & 0b1) > 0,
+            crcen: ((value >> 6) & 0b1) > 0,
+            iopaen: ((value >> 17) & 0b1) > 0,
+            iopben: ((value >> 18) & 0b1) > 0,
+            iopcen: ((value >> 19) & 0b1) > 0,
+            iopden: ((value >> 20) & 0b1) > 0,
+            iopeen: ((value >> 21) & 0b1) > 0,
+            iopfen: ((value >> 22) & 0b1) > 0,
+            tscen: ((value >> 24) & 0b1) > 0,
+            adc12en: ((value >> 28) & 0b1) > 0,
+            adc34en: ((value >> 29) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x14u32) as *mut u32) };
+        Cache {
+            dmaen: ((value >> 0) & 0b1) > 0,
+            dma2en: ((value >> 1) & 0b1) > 0,
+            sramen: ((value >> 2) & 0b1) > 0,
+            flitfen: ((value >> 4) & 0b1) > 0,
+            crcen: ((value >> 6) & 0b1) > 0,
+            iopaen: ((value >> 17) & 0b1) > 0,
+            iopben: ((value >> 18) & 0b1) > 0,
+            iopcen: ((value >> 19) & 0b1) > 0,
+            iopden: ((value >> 20) & 0b1) > 0,
+            iopeen: ((value >> 21) & 0b1) > 0,
+            iopfen: ((value >> 22) & 0b1) > 0,
+            tscen: ((value >> 24) & 0b1) > 0,
+            adc12en: ((value >> 28) & 0b1) > 0,
+            adc34en: ((value >> 29) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.dmaen as u32) << 0)
+                | ((self.dma2en as u32) << 1)
+                | ((self.sramen as u32) << 2)
+                | ((self.flitfen as u32) << 4)
+                | ((self.crcen as u32) << 6)
+                | ((self.iopaen as u32) << 17)
+                | ((self.iopben as u32) << 18)
+                | ((self.iopcen as u32) << 19)
+                | ((self.iopden as u32) << 20)
+                | ((self.iopeen as u32) << 21)
+                | ((self.iopfen as u32) << 22)
+                | ((self.tscen as u32) << 24)
+                | ((self.adc12en as u32) << 28)
+                | ((self.adc34en as u32) << 29)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x14u32) as *mut u32, value) };
+        }
+    }
 }
 /// APB2 peripheral clock enable register (RCC_APB2ENR)
-/// Size: 0x20 bits
 pub mod apb2enr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x18;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const SYSCFGEN_BIT_OFFSET: u8 = 0;
-	const SYSCFGEN_BIT_WIDTH: u8 = 1;
-	/// SYSCFG clock enable (Width: 1, Offset: 0)
-	pub fn get_syscfgen() -> u8 { ::read(REGISTER_ADDRESS, SYSCFGEN_BIT_OFFSET, SYSCFGEN_BIT_WIDTH) as u8 }
-	/// SYSCFG clock enable (Width: 1, Offset: 0)
-	pub fn set_syscfgen(value: u8) { ::write(REGISTER_ADDRESS, SYSCFGEN_BIT_OFFSET, SYSCFGEN_BIT_WIDTH, value as u32); }
-
-	const TIM1EN_BIT_OFFSET: u8 = 11;
-	const TIM1EN_BIT_WIDTH: u8 = 1;
-	/// TIM1 Timer clock enable (Width: 1, Offset: 11)
-	pub fn get_tim1en() -> u8 { ::read(REGISTER_ADDRESS, TIM1EN_BIT_OFFSET, TIM1EN_BIT_WIDTH) as u8 }
-	/// TIM1 Timer clock enable (Width: 1, Offset: 11)
-	pub fn set_tim1en(value: u8) { ::write(REGISTER_ADDRESS, TIM1EN_BIT_OFFSET, TIM1EN_BIT_WIDTH, value as u32); }
-
-	const SPI1EN_BIT_OFFSET: u8 = 12;
-	const SPI1EN_BIT_WIDTH: u8 = 1;
-	/// SPI 1 clock enable (Width: 1, Offset: 12)
-	pub fn get_spi1en() -> u8 { ::read(REGISTER_ADDRESS, SPI1EN_BIT_OFFSET, SPI1EN_BIT_WIDTH) as u8 }
-	/// SPI 1 clock enable (Width: 1, Offset: 12)
-	pub fn set_spi1en(value: u8) { ::write(REGISTER_ADDRESS, SPI1EN_BIT_OFFSET, SPI1EN_BIT_WIDTH, value as u32); }
-
-	const TIM8EN_BIT_OFFSET: u8 = 13;
-	const TIM8EN_BIT_WIDTH: u8 = 1;
-	/// TIM8 Timer clock enable (Width: 1, Offset: 13)
-	pub fn get_tim8en() -> u8 { ::read(REGISTER_ADDRESS, TIM8EN_BIT_OFFSET, TIM8EN_BIT_WIDTH) as u8 }
-	/// TIM8 Timer clock enable (Width: 1, Offset: 13)
-	pub fn set_tim8en(value: u8) { ::write(REGISTER_ADDRESS, TIM8EN_BIT_OFFSET, TIM8EN_BIT_WIDTH, value as u32); }
-
-	const USART1EN_BIT_OFFSET: u8 = 14;
-	const USART1EN_BIT_WIDTH: u8 = 1;
-	/// USART1 clock enable (Width: 1, Offset: 14)
-	pub fn get_usart1en() -> u8 { ::read(REGISTER_ADDRESS, USART1EN_BIT_OFFSET, USART1EN_BIT_WIDTH) as u8 }
-	/// USART1 clock enable (Width: 1, Offset: 14)
-	pub fn set_usart1en(value: u8) { ::write(REGISTER_ADDRESS, USART1EN_BIT_OFFSET, USART1EN_BIT_WIDTH, value as u32); }
-
-	const TIM15EN_BIT_OFFSET: u8 = 16;
-	const TIM15EN_BIT_WIDTH: u8 = 1;
-	/// TIM15 timer clock enable (Width: 1, Offset: 16)
-	pub fn get_tim15en() -> u8 { ::read(REGISTER_ADDRESS, TIM15EN_BIT_OFFSET, TIM15EN_BIT_WIDTH) as u8 }
-	/// TIM15 timer clock enable (Width: 1, Offset: 16)
-	pub fn set_tim15en(value: u8) { ::write(REGISTER_ADDRESS, TIM15EN_BIT_OFFSET, TIM15EN_BIT_WIDTH, value as u32); }
-
-	const TIM16EN_BIT_OFFSET: u8 = 17;
-	const TIM16EN_BIT_WIDTH: u8 = 1;
-	/// TIM16 timer clock enable (Width: 1, Offset: 17)
-	pub fn get_tim16en() -> u8 { ::read(REGISTER_ADDRESS, TIM16EN_BIT_OFFSET, TIM16EN_BIT_WIDTH) as u8 }
-	/// TIM16 timer clock enable (Width: 1, Offset: 17)
-	pub fn set_tim16en(value: u8) { ::write(REGISTER_ADDRESS, TIM16EN_BIT_OFFSET, TIM16EN_BIT_WIDTH, value as u32); }
-
-	const TIM17EN_BIT_OFFSET: u8 = 18;
-	const TIM17EN_BIT_WIDTH: u8 = 1;
-	/// TIM17 timer clock enable (Width: 1, Offset: 18)
-	pub fn get_tim17en() -> u8 { ::read(REGISTER_ADDRESS, TIM17EN_BIT_OFFSET, TIM17EN_BIT_WIDTH) as u8 }
-	/// TIM17 timer clock enable (Width: 1, Offset: 18)
-	pub fn set_tim17en(value: u8) { ::write(REGISTER_ADDRESS, TIM17EN_BIT_OFFSET, TIM17EN_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// SYSCFG clock enable
+        pub syscfgen: bool,
+        /// TIM1 Timer clock enable
+        pub tim1en: bool,
+        /// SPI 1 clock enable
+        pub spi1en: bool,
+        /// TIM8 Timer clock enable
+        pub tim8en: bool,
+        /// USART1 clock enable
+        pub usart1en: bool,
+        /// TIM15 timer clock enable
+        pub tim15en: bool,
+        /// TIM16 timer clock enable
+        pub tim16en: bool,
+        /// TIM17 timer clock enable
+        pub tim17en: bool,
+    }
+    pub struct Cache {
+        /// SYSCFG clock enable
+        pub syscfgen: bool,
+        /// TIM1 Timer clock enable
+        pub tim1en: bool,
+        /// SPI 1 clock enable
+        pub spi1en: bool,
+        /// TIM8 Timer clock enable
+        pub tim8en: bool,
+        /// USART1 clock enable
+        pub usart1en: bool,
+        /// TIM15 timer clock enable
+        pub tim15en: bool,
+        /// TIM16 timer clock enable
+        pub tim16en: bool,
+        /// TIM17 timer clock enable
+        pub tim17en: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x18u32) as *mut u32) };
+        ReadonlyCache {
+            syscfgen: ((value >> 0) & 0b1) > 0,
+            tim1en: ((value >> 11) & 0b1) > 0,
+            spi1en: ((value >> 12) & 0b1) > 0,
+            tim8en: ((value >> 13) & 0b1) > 0,
+            usart1en: ((value >> 14) & 0b1) > 0,
+            tim15en: ((value >> 16) & 0b1) > 0,
+            tim16en: ((value >> 17) & 0b1) > 0,
+            tim17en: ((value >> 18) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x18u32) as *mut u32) };
+        Cache {
+            syscfgen: ((value >> 0) & 0b1) > 0,
+            tim1en: ((value >> 11) & 0b1) > 0,
+            spi1en: ((value >> 12) & 0b1) > 0,
+            tim8en: ((value >> 13) & 0b1) > 0,
+            usart1en: ((value >> 14) & 0b1) > 0,
+            tim15en: ((value >> 16) & 0b1) > 0,
+            tim16en: ((value >> 17) & 0b1) > 0,
+            tim17en: ((value >> 18) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.syscfgen as u32) << 0)
+                | ((self.tim1en as u32) << 11)
+                | ((self.spi1en as u32) << 12)
+                | ((self.tim8en as u32) << 13)
+                | ((self.usart1en as u32) << 14)
+                | ((self.tim15en as u32) << 16)
+                | ((self.tim16en as u32) << 17)
+                | ((self.tim17en as u32) << 18)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x18u32) as *mut u32, value) };
+        }
+    }
 }
 /// APB1 peripheral clock enable register (RCC_APB1ENR)
-/// Size: 0x20 bits
 pub mod apb1enr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x1C;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const TIM2EN_BIT_OFFSET: u8 = 0;
-	const TIM2EN_BIT_WIDTH: u8 = 1;
-	/// Timer 2 clock enable (Width: 1, Offset: 0)
-	pub fn get_tim2en() -> u8 { ::read(REGISTER_ADDRESS, TIM2EN_BIT_OFFSET, TIM2EN_BIT_WIDTH) as u8 }
-	/// Timer 2 clock enable (Width: 1, Offset: 0)
-	pub fn set_tim2en(value: u8) { ::write(REGISTER_ADDRESS, TIM2EN_BIT_OFFSET, TIM2EN_BIT_WIDTH, value as u32); }
-
-	const TIM3EN_BIT_OFFSET: u8 = 1;
-	const TIM3EN_BIT_WIDTH: u8 = 1;
-	/// Timer 3 clock enable (Width: 1, Offset: 1)
-	pub fn get_tim3en() -> u8 { ::read(REGISTER_ADDRESS, TIM3EN_BIT_OFFSET, TIM3EN_BIT_WIDTH) as u8 }
-	/// Timer 3 clock enable (Width: 1, Offset: 1)
-	pub fn set_tim3en(value: u8) { ::write(REGISTER_ADDRESS, TIM3EN_BIT_OFFSET, TIM3EN_BIT_WIDTH, value as u32); }
-
-	const TIM4EN_BIT_OFFSET: u8 = 2;
-	const TIM4EN_BIT_WIDTH: u8 = 1;
-	/// Timer 4 clock enable (Width: 1, Offset: 2)
-	pub fn get_tim4en() -> u8 { ::read(REGISTER_ADDRESS, TIM4EN_BIT_OFFSET, TIM4EN_BIT_WIDTH) as u8 }
-	/// Timer 4 clock enable (Width: 1, Offset: 2)
-	pub fn set_tim4en(value: u8) { ::write(REGISTER_ADDRESS, TIM4EN_BIT_OFFSET, TIM4EN_BIT_WIDTH, value as u32); }
-
-	const TIM6EN_BIT_OFFSET: u8 = 4;
-	const TIM6EN_BIT_WIDTH: u8 = 1;
-	/// Timer 6 clock enable (Width: 1, Offset: 4)
-	pub fn get_tim6en() -> u8 { ::read(REGISTER_ADDRESS, TIM6EN_BIT_OFFSET, TIM6EN_BIT_WIDTH) as u8 }
-	/// Timer 6 clock enable (Width: 1, Offset: 4)
-	pub fn set_tim6en(value: u8) { ::write(REGISTER_ADDRESS, TIM6EN_BIT_OFFSET, TIM6EN_BIT_WIDTH, value as u32); }
-
-	const TIM7EN_BIT_OFFSET: u8 = 5;
-	const TIM7EN_BIT_WIDTH: u8 = 1;
-	/// Timer 7 clock enable (Width: 1, Offset: 5)
-	pub fn get_tim7en() -> u8 { ::read(REGISTER_ADDRESS, TIM7EN_BIT_OFFSET, TIM7EN_BIT_WIDTH) as u8 }
-	/// Timer 7 clock enable (Width: 1, Offset: 5)
-	pub fn set_tim7en(value: u8) { ::write(REGISTER_ADDRESS, TIM7EN_BIT_OFFSET, TIM7EN_BIT_WIDTH, value as u32); }
-
-	const WWDGEN_BIT_OFFSET: u8 = 11;
-	const WWDGEN_BIT_WIDTH: u8 = 1;
-	/// Window watchdog clock enable (Width: 1, Offset: 11)
-	pub fn get_wwdgen() -> u8 { ::read(REGISTER_ADDRESS, WWDGEN_BIT_OFFSET, WWDGEN_BIT_WIDTH) as u8 }
-	/// Window watchdog clock enable (Width: 1, Offset: 11)
-	pub fn set_wwdgen(value: u8) { ::write(REGISTER_ADDRESS, WWDGEN_BIT_OFFSET, WWDGEN_BIT_WIDTH, value as u32); }
-
-	const SPI2EN_BIT_OFFSET: u8 = 14;
-	const SPI2EN_BIT_WIDTH: u8 = 1;
-	/// SPI 2 clock enable (Width: 1, Offset: 14)
-	pub fn get_spi2en() -> u8 { ::read(REGISTER_ADDRESS, SPI2EN_BIT_OFFSET, SPI2EN_BIT_WIDTH) as u8 }
-	/// SPI 2 clock enable (Width: 1, Offset: 14)
-	pub fn set_spi2en(value: u8) { ::write(REGISTER_ADDRESS, SPI2EN_BIT_OFFSET, SPI2EN_BIT_WIDTH, value as u32); }
-
-	const SPI3EN_BIT_OFFSET: u8 = 15;
-	const SPI3EN_BIT_WIDTH: u8 = 1;
-	/// SPI 3 clock enable (Width: 1, Offset: 15)
-	pub fn get_spi3en() -> u8 { ::read(REGISTER_ADDRESS, SPI3EN_BIT_OFFSET, SPI3EN_BIT_WIDTH) as u8 }
-	/// SPI 3 clock enable (Width: 1, Offset: 15)
-	pub fn set_spi3en(value: u8) { ::write(REGISTER_ADDRESS, SPI3EN_BIT_OFFSET, SPI3EN_BIT_WIDTH, value as u32); }
-
-	const USART2EN_BIT_OFFSET: u8 = 17;
-	const USART2EN_BIT_WIDTH: u8 = 1;
-	/// USART 2 clock enable (Width: 1, Offset: 17)
-	pub fn get_usart2en() -> u8 { ::read(REGISTER_ADDRESS, USART2EN_BIT_OFFSET, USART2EN_BIT_WIDTH) as u8 }
-	/// USART 2 clock enable (Width: 1, Offset: 17)
-	pub fn set_usart2en(value: u8) { ::write(REGISTER_ADDRESS, USART2EN_BIT_OFFSET, USART2EN_BIT_WIDTH, value as u32); }
-
-	const I2C1EN_BIT_OFFSET: u8 = 21;
-	const I2C1EN_BIT_WIDTH: u8 = 1;
-	/// I2C 1 clock enable (Width: 1, Offset: 21)
-	pub fn get_i2c1en() -> u8 { ::read(REGISTER_ADDRESS, I2C1EN_BIT_OFFSET, I2C1EN_BIT_WIDTH) as u8 }
-	/// I2C 1 clock enable (Width: 1, Offset: 21)
-	pub fn set_i2c1en(value: u8) { ::write(REGISTER_ADDRESS, I2C1EN_BIT_OFFSET, I2C1EN_BIT_WIDTH, value as u32); }
-
-	const I2C2EN_BIT_OFFSET: u8 = 22;
-	const I2C2EN_BIT_WIDTH: u8 = 1;
-	/// I2C 2 clock enable (Width: 1, Offset: 22)
-	pub fn get_i2c2en() -> u8 { ::read(REGISTER_ADDRESS, I2C2EN_BIT_OFFSET, I2C2EN_BIT_WIDTH) as u8 }
-	/// I2C 2 clock enable (Width: 1, Offset: 22)
-	pub fn set_i2c2en(value: u8) { ::write(REGISTER_ADDRESS, I2C2EN_BIT_OFFSET, I2C2EN_BIT_WIDTH, value as u32); }
-
-	const USBEN_BIT_OFFSET: u8 = 23;
-	const USBEN_BIT_WIDTH: u8 = 1;
-	/// USB clock enable (Width: 1, Offset: 23)
-	pub fn get_usben() -> u8 { ::read(REGISTER_ADDRESS, USBEN_BIT_OFFSET, USBEN_BIT_WIDTH) as u8 }
-	/// USB clock enable (Width: 1, Offset: 23)
-	pub fn set_usben(value: u8) { ::write(REGISTER_ADDRESS, USBEN_BIT_OFFSET, USBEN_BIT_WIDTH, value as u32); }
-
-	const CANEN_BIT_OFFSET: u8 = 25;
-	const CANEN_BIT_WIDTH: u8 = 1;
-	/// CAN clock enable (Width: 1, Offset: 25)
-	pub fn get_canen() -> u8 { ::read(REGISTER_ADDRESS, CANEN_BIT_OFFSET, CANEN_BIT_WIDTH) as u8 }
-	/// CAN clock enable (Width: 1, Offset: 25)
-	pub fn set_canen(value: u8) { ::write(REGISTER_ADDRESS, CANEN_BIT_OFFSET, CANEN_BIT_WIDTH, value as u32); }
-
-	const PWREN_BIT_OFFSET: u8 = 28;
-	const PWREN_BIT_WIDTH: u8 = 1;
-	/// Power interface clock enable (Width: 1, Offset: 28)
-	pub fn get_pwren() -> u8 { ::read(REGISTER_ADDRESS, PWREN_BIT_OFFSET, PWREN_BIT_WIDTH) as u8 }
-	/// Power interface clock enable (Width: 1, Offset: 28)
-	pub fn set_pwren(value: u8) { ::write(REGISTER_ADDRESS, PWREN_BIT_OFFSET, PWREN_BIT_WIDTH, value as u32); }
-
-	const DACEN_BIT_OFFSET: u8 = 29;
-	const DACEN_BIT_WIDTH: u8 = 1;
-	/// DAC interface clock enable (Width: 1, Offset: 29)
-	pub fn get_dacen() -> u8 { ::read(REGISTER_ADDRESS, DACEN_BIT_OFFSET, DACEN_BIT_WIDTH) as u8 }
-	/// DAC interface clock enable (Width: 1, Offset: 29)
-	pub fn set_dacen(value: u8) { ::write(REGISTER_ADDRESS, DACEN_BIT_OFFSET, DACEN_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// Timer 2 clock enable
+        pub tim2en: bool,
+        /// Timer 3 clock enable
+        pub tim3en: bool,
+        /// Timer 4 clock enable
+        pub tim4en: bool,
+        /// Timer 6 clock enable
+        pub tim6en: bool,
+        /// Timer 7 clock enable
+        pub tim7en: bool,
+        /// Window watchdog clock enable
+        pub wwdgen: bool,
+        /// SPI 2 clock enable
+        pub spi2en: bool,
+        /// SPI 3 clock enable
+        pub spi3en: bool,
+        /// USART 2 clock enable
+        pub usart2en: bool,
+        /// I2C 1 clock enable
+        pub i2c1en: bool,
+        /// I2C 2 clock enable
+        pub i2c2en: bool,
+        /// USB clock enable
+        pub usben: bool,
+        /// CAN clock enable
+        pub canen: bool,
+        /// Power interface clock enable
+        pub pwren: bool,
+        /// DAC interface clock enable
+        pub dacen: bool,
+    }
+    pub struct Cache {
+        /// Timer 2 clock enable
+        pub tim2en: bool,
+        /// Timer 3 clock enable
+        pub tim3en: bool,
+        /// Timer 4 clock enable
+        pub tim4en: bool,
+        /// Timer 6 clock enable
+        pub tim6en: bool,
+        /// Timer 7 clock enable
+        pub tim7en: bool,
+        /// Window watchdog clock enable
+        pub wwdgen: bool,
+        /// SPI 2 clock enable
+        pub spi2en: bool,
+        /// SPI 3 clock enable
+        pub spi3en: bool,
+        /// USART 2 clock enable
+        pub usart2en: bool,
+        /// I2C 1 clock enable
+        pub i2c1en: bool,
+        /// I2C 2 clock enable
+        pub i2c2en: bool,
+        /// USB clock enable
+        pub usben: bool,
+        /// CAN clock enable
+        pub canen: bool,
+        /// Power interface clock enable
+        pub pwren: bool,
+        /// DAC interface clock enable
+        pub dacen: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x1Cu32) as *mut u32) };
+        ReadonlyCache {
+            tim2en: ((value >> 0) & 0b1) > 0,
+            tim3en: ((value >> 1) & 0b1) > 0,
+            tim4en: ((value >> 2) & 0b1) > 0,
+            tim6en: ((value >> 4) & 0b1) > 0,
+            tim7en: ((value >> 5) & 0b1) > 0,
+            wwdgen: ((value >> 11) & 0b1) > 0,
+            spi2en: ((value >> 14) & 0b1) > 0,
+            spi3en: ((value >> 15) & 0b1) > 0,
+            usart2en: ((value >> 17) & 0b1) > 0,
+            i2c1en: ((value >> 21) & 0b1) > 0,
+            i2c2en: ((value >> 22) & 0b1) > 0,
+            usben: ((value >> 23) & 0b1) > 0,
+            canen: ((value >> 25) & 0b1) > 0,
+            pwren: ((value >> 28) & 0b1) > 0,
+            dacen: ((value >> 29) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x1Cu32) as *mut u32) };
+        Cache {
+            tim2en: ((value >> 0) & 0b1) > 0,
+            tim3en: ((value >> 1) & 0b1) > 0,
+            tim4en: ((value >> 2) & 0b1) > 0,
+            tim6en: ((value >> 4) & 0b1) > 0,
+            tim7en: ((value >> 5) & 0b1) > 0,
+            wwdgen: ((value >> 11) & 0b1) > 0,
+            spi2en: ((value >> 14) & 0b1) > 0,
+            spi3en: ((value >> 15) & 0b1) > 0,
+            usart2en: ((value >> 17) & 0b1) > 0,
+            i2c1en: ((value >> 21) & 0b1) > 0,
+            i2c2en: ((value >> 22) & 0b1) > 0,
+            usben: ((value >> 23) & 0b1) > 0,
+            canen: ((value >> 25) & 0b1) > 0,
+            pwren: ((value >> 28) & 0b1) > 0,
+            dacen: ((value >> 29) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.tim2en as u32) << 0)
+                | ((self.tim3en as u32) << 1)
+                | ((self.tim4en as u32) << 2)
+                | ((self.tim6en as u32) << 4)
+                | ((self.tim7en as u32) << 5)
+                | ((self.wwdgen as u32) << 11)
+                | ((self.spi2en as u32) << 14)
+                | ((self.spi3en as u32) << 15)
+                | ((self.usart2en as u32) << 17)
+                | ((self.i2c1en as u32) << 21)
+                | ((self.i2c2en as u32) << 22)
+                | ((self.usben as u32) << 23)
+                | ((self.canen as u32) << 25)
+                | ((self.pwren as u32) << 28)
+                | ((self.dacen as u32) << 29)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x1Cu32) as *mut u32, value) };
+        }
+    }
 }
 /// Backup domain control register (RCC_BDCR)
-/// Size: 0x20 bits
 pub mod bdcr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x20;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const LSEON_BIT_OFFSET: u8 = 0;
-	const LSEON_BIT_WIDTH: u8 = 1;
-	/// External Low Speed oscillator enable (Width: 1, Offset: 0)
-	pub fn get_lseon() -> u8 { ::read(REGISTER_ADDRESS, LSEON_BIT_OFFSET, LSEON_BIT_WIDTH) as u8 }
-	/// External Low Speed oscillator enable (Width: 1, Offset: 0)
-	pub fn set_lseon(value: u8) { ::write(REGISTER_ADDRESS, LSEON_BIT_OFFSET, LSEON_BIT_WIDTH, value as u32); }
-
-	const LSERDY_BIT_OFFSET: u8 = 1;
-	const LSERDY_BIT_WIDTH: u8 = 1;
-	/// External Low Speed oscillator ready (Width: 1, Offset: 1)
-	pub fn get_lserdy() -> u8 { ::read(REGISTER_ADDRESS, LSERDY_BIT_OFFSET, LSERDY_BIT_WIDTH) as u8 }
-
-	const LSEBYP_BIT_OFFSET: u8 = 2;
-	const LSEBYP_BIT_WIDTH: u8 = 1;
-	/// External Low Speed oscillator bypass (Width: 1, Offset: 2)
-	pub fn get_lsebyp() -> u8 { ::read(REGISTER_ADDRESS, LSEBYP_BIT_OFFSET, LSEBYP_BIT_WIDTH) as u8 }
-	/// External Low Speed oscillator bypass (Width: 1, Offset: 2)
-	pub fn set_lsebyp(value: u8) { ::write(REGISTER_ADDRESS, LSEBYP_BIT_OFFSET, LSEBYP_BIT_WIDTH, value as u32); }
-
-	const LSEDRV_BIT_OFFSET: u8 = 3;
-	const LSEDRV_BIT_WIDTH: u8 = 2;
-	/// LSE oscillator drive capability (Width: 2, Offset: 3)
-	pub fn get_lsedrv() -> u8 { ::read(REGISTER_ADDRESS, LSEDRV_BIT_OFFSET, LSEDRV_BIT_WIDTH) as u8 }
-	/// LSE oscillator drive capability (Width: 2, Offset: 3)
-	pub fn set_lsedrv(value: u8) { ::write(REGISTER_ADDRESS, LSEDRV_BIT_OFFSET, LSEDRV_BIT_WIDTH, value as u32); }
-
-	const RTCSEL_BIT_OFFSET: u8 = 8;
-	const RTCSEL_BIT_WIDTH: u8 = 2;
-	/// RTC clock source selection (Width: 2, Offset: 8)
-	pub fn get_rtcsel() -> u8 { ::read(REGISTER_ADDRESS, RTCSEL_BIT_OFFSET, RTCSEL_BIT_WIDTH) as u8 }
-	/// RTC clock source selection (Width: 2, Offset: 8)
-	pub fn set_rtcsel(value: u8) { ::write(REGISTER_ADDRESS, RTCSEL_BIT_OFFSET, RTCSEL_BIT_WIDTH, value as u32); }
-
-	const RTCEN_BIT_OFFSET: u8 = 15;
-	const RTCEN_BIT_WIDTH: u8 = 1;
-	/// RTC clock enable (Width: 1, Offset: 15)
-	pub fn get_rtcen() -> u8 { ::read(REGISTER_ADDRESS, RTCEN_BIT_OFFSET, RTCEN_BIT_WIDTH) as u8 }
-	/// RTC clock enable (Width: 1, Offset: 15)
-	pub fn set_rtcen(value: u8) { ::write(REGISTER_ADDRESS, RTCEN_BIT_OFFSET, RTCEN_BIT_WIDTH, value as u32); }
-
-	const BDRST_BIT_OFFSET: u8 = 16;
-	const BDRST_BIT_WIDTH: u8 = 1;
-	/// Backup domain software reset (Width: 1, Offset: 16)
-	pub fn get_bdrst() -> u8 { ::read(REGISTER_ADDRESS, BDRST_BIT_OFFSET, BDRST_BIT_WIDTH) as u8 }
-	/// Backup domain software reset (Width: 1, Offset: 16)
-	pub fn set_bdrst(value: u8) { ::write(REGISTER_ADDRESS, BDRST_BIT_OFFSET, BDRST_BIT_WIDTH, value as u32); }
+    /// External Low Speed oscillator enable
+    /// Access: read-write, Width: 1, Offset: 0
+    /// Set External Low Speed oscillator enable
+    pub fn set_lseon(value: bool) {
+        let value = value as u32;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x20u32) as *mut u32, value) };
+    }
+    /// Get External Low Speed oscillator enable
+    pub fn get_lseon() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x20u32) as *mut u32) };
+        let value = value & (0b1 << 0);
+        value > 0
+    }
+    /// External Low Speed oscillator ready
+    /// Access: read-only, Width: 1, Offset: 1
+    /// Get External Low Speed oscillator ready
+    pub fn lserdy() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x20u32) as *mut u32) };
+        let value = value & (0b1 << 1);
+        value > 0
+    }
+    /// External Low Speed oscillator bypass
+    /// Access: read-write, Width: 1, Offset: 2
+    /// Set External Low Speed oscillator bypass
+    pub fn set_lsebyp(value: bool) {
+        let value = value as u32;
+        let value = value << 2;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x20u32) as *mut u32, value) };
+    }
+    /// Get External Low Speed oscillator bypass
+    pub fn get_lsebyp() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x20u32) as *mut u32) };
+        let value = value & (0b1 << 2);
+        value > 0
+    }
+    /// LSE oscillator drive capability
+    /// Access: read-write, Width: 2, Offset: 3
+    /// Set LSE oscillator drive capability
+    pub fn set_lsedrv(value: u8) {
+        debug_assert!(value <= 0b11, "set_lsedrv out of range");
+        let value = value as u32;
+        let value = value << 3;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x20u32) as *mut u32, value) };
+    }
+    /// Get LSE oscillator drive capability
+    pub fn get_lsedrv() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x20u32) as *mut u32) };
+        let value = value & (0b11 << 3);
+        value as u8
+    }
+    /// RTC clock source selection
+    /// Access: read-write, Width: 2, Offset: 8
+    /// Set RTC clock source selection
+    pub fn set_rtcsel(value: u8) {
+        debug_assert!(value <= 0b11, "set_rtcsel out of range");
+        let value = value as u32;
+        let value = value << 8;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x20u32) as *mut u32, value) };
+    }
+    /// Get RTC clock source selection
+    pub fn get_rtcsel() -> u8 {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x20u32) as *mut u32) };
+        let value = value & (0b11 << 8);
+        value as u8
+    }
+    /// RTC clock enable
+    /// Access: read-write, Width: 1, Offset: 15
+    /// Set RTC clock enable
+    pub fn set_rtcen(value: bool) {
+        let value = value as u32;
+        let value = value << 15;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x20u32) as *mut u32, value) };
+    }
+    /// Get RTC clock enable
+    pub fn get_rtcen() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x20u32) as *mut u32) };
+        let value = value & (0b1 << 15);
+        value > 0
+    }
+    /// Backup domain software reset
+    /// Access: read-write, Width: 1, Offset: 16
+    /// Set Backup domain software reset
+    pub fn set_bdrst(value: bool) {
+        let value = value as u32;
+        let value = value << 16;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x20u32) as *mut u32, value) };
+    }
+    /// Get Backup domain software reset
+    pub fn get_bdrst() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x20u32) as *mut u32) };
+        let value = value & (0b1 << 16);
+        value > 0
+    }
 }
 /// Control/status register (RCC_CSR)
-/// Size: 0x20 bits
 pub mod csr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x24;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const LSION_BIT_OFFSET: u8 = 0;
-	const LSION_BIT_WIDTH: u8 = 1;
-	/// Internal low speed oscillator enable (Width: 1, Offset: 0)
-	pub fn get_lsion() -> u8 { ::read(REGISTER_ADDRESS, LSION_BIT_OFFSET, LSION_BIT_WIDTH) as u8 }
-	/// Internal low speed oscillator enable (Width: 1, Offset: 0)
-	pub fn set_lsion(value: u8) { ::write(REGISTER_ADDRESS, LSION_BIT_OFFSET, LSION_BIT_WIDTH, value as u32); }
-
-	const LSIRDY_BIT_OFFSET: u8 = 1;
-	const LSIRDY_BIT_WIDTH: u8 = 1;
-	/// Internal low speed oscillator ready (Width: 1, Offset: 1)
-	pub fn get_lsirdy() -> u8 { ::read(REGISTER_ADDRESS, LSIRDY_BIT_OFFSET, LSIRDY_BIT_WIDTH) as u8 }
-
-	const RMVF_BIT_OFFSET: u8 = 24;
-	const RMVF_BIT_WIDTH: u8 = 1;
-	/// Remove reset flag (Width: 1, Offset: 24)
-	pub fn get_rmvf() -> u8 { ::read(REGISTER_ADDRESS, RMVF_BIT_OFFSET, RMVF_BIT_WIDTH) as u8 }
-	/// Remove reset flag (Width: 1, Offset: 24)
-	pub fn set_rmvf(value: u8) { ::write(REGISTER_ADDRESS, RMVF_BIT_OFFSET, RMVF_BIT_WIDTH, value as u32); }
-
-	const OBLRSTF_BIT_OFFSET: u8 = 25;
-	const OBLRSTF_BIT_WIDTH: u8 = 1;
-	/// Option byte loader reset flag (Width: 1, Offset: 25)
-	pub fn get_oblrstf() -> u8 { ::read(REGISTER_ADDRESS, OBLRSTF_BIT_OFFSET, OBLRSTF_BIT_WIDTH) as u8 }
-	/// Option byte loader reset flag (Width: 1, Offset: 25)
-	pub fn set_oblrstf(value: u8) { ::write(REGISTER_ADDRESS, OBLRSTF_BIT_OFFSET, OBLRSTF_BIT_WIDTH, value as u32); }
-
-	const PINRSTF_BIT_OFFSET: u8 = 26;
-	const PINRSTF_BIT_WIDTH: u8 = 1;
-	/// PIN reset flag (Width: 1, Offset: 26)
-	pub fn get_pinrstf() -> u8 { ::read(REGISTER_ADDRESS, PINRSTF_BIT_OFFSET, PINRSTF_BIT_WIDTH) as u8 }
-	/// PIN reset flag (Width: 1, Offset: 26)
-	pub fn set_pinrstf(value: u8) { ::write(REGISTER_ADDRESS, PINRSTF_BIT_OFFSET, PINRSTF_BIT_WIDTH, value as u32); }
-
-	const PORRSTF_BIT_OFFSET: u8 = 27;
-	const PORRSTF_BIT_WIDTH: u8 = 1;
-	/// POR/PDR reset flag (Width: 1, Offset: 27)
-	pub fn get_porrstf() -> u8 { ::read(REGISTER_ADDRESS, PORRSTF_BIT_OFFSET, PORRSTF_BIT_WIDTH) as u8 }
-	/// POR/PDR reset flag (Width: 1, Offset: 27)
-	pub fn set_porrstf(value: u8) { ::write(REGISTER_ADDRESS, PORRSTF_BIT_OFFSET, PORRSTF_BIT_WIDTH, value as u32); }
-
-	const SFTRSTF_BIT_OFFSET: u8 = 28;
-	const SFTRSTF_BIT_WIDTH: u8 = 1;
-	/// Software reset flag (Width: 1, Offset: 28)
-	pub fn get_sftrstf() -> u8 { ::read(REGISTER_ADDRESS, SFTRSTF_BIT_OFFSET, SFTRSTF_BIT_WIDTH) as u8 }
-	/// Software reset flag (Width: 1, Offset: 28)
-	pub fn set_sftrstf(value: u8) { ::write(REGISTER_ADDRESS, SFTRSTF_BIT_OFFSET, SFTRSTF_BIT_WIDTH, value as u32); }
-
-	const IWDGRSTF_BIT_OFFSET: u8 = 29;
-	const IWDGRSTF_BIT_WIDTH: u8 = 1;
-	/// Independent watchdog reset flag (Width: 1, Offset: 29)
-	pub fn get_iwdgrstf() -> u8 { ::read(REGISTER_ADDRESS, IWDGRSTF_BIT_OFFSET, IWDGRSTF_BIT_WIDTH) as u8 }
-	/// Independent watchdog reset flag (Width: 1, Offset: 29)
-	pub fn set_iwdgrstf(value: u8) { ::write(REGISTER_ADDRESS, IWDGRSTF_BIT_OFFSET, IWDGRSTF_BIT_WIDTH, value as u32); }
-
-	const WWDGRSTF_BIT_OFFSET: u8 = 30;
-	const WWDGRSTF_BIT_WIDTH: u8 = 1;
-	/// Window watchdog reset flag (Width: 1, Offset: 30)
-	pub fn get_wwdgrstf() -> u8 { ::read(REGISTER_ADDRESS, WWDGRSTF_BIT_OFFSET, WWDGRSTF_BIT_WIDTH) as u8 }
-	/// Window watchdog reset flag (Width: 1, Offset: 30)
-	pub fn set_wwdgrstf(value: u8) { ::write(REGISTER_ADDRESS, WWDGRSTF_BIT_OFFSET, WWDGRSTF_BIT_WIDTH, value as u32); }
-
-	const LPWRRSTF_BIT_OFFSET: u8 = 31;
-	const LPWRRSTF_BIT_WIDTH: u8 = 1;
-	/// Low-power reset flag (Width: 1, Offset: 31)
-	pub fn get_lpwrrstf() -> u8 { ::read(REGISTER_ADDRESS, LPWRRSTF_BIT_OFFSET, LPWRRSTF_BIT_WIDTH) as u8 }
-	/// Low-power reset flag (Width: 1, Offset: 31)
-	pub fn set_lpwrrstf(value: u8) { ::write(REGISTER_ADDRESS, LPWRRSTF_BIT_OFFSET, LPWRRSTF_BIT_WIDTH, value as u32); }
+    /// Internal low speed oscillator enable
+    /// Access: read-write, Width: 1, Offset: 0
+    /// Set Internal low speed oscillator enable
+    pub fn set_lsion(value: bool) {
+        let value = value as u32;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x24u32) as *mut u32, value) };
+    }
+    /// Get Internal low speed oscillator enable
+    pub fn get_lsion() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x24u32) as *mut u32) };
+        let value = value & (0b1 << 0);
+        value > 0
+    }
+    /// Internal low speed oscillator ready
+    /// Access: read-only, Width: 1, Offset: 1
+    /// Get Internal low speed oscillator ready
+    pub fn lsirdy() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x24u32) as *mut u32) };
+        let value = value & (0b1 << 1);
+        value > 0
+    }
+    /// Remove reset flag
+    /// Access: read-write, Width: 1, Offset: 24
+    /// Set Remove reset flag
+    pub fn set_rmvf(value: bool) {
+        let value = value as u32;
+        let value = value << 24;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x24u32) as *mut u32, value) };
+    }
+    /// Get Remove reset flag
+    pub fn get_rmvf() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x24u32) as *mut u32) };
+        let value = value & (0b1 << 24);
+        value > 0
+    }
+    /// Option byte loader reset flag
+    /// Access: read-write, Width: 1, Offset: 25
+    /// Set Option byte loader reset flag
+    pub fn set_oblrstf(value: bool) {
+        let value = value as u32;
+        let value = value << 25;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x24u32) as *mut u32, value) };
+    }
+    /// Get Option byte loader reset flag
+    pub fn get_oblrstf() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x24u32) as *mut u32) };
+        let value = value & (0b1 << 25);
+        value > 0
+    }
+    /// PIN reset flag
+    /// Access: read-write, Width: 1, Offset: 26
+    /// Set PIN reset flag
+    pub fn set_pinrstf(value: bool) {
+        let value = value as u32;
+        let value = value << 26;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x24u32) as *mut u32, value) };
+    }
+    /// Get PIN reset flag
+    pub fn get_pinrstf() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x24u32) as *mut u32) };
+        let value = value & (0b1 << 26);
+        value > 0
+    }
+    /// POR/PDR reset flag
+    /// Access: read-write, Width: 1, Offset: 27
+    /// Set POR/PDR reset flag
+    pub fn set_porrstf(value: bool) {
+        let value = value as u32;
+        let value = value << 27;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x24u32) as *mut u32, value) };
+    }
+    /// Get POR/PDR reset flag
+    pub fn get_porrstf() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x24u32) as *mut u32) };
+        let value = value & (0b1 << 27);
+        value > 0
+    }
+    /// Software reset flag
+    /// Access: read-write, Width: 1, Offset: 28
+    /// Set Software reset flag
+    pub fn set_sftrstf(value: bool) {
+        let value = value as u32;
+        let value = value << 28;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x24u32) as *mut u32, value) };
+    }
+    /// Get Software reset flag
+    pub fn get_sftrstf() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x24u32) as *mut u32) };
+        let value = value & (0b1 << 28);
+        value > 0
+    }
+    /// Independent watchdog reset flag
+    /// Access: read-write, Width: 1, Offset: 29
+    /// Set Independent watchdog reset flag
+    pub fn set_iwdgrstf(value: bool) {
+        let value = value as u32;
+        let value = value << 29;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x24u32) as *mut u32, value) };
+    }
+    /// Get Independent watchdog reset flag
+    pub fn get_iwdgrstf() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x24u32) as *mut u32) };
+        let value = value & (0b1 << 29);
+        value > 0
+    }
+    /// Window watchdog reset flag
+    /// Access: read-write, Width: 1, Offset: 30
+    /// Set Window watchdog reset flag
+    pub fn set_wwdgrstf(value: bool) {
+        let value = value as u32;
+        let value = value << 30;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x24u32) as *mut u32, value) };
+    }
+    /// Get Window watchdog reset flag
+    pub fn get_wwdgrstf() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x24u32) as *mut u32) };
+        let value = value & (0b1 << 30);
+        value > 0
+    }
+    /// Low-power reset flag
+    /// Access: read-write, Width: 1, Offset: 31
+    /// Set Low-power reset flag
+    pub fn set_lpwrrstf(value: bool) {
+        let value = value as u32;
+        let value = value << 31;
+        unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x24u32) as *mut u32, value) };
+    }
+    /// Get Low-power reset flag
+    pub fn get_lpwrrstf() -> bool {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x24u32) as *mut u32) };
+        let value = value & (0b1 << 31);
+        value > 0
+    }
 }
 /// AHB peripheral reset register
-/// Size: 0x20 bits
 pub mod ahbrstr {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x28;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const IOPARST_BIT_OFFSET: u8 = 17;
-	const IOPARST_BIT_WIDTH: u8 = 1;
-	/// I/O port A reset (Width: 1, Offset: 17)
-	pub fn get_ioparst() -> u8 { ::read(REGISTER_ADDRESS, IOPARST_BIT_OFFSET, IOPARST_BIT_WIDTH) as u8 }
-	/// I/O port A reset (Width: 1, Offset: 17)
-	pub fn set_ioparst(value: u8) { ::write(REGISTER_ADDRESS, IOPARST_BIT_OFFSET, IOPARST_BIT_WIDTH, value as u32); }
-
-	const IOPBRST_BIT_OFFSET: u8 = 18;
-	const IOPBRST_BIT_WIDTH: u8 = 1;
-	/// I/O port B reset (Width: 1, Offset: 18)
-	pub fn get_iopbrst() -> u8 { ::read(REGISTER_ADDRESS, IOPBRST_BIT_OFFSET, IOPBRST_BIT_WIDTH) as u8 }
-	/// I/O port B reset (Width: 1, Offset: 18)
-	pub fn set_iopbrst(value: u8) { ::write(REGISTER_ADDRESS, IOPBRST_BIT_OFFSET, IOPBRST_BIT_WIDTH, value as u32); }
-
-	const IOPCRST_BIT_OFFSET: u8 = 19;
-	const IOPCRST_BIT_WIDTH: u8 = 1;
-	/// I/O port C reset (Width: 1, Offset: 19)
-	pub fn get_iopcrst() -> u8 { ::read(REGISTER_ADDRESS, IOPCRST_BIT_OFFSET, IOPCRST_BIT_WIDTH) as u8 }
-	/// I/O port C reset (Width: 1, Offset: 19)
-	pub fn set_iopcrst(value: u8) { ::write(REGISTER_ADDRESS, IOPCRST_BIT_OFFSET, IOPCRST_BIT_WIDTH, value as u32); }
-
-	const IOPDRST_BIT_OFFSET: u8 = 20;
-	const IOPDRST_BIT_WIDTH: u8 = 1;
-	/// I/O port D reset (Width: 1, Offset: 20)
-	pub fn get_iopdrst() -> u8 { ::read(REGISTER_ADDRESS, IOPDRST_BIT_OFFSET, IOPDRST_BIT_WIDTH) as u8 }
-	/// I/O port D reset (Width: 1, Offset: 20)
-	pub fn set_iopdrst(value: u8) { ::write(REGISTER_ADDRESS, IOPDRST_BIT_OFFSET, IOPDRST_BIT_WIDTH, value as u32); }
-
-	const IOPERST_BIT_OFFSET: u8 = 21;
-	const IOPERST_BIT_WIDTH: u8 = 1;
-	/// I/O port E reset (Width: 1, Offset: 21)
-	pub fn get_ioperst() -> u8 { ::read(REGISTER_ADDRESS, IOPERST_BIT_OFFSET, IOPERST_BIT_WIDTH) as u8 }
-	/// I/O port E reset (Width: 1, Offset: 21)
-	pub fn set_ioperst(value: u8) { ::write(REGISTER_ADDRESS, IOPERST_BIT_OFFSET, IOPERST_BIT_WIDTH, value as u32); }
-
-	const IOPFRST_BIT_OFFSET: u8 = 22;
-	const IOPFRST_BIT_WIDTH: u8 = 1;
-	/// I/O port F reset (Width: 1, Offset: 22)
-	pub fn get_iopfrst() -> u8 { ::read(REGISTER_ADDRESS, IOPFRST_BIT_OFFSET, IOPFRST_BIT_WIDTH) as u8 }
-	/// I/O port F reset (Width: 1, Offset: 22)
-	pub fn set_iopfrst(value: u8) { ::write(REGISTER_ADDRESS, IOPFRST_BIT_OFFSET, IOPFRST_BIT_WIDTH, value as u32); }
-
-	const TSCRST_BIT_OFFSET: u8 = 24;
-	const TSCRST_BIT_WIDTH: u8 = 1;
-	/// Touch sensing controller reset (Width: 1, Offset: 24)
-	pub fn get_tscrst() -> u8 { ::read(REGISTER_ADDRESS, TSCRST_BIT_OFFSET, TSCRST_BIT_WIDTH) as u8 }
-	/// Touch sensing controller reset (Width: 1, Offset: 24)
-	pub fn set_tscrst(value: u8) { ::write(REGISTER_ADDRESS, TSCRST_BIT_OFFSET, TSCRST_BIT_WIDTH, value as u32); }
-
-	const ADC12RST_BIT_OFFSET: u8 = 28;
-	const ADC12RST_BIT_WIDTH: u8 = 1;
-	/// ADC1 and ADC2 reset (Width: 1, Offset: 28)
-	pub fn get_adc12rst() -> u8 { ::read(REGISTER_ADDRESS, ADC12RST_BIT_OFFSET, ADC12RST_BIT_WIDTH) as u8 }
-	/// ADC1 and ADC2 reset (Width: 1, Offset: 28)
-	pub fn set_adc12rst(value: u8) { ::write(REGISTER_ADDRESS, ADC12RST_BIT_OFFSET, ADC12RST_BIT_WIDTH, value as u32); }
-
-	const ADC34RST_BIT_OFFSET: u8 = 29;
-	const ADC34RST_BIT_WIDTH: u8 = 1;
-	/// ADC3 and ADC4 reset (Width: 1, Offset: 29)
-	pub fn get_adc34rst() -> u8 { ::read(REGISTER_ADDRESS, ADC34RST_BIT_OFFSET, ADC34RST_BIT_WIDTH) as u8 }
-	/// ADC3 and ADC4 reset (Width: 1, Offset: 29)
-	pub fn set_adc34rst(value: u8) { ::write(REGISTER_ADDRESS, ADC34RST_BIT_OFFSET, ADC34RST_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// I/O port A reset
+        pub ioparst: bool,
+        /// I/O port B reset
+        pub iopbrst: bool,
+        /// I/O port C reset
+        pub iopcrst: bool,
+        /// I/O port D reset
+        pub iopdrst: bool,
+        /// I/O port E reset
+        pub ioperst: bool,
+        /// I/O port F reset
+        pub iopfrst: bool,
+        /// Touch sensing controller reset
+        pub tscrst: bool,
+        /// ADC1 and ADC2 reset
+        pub adc12rst: bool,
+        /// ADC3 and ADC4 reset
+        pub adc34rst: bool,
+    }
+    pub struct Cache {
+        /// I/O port A reset
+        pub ioparst: bool,
+        /// I/O port B reset
+        pub iopbrst: bool,
+        /// I/O port C reset
+        pub iopcrst: bool,
+        /// I/O port D reset
+        pub iopdrst: bool,
+        /// I/O port E reset
+        pub ioperst: bool,
+        /// I/O port F reset
+        pub iopfrst: bool,
+        /// Touch sensing controller reset
+        pub tscrst: bool,
+        /// ADC1 and ADC2 reset
+        pub adc12rst: bool,
+        /// ADC3 and ADC4 reset
+        pub adc34rst: bool,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x28u32) as *mut u32) };
+        ReadonlyCache {
+            ioparst: ((value >> 17) & 0b1) > 0,
+            iopbrst: ((value >> 18) & 0b1) > 0,
+            iopcrst: ((value >> 19) & 0b1) > 0,
+            iopdrst: ((value >> 20) & 0b1) > 0,
+            ioperst: ((value >> 21) & 0b1) > 0,
+            iopfrst: ((value >> 22) & 0b1) > 0,
+            tscrst: ((value >> 24) & 0b1) > 0,
+            adc12rst: ((value >> 28) & 0b1) > 0,
+            adc34rst: ((value >> 29) & 0b1) > 0,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x28u32) as *mut u32) };
+        Cache {
+            ioparst: ((value >> 17) & 0b1) > 0,
+            iopbrst: ((value >> 18) & 0b1) > 0,
+            iopcrst: ((value >> 19) & 0b1) > 0,
+            iopdrst: ((value >> 20) & 0b1) > 0,
+            ioperst: ((value >> 21) & 0b1) > 0,
+            iopfrst: ((value >> 22) & 0b1) > 0,
+            tscrst: ((value >> 24) & 0b1) > 0,
+            adc12rst: ((value >> 28) & 0b1) > 0,
+            adc34rst: ((value >> 29) & 0b1) > 0,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.ioparst as u32) << 17)
+                | ((self.iopbrst as u32) << 18)
+                | ((self.iopcrst as u32) << 19)
+                | ((self.iopdrst as u32) << 20)
+                | ((self.ioperst as u32) << 21)
+                | ((self.iopfrst as u32) << 22)
+                | ((self.tscrst as u32) << 24)
+                | ((self.adc12rst as u32) << 28)
+                | ((self.adc34rst as u32) << 29)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x28u32) as *mut u32, value) };
+        }
+    }
 }
 /// Clock configuration register 2
-/// Size: 0x20 bits
 pub mod cfgr2 {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x2C;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const PREDIV_BIT_OFFSET: u8 = 0;
-	const PREDIV_BIT_WIDTH: u8 = 4;
-	/// PREDIV division factor (Width: 4, Offset: 0)
-	pub fn get_prediv() -> u8 { ::read(REGISTER_ADDRESS, PREDIV_BIT_OFFSET, PREDIV_BIT_WIDTH) as u8 }
-	/// PREDIV division factor (Width: 4, Offset: 0)
-	pub fn set_prediv(value: u8) { ::write(REGISTER_ADDRESS, PREDIV_BIT_OFFSET, PREDIV_BIT_WIDTH, value as u32); }
-
-	const ADC12PRES_BIT_OFFSET: u8 = 4;
-	const ADC12PRES_BIT_WIDTH: u8 = 5;
-	/// ADC1 and ADC2 prescaler (Width: 5, Offset: 4)
-	pub fn get_adc12pres() -> u8 { ::read(REGISTER_ADDRESS, ADC12PRES_BIT_OFFSET, ADC12PRES_BIT_WIDTH) as u8 }
-	/// ADC1 and ADC2 prescaler (Width: 5, Offset: 4)
-	pub fn set_adc12pres(value: u8) { ::write(REGISTER_ADDRESS, ADC12PRES_BIT_OFFSET, ADC12PRES_BIT_WIDTH, value as u32); }
-
-	const ADC34PRES_BIT_OFFSET: u8 = 9;
-	const ADC34PRES_BIT_WIDTH: u8 = 5;
-	/// ADC3 and ADC4 prescaler (Width: 5, Offset: 9)
-	pub fn get_adc34pres() -> u8 { ::read(REGISTER_ADDRESS, ADC34PRES_BIT_OFFSET, ADC34PRES_BIT_WIDTH) as u8 }
-	/// ADC3 and ADC4 prescaler (Width: 5, Offset: 9)
-	pub fn set_adc34pres(value: u8) { ::write(REGISTER_ADDRESS, ADC34PRES_BIT_OFFSET, ADC34PRES_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// PREDIV division factor
+        pub prediv: u8,
+        /// ADC1 and ADC2 prescaler
+        pub adc12pres: u8,
+        /// ADC3 and ADC4 prescaler
+        pub adc34pres: u8,
+    }
+    pub struct Cache {
+        /// PREDIV division factor
+        pub prediv: u8,
+        /// ADC1 and ADC2 prescaler
+        pub adc12pres: u8,
+        /// ADC3 and ADC4 prescaler
+        pub adc34pres: u8,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x2Cu32) as *mut u32) };
+        ReadonlyCache {
+            prediv: ((value >> 0) & 0b1111) as u8,
+            adc12pres: ((value >> 4) & 0b1111) as u8,
+            adc34pres: ((value >> 9) & 0b1111) as u8,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x2Cu32) as *mut u32) };
+        Cache {
+            prediv: ((value >> 0) & 0b1111) as u8,
+            adc12pres: ((value >> 4) & 0b1111) as u8,
+            adc34pres: ((value >> 9) & 0b1111) as u8,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.prediv as u32) << 0)
+                | ((self.adc12pres as u32) << 4)
+                | ((self.adc34pres as u32) << 9)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x2Cu32) as *mut u32, value) };
+        }
+    }
 }
 /// Clock configuration register 3
-/// Size: 0x20 bits
 pub mod cfgr3 {
-	const REGISTER_ADDRESS_OFFSET: u32 = 0x30;
-	const REGISTER_ADDRESS: u32 = super::BASE_ADDRESS + REGISTER_ADDRESS_OFFSET;
-
-	const USART1SW_BIT_OFFSET: u8 = 0;
-	const USART1SW_BIT_WIDTH: u8 = 2;
-	/// USART1 clock source selection (Width: 2, Offset: 0)
-	pub fn get_usart1sw() -> u8 { ::read(REGISTER_ADDRESS, USART1SW_BIT_OFFSET, USART1SW_BIT_WIDTH) as u8 }
-	/// USART1 clock source selection (Width: 2, Offset: 0)
-	pub fn set_usart1sw(value: u8) { ::write(REGISTER_ADDRESS, USART1SW_BIT_OFFSET, USART1SW_BIT_WIDTH, value as u32); }
-
-	const I2C1SW_BIT_OFFSET: u8 = 4;
-	const I2C1SW_BIT_WIDTH: u8 = 1;
-	/// I2C1 clock source selection (Width: 1, Offset: 4)
-	pub fn get_i2c1sw() -> u8 { ::read(REGISTER_ADDRESS, I2C1SW_BIT_OFFSET, I2C1SW_BIT_WIDTH) as u8 }
-	/// I2C1 clock source selection (Width: 1, Offset: 4)
-	pub fn set_i2c1sw(value: u8) { ::write(REGISTER_ADDRESS, I2C1SW_BIT_OFFSET, I2C1SW_BIT_WIDTH, value as u32); }
-
-	const I2C2SW_BIT_OFFSET: u8 = 5;
-	const I2C2SW_BIT_WIDTH: u8 = 1;
-	/// I2C2 clock source selection (Width: 1, Offset: 5)
-	pub fn get_i2c2sw() -> u8 { ::read(REGISTER_ADDRESS, I2C2SW_BIT_OFFSET, I2C2SW_BIT_WIDTH) as u8 }
-	/// I2C2 clock source selection (Width: 1, Offset: 5)
-	pub fn set_i2c2sw(value: u8) { ::write(REGISTER_ADDRESS, I2C2SW_BIT_OFFSET, I2C2SW_BIT_WIDTH, value as u32); }
-
-	const USART2SW_BIT_OFFSET: u8 = 16;
-	const USART2SW_BIT_WIDTH: u8 = 2;
-	/// USART2 clock source selection (Width: 2, Offset: 16)
-	pub fn get_usart2sw() -> u8 { ::read(REGISTER_ADDRESS, USART2SW_BIT_OFFSET, USART2SW_BIT_WIDTH) as u8 }
-	/// USART2 clock source selection (Width: 2, Offset: 16)
-	pub fn set_usart2sw(value: u8) { ::write(REGISTER_ADDRESS, USART2SW_BIT_OFFSET, USART2SW_BIT_WIDTH, value as u32); }
-
-	const USART3SW_BIT_OFFSET: u8 = 18;
-	const USART3SW_BIT_WIDTH: u8 = 2;
-	/// USART3 clock source selection (Width: 2, Offset: 18)
-	pub fn get_usart3sw() -> u8 { ::read(REGISTER_ADDRESS, USART3SW_BIT_OFFSET, USART3SW_BIT_WIDTH) as u8 }
-	/// USART3 clock source selection (Width: 2, Offset: 18)
-	pub fn set_usart3sw(value: u8) { ::write(REGISTER_ADDRESS, USART3SW_BIT_OFFSET, USART3SW_BIT_WIDTH, value as u32); }
-
-	const TIM1SW_BIT_OFFSET: u8 = 8;
-	const TIM1SW_BIT_WIDTH: u8 = 1;
-	/// Timer1 clock source selection (Width: 1, Offset: 8)
-	pub fn get_tim1sw() -> u8 { ::read(REGISTER_ADDRESS, TIM1SW_BIT_OFFSET, TIM1SW_BIT_WIDTH) as u8 }
-	/// Timer1 clock source selection (Width: 1, Offset: 8)
-	pub fn set_tim1sw(value: u8) { ::write(REGISTER_ADDRESS, TIM1SW_BIT_OFFSET, TIM1SW_BIT_WIDTH, value as u32); }
-
-	const TIM8SW_BIT_OFFSET: u8 = 9;
-	const TIM8SW_BIT_WIDTH: u8 = 1;
-	/// Timer8 clock source selection (Width: 1, Offset: 9)
-	pub fn get_tim8sw() -> u8 { ::read(REGISTER_ADDRESS, TIM8SW_BIT_OFFSET, TIM8SW_BIT_WIDTH) as u8 }
-	/// Timer8 clock source selection (Width: 1, Offset: 9)
-	pub fn set_tim8sw(value: u8) { ::write(REGISTER_ADDRESS, TIM8SW_BIT_OFFSET, TIM8SW_BIT_WIDTH, value as u32); }
-
-	const UART4SW_BIT_OFFSET: u8 = 20;
-	const UART4SW_BIT_WIDTH: u8 = 2;
-	/// UART4 clock source selection (Width: 2, Offset: 20)
-	pub fn get_uart4sw() -> u8 { ::read(REGISTER_ADDRESS, UART4SW_BIT_OFFSET, UART4SW_BIT_WIDTH) as u8 }
-	/// UART4 clock source selection (Width: 2, Offset: 20)
-	pub fn set_uart4sw(value: u8) { ::write(REGISTER_ADDRESS, UART4SW_BIT_OFFSET, UART4SW_BIT_WIDTH, value as u32); }
-
-	const UART5SW_BIT_OFFSET: u8 = 22;
-	const UART5SW_BIT_WIDTH: u8 = 2;
-	/// UART5 clock source selection (Width: 2, Offset: 22)
-	pub fn get_uart5sw() -> u8 { ::read(REGISTER_ADDRESS, UART5SW_BIT_OFFSET, UART5SW_BIT_WIDTH) as u8 }
-	/// UART5 clock source selection (Width: 2, Offset: 22)
-	pub fn set_uart5sw(value: u8) { ::write(REGISTER_ADDRESS, UART5SW_BIT_OFFSET, UART5SW_BIT_WIDTH, value as u32); }
+    pub struct ReadonlyCache {
+        /// USART1 clock source selection
+        pub usart1sw: u8,
+        /// I2C1 clock source selection
+        pub i2c1sw: u8,
+        /// I2C2 clock source selection
+        pub i2c2sw: u8,
+        /// USART2 clock source selection
+        pub usart2sw: u8,
+        /// USART3 clock source selection
+        pub usart3sw: u8,
+        /// Timer1 clock source selection
+        pub tim1sw: u8,
+        /// Timer8 clock source selection
+        pub tim8sw: u8,
+        /// UART4 clock source selection
+        pub uart4sw: u8,
+        /// UART5 clock source selection
+        pub uart5sw: u8,
+    }
+    pub struct Cache {
+        /// USART1 clock source selection
+        pub usart1sw: u8,
+        /// I2C1 clock source selection
+        pub i2c1sw: u8,
+        /// I2C2 clock source selection
+        pub i2c2sw: u8,
+        /// USART2 clock source selection
+        pub usart2sw: u8,
+        /// USART3 clock source selection
+        pub usart3sw: u8,
+        /// Timer1 clock source selection
+        pub tim1sw: u8,
+        /// Timer8 clock source selection
+        pub tim8sw: u8,
+        /// UART4 clock source selection
+        pub uart4sw: u8,
+        /// UART5 clock source selection
+        pub uart5sw: u8,
+    }
+    pub fn load() -> ReadonlyCache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x30u32) as *mut u32) };
+        ReadonlyCache {
+            usart1sw: ((value >> 0) & 0b11) as u8,
+            i2c1sw: ((value >> 4) & 0b11) as u8,
+            i2c2sw: ((value >> 5) & 0b11) as u8,
+            usart2sw: ((value >> 16) & 0b11) as u8,
+            usart3sw: ((value >> 18) & 0b11) as u8,
+            tim1sw: ((value >> 8) & 0b11) as u8,
+            tim8sw: ((value >> 9) & 0b11) as u8,
+            uart4sw: ((value >> 20) & 0b11) as u8,
+            uart5sw: ((value >> 22) & 0b11) as u8,
+        }
+    }
+    pub fn modify() -> Cache {
+        let value = unsafe { ::core::ptr::read_volatile((0x40021000u32 + 0x30u32) as *mut u32) };
+        Cache {
+            usart1sw: ((value >> 0) & 0b11) as u8,
+            i2c1sw: ((value >> 4) & 0b11) as u8,
+            i2c2sw: ((value >> 5) & 0b11) as u8,
+            usart2sw: ((value >> 16) & 0b11) as u8,
+            usart3sw: ((value >> 18) & 0b11) as u8,
+            tim1sw: ((value >> 8) & 0b11) as u8,
+            tim8sw: ((value >> 9) & 0b11) as u8,
+            uart4sw: ((value >> 20) & 0b11) as u8,
+            uart5sw: ((value >> 22) & 0b11) as u8,
+        }
+    }
+    impl Cache {
+        pub fn save(self) {
+            // This will call Cache::drop defined below
+        }
+    }
+    impl ::core::ops::Drop for Cache {
+        fn drop(&mut self) {
+            let value = 0
+                | ((self.usart1sw as u32) << 0)
+                | ((self.i2c1sw as u32) << 4)
+                | ((self.i2c2sw as u32) << 5)
+                | ((self.usart2sw as u32) << 16)
+                | ((self.usart3sw as u32) << 18)
+                | ((self.tim1sw as u32) << 8)
+                | ((self.tim8sw as u32) << 9)
+                | ((self.uart4sw as u32) << 20)
+                | ((self.uart5sw as u32) << 22)
+            ;
+            unsafe { ::core::ptr::write_volatile((0x40021000u32 + 0x30u32) as *mut u32, value) };
+        }
+    }
 }
 /// RCC global interrupt
 pub const INTERRUPT_RCC: u32 = 5;
-
 /*
 <?xml version="1.0"?>
 <peripheral xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <name>RCC</name>
-  <description>Reset and clock control</description>
-  <groupName>RCC</groupName>
-  <baseAddress>0x40021000</baseAddress>
   <addressBlock>
     <offset>0x0</offset>
     <size>0x400</size>
     <usage>registers</usage>
   </addressBlock>
-  <registers>
-    <register>
-      <name>CR</name>
-      <displayName>CR</displayName>
-      <description>Clock control register</description>
-      <addressOffset>0x0</addressOffset>
-      <size>0x20</size>
-      <resetValue>0x00000083</resetValue>
-      <fields>
-        <field>
-          <name>HSION</name>
-          <description>Internal High Speed clock
-              enable</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>HSIRDY</name>
-          <description>Internal High Speed clock ready
-              flag</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>HSITRIM</name>
-          <description>Internal High Speed clock
-              trimming</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>5</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>HSICAL</name>
-          <description>Internal High Speed clock
-              Calibration</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>8</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>HSEON</name>
-          <description>External High Speed clock
-              enable</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>HSERDY</name>
-          <description>External High Speed clock ready
-              flag</description>
-          <bitOffset>17</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>HSEBYP</name>
-          <description>External High Speed clock
-              Bypass</description>
-          <bitOffset>18</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>CSSON</name>
-          <description>Clock Security System
-              enable</description>
-          <bitOffset>19</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>PLLON</name>
-          <description>PLL enable</description>
-          <bitOffset>24</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>PLLRDY</name>
-          <description>PLL clock ready flag</description>
-          <bitOffset>25</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>CFGR</name>
-      <displayName>CFGR</displayName>
-      <description>Clock configuration register
-          (RCC_CFGR)</description>
-      <addressOffset>0x4</addressOffset>
-      <size>0x20</size>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>SW</name>
-          <description>System clock Switch</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>2</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>SWS</name>
-          <description>System Clock Switch Status</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>2</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>HPRE</name>
-          <description>AHB prescaler</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>4</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>PPRE1</name>
-          <description>APB Low speed prescaler
-              (APB1)</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>3</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>PPRE2</name>
-          <description>APB high speed prescaler
-              (APB2)</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>3</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>PLLSRC</name>
-          <description>PLL entry clock source</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>PLLXTPRE</name>
-          <description>HSE divider for PLL entry</description>
-          <bitOffset>17</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>PLLMUL</name>
-          <description>PLL Multiplication Factor</description>
-          <bitOffset>18</bitOffset>
-          <bitWidth>4</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>USBPRES</name>
-          <description>USB prescaler</description>
-          <bitOffset>22</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>MCO</name>
-          <description>Microcontroller clock
-              output</description>
-          <bitOffset>24</bitOffset>
-          <bitWidth>3</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>MCOF</name>
-          <description>Microcontroller Clock Output
-              Flag</description>
-          <bitOffset>28</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>I2SSRC</name>
-          <description>I2S external clock source
-              selection</description>
-          <bitOffset>23</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>CIR</name>
-      <displayName>CIR</displayName>
-      <description>Clock interrupt register
-          (RCC_CIR)</description>
-      <addressOffset>0x8</addressOffset>
-      <size>0x20</size>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>LSIRDYF</name>
-          <description>LSI Ready Interrupt flag</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>LSERDYF</name>
-          <description>LSE Ready Interrupt flag</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>HSIRDYF</name>
-          <description>HSI Ready Interrupt flag</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>HSERDYF</name>
-          <description>HSE Ready Interrupt flag</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>PLLRDYF</name>
-          <description>PLL Ready Interrupt flag</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>CSSF</name>
-          <description>Clock Security System Interrupt
-              flag</description>
-          <bitOffset>7</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>LSIRDYIE</name>
-          <description>LSI Ready Interrupt Enable</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>LSERDYIE</name>
-          <description>LSE Ready Interrupt Enable</description>
-          <bitOffset>9</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>HSIRDYIE</name>
-          <description>HSI Ready Interrupt Enable</description>
-          <bitOffset>10</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>HSERDYIE</name>
-          <description>HSE Ready Interrupt Enable</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>PLLRDYIE</name>
-          <description>PLL Ready Interrupt Enable</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>LSIRDYC</name>
-          <description>LSI Ready Interrupt Clear</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>write-only</access>
-        </field>
-        <field>
-          <name>LSERDYC</name>
-          <description>LSE Ready Interrupt Clear</description>
-          <bitOffset>17</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>write-only</access>
-        </field>
-        <field>
-          <name>HSIRDYC</name>
-          <description>HSI Ready Interrupt Clear</description>
-          <bitOffset>18</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>write-only</access>
-        </field>
-        <field>
-          <name>HSERDYC</name>
-          <description>HSE Ready Interrupt Clear</description>
-          <bitOffset>19</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>write-only</access>
-        </field>
-        <field>
-          <name>PLLRDYC</name>
-          <description>PLL Ready Interrupt Clear</description>
-          <bitOffset>20</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>write-only</access>
-        </field>
-        <field>
-          <name>CSSC</name>
-          <description>Clock security system interrupt
-              clear</description>
-          <bitOffset>23</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>write-only</access>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>APB2RSTR</name>
-      <displayName>APB2RSTR</displayName>
-      <description>APB2 peripheral reset register
-          (RCC_APB2RSTR)</description>
-      <addressOffset>0xC</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>SYSCFGRST</name>
-          <description>SYSCFG and COMP reset</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM1RST</name>
-          <description>TIM1 timer reset</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>SPI1RST</name>
-          <description>SPI 1 reset</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM8RST</name>
-          <description>TIM8 timer reset</description>
-          <bitOffset>13</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>USART1RST</name>
-          <description>USART1 reset</description>
-          <bitOffset>14</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM15RST</name>
-          <description>TIM15 timer reset</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM16RST</name>
-          <description>TIM16 timer reset</description>
-          <bitOffset>17</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM17RST</name>
-          <description>TIM17 timer reset</description>
-          <bitOffset>18</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>APB1RSTR</name>
-      <displayName>APB1RSTR</displayName>
-      <description>APB1 peripheral reset register
-          (RCC_APB1RSTR)</description>
-      <addressOffset>0x10</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>TIM2RST</name>
-          <description>Timer 2 reset</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM3RST</name>
-          <description>Timer 3 reset</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM4RST</name>
-          <description>Timer 14 reset</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM6RST</name>
-          <description>Timer 6 reset</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM7RST</name>
-          <description>Timer 7 reset</description>
-          <bitOffset>5</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>WWDGRST</name>
-          <description>Window watchdog reset</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>SPI2RST</name>
-          <description>SPI2 reset</description>
-          <bitOffset>14</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>SPI3RST</name>
-          <description>SPI3 reset</description>
-          <bitOffset>15</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>USART2RST</name>
-          <description>USART 2 reset</description>
-          <bitOffset>17</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>USART3RST</name>
-          <description>USART3 reset</description>
-          <bitOffset>18</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>UART4RST</name>
-          <description>UART 4 reset</description>
-          <bitOffset>19</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>UART5RST</name>
-          <description>UART 5 reset</description>
-          <bitOffset>20</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>I2C1RST</name>
-          <description>I2C1 reset</description>
-          <bitOffset>21</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>I2C2RST</name>
-          <description>I2C2 reset</description>
-          <bitOffset>22</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>USBRST</name>
-          <description>USB reset</description>
-          <bitOffset>23</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CANRST</name>
-          <description>CAN reset</description>
-          <bitOffset>25</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>PWRRST</name>
-          <description>Power interface reset</description>
-          <bitOffset>28</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>DACRST</name>
-          <description>DAC interface reset</description>
-          <bitOffset>29</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>AHBENR</name>
-      <displayName>AHBENR</displayName>
-      <description>AHB Peripheral Clock enable register
-          (RCC_AHBENR)</description>
-      <addressOffset>0x14</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000014</resetValue>
-      <fields>
-        <field>
-          <name>DMAEN</name>
-          <description>DMA1 clock enable</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>DMA2EN</name>
-          <description>DMA2 clock enable</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>SRAMEN</name>
-          <description>SRAM interface clock
-              enable</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>FLITFEN</name>
-          <description>FLITF clock enable</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CRCEN</name>
-          <description>CRC clock enable</description>
-          <bitOffset>6</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>IOPAEN</name>
-          <description>I/O port A clock enable</description>
-          <bitOffset>17</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>IOPBEN</name>
-          <description>I/O port B clock enable</description>
-          <bitOffset>18</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>IOPCEN</name>
-          <description>I/O port C clock enable</description>
-          <bitOffset>19</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>IOPDEN</name>
-          <description>I/O port D clock enable</description>
-          <bitOffset>20</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>IOPEEN</name>
-          <description>I/O port E clock enable</description>
-          <bitOffset>21</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>IOPFEN</name>
-          <description>I/O port F clock enable</description>
-          <bitOffset>22</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TSCEN</name>
-          <description>Touch sensing controller clock
-              enable</description>
-          <bitOffset>24</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>ADC12EN</name>
-          <description>ADC1 and ADC2 clock enable</description>
-          <bitOffset>28</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>ADC34EN</name>
-          <description>ADC3 and ADC4 clock enable</description>
-          <bitOffset>29</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>APB2ENR</name>
-      <displayName>APB2ENR</displayName>
-      <description>APB2 peripheral clock enable register
-          (RCC_APB2ENR)</description>
-      <addressOffset>0x18</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>SYSCFGEN</name>
-          <description>SYSCFG clock enable</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM1EN</name>
-          <description>TIM1 Timer clock enable</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>SPI1EN</name>
-          <description>SPI 1 clock enable</description>
-          <bitOffset>12</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM8EN</name>
-          <description>TIM8 Timer clock enable</description>
-          <bitOffset>13</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>USART1EN</name>
-          <description>USART1 clock enable</description>
-          <bitOffset>14</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM15EN</name>
-          <description>TIM15 timer clock enable</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM16EN</name>
-          <description>TIM16 timer clock enable</description>
-          <bitOffset>17</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM17EN</name>
-          <description>TIM17 timer clock enable</description>
-          <bitOffset>18</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>APB1ENR</name>
-      <displayName>APB1ENR</displayName>
-      <description>APB1 peripheral clock enable register
-          (RCC_APB1ENR)</description>
-      <addressOffset>0x1C</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>TIM2EN</name>
-          <description>Timer 2 clock enable</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM3EN</name>
-          <description>Timer 3 clock enable</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM4EN</name>
-          <description>Timer 4 clock enable</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM6EN</name>
-          <description>Timer 6 clock enable</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM7EN</name>
-          <description>Timer 7 clock enable</description>
-          <bitOffset>5</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>WWDGEN</name>
-          <description>Window watchdog clock
-              enable</description>
-          <bitOffset>11</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>SPI2EN</name>
-          <description>SPI 2 clock enable</description>
-          <bitOffset>14</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>SPI3EN</name>
-          <description>SPI 3 clock enable</description>
-          <bitOffset>15</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>USART2EN</name>
-          <description>USART 2 clock enable</description>
-          <bitOffset>17</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>I2C1EN</name>
-          <description>I2C 1 clock enable</description>
-          <bitOffset>21</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>I2C2EN</name>
-          <description>I2C 2 clock enable</description>
-          <bitOffset>22</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>USBEN</name>
-          <description>USB clock enable</description>
-          <bitOffset>23</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>CANEN</name>
-          <description>CAN clock enable</description>
-          <bitOffset>25</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>PWREN</name>
-          <description>Power interface clock
-              enable</description>
-          <bitOffset>28</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>DACEN</name>
-          <description>DAC interface clock enable</description>
-          <bitOffset>29</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>BDCR</name>
-      <displayName>BDCR</displayName>
-      <description>Backup domain control register
-          (RCC_BDCR)</description>
-      <addressOffset>0x20</addressOffset>
-      <size>0x20</size>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>LSEON</name>
-          <description>External Low Speed oscillator
-              enable</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>LSERDY</name>
-          <description>External Low Speed oscillator
-              ready</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>LSEBYP</name>
-          <description>External Low Speed oscillator
-              bypass</description>
-          <bitOffset>2</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>LSEDRV</name>
-          <description>LSE oscillator drive
-              capability</description>
-          <bitOffset>3</bitOffset>
-          <bitWidth>2</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>RTCSEL</name>
-          <description>RTC clock source selection</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>2</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>RTCEN</name>
-          <description>RTC clock enable</description>
-          <bitOffset>15</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>BDRST</name>
-          <description>Backup domain software
-              reset</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>CSR</name>
-      <displayName>CSR</displayName>
-      <description>Control/status register
-          (RCC_CSR)</description>
-      <addressOffset>0x24</addressOffset>
-      <size>0x20</size>
-      <resetValue>0x0C000000</resetValue>
-      <fields>
-        <field>
-          <name>LSION</name>
-          <description>Internal low speed oscillator
-              enable</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>LSIRDY</name>
-          <description>Internal low speed oscillator
-              ready</description>
-          <bitOffset>1</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-only</access>
-        </field>
-        <field>
-          <name>RMVF</name>
-          <description>Remove reset flag</description>
-          <bitOffset>24</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>OBLRSTF</name>
-          <description>Option byte loader reset
-              flag</description>
-          <bitOffset>25</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>PINRSTF</name>
-          <description>PIN reset flag</description>
-          <bitOffset>26</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>PORRSTF</name>
-          <description>POR/PDR reset flag</description>
-          <bitOffset>27</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>SFTRSTF</name>
-          <description>Software reset flag</description>
-          <bitOffset>28</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>IWDGRSTF</name>
-          <description>Independent watchdog reset
-              flag</description>
-          <bitOffset>29</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>WWDGRSTF</name>
-          <description>Window watchdog reset flag</description>
-          <bitOffset>30</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-        <field>
-          <name>LPWRRSTF</name>
-          <description>Low-power reset flag</description>
-          <bitOffset>31</bitOffset>
-          <bitWidth>1</bitWidth>
-          <access>read-write</access>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>AHBRSTR</name>
-      <displayName>AHBRSTR</displayName>
-      <description>AHB peripheral reset register</description>
-      <addressOffset>0x28</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>IOPARST</name>
-          <description>I/O port A reset</description>
-          <bitOffset>17</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>IOPBRST</name>
-          <description>I/O port B reset</description>
-          <bitOffset>18</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>IOPCRST</name>
-          <description>I/O port C reset</description>
-          <bitOffset>19</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>IOPDRST</name>
-          <description>I/O port D reset</description>
-          <bitOffset>20</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>IOPERST</name>
-          <description>I/O port E reset</description>
-          <bitOffset>21</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>IOPFRST</name>
-          <description>I/O port F reset</description>
-          <bitOffset>22</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TSCRST</name>
-          <description>Touch sensing controller
-              reset</description>
-          <bitOffset>24</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>ADC12RST</name>
-          <description>ADC1 and ADC2 reset</description>
-          <bitOffset>28</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>ADC34RST</name>
-          <description>ADC3 and ADC4 reset</description>
-          <bitOffset>29</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>CFGR2</name>
-      <displayName>CFGR2</displayName>
-      <description>Clock configuration register 2</description>
-      <addressOffset>0x2C</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>PREDIV</name>
-          <description>PREDIV division factor</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>4</bitWidth>
-        </field>
-        <field>
-          <name>ADC12PRES</name>
-          <description>ADC1 and ADC2 prescaler</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>5</bitWidth>
-        </field>
-        <field>
-          <name>ADC34PRES</name>
-          <description>ADC3 and ADC4 prescaler</description>
-          <bitOffset>9</bitOffset>
-          <bitWidth>5</bitWidth>
-        </field>
-      </fields>
-    </register>
-    <register>
-      <name>CFGR3</name>
-      <displayName>CFGR3</displayName>
-      <description>Clock configuration register 3</description>
-      <addressOffset>0x30</addressOffset>
-      <size>0x20</size>
-      <access>read-write</access>
-      <resetValue>0x00000000</resetValue>
-      <fields>
-        <field>
-          <name>USART1SW</name>
-          <description>USART1 clock source
-              selection</description>
-          <bitOffset>0</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>I2C1SW</name>
-          <description>I2C1 clock source
-              selection</description>
-          <bitOffset>4</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>I2C2SW</name>
-          <description>I2C2 clock source
-              selection</description>
-          <bitOffset>5</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>USART2SW</name>
-          <description>USART2 clock source
-              selection</description>
-          <bitOffset>16</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>USART3SW</name>
-          <description>USART3 clock source
-              selection</description>
-          <bitOffset>18</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>TIM1SW</name>
-          <description>Timer1 clock source
-              selection</description>
-          <bitOffset>8</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>TIM8SW</name>
-          <description>Timer8 clock source
-              selection</description>
-          <bitOffset>9</bitOffset>
-          <bitWidth>1</bitWidth>
-        </field>
-        <field>
-          <name>UART4SW</name>
-          <description>UART4 clock source
-              selection</description>
-          <bitOffset>20</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-        <field>
-          <name>UART5SW</name>
-          <description>UART5 clock source
-              selection</description>
-          <bitOffset>22</bitOffset>
-          <bitWidth>2</bitWidth>
-        </field>
-      </fields>
-    </register>
-  </registers>
+  <baseAddress>0x40021000</baseAddress>
+  <description>Reset and clock control</description>
+  <groupName>RCC</groupName>
   <interrupt>
-    <name>RCC</name>
     <description>RCC global interrupt</description>
+    <name>RCC</name>
     <value>5</value>
   </interrupt>
-</peripheral>*/
+  <name>RCC</name>
+  <registers>
+    <register>
+      <addressOffset>0x0</addressOffset>
+      <description>Clock control register</description>
+      <displayName>CR</displayName>
+      <fields>
+        <field>
+          <access>read-write</access>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Internal High Speed clock
+                                enable
+                            </description>
+          <name>HSION</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Internal High Speed clock ready
+                                flag
+                            </description>
+          <name>HSIRDY</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>3</bitOffset>
+          <bitWidth>5</bitWidth>
+          <description>
+                                Internal High Speed clock
+                                trimming
+                            </description>
+          <name>HSITRIM</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>8</bitOffset>
+          <bitWidth>8</bitWidth>
+          <description>
+                                Internal High Speed clock
+                                Calibration
+                            </description>
+          <name>HSICAL</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                External High Speed clock
+                                enable
+                            </description>
+          <name>HSEON</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>17</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                External High Speed clock ready
+                                flag
+                            </description>
+          <name>HSERDY</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>18</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                External High Speed clock
+                                Bypass
+                            </description>
+          <name>HSEBYP</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>19</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Clock Security System
+                                enable
+                            </description>
+          <name>CSSON</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>24</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>PLL enable</description>
+          <name>PLLON</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>25</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>PLL clock ready flag</description>
+          <name>PLLRDY</name>
+        </field>
+      </fields>
+      <name>CR</name>
+      <resetValue>0x00000083</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <addressOffset>0x4</addressOffset>
+      <description>
+                        Clock configuration register
+                        (RCC_CFGR)
+                    </description>
+      <displayName>CFGR</displayName>
+      <fields>
+        <field>
+          <access>read-write</access>
+          <bitOffset>0</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>System clock Switch</description>
+          <name>SW</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>2</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>System Clock Switch Status</description>
+          <name>SWS</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>4</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>AHB prescaler</description>
+          <name>HPRE</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>8</bitOffset>
+          <bitWidth>3</bitWidth>
+          <description>
+                                APB Low speed prescaler
+                                (APB1)
+                            </description>
+          <name>PPRE1</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>11</bitOffset>
+          <bitWidth>3</bitWidth>
+          <description>
+                                APB high speed prescaler
+                                (APB2)
+                            </description>
+          <name>PPRE2</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>PLL entry clock source</description>
+          <name>PLLSRC</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>17</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>HSE divider for PLL entry</description>
+          <name>PLLXTPRE</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>18</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>PLL Multiplication Factor</description>
+          <name>PLLMUL</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>22</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>USB prescaler</description>
+          <name>USBPRES</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>24</bitOffset>
+          <bitWidth>3</bitWidth>
+          <description>
+                                Microcontroller clock
+                                output
+                            </description>
+          <name>MCO</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>28</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Microcontroller Clock Output
+                                Flag
+                            </description>
+          <name>MCOF</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>23</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                I2S external clock source
+                                selection
+                            </description>
+          <name>I2SSRC</name>
+        </field>
+      </fields>
+      <name>CFGR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <addressOffset>0x8</addressOffset>
+      <description>
+                        Clock interrupt register
+                        (RCC_CIR)
+                    </description>
+      <displayName>CIR</displayName>
+      <fields>
+        <field>
+          <access>read-only</access>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>LSI Ready Interrupt flag</description>
+          <name>LSIRDYF</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>LSE Ready Interrupt flag</description>
+          <name>LSERDYF</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>HSI Ready Interrupt flag</description>
+          <name>HSIRDYF</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>3</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>HSE Ready Interrupt flag</description>
+          <name>HSERDYF</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>4</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>PLL Ready Interrupt flag</description>
+          <name>PLLRDYF</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>7</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Clock Security System Interrupt
+                                flag
+                            </description>
+          <name>CSSF</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>8</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>LSI Ready Interrupt Enable</description>
+          <name>LSIRDYIE</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>9</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>LSE Ready Interrupt Enable</description>
+          <name>LSERDYIE</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>10</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>HSI Ready Interrupt Enable</description>
+          <name>HSIRDYIE</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>11</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>HSE Ready Interrupt Enable</description>
+          <name>HSERDYIE</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>12</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>PLL Ready Interrupt Enable</description>
+          <name>PLLRDYIE</name>
+        </field>
+        <field>
+          <access>write-only</access>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>LSI Ready Interrupt Clear</description>
+          <name>LSIRDYC</name>
+        </field>
+        <field>
+          <access>write-only</access>
+          <bitOffset>17</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>LSE Ready Interrupt Clear</description>
+          <name>LSERDYC</name>
+        </field>
+        <field>
+          <access>write-only</access>
+          <bitOffset>18</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>HSI Ready Interrupt Clear</description>
+          <name>HSIRDYC</name>
+        </field>
+        <field>
+          <access>write-only</access>
+          <bitOffset>19</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>HSE Ready Interrupt Clear</description>
+          <name>HSERDYC</name>
+        </field>
+        <field>
+          <access>write-only</access>
+          <bitOffset>20</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>PLL Ready Interrupt Clear</description>
+          <name>PLLRDYC</name>
+        </field>
+        <field>
+          <access>write-only</access>
+          <bitOffset>23</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Clock security system interrupt
+                                clear
+                            </description>
+          <name>CSSC</name>
+        </field>
+      </fields>
+      <name>CIR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0xC</addressOffset>
+      <description>
+                        APB2 peripheral reset register
+                        (RCC_APB2RSTR)
+                    </description>
+      <displayName>APB2RSTR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>SYSCFG and COMP reset</description>
+          <name>SYSCFGRST</name>
+        </field>
+        <field>
+          <bitOffset>11</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>TIM1 timer reset</description>
+          <name>TIM1RST</name>
+        </field>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>SPI 1 reset</description>
+          <name>SPI1RST</name>
+        </field>
+        <field>
+          <bitOffset>13</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>TIM8 timer reset</description>
+          <name>TIM8RST</name>
+        </field>
+        <field>
+          <bitOffset>14</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>USART1 reset</description>
+          <name>USART1RST</name>
+        </field>
+        <field>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>TIM15 timer reset</description>
+          <name>TIM15RST</name>
+        </field>
+        <field>
+          <bitOffset>17</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>TIM16 timer reset</description>
+          <name>TIM16RST</name>
+        </field>
+        <field>
+          <bitOffset>18</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>TIM17 timer reset</description>
+          <name>TIM17RST</name>
+        </field>
+      </fields>
+      <name>APB2RSTR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x10</addressOffset>
+      <description>
+                        APB1 peripheral reset register
+                        (RCC_APB1RSTR)
+                    </description>
+      <displayName>APB1RSTR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Timer 2 reset</description>
+          <name>TIM2RST</name>
+        </field>
+        <field>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Timer 3 reset</description>
+          <name>TIM3RST</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Timer 14 reset</description>
+          <name>TIM4RST</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Timer 6 reset</description>
+          <name>TIM6RST</name>
+        </field>
+        <field>
+          <bitOffset>5</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Timer 7 reset</description>
+          <name>TIM7RST</name>
+        </field>
+        <field>
+          <bitOffset>11</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Window watchdog reset</description>
+          <name>WWDGRST</name>
+        </field>
+        <field>
+          <bitOffset>14</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>SPI2 reset</description>
+          <name>SPI2RST</name>
+        </field>
+        <field>
+          <bitOffset>15</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>SPI3 reset</description>
+          <name>SPI3RST</name>
+        </field>
+        <field>
+          <bitOffset>17</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>USART 2 reset</description>
+          <name>USART2RST</name>
+        </field>
+        <field>
+          <bitOffset>18</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>USART3 reset</description>
+          <name>USART3RST</name>
+        </field>
+        <field>
+          <bitOffset>19</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>UART 4 reset</description>
+          <name>UART4RST</name>
+        </field>
+        <field>
+          <bitOffset>20</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>UART 5 reset</description>
+          <name>UART5RST</name>
+        </field>
+        <field>
+          <bitOffset>21</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>I2C1 reset</description>
+          <name>I2C1RST</name>
+        </field>
+        <field>
+          <bitOffset>22</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>I2C2 reset</description>
+          <name>I2C2RST</name>
+        </field>
+        <field>
+          <bitOffset>23</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>USB reset</description>
+          <name>USBRST</name>
+        </field>
+        <field>
+          <bitOffset>25</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>CAN reset</description>
+          <name>CANRST</name>
+        </field>
+        <field>
+          <bitOffset>28</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Power interface reset</description>
+          <name>PWRRST</name>
+        </field>
+        <field>
+          <bitOffset>29</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>DAC interface reset</description>
+          <name>DACRST</name>
+        </field>
+      </fields>
+      <name>APB1RSTR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x14</addressOffset>
+      <description>
+                        AHB Peripheral Clock enable register
+                        (RCC_AHBENR)
+                    </description>
+      <displayName>AHBENR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>DMA1 clock enable</description>
+          <name>DMAEN</name>
+        </field>
+        <field>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>DMA2 clock enable</description>
+          <name>DMA2EN</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                SRAM interface clock
+                                enable
+                            </description>
+          <name>SRAMEN</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>FLITF clock enable</description>
+          <name>FLITFEN</name>
+        </field>
+        <field>
+          <bitOffset>6</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>CRC clock enable</description>
+          <name>CRCEN</name>
+        </field>
+        <field>
+          <bitOffset>17</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>I/O port A clock enable</description>
+          <name>IOPAEN</name>
+        </field>
+        <field>
+          <bitOffset>18</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>I/O port B clock enable</description>
+          <name>IOPBEN</name>
+        </field>
+        <field>
+          <bitOffset>19</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>I/O port C clock enable</description>
+          <name>IOPCEN</name>
+        </field>
+        <field>
+          <bitOffset>20</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>I/O port D clock enable</description>
+          <name>IOPDEN</name>
+        </field>
+        <field>
+          <bitOffset>21</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>I/O port E clock enable</description>
+          <name>IOPEEN</name>
+        </field>
+        <field>
+          <bitOffset>22</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>I/O port F clock enable</description>
+          <name>IOPFEN</name>
+        </field>
+        <field>
+          <bitOffset>24</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Touch sensing controller clock
+                                enable
+                            </description>
+          <name>TSCEN</name>
+        </field>
+        <field>
+          <bitOffset>28</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>ADC1 and ADC2 clock enable</description>
+          <name>ADC12EN</name>
+        </field>
+        <field>
+          <bitOffset>29</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>ADC3 and ADC4 clock enable</description>
+          <name>ADC34EN</name>
+        </field>
+      </fields>
+      <name>AHBENR</name>
+      <resetValue>0x00000014</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x18</addressOffset>
+      <description>
+                        APB2 peripheral clock enable register
+                        (RCC_APB2ENR)
+                    </description>
+      <displayName>APB2ENR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>SYSCFG clock enable</description>
+          <name>SYSCFGEN</name>
+        </field>
+        <field>
+          <bitOffset>11</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>TIM1 Timer clock enable</description>
+          <name>TIM1EN</name>
+        </field>
+        <field>
+          <bitOffset>12</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>SPI 1 clock enable</description>
+          <name>SPI1EN</name>
+        </field>
+        <field>
+          <bitOffset>13</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>TIM8 Timer clock enable</description>
+          <name>TIM8EN</name>
+        </field>
+        <field>
+          <bitOffset>14</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>USART1 clock enable</description>
+          <name>USART1EN</name>
+        </field>
+        <field>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>TIM15 timer clock enable</description>
+          <name>TIM15EN</name>
+        </field>
+        <field>
+          <bitOffset>17</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>TIM16 timer clock enable</description>
+          <name>TIM16EN</name>
+        </field>
+        <field>
+          <bitOffset>18</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>TIM17 timer clock enable</description>
+          <name>TIM17EN</name>
+        </field>
+      </fields>
+      <name>APB2ENR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x1C</addressOffset>
+      <description>
+                        APB1 peripheral clock enable register
+                        (RCC_APB1ENR)
+                    </description>
+      <displayName>APB1ENR</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Timer 2 clock enable</description>
+          <name>TIM2EN</name>
+        </field>
+        <field>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Timer 3 clock enable</description>
+          <name>TIM3EN</name>
+        </field>
+        <field>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Timer 4 clock enable</description>
+          <name>TIM4EN</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Timer 6 clock enable</description>
+          <name>TIM6EN</name>
+        </field>
+        <field>
+          <bitOffset>5</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Timer 7 clock enable</description>
+          <name>TIM7EN</name>
+        </field>
+        <field>
+          <bitOffset>11</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Window watchdog clock
+                                enable
+                            </description>
+          <name>WWDGEN</name>
+        </field>
+        <field>
+          <bitOffset>14</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>SPI 2 clock enable</description>
+          <name>SPI2EN</name>
+        </field>
+        <field>
+          <bitOffset>15</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>SPI 3 clock enable</description>
+          <name>SPI3EN</name>
+        </field>
+        <field>
+          <bitOffset>17</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>USART 2 clock enable</description>
+          <name>USART2EN</name>
+        </field>
+        <field>
+          <bitOffset>21</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>I2C 1 clock enable</description>
+          <name>I2C1EN</name>
+        </field>
+        <field>
+          <bitOffset>22</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>I2C 2 clock enable</description>
+          <name>I2C2EN</name>
+        </field>
+        <field>
+          <bitOffset>23</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>USB clock enable</description>
+          <name>USBEN</name>
+        </field>
+        <field>
+          <bitOffset>25</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>CAN clock enable</description>
+          <name>CANEN</name>
+        </field>
+        <field>
+          <bitOffset>28</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Power interface clock
+                                enable
+                            </description>
+          <name>PWREN</name>
+        </field>
+        <field>
+          <bitOffset>29</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>DAC interface clock enable</description>
+          <name>DACEN</name>
+        </field>
+      </fields>
+      <name>APB1ENR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <addressOffset>0x20</addressOffset>
+      <description>
+                        Backup domain control register
+                        (RCC_BDCR)
+                    </description>
+      <displayName>BDCR</displayName>
+      <fields>
+        <field>
+          <access>read-write</access>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                External Low Speed oscillator
+                                enable
+                            </description>
+          <name>LSEON</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                External Low Speed oscillator
+                                ready
+                            </description>
+          <name>LSERDY</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>2</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                External Low Speed oscillator
+                                bypass
+                            </description>
+          <name>LSEBYP</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>3</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>
+                                LSE oscillator drive
+                                capability
+                            </description>
+          <name>LSEDRV</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>8</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>RTC clock source selection</description>
+          <name>RTCSEL</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>15</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>RTC clock enable</description>
+          <name>RTCEN</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>16</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Backup domain software
+                                reset
+                            </description>
+          <name>BDRST</name>
+        </field>
+      </fields>
+      <name>BDCR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <addressOffset>0x24</addressOffset>
+      <description>
+                        Control/status register
+                        (RCC_CSR)
+                    </description>
+      <displayName>CSR</displayName>
+      <fields>
+        <field>
+          <access>read-write</access>
+          <bitOffset>0</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Internal low speed oscillator
+                                enable
+                            </description>
+          <name>LSION</name>
+        </field>
+        <field>
+          <access>read-only</access>
+          <bitOffset>1</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Internal low speed oscillator
+                                ready
+                            </description>
+          <name>LSIRDY</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>24</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Remove reset flag</description>
+          <name>RMVF</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>25</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Option byte loader reset
+                                flag
+                            </description>
+          <name>OBLRSTF</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>26</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>PIN reset flag</description>
+          <name>PINRSTF</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>27</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>POR/PDR reset flag</description>
+          <name>PORRSTF</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>28</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Software reset flag</description>
+          <name>SFTRSTF</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>29</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Independent watchdog reset
+                                flag
+                            </description>
+          <name>IWDGRSTF</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>30</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Window watchdog reset flag</description>
+          <name>WWDGRSTF</name>
+        </field>
+        <field>
+          <access>read-write</access>
+          <bitOffset>31</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>Low-power reset flag</description>
+          <name>LPWRRSTF</name>
+        </field>
+      </fields>
+      <name>CSR</name>
+      <resetValue>0x0C000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x28</addressOffset>
+      <description>AHB peripheral reset register</description>
+      <displayName>AHBRSTR</displayName>
+      <fields>
+        <field>
+          <bitOffset>17</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>I/O port A reset</description>
+          <name>IOPARST</name>
+        </field>
+        <field>
+          <bitOffset>18</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>I/O port B reset</description>
+          <name>IOPBRST</name>
+        </field>
+        <field>
+          <bitOffset>19</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>I/O port C reset</description>
+          <name>IOPCRST</name>
+        </field>
+        <field>
+          <bitOffset>20</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>I/O port D reset</description>
+          <name>IOPDRST</name>
+        </field>
+        <field>
+          <bitOffset>21</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>I/O port E reset</description>
+          <name>IOPERST</name>
+        </field>
+        <field>
+          <bitOffset>22</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>I/O port F reset</description>
+          <name>IOPFRST</name>
+        </field>
+        <field>
+          <bitOffset>24</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Touch sensing controller
+                                reset
+                            </description>
+          <name>TSCRST</name>
+        </field>
+        <field>
+          <bitOffset>28</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>ADC1 and ADC2 reset</description>
+          <name>ADC12RST</name>
+        </field>
+        <field>
+          <bitOffset>29</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>ADC3 and ADC4 reset</description>
+          <name>ADC34RST</name>
+        </field>
+      </fields>
+      <name>AHBRSTR</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x2C</addressOffset>
+      <description>Clock configuration register 2</description>
+      <displayName>CFGR2</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>4</bitWidth>
+          <description>PREDIV division factor</description>
+          <name>PREDIV</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>5</bitWidth>
+          <description>ADC1 and ADC2 prescaler</description>
+          <name>ADC12PRES</name>
+        </field>
+        <field>
+          <bitOffset>9</bitOffset>
+          <bitWidth>5</bitWidth>
+          <description>ADC3 and ADC4 prescaler</description>
+          <name>ADC34PRES</name>
+        </field>
+      </fields>
+      <name>CFGR2</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+    <register>
+      <access>read-write</access>
+      <addressOffset>0x30</addressOffset>
+      <description>Clock configuration register 3</description>
+      <displayName>CFGR3</displayName>
+      <fields>
+        <field>
+          <bitOffset>0</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>
+                                USART1 clock source
+                                selection
+                            </description>
+          <name>USART1SW</name>
+        </field>
+        <field>
+          <bitOffset>4</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                I2C1 clock source
+                                selection
+                            </description>
+          <name>I2C1SW</name>
+        </field>
+        <field>
+          <bitOffset>5</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                I2C2 clock source
+                                selection
+                            </description>
+          <name>I2C2SW</name>
+        </field>
+        <field>
+          <bitOffset>16</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>
+                                USART2 clock source
+                                selection
+                            </description>
+          <name>USART2SW</name>
+        </field>
+        <field>
+          <bitOffset>18</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>
+                                USART3 clock source
+                                selection
+                            </description>
+          <name>USART3SW</name>
+        </field>
+        <field>
+          <bitOffset>8</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Timer1 clock source
+                                selection
+                            </description>
+          <name>TIM1SW</name>
+        </field>
+        <field>
+          <bitOffset>9</bitOffset>
+          <bitWidth>1</bitWidth>
+          <description>
+                                Timer8 clock source
+                                selection
+                            </description>
+          <name>TIM8SW</name>
+        </field>
+        <field>
+          <bitOffset>20</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>
+                                UART4 clock source
+                                selection
+                            </description>
+          <name>UART4SW</name>
+        </field>
+        <field>
+          <bitOffset>22</bitOffset>
+          <bitWidth>2</bitWidth>
+          <description>
+                                UART5 clock source
+                                selection
+                            </description>
+          <name>UART5SW</name>
+        </field>
+      </fields>
+      <name>CFGR3</name>
+      <resetValue>0x00000000</resetValue>
+      <size>0x20</size>
+    </register>
+  </registers>
+</peripheral>
+*/
